@@ -4,10 +4,10 @@
 
 | 📌 **유재건 (👑팀장)**                 | 📌 **강건**                                                    | 📌 **권수지**                                |
 | -------------------------------------- | -------------------------------------------------------------- | -------------------------------------------- |
-| <img src="./img/유재건.jpg" width=100> | <img src="./img/강건.png" width=100>                           | <img src="./img/권수지.jpg" width=100>       |
+| <img src="./img/유재건.jpg" width=100> | <img src="./img/강건.jpg" width=100>                           | <img src="./img/권수지.jpg" width=100>       |
 | 백엔드                                 | 백엔드                                                         | 프론트엔드                                   |
 | yjk9805@naver.com                                 | gun4329@gmail.com                                              | gkdrhd6788@gmail.com                         |
-| [yjk9805@naver.com](https://github.com/JaegeonYu)           | [kanggeonnim](https://github.com/kanggeonnim?tab=repositories) | [gkdrhd6788](https://github.com/gkdrhd6788/) |
+| [yjk9805@naver.com](https://github.com/JaegeonYu)           | [kanggeonnim](https://github.com/kanggeonnim) | [gkdrhd6788](https://github.com/gkdrhd6788/) |
 | 왜 ? 항상 생각하기                          | 1 등 하 자!                                                    | 겸손히 배우겠습니다.                         |
 
 | 📌 **심지연**                                     | 📌 **우재하**                               | 📌 **임서정**                           |
