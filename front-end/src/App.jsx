@@ -1,5 +1,6 @@
 import "./App.css";
 import { Button } from "@/components/ui/button";
+import { CardDemo } from "./components/card/ForeshadowingCard";
 
 function App() {
   return (
