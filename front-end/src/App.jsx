@@ -1,11 +1,10 @@
-import "./App.css";
-import { Button } from "@/components/ui/button";
+import DefaultHeader from "./components/header/DefaultHeader";
 
 function App() {
   return (
     <>
       <div>
-        <Button>Click me</Button>
+        <DefaultHeader></DefaultHeader>
       </div>
     </>
   );
