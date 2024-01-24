@@ -1,10 +1,8 @@
-import { CardDemo } from "./components/card/ForeshadowingCard";
+import { StoryCard } from "./components/card/StoryCard";
 
 function App() {
   return (
-    <div>
-      <CardDemo />
-    </div>
+    <StoryCard />
   );
 }
 
