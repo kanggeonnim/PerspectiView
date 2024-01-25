@@ -1,6 +1,6 @@
 import UserSidebar from "./components/sidebar/UserSidebar"
-import BodyHeader from "./pages/workspace/components/BodyHeader"
-import WorkList from "./pages/workspace/components/WorkList"
+import WorkspaceBody from "./pages/workspace/components/WorkspaceBody"
+
 
 
 function App() {
@@ -9,10 +9,7 @@ function App() {
     <>
       <div className="flex flex-row">
         <UserSidebar />
-        <div className="flex flex-col">
-          <BodyHeader />
-          <WorkList works={works} />
-        </div>
+        <WorkspaceBody word="내 워크스페이스" works={works} />
       </div>
     </>
 
