@@ -1,8 +1,14 @@
-import { StoryCard } from "./components/card/StoryCard";
+import { LoginBox } from "./pages/auth/components/LoginBox";
+import { KakaoButton } from "./components/button/KakaoButton";
+import { GoogleButton } from "./components/button/GoogleButton";
 
 function App() {
   return (
-    <StoryCard />
+    <LoginBox>
+      <GoogleButton/>
+      <KakaoButton/>
+    </LoginBox>
+    
   );
 }
 

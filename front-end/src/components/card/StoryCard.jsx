@@ -1,6 +1,3 @@
-// import { cn } from "@/lib/utils";
-// import { Card } from "../ui/card";
-
 export function StoryCard() {
   return (
     <div className="border-8 rounded-2xl border-black w-[240px] h-[360px] flex justify-center items-center box-border">

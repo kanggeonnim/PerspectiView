@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 export function StoryDialog({ className }) {
   return (
-	<Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 min-h-screen", className)}>
+	<Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-[96vw] h-[95vh] ", className)}>
 		<CardContent className="col-span-1 row-span-2 border p-4">
 			<CardTitle className="pt-2 text-2xl">
 				전체 인물 관계도
@@ -16,15 +16,16 @@ export function StoryDialog({ className }) {
 			</div>
 		</CardContent>
 		<CardContent className="col-span-1 row-span-2 border p-4">
-			<CardTitle className="pt-2 text-2xl">
+			<CardTitle className="py-2 text-2xl">
 				복선
 			</CardTitle>
-			<div className="flex flex-wrap justify-center">
-				<ForeshadowingCard />
-				<ForeshadowingCard />
-				<ForeshadowingCard />
-				<ForeshadowingCard />
+			<div className="flex flex-wrap justify-center max-h-[25vh] overflow-y-scroll">
 				{/* TODO 복선카드 크기 조절 */}
+				<ForeshadowingCard />
+				<ForeshadowingCard />
+				<ForeshadowingCard />
+				<ForeshadowingCard />
+
 			</div>
 		</CardContent>
 		<CardContent className="row-span-1 p-4">
@@ -47,7 +48,7 @@ export function StoryDialog({ className }) {
 		</CardContent>
 		<CardContent className="row-span-2 p-4">
 			<div>
-				<div className="col-span-1">
+				<div className="col-span-1 box-border" >
 					<Textarea placeholder="여기에 입력" className="p-2"/>
 					<CardFooter className="justify-end mt-2 px-2">
 						<Button className="mr-2" variant="gray"> 
