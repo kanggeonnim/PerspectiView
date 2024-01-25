@@ -1,11 +1,13 @@
-import { CardDemo } from "./components/card/ForeshadowingCard";
+import UserSidebar from "./components/sidebar/UserSidebar"
 
 function App() {
+
   return (
-    <div>
-      <CardDemo />
-    </div>
-  );
+    <>
+      <UserSidebar />
+      {/* <ProductSidebar /> */}
+    </>
+  )
 }
 
-export default App;
+export default App
