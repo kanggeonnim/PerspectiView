@@ -1,11 +1,12 @@
+import { GoogleButton } from "./components/button/GoogleButton";
+import { KakaoButton } from "./components/button/KakaoButton";
 import DefaultHeader from "./components/header/DefaultHeader";
 import ProductHeader from "./components/header/ProductHeader";
-import { LoginBox } from "./pages/auth/components/LoginBox";
-import { KakaoButton } from "./components/button/KakaoButton";
-import { GoogleButton } from "./components/button/GoogleButton";
 import UserSidebar from "./components/sidebar/UserSidebar";
-import BodyHeader from "./pages/workspace/components/BodyHeader";
-import WorkList from "./pages/workspace/components/WorkList";
+import { LoginBox } from "./pages/auth/components/LoginBox";
+import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
+
+
 
 function App() {
   const works = [
@@ -32,13 +33,14 @@ function App() {
       </div>
       <div className="flex flex-row">
         <UserSidebar />
-        <div className="flex flex-col">
-          <BodyHeader />
-          <WorkList works={works} />
-        </div>
+        <WorkspaceBody word="내 워크스페이스" works={works} />
       </div>
     </>
   );
 }
 
+<<<<<<< HEAD
 export default App;
+=======
+export default App
+>>>>>>> front-feat/sidebar

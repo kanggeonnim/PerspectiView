@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Search } from 'lucide-react';
 
+
 function SearchBar() {
   return (
     <div className="flex items-center w-64">
@@ -11,11 +12,12 @@ function SearchBar() {
 }
 
 
-function BodyHeader(props) {
+function BodyHeader({word}) {
   return (
-    <>
+    <div className="flex items-center justify-between">
+      <div className="text-2xl font-bold">{word}</div>
       <SearchBar />
-    </>
+    </div>
   );
 }
 

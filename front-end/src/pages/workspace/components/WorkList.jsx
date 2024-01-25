@@ -28,7 +28,7 @@ function EachWork({url,title}) {
 
 function WorkList({works}) {
   return (
-    <div className="flex flex-wrap content-start justify-start p-6 border gap-x-10 gap-y-20">
+    <div className="flex flex-wrap content-start justify-start p-6 gap-x-10 gap-y-20">
       <CreateWork />
       {works.map((work, index) => (
           <EachWork key={work.index} url={work.url} title={work.title}/>
