@@ -7,8 +7,7 @@ import { LoginBox } from "./pages/auth/components/LoginBox";
 import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
 import { MainLayout } from "./layouts/MainLayout";
 import { PageLayout } from "./layouts/PageLayout";
-import { StandardCard } from "./components/card/StandardCard";
-
+import { CharCard } from "./pages/product/components/CharCard";
 
 function App() {
   const works = [
@@ -25,7 +24,7 @@ function App() {
   ];
   return (
     <>
-      <StandardCard />
+      <MainLayout order="horizon" />
     </>
   );
 }

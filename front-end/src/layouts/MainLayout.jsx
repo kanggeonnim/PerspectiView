@@ -27,7 +27,7 @@ export function MainLayout(props) {
           <header>
             <DefaultHeader />
           </header>
-          <body className="box-border">
+          <body className="box-border flex justify-center">
             <PageLayout />
             {/* TODO 헤더 배치여부에 따른 body 크기 배분 */}
           </body>
