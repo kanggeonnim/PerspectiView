@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea"
 
 export function StoryDialog({ className }) {
   return (
-	<Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-[96vw] h-[95vh] ", className)}>
+	<Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-[96vw] ", className)}>
 		<CardContent className="col-span-1 row-span-2 border p-4">
 			<CardTitle className="pt-2 text-2xl">
 				전체 인물 관계도
@@ -50,7 +50,7 @@ export function StoryDialog({ className }) {
 			<div>
 				<div className="col-span-1 box-border" >
 					<Textarea placeholder="여기에 입력" className="p-2"/>
-					<CardFooter className="justify-end mt-2 px-2">
+					<CardFooter className="justify-end mt-2 px-2 pt-2">
 						<Button className="mr-2" variant="gray"> 
 							취소하기
 						</ Button>

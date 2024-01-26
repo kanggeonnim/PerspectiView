@@ -1,10 +1,10 @@
-export function PageLayout({children}) {
 
-  // w-[99vw] h-[99vh]
+export function PageLayout() {
+
   return (
     
-    <div className="flex p-3 border justify-center items-center min-w-screen box-border">
-      {children}
+    <div className="w-5/6">
+      {/* TODO 무언가가 들어갈 자리 */}
     </div>
 
 
