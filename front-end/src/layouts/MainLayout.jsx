@@ -1,13 +1,18 @@
-export function MainLayout({order, children}) {
+import ProductSidebar from "@/components/sidebar/ProductSidebar"
+import UserSidebar from "@/components/sidebar/UserSidebar"
+
+
+export function MainLayout({order, children, isProduct}) {
  
     if (order === 'horizon') {
       return (
         <div className="flex flex-row w-[99vw] h-[99vh] box-border">
           <div>
-            {/* TODO 사이드바를 여기에 */}
+            {/* TODO 사이드바를 여기에 (sj 코드 변경)*/}
+            {isProduct ? <ProductSidebar /> : <UserSidebar /> }
           </div>
           <div>
-            BODY를 여기로
+            {/* BODY를 여기로 */}
             {children}
           </div>
         </div>
