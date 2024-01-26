@@ -40,6 +40,9 @@ export const theme = {
         DEFAULT: "var(--muted)",
         foreground: "var(--muted-foreground)",
       },
+      badge: {
+        DEFAULT: "var(--badge)",
+      },
       accent: {
         DEFAULT: "var(--accent)",
         foreground: "var(--accent-foreground)",

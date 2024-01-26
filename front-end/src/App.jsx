@@ -1,11 +1,5 @@
 import DefaultHeader from "./components/header/DefaultHeader";
-import ProductHeader from "./components/header/ProductHeader";
-import { LoginBox } from "./pages/auth/components/LoginBox";
-import { KakaoButton } from "./components/button/KakaoButton";
-import { GoogleButton } from "./components/button/GoogleButton";
-import UserSidebar from "./components/sidebar/UserSidebar";
-import BodyHeader from "./pages/workspace/components/BodyHeader";
-import WorkList from "./pages/workspace/components/WorkList";
+import ProductHeader from "./pages/auth/components/ProductHeader";
 
 function App() {
   const works = [
@@ -25,18 +19,18 @@ function App() {
       <div>
         <DefaultHeader />
         <ProductHeader />
-        <LoginBox>
+        {/* <LoginBox>
           <GoogleButton />
           <KakaoButton />
-        </LoginBox>
+        </LoginBox> */}
       </div>
-      <div className="flex flex-row">
+      {/* <div className="flex flex-row">
         <UserSidebar />
         <div className="flex flex-col">
           <BodyHeader />
           <WorkList works={works} />
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
