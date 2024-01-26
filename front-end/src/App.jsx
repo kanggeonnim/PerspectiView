@@ -4,6 +4,8 @@ import DefaultHeader from "./components/header/DefaultHeader";
 import ProductHeader from "./components/header/ProductHeader";
 import { LoginBox } from "./pages/auth/components/LoginBox";
 import MyWorkspace from "./pages/workspace/MyWorkspace";
+import TeamCreate from "./pages/workspace/TeamCreate";
+
 
 
 
@@ -18,6 +20,7 @@ function App() {
           <KakaoButton />
         </LoginBox>
         <MyWorkspace />
+        <TeamCreate />
       </div>
       
     </>

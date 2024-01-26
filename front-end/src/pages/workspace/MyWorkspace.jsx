@@ -1,4 +1,3 @@
-// import UserSidebar from '@/components/sidebar/UserSidebar';
 import { MainLayout } from '@/layouts/MainLayout';
 import WorkspaceBody from './components/WorkspaceBody';
 
@@ -28,7 +27,7 @@ const works = [
 // export default MyWorkspace;
 
 
-
+// layout사용해 본것
 function MyWorkspace(props) {
   return (
     <MainLayout order="horizon" isProduct={true} >
