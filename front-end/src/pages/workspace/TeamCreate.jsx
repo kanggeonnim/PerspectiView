@@ -22,9 +22,7 @@ export default function TeamCreate() {
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className="my-3">
           <DialogTitle>팀 생성하기</DialogTitle>
-          <DialogDescription>
-            작품을 공유할 수 있는 팀을 생성해보세요.
-          </DialogDescription>
+          <DialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
@@ -59,24 +57,24 @@ export default function TeamCreate() {
               <X size={16} strokeWidth={1} className="" />
             </Badge>
             </div> */}
-<TagsInput.Root addOnPaste delimiter=",">
-      {(api) => (
-        <>
-          <TagsInput.Label>Frameworks</TagsInput.Label>
-          <TagsInput.Control>
-            {api.value.map((value, index) => (
-              <TagsInput.Item key={index} index={index} value={value}>
-                <TagsInput.ItemInput />
-                <TagsInput.ItemText>{value}</TagsInput.ItemText>
-                <TagsInput.ItemDeleteTrigger>Delete</TagsInput.ItemDeleteTrigger>
-              </TagsInput.Item>
-            ))}
-          </TagsInput.Control>
-          <TagsInput.Input placeholder="Add Framework" />
-          <TagsInput.ClearTrigger>Clear all</TagsInput.ClearTrigger>
-        </>
-      )}
-    </TagsInput.Root>
+            <TagsInput.Root addOnPaste delimiter=",">
+              {(api) => (
+                <>
+                  <TagsInput.Label>Frameworks</TagsInput.Label>
+                  <TagsInput.Control>
+                    {api.value.map((value, index) => (
+                      <TagsInput.Item key={index} index={index} value={value}>
+                        <TagsInput.ItemInput />
+                        <TagsInput.ItemText>{value}</TagsInput.ItemText>
+                        <TagsInput.ItemDeleteTrigger>Delete</TagsInput.ItemDeleteTrigger>
+                      </TagsInput.Item>
+                    ))}
+                  </TagsInput.Control>
+                  <TagsInput.Input placeholder="Add Framework" />
+                  <TagsInput.ClearTrigger>Clear all</TagsInput.ClearTrigger>
+                </>
+              )}
+            </TagsInput.Root>
           </div>
         </div>
         <DialogFooter>
