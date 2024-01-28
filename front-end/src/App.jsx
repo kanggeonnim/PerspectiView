@@ -1,15 +1,9 @@
 import DefaultHeader from "./components/header/DefaultHeader";
 import ProductHeader from "./components/header/ProductHeader";
 import UserSidebar from "./components/sidebar/UserSidebar";
-import { LoginBox } from "./pages/auth/components/LoginBox";
-import { GoogleButton } from "./pages/auth/components/button/GoogleButton";
-import { KakaoButton } from "./pages/auth/components/button/KakaoButton";
-import BodyHeader from "./pages/workspace/components/BodyHeader";
-import WorkList from "./pages/workspace/components/WorkList";
+
 import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
 import { MainLayout } from "./layouts/MainLayout";
-import { PageLayout } from "./layouts/PageLayout";
-import { CharCard } from "./pages/product/components/CharCard";
 
 function App() {
   const works = [

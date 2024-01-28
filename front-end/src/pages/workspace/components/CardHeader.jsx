@@ -12,7 +12,7 @@ function SearchBar() {
 }
 
 
-function BodyHeader({word}) {
+function CardHeader({word}) {
   return (
     <div className="flex items-center justify-between">
       <div className="text-2xl font-bold">{word}</div>
@@ -21,4 +21,4 @@ function BodyHeader({word}) {
   );
 }
 
-export default BodyHeader;
+export default CardHeader;

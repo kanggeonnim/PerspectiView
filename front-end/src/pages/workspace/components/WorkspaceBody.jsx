@@ -1,13 +1,13 @@
 
 import { Card } from "@/components/ui/card";
-import BodyHeader from "./BodyHeader";
+import CardHeader from "./CardHeader";
 import WorkList from "./WorkList";
 
 
 function WorkspaceBody({word,works}) {
   return (
-    <Card className="flex-col p-10 m-10 border w-flex">
-      <BodyHeader word={word} />
+    <Card className="flex-col p-20">
+      <CardHeader word={word} />
       <WorkList works={works} />
     </Card>
   );
