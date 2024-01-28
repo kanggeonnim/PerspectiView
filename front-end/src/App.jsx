@@ -1,30 +1,29 @@
-import { GoogleButton } from "./components/button/GoogleButton";
-import { KakaoButton } from "./components/button/KakaoButton";
-import DefaultHeader from "./components/header/DefaultHeader";
-import ProductHeader from "./components/header/ProductHeader";
-import MyPageCard from "./pages/MyPage/MyPageCard";
-import { LoginBox } from "./pages/auth/components/LoginBox";
-import MyWorkspace from "./pages/workspace/MyWorkspace";
-import TeamCreate from "./pages/workspace/TeamCreate";
+import UserSidebar from "./components/sidebar/UserSidebar";
 
 
-
+import LoginPage from "./pages/auth/LoginPage";
 
 function App() {
+  // const works = [
+  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  // ];
   return (
     <>
-      <div>
-        <DefaultHeader />
-        <ProductHeader />
-        <LoginBox>
-          <GoogleButton />
-          <KakaoButton />
-        </LoginBox>
-        <MyWorkspace />
-        <TeamCreate />
-        <MyPageCard />
+      <LoginPage />
+
+      <div className="flex flex-row">
+        <UserSidebar />
+        {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
       </div>
-      
     </>
   );
 }

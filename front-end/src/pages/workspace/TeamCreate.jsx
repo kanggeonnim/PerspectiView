@@ -23,9 +23,7 @@ export default function TeamCreate() {
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className="my-3">
           <DialogTitle>팀 생성하기</DialogTitle>
-          <DialogDescription>
-            작품을 공유할 수 있는 팀을 생성해보세요.
-          </DialogDescription>
+          <DialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
