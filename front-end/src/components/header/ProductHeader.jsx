@@ -1,5 +1,5 @@
 import ContentText from "@/components/ReadMore";
-import { Badge } from "../../../components/ui/badge";
+import { Badge } from "../ui/badge";
 import ReadMore from "@/components/ReadMore";
 
 const genreListData = [

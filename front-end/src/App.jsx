@@ -1,5 +1,5 @@
 import DefaultHeader from "./components/header/DefaultHeader";
-import ProductHeader from "./pages/auth/components/ProductHeader";
+import ProductHeader from "./components/header/ProductHeader";
 
 function App() {
   const works = [
