@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 export function StoryDialog({ className }) {
   return (
     <Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-full", className)}>
+      {/* FIXME 해당 위치에서 grid 지양 => flex로 재편 */}
       <CardContent className="col-span-1 row-span-2 border p-4">
         <CardTitle className="pt-2 text-2xl">전체 인물 관계도</CardTitle>
         <div className="p-2">
