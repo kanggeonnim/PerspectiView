@@ -16,8 +16,7 @@ export function ForeshadowingCard({ className }) {
           {/* TODO '복선' text 입력 위치에 제목 내용 받아와 출력 */}
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        {/* TODO ICON 샤크라에서 받아올 것 */}
+      <CardContent className="flex flex-col gap-4">
         <div className="flex space-y-1 p-1">
           <img src={Book} className="mr-2" />
           <p className="text-sm font-medium leading-none ">

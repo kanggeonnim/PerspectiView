@@ -5,6 +5,8 @@ import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
 
 import LoginPage from "./pages/auth/LoginPage";
 
+import ProductPage from "./pages/product/ProductPage";
+
 function App() {
   // const works = [
   //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
@@ -20,12 +22,9 @@ function App() {
   // ];
   return (
     <>
-      <LoginPage />
-
-      <div className="flex flex-row">
-        <UserSidebar />
+      {/* <LoginPage /> */}
+      <ProductPage />
         {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-      </div>
     </>
   );
 }

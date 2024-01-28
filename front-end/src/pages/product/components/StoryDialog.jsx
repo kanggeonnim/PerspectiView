@@ -6,7 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 
 export function StoryDialog({ className }) {
   return (
-    <Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-[96vw] ", className)}>
+    <Card className={cn("grid grid-rows-4 grid-cols-2 grid-flow-col p-2 w-full", className)}>
       <CardContent className="col-span-1 row-span-2 border p-4">
         <CardTitle className="pt-2 text-2xl">전체 인물 관계도</CardTitle>
         <div className="p-2">
@@ -15,7 +15,7 @@ export function StoryDialog({ className }) {
       </CardContent>
       <CardContent className="col-span-1 row-span-2 border p-4">
         <CardTitle className="py-2 text-2xl">복선</CardTitle>
-        <div className="flex flex-wrap justify-center max-h-[25vh] overflow-y-scroll">
+        <div className="flex flex-wrap justify-center max-h-1/4 overflow-y-scroll">
           {/* TODO 복선카드 크기 조절 */}
           <ForeshadowingCard />
           <ForeshadowingCard />
@@ -36,18 +36,16 @@ export function StoryDialog({ className }) {
         <div className="mt-4 text-xl font-semibold align-bottom absolute bottom-1">내용</div>
       </CardContent>
       <CardContent className="row-span-2 p-4">
-        <div>
-          <div className="flex flex-col col-span-1 box-border h-[44vh] justify-between">
-            <Textarea placeholder="여기에 입력" className="p-2 h-[29vh]" />
-            <CardFooter className="justify-end mt-2 px-2 pt-2">
-              <Button className="mr-2" variant="gray">
-                취소하기
-              </Button>
-              <Button className="" variant="indigo">
-                등록하기
-              </Button>
-            </CardFooter>
-          </div>
+        <div className="flex flex-col col-span-1 box-border h-full justify-between">
+          <Textarea placeholder="여기에 입력" className="p-2 h-3/4" />
+          <CardFooter className="justify-end mt-2 px-2 pt-2">
+            <Button className="mr-2" variant="gray">
+              취소하기
+            </Button>
+            <Button className="" variant="indigo">
+              등록하기
+            </Button>
+          </CardFooter>
         </div>
       </CardContent>
     </Card>
