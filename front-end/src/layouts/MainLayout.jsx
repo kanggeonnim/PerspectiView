@@ -10,11 +10,9 @@ export function MainLayout(props) {
         <div className="box-border">
           <div className="flex flex-row box-border">
             <UserSidebar />
-            <div>
-              <PageLayout>
+            <PageLayout>
 
-              </PageLayout>
-            </div>
+            </PageLayout>
             {/* TODO 사이드바 배치여부에 따른 body 크기 배분 (임시)*/}
           </div>
         </div>

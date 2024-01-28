@@ -48,8 +48,8 @@ export function StoryDialog({ className }) {
 		</CardContent>
 		<CardContent className="row-span-2 p-4">
 			<div>
-				<div className="col-span-1 box-border" >
-					<Textarea placeholder="여기에 입력" className="p-2"/>
+				<div className="flex flex-col col-span-1 box-border h-[44vh] justify-between" >
+					<Textarea placeholder="여기에 입력" className="p-2 h-[29vh]"/>
 					<CardFooter className="justify-end mt-2 px-2 pt-2">
 						<Button className="mr-2" variant="gray"> 
 							취소하기
