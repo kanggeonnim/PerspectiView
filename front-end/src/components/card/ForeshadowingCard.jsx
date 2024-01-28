@@ -18,7 +18,7 @@ export function ForeshadowingCard({ className }) {
       </CardHeader>
       <CardContent className="grid gap-4">
         {/* TODO ICON 샤크라에서 받아올 것 */}
-        <div className="flex space-y-1 p-2">
+        <div className="flex space-y-1 p-1">
           <img src={Book} className="mr-2" />
           <p className="text-sm font-medium leading-none ">
             내용
@@ -28,7 +28,7 @@ export function ForeshadowingCard({ className }) {
           </p>
           
         </div>
-        <div className="flex space-y-1 p-2">
+        <div className="flex space-y-1 p-1">
           <img src={Check} className="mr-2" />
           <p className="text-sm font-medium leading-none">
             언급된 스토리
