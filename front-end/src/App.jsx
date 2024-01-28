@@ -1,12 +1,12 @@
-import { GoogleButton } from "./components/button/GoogleButton";
-import { KakaoButton } from "./components/button/KakaoButton";
 import DefaultHeader from "./components/header/DefaultHeader";
 import ProductHeader from "./components/header/ProductHeader";
 import UserSidebar from "./components/sidebar/UserSidebar";
 import { LoginBox } from "./pages/auth/components/LoginBox";
+import { GoogleButton } from "./pages/auth/components/button/GoogleButton";
+import { KakaoButton } from "./pages/auth/components/button/KakaoButton";
+import BodyHeader from "./pages/workspace/components/BodyHeader";
+import WorkList from "./pages/workspace/components/WorkList";
 import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
-
-
 
 function App() {
   const works = [
@@ -26,10 +26,10 @@ function App() {
       <div>
         <DefaultHeader />
         <ProductHeader />
-        <LoginBox>
+        {/* <LoginBox>
           <GoogleButton />
           <KakaoButton />
-        </LoginBox>
+        </LoginBox> */}
       </div>
       <div className="flex flex-row">
         <UserSidebar />
@@ -39,8 +39,4 @@ function App() {
   );
 }
 
-<<<<<<< HEAD
 export default App;
-=======
-export default App
->>>>>>> front-feat/sidebar

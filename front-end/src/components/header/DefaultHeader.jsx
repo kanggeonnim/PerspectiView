@@ -10,17 +10,18 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import logo from "@/assets/logo.svg";
+import { useRef } from "react";
 function DefaultHeader(props) {
   return (
     <>
       <Drawer direction="top">
         <header className="bg-white">
           <nav
-            className="flex items-center justify-between p-6 mx-auto max-w-7xl lg:px-8 min-w-64"
+            className="flex items-center justify-between p-6 mx-auto max-w-9xl lg:px-8 min-w-64"
             aria-label="Global"
           >
             {/* 로고 */}
-            <div className="flex items-center lg:flex-1">
+            <div className="flex items-center justify-start lg:flex-1">
               <img className="w-auto h-8" src={logo} alt="logo" />
               <h1 className="text-3xl font-black text-primary-accent">시:작</h1>
             </div>
