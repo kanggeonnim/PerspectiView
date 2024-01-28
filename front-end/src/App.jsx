@@ -1,35 +1,40 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import DefaultHeader from "./components/header/DefaultHeader";
+import ProductHeader from "./components/header/ProductHeader";
+import UserSidebar from "./components/sidebar/UserSidebar";
+
+import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
+import { MainLayout } from "./layouts/MainLayout";
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const works = [
+    { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+    { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  ];
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <DefaultHeader />
+        <ProductHeader />
+        {/* <LoginBox>
+          <GoogleButton />
+          <KakaoButton />
+        </LoginBox> */}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
+      <div className="flex flex-row">
+        <UserSidebar />
+        <WorkspaceBody word="내 워크스페이스" works={works} />
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <MainLayout order="horizon" />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

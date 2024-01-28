@@ -1,68 +1,89 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Pretendard-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
   font-weight: 400;
-
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
+@layer base {
   :root {
-    color: #213547;
-    background-color: #ffffff;
+    --background: #f9f9f9;
+    --foreground: #334155;
+
+    --card: #f9f9f9;
+    --card-foreground: #334155;
+
+    --popover: #f9f9f9;
+    --popover-foreground: #334155;
+
+    --primary: #5f4e9e;
+    --primary-foreground: #f9f9f9;
+    --primary-accent: #402785;
+
+    --secondary: #f9f9f9;
+    --secondary-foreground: #0f1729;
+    --secondary-accent: #ebebeb;
+
+    --badge: #fcc97b;
+
+    --muted: #ece8e5;
+    --muted-foreground: #483243;
+
+    --accent: #fff29c;
+    --accent-foreground: #334155;
+
+    --destructive: #f59292;
+    --destructive-foreground: #f9f9f9;
+
+    --border: #e1e7ef;
+    --input: #e1e7ef;
+    --ring: #5f4e9e;
+
+    --radius: 0.5rem;
   }
-  a:hover {
-    color: #747bff;
+
+  /* .dark {
+    --background: #334155;
+    --foreground: #f8fafc;
+
+    --card: #334155;
+    --card-foreground: #f8fafc;
+
+    --popover: #334155;
+    --popover-foreground: #f8fafc;
+
+    --primary: #f8fafc;
+    --primary-foreground: #0f1729;
+
+    --secondary: #1d283a;
+    --secondary-foreground: #f8fafc;
+
+    --muted: #1d283a;
+    --muted-foreground: #94a3b8;
+
+    --accent: #1d283a;
+    --accent-foreground: #f8fafc;
+
+    --destructive: #811d1d;
+    --destructive-foreground: #f8fafc;
+
+    --border: #1d283a;
+    --input: #1d283a;
+    --ring: #cbd5e1;
+  } */
+}
+
+@layer base {
+  * {
+    font-family: Pretendard-Regular;
+    @apply border-border;
   }
-  button {
-    background-color: #f9f9f9;
+  body {
+    @apply bg-background text-foreground;
   }
 }
