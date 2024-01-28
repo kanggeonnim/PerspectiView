@@ -1,4 +1,4 @@
-import { MainLayout } from '@/layouts/MainLayout';
+import UserSidebar from '@/components/sidebar/UserSidebar';
 import WorkspaceBody from './components/WorkspaceBody';
 
 const works = [
@@ -15,25 +15,25 @@ const works = [
 ];
 
 
-// function MyWorkspace() {
-//   return (
-//     <div className="flex flex-row">
-//       <UserSidebar/>
-//       <WorkspaceBody className="" word="내 워크스페이스" works={works} />
-//     </div>
-//   );
-// }
-
-// export default MyWorkspace;
-
-
-// layout사용해 본것
-function MyWorkspace(props) {
+function MyWorkspace() {
   return (
-    <MainLayout order="horizon" isProduct={true} >
+    <div className="flex flex-row">
+      <UserSidebar/>
       <WorkspaceBody className="" word="내 워크스페이스" works={works} />
-    </MainLayout>
+    </div>
   );
 }
 
 export default MyWorkspace;
+
+
+// // layout사용해 본것
+// function MyWorkspace(props) {
+//   return (
+//     <MainLayout order="horizon" isProduct={true} >
+//       <WorkspaceBody className="" word="내 워크스페이스" works={works} />
+//     </MainLayout>
+//   );
+// }
+
+// export default MyWorkspace;

@@ -1,6 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Chrome, Plus, User, Users } from 'lucide-react';
-
 const teams = ["Team 1", "Team 2", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3","Team 3", "Team 3", "Team 3", "Team 3","Team 1", "Team 2", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3", "Team 3","Team 3", "Team 3", "Team 3", "Team 3"];
  
 function UserSidebar() {
