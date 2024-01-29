@@ -18,7 +18,7 @@ export default function CharCreateCard () {
         <div className="flex items-center justify-center w-full gap-6 h-3/6">
           <div className="w-1/4">
             {/* IMAGE */}
-            <img src={emptyImg} width={128} height={128} />
+            {/* FIXME 빈 이미지를 여기에 */}
           </div>
           <div className="flex flex-col justify-center w-3/5 h-3/4">
             <div className="flex items-center w-full gap-4 h-1/4">
@@ -48,9 +48,7 @@ export default function CharCreateCard () {
             인물이 등장한 스토리
           </h3>
           <div className="flex flex-wrap gap-3">
-            <img src={badge1} alt="" />
-            <img src={badge1} alt="" />
-            <img src={badge1} alt="" />
+            {/* FIXME 뱃지를 여기에 */}
           </div>
         </div>
         <CardFooter className="flex flex-row items-end justify-end gap-3 items h-1/6">

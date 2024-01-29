@@ -13,8 +13,7 @@ export default function CharDetailCard () {
         </h1>
         <div className="flex items-center justify-center w-full gap-6 h-2/3">
           <div className="w-1/4">
-            {/* IMAGE */}
-            <img src={samiza} width={256} height={256} />
+            {/* FIXME IMAGE */}
           </div>
           <div className="flex flex-col justify-center w-3/5 h-full">
             <div className="flex items-center w-full gap-4 h-1/4">
@@ -28,13 +27,7 @@ export default function CharDetailCard () {
                 특징
               </div>
               <div className="flex flex-wrap w-3/4 gap-4 overflow-y-auto h-1/2">
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
-                <img src={badge1} alt="" />
+                {/* FIXME 뱃지를 여기에 */}
               </div>
             </div>
             <div className="flex items-center w-full gap-4 h-1/4">
