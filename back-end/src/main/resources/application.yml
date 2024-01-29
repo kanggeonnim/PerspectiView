@@ -19,19 +19,23 @@ spring:
       port: 6379
     rest:
       base-path: /api
-  datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
 
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_URL} # Database이름 ?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  # spring data jpa 설정
   jpa:
-    hibernate:
-      ddl-auto: update
+    open-in-view: false
     show-sql: true
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
 
   security:
     oauth2:
