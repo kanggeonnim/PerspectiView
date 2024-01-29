@@ -4,37 +4,21 @@ import ProductPage from "./pages/product/ProductPage";
 import MyPage from "./pages/MyPage/MyPage";
 import IndexPage from "./pages/auth/IndexPage";
 import MyWorkspacePage from "./pages/workspace/MyWorkspacePage";
+import ForeshadowingPage from "./pages/product/ForeshadowingPage";
 
 function App() {
-  // const works = [
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  // ];
   return (
     <>
       {/* <LoginPage /> */}
 
-      {/* 
-      <div className="flex flex-row">
-        <UserSidebar />
-        <WorkspaceBody word="내 워크스페이스" works={works} /> 
-      </div> */}
-      <ProductPage />
+      {/* <ProductPage /> */}
 
-      {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-      {/* <MyWorkspacePage/> */}
+      {/* <MyWorkspacePage /> */}
       {/* <TeamCreate /> */}
       {/* <MyPage /> */}
       {/* <IndexPage /> */}
       {/* <TeamWorkspacePage /> */}
+      <ForeshadowingPage />
     </>
   );
 }
