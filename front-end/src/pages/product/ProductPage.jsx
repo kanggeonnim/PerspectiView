@@ -1,17 +1,26 @@
 import { MainLayout } from "@/layouts/MainLayout";
-import UserSidebar from "@/components/sidebar/UserSidebar";
 import { PageLayout } from "@/layouts/PageLayout";
 import ProductHeader from "@/components/header/ProductHeader";
-import { StoryDialog } from "./components/StoryDialog";
+
+import ProductSidebar from "@/components/sidebar/ProductSidebar";
+import StoryInfo from "./components/story/StoryInfo";
+import { Card } from "@/components/ui/card";
+import { StoryCard } from "@/components/card/StoryCard";
 
 export default function ProductPage() {
   return (
     <MainLayout variant="horizontal">
-      <UserSidebar />
+      <ProductSidebar />
       <PageLayout>
         <ProductHeader />
-        <div className="flex items-center justify-center w-full max-h-full m-auto h-4/5 ">
-          <StoryDialog />
+        <div className="flex items-center justify-center w-full h-full max-h-full ">
+          {/* empty data */}
+          {/* <div className="text-2xl font-bold text-center">
+            <p>플롯을 생성하고</p>
+            <p>나만의 이야기를 작성해보세요.</p>
+          </div> */}
+
+          <StoryInfo />
         </div>
       </PageLayout>
     </MainLayout>
