@@ -7,27 +7,21 @@ import LoginPage from "./pages/auth/LoginPage";
 
 import ProductPage from "./pages/product/ProductPage";
 import { PageLayout } from "./layouts/PageLayout";
+import { Route, Routes } from "react-router-dom";
+import CharDetailCard from "./pages/product/components/CharDetailCard";
+import CharCreateCard from "./pages/product/components/CharCreateCard";
+import { ForeshadowingCard } from "./components/card/ForeshadowingCard";
 
 function App() {
-  // const works = [
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  //   { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  // ];
+  
   return (
-    <>
-      <LoginPage />
-      {/* <ProductPage /> */}
-      {/* <PageLayout /> */}
-        {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-    </>
+    // <Routes>
+    //   <Route path="/login" element={<LoginPage />}/>
+    // </Routes>
+    // <ProductPage />
+    // <CharDetailCard/>
+    <CharCreateCard />
+    // <ForeshadowingCard />
   );
 }
 
