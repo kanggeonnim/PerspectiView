@@ -1,7 +1,5 @@
-import UserSidebar from "./components/sidebar/UserSidebar";
+import TeamWorkspacePage from "./pages/workspace/TeamWorkspacePage";
 
-
-import LoginPage from "./pages/auth/LoginPage";
 
 function App() {
   // const works = [
@@ -18,12 +16,12 @@ function App() {
   // ];
   return (
     <>
-      <LoginPage />
-
-      <div className="flex flex-row">
-        <UserSidebar />
-        {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-      </div>
+      {/* <LoginPage /> */}
+      {/* <MyWorkspacePage /> */}
+      {/* <TeamCreate /> */}
+      {/* <MyPage /> */}
+      {/* <IndexPage /> */}
+      <TeamWorkspacePage />
     </>
   );
 }

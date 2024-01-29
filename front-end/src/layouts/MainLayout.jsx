@@ -1,12 +1,12 @@
-import React from "react";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+import React from "react";
 
 const layoutVariants = cva("flex w-screen h-screen items-center justify-between", {
   variants: {
     variant: {
       vertical: "flex-col",
-      horizonal: "flex-row ",
+      horizontal: "flex-row ",
     },
   },
   defaultVariants: {

@@ -5,8 +5,8 @@ import { Textarea } from "@/components/ui/textarea";
 
 function MyPageCard() {
   return (
-    <div className="flex-col">
-    <Card className="w-2/3 p-10 h-96">
+    <div className="flex flex-col w-2/3 p-10 h-96">
+    <Card className="w-full h-full p-10 ">
       <div className="flex flex-col justify-between w-full h-full">
         <div className="flex flex-col">
           <div className="text-2xl" >마이페이지</div>
@@ -33,7 +33,7 @@ function MyPageCard() {
         </div>
       </div>
     </Card>
-    <div className="self-end">탈퇴하기</div>
+    <div className="self-end underline">탈퇴하기</div>
     </div>
   );
 }

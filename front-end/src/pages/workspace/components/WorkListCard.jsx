@@ -4,13 +4,13 @@ import CardHeader from "./CardHeader";
 import WorkList from "./WorkList";
 
 
-function WorkspaceBody({word,works}) {
+function WorkListCard({word,works}) {
   return (
-    <Card className="flex-col p-20">
+    <Card className="flex flex-col w-full h-full p-20">
       <CardHeader word={word} />
       <WorkList works={works} />
     </Card>
   );
 }
 
-export default WorkspaceBody;
+export default WorkListCard;
