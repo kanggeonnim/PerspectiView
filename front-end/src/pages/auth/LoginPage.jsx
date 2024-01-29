@@ -6,7 +6,7 @@ import { KakaoButton } from "./components/button/KakaoButton";
 
 export default function LoginPage() {
   return (
-    <MainLayout variants="horizon">
+    <MainLayout variant="vertical">
       <DefaultHeader />
       <div className="flex items-center justify-center w-full h-full">
         <LoginBox>

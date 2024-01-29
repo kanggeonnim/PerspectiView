@@ -1,6 +1,5 @@
 import UserSidebar from "./components/sidebar/UserSidebar";
 
-
 import LoginPage from "./pages/auth/LoginPage";
 
 function App() {
@@ -20,10 +19,11 @@ function App() {
     <>
       <LoginPage />
 
+      {/* 
       <div className="flex flex-row">
         <UserSidebar />
-        {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-      </div>
+        <WorkspaceBody word="내 워크스페이스" works={works} /> 
+      </div> */}
     </>
   );
 }

@@ -6,7 +6,7 @@ const layoutVariants = cva("flex w-screen h-screen items-center justify-between"
   variants: {
     variant: {
       vertical: "flex-col",
-      horizonal: "flex-row ",
+      horizontal: "flex-row ",
     },
   },
   defaultVariants: {
