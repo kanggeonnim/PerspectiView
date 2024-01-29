@@ -1,5 +1,6 @@
 import UserSidebar from '@/components/sidebar/UserSidebar';
-import WorkspaceBody from './components/WorkspaceBody';
+import { MainLayout } from '@/layouts/MainLayout';
+import WorkspaceBody from './components/WorkListCard';
 
 const works = [
   { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
@@ -15,25 +16,15 @@ const works = [
 ];
 
 
-function MyWorkspace() {
+
+// layout사용해 본것
+export default function MyWorkspacePage() {
   return (
-    <div className="flex flex-row">
-      <UserSidebar/>
+    <MainLayout variant="horizontal">
+      <UserSidebar />
+      <div className="flex items-center justify-center w-full h-full">
       <WorkspaceBody className="" word="내 워크스페이스" works={works} />
-    </div>
+      </div>
+    </ MainLayout>
   );
 }
-
-export default MyWorkspace;
-
-
-// // layout사용해 본것
-// function MyWorkspace(props) {
-//   return (
-//     <MainLayout order="horizon" isProduct={true} >
-//       <WorkspaceBody className="" word="내 워크스페이스" works={works} />
-//     </MainLayout>
-//   );
-// }
-
-// export default MyWorkspace;

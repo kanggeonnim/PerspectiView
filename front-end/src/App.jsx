@@ -1,9 +1,9 @@
-import UserSidebar from "./components/sidebar/UserSidebar";
-
+import TeamWorkspacePage from "./pages/workspace/TeamWorkspacePage";
 import LoginPage from "./pages/auth/LoginPage";
-
 import ProductPage from "./pages/product/ProductPage";
-import { PageLayout } from "./layouts/PageLayout";
+import MyPage from "./pages/MyPage/MyPage";
+import IndexPage from "./pages/auth/IndexPage";
+import MyWorkspacePage from "./pages/workspace/MyWorkspacePage";
 
 function App() {
   // const works = [
@@ -30,6 +30,11 @@ function App() {
       <ProductPage />
 
       {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
+      {/* <MyWorkspacePage/> */}
+      {/* <TeamCreate /> */}
+      {/* <MyPage /> */}
+      {/* <IndexPage /> */}
+      {/* <TeamWorkspacePage /> */}
     </>
   );
 }
