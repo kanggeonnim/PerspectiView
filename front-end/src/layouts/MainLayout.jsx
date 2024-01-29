@@ -31,7 +31,6 @@ export { MainLayout };
 //     return (
 //       <div className="flex flex-row w-[99vw] h-[99vh] box-border">
 //         <div>
-//           {/* TODO 사이드바를 여기에 (sj 코드 변경)*/}
 //           {isProduct ? <ProductSidebar /> : <UserSidebar />}
 //         </div>
 //         <div>
@@ -49,7 +48,6 @@ export { MainLayout };
 //         </header>
 //         <body className="box-border flex justify-center">
 //           <PageLayout />
-//           {/* TODO 헤더 배치여부에 따른 body 크기 배분 */}
 //         </body>
 //       </div>
 //     );

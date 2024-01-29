@@ -2,8 +2,8 @@ export function LoginBox({children}) {
 
 
   return (
-    <div className="flex justify-center items-center w-[33vw] h-[50vh] border rounded-xl">
-      <div className="grid grid-rows-3">
+    <div className="flex justify-center items-center w-[25vw] border rounded-xl">
+      <div className="flex flex-col w-3/5 h-[50vh] justify-around">
         <div className="flex justify-center">
           시:작
         </div>

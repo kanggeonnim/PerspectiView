@@ -1,6 +1,6 @@
 import { Card } from "@/components/ui/card"
 
-export function CharCard() {
+export default function CharCard() {
 
   return (
     <div className="flex justify-center items-center">
