@@ -10,6 +10,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import logo from "@/assets/Logo.svg";
+import { Link } from "react-router-dom";
 
 function DefaultHeader(props) {
   return (
@@ -45,9 +46,11 @@ function DefaultHeader(props) {
               </div>
             </div>
             {/* 로그인 버튼 */}
-            <Button variant="default" className="ml-4 text-sm font-semibold leading-6 ">
-              로그인
-            </Button>
+            <Link to="/login">
+              <Button variant="default" className="ml-4 text-sm font-semibold leading-6 ">
+                로그인
+              </Button>
+            </Link>
           </div>
         </nav>
       </header>

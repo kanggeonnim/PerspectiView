@@ -4,6 +4,7 @@ import { MainLayout } from "@/layouts/MainLayout"
 import { PageLayout } from "@/layouts/PageLayout"
 import { Badge } from "@/components/ui/badge"
 import { ForeshadowingCard } from "@/components/card/ForeshadowingCard"
+import { ScrollArea } from "@/components/ui/scroll-area"
 
 export default function ForeshadowingPage() {
 
@@ -11,7 +12,7 @@ export default function ForeshadowingPage() {
     <MainLayout variant="horizontal">
       <UserSidebar />
       <PageLayout className="">
-        <Card className="box-border p-3 h-3/4">
+        <Card className="box-border p-3 h-full">
           <CardTitle className="box-border m-4 text-3xl">
             복선 목록
           </CardTitle>
@@ -24,13 +25,13 @@ export default function ForeshadowingPage() {
                   {/* FIXME 임시 입력 숫자 */}
                 </Badge>
               </div>
-              <div className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
+              <ScrollArea className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
-              </div>
+              </ScrollArea>
               
             </div>
             <div className="flex flex-col items-center w-1/3">
@@ -41,13 +42,13 @@ export default function ForeshadowingPage() {
                   {/* FIXME 임시 입력 숫자 */}
                 </Badge>
               </div>
-              <div className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
+              <ScrollArea className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
-              </div>
+              </ScrollArea>
             </div>
             <div className="flex flex-col items-center w-1/3">
               <div className="box-border flex justify-start w-full gap-3 m-4">
@@ -57,13 +58,13 @@ export default function ForeshadowingPage() {
                   {/* FIXME 임시 입력 숫자 */}
                 </Badge>
               </div>
-              <div className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
+              <ScrollArea className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
                 <ForeshadowingCard />
-              </div>
+              </ScrollArea>
             </div>
           </CardContent>
         </Card>

@@ -13,10 +13,12 @@ export default function LoginPage() {
         <LoginBox>
           <Link to={`/workspace`}>
             <GoogleButton />
+            
           </Link>
           <Link to={`/workspace`}>
             <KakaoButton />
           </Link>
+          {/* FIXME 상기 버튼 누르기만 해도 워크스페이스로 이동하게 설정, 차후 수정할 것 */}
         </LoginBox>
       </div>
     </MainLayout>

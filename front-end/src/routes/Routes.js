@@ -1,12 +1,13 @@
+import MyPage from "@/pages/MyPage/MyPage";
+import IndexPage from "@/pages/auth/IndexPage";
 import LoginPage from "@/pages/auth/LoginPage";
 import ProductPage from "@/pages/product/ProductPage";
-import MyWorkspace from "@/pages/workspace/MyWorkspace";
-
+import MyWorkspacePage from "@/pages/workspace/MyWorkspacePage";
 
 export default [
   {
     path : "/",
-    components: 몰?루
+    components: IndexPage
   },
   {
     path : "/login",
@@ -18,11 +19,11 @@ export default [
   },
   {
     path : "/workspace",
-    components: MyWorkspace
+    components: MyWorkspacePage
   },
   {
-    path : "",
-    components:
+    path : "/users/:id",
+    components: MyPage
   },
   
 

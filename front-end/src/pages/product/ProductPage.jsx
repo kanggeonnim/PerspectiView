@@ -12,7 +12,7 @@ export default function ProductPage() {
         <ProductHeader />
         <div className="flex items-center justify-center w-full max-h-full m-auto h-4/5 ">
           {/* TODO: 수정 중 */}
-          {/* <StoryDialog /> */}
+          <StoryDialog />
         </div>
       </PageLayout>
     </MainLayout>

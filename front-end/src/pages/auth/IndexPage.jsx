@@ -1,6 +1,7 @@
 import DefaultHeader from "@/components/header/DefaultHeader";
 import { Button } from "@/components/ui/button";
 import { MainLayout } from "@/layouts/MainLayout";
+import { Link } from "react-router-dom";
 
 export default function IndexPage() {
   return (
@@ -13,7 +14,9 @@ export default function IndexPage() {
           나만의 작품을 생성해보세요
         </div>
         </div>
-        <Button className="">시작하기</Button>
+        <Link to="/login">
+          <Button className="">시작하기</Button>
+        </Link>
       </div>
     </MainLayout>
   );

@@ -2,10 +2,12 @@ import { Card, CardContent, CardTitle, CardFooter } from "@/components/ui/card";
 import { ForeshadowingCard } from "../../../components/card/ForeshadowingCard";
 import { Button } from "../../../components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Link } from "react-router-dom";
 
 export function StoryDialog({ className }) {
   return (
-    <Card className="flex flex-row w-3/4 h-full p-2 m-auto ">
+    <Card className="flex flex-row w-5/6 h-full p-2 m-auto ">
       {/* FIXME 해당 위치에서 grid 지양 => flex로 재편 */}
       <div className="flex flex-col w-1/2">
         <CardContent className="p-4 border h-1/2">
@@ -15,14 +17,17 @@ export function StoryDialog({ className }) {
           </div>
         </CardContent>
         <CardContent className="p-4 border h-1/2">
-          <CardTitle className="py-2 text-2xl">복선</CardTitle>
-          <div className="flex flex-wrap justify-center overflow-y-scroll h-4/5">
-            {/* TODO 복선카드 크기 조절 */}
+          <Link to="/foreshadowingpage">
+            <CardTitle className="py-2 text-2xl">복선</CardTitle>
+          </Link>
+          {/* FIXME 해당 링크는 임시 */}
+          <ScrollArea className="flex flex-wrap justify-center w-full h-4/5">
+            {/* TODO 복선카드 크기 조절 토의 */}
             <ForeshadowingCard />
             <ForeshadowingCard />
             <ForeshadowingCard />
             <ForeshadowingCard />
-          </div>
+          </ScrollArea>
         </CardContent>
       </div>
       <div className="flex flex-col w-1/2">

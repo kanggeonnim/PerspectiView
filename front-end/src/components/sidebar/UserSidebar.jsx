@@ -1,52 +1,10 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Chrome, Plus, User, Users } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const teams = [
   "Team 1",
   "Team 2",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 1",
-  "Team 2",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
-  "Team 3",
   "Team 3",
   "Team 3",
   "Team 3",
@@ -72,10 +30,12 @@ function UserSidebar() {
         </div>
         <div className="flex flex-col justify-start w-full gap-4 my-3">
           {/* 내 워크스페이스 */}
-          <div className="flex items-center justify-start w-full">
-            <User color="#657dc4" />
-            <div className="w-full mx-3 text-xs text-left text-slate-700">내 워크스페이스</div>
-          </div>
+          <Link to="/workspace">
+            <div className="flex items-center justify-start w-full">
+              <User color="#657dc4" />
+              <div className="w-full mx-3 text-xs text-left text-slate-700">내 워크스페이스</div>
+            </div>
+          </Link>
 
           {/* 팀 목록 섹션 */}
           <div className="flex flex-col items-start w-full">
