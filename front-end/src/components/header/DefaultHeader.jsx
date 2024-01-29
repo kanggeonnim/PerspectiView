@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import logo from "@/assets/logo.svg";
+import logo from "@/assets/Logo.svg";
 
 function DefaultHeader(props) {
   return (
@@ -22,7 +22,6 @@ function DefaultHeader(props) {
           {/* 로고 */}
           <div className="flex items-center justify-start lg:flex-1">
             <img className="w-auto h-8" src={logo} alt="logo" />
-            <h1 className="text-3xl font-black text-primary-accent">시:작</h1>
           </div>
 
           {/* 화면 축소 시, 검색 아이콘과 로그인 버튼  */}
