@@ -42,10 +42,10 @@ export function StoryDialog({ className }) {
           <div className="flex flex-col box-border h-full justify-between">
             <Textarea placeholder="여기에 입력" className="p-2 h-3/4" />
             <CardFooter className="flex flex-row justify-end mt-2 gap-2">
-              <Button className="flex box-border w-1/6 sm:text-xs md:text-sm lg:text-base" variant="gray">
+              <Button className="flex box-border w-1/4 md:w-1/6 sm:text-xs md:text-sm lg:text-base" variant="gray">
                 취소하기
               </Button>
-              <Button className="flex box-border w-1/6 sm:text-xs md:text-sm lg:text-base" variant="indigo">
+              <Button className="flex box-border w-1/4 md:w-1/6 sm:text-xs md:text-sm lg:text-base" variant="indigo">
                 등록하기
               </Button>
             </CardFooter>

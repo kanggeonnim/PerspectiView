@@ -24,8 +24,8 @@ function App() {
   return (
     <>
       {/* <LoginPage /> */}
-      {/* <ProductPage /> */}
-      <PageLayout />
+      <ProductPage />
+      {/* <PageLayout /> */}
         {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
     </>
   );
