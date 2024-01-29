@@ -6,6 +6,7 @@ import WorkspaceBody from "./pages/workspace/components/WorkspaceBody";
 import LoginPage from "./pages/auth/LoginPage";
 
 import ProductPage from "./pages/product/ProductPage";
+import { PageLayout } from "./layouts/PageLayout";
 
 function App() {
   // const works = [
@@ -23,7 +24,8 @@ function App() {
   return (
     <>
       {/* <LoginPage /> */}
-      <ProductPage />
+      {/* <ProductPage /> */}
+      <PageLayout />
         {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
     </>
   );
