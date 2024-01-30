@@ -61,4 +61,8 @@ public class Team {
     public void addEnrollment(Enrollment enrollment){
         this.enrollments.add(enrollment);
     }
+
+    public void removeEnrollment(Enrollment enrollment) {
+        enrollments.remove(enrollment);
+    }
 }

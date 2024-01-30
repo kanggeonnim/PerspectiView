@@ -50,7 +50,7 @@ public class TeamService {
         teamRepository.delete(findTeam);
     }
 
-    public Enrollment createEnrollment(Long teamId, User user){
+    public void createEnrollment(Long teamId, User user){
         Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
         if(!enrollmentRepository.existsByTeamAndUser(findTeam, user)){
             Enrollment enrollment = Enrollment.builder()
@@ -59,10 +59,17 @@ public class TeamService {
                     .enrolledAt(LocalDateTime.now())
                     .build();
             findTeam.addEnrollment(enrollment); // TODO @OneToMany new Entity 등록 체크
-            return enrollment;
         }
         throw new RuntimeException(); // TODO 이미 존재하는 등록 요청
     }
 
-    
+    public void cancelEnrollment(Long teamId, User user){
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+        Enrollment enrollment = enrollmentRepository.findByTeamAndUser(findTeam, user);
+
+        if(!enrollment.isAttended()){
+            findTeam.removeEnrollment(enrollment);
+            enrollmentRepository.delete(enrollment);
+        }
+    }
 }

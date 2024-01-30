@@ -59,4 +59,12 @@ public class TeamController {
         teamService.createEnrollment(teamId, principalDetails.getUser());
         return ApiResult.OK(null);
     }
+
+    @DeleteMapping("/{teamId}/")
+    public ApiResult<Object> disEnrollment(@PathVariable Long teamId,
+                                           @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        teamService.cancelEnrollment(teamId, principalDetails.getUser());
+        return ApiResult.OK(null);
+    }
 }
