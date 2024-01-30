@@ -1,7 +1,7 @@
 package com.example.backend.security.service;
 
+
 import com.example.backend.security.dto.RefreshToken;
-import com.example.backend.security.dto.User;
 import com.example.backend.security.jwt.JwtUtil;
 import com.example.backend.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,11 +18,9 @@ public class RefreshTokenService {
     private final JwtUtil jwtUtil;
 
     @Transactional
-    public void removeRefreshToken(String accessToken, User userDto) {
+    public void removeRefreshToken(String accessToken) {
         RefreshToken token = tokenRepository.findByAccessToken(accessToken)
                 .orElseThrow(IllegalArgumentException::new);
-
-        String id = String.valueOf(userDto.getId());
 
         tokenRepository.delete(token);
     }
