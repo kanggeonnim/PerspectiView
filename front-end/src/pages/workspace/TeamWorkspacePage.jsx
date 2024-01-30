@@ -1,8 +1,11 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
 import { MainLayout } from "@/layouts/MainLayout";
 import TeamWorkspaceBody from "./components/TeamWorkspaceBody";
+import { useParams } from "react-router-dom";
+
 
 export default function TeamWorkspacePage() {
+  
   return (
     <MainLayout variant="horizontal">
       <UserSidebar />

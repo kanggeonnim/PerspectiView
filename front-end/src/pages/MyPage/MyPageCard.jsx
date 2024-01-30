@@ -2,10 +2,18 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { useParams } from "react-router-dom";
+
 
 function MyPageCard() {
+
+  const { id } = useParams();
+
   return (
     <div className="flex flex-col w-2/3 p-10 h-96">
+    {/* <div>
+      <div>id: {myparams.id}</div>
+    </div> */}
     <Card className="w-full h-full p-10 ">
       <div className="flex flex-col justify-between w-full h-full">
         <div className="flex flex-col">
@@ -18,6 +26,8 @@ function MyPageCard() {
                 alt=""
               />
               <div className="text-center">이름</div>
+              <div className="text-center">{id}</div>
+              {/* FIXME 파라미터 설정중 */}
             </div>
             <div className="flex-col gap-10">
               <div className="flex-col gap-1.5">

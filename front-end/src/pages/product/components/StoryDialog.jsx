@@ -17,7 +17,7 @@ export function StoryDialog({ className }) {
           </div>
         </CardContent>
         <CardContent className="p-4 border h-1/2">
-          <Link to="/foreshadowingpage">
+          <Link to="/product/foreshadowingpage">
             <CardTitle className="py-2 text-2xl">복선</CardTitle>
           </Link>
           {/* FIXME 해당 링크는 임시 */}
@@ -36,7 +36,9 @@ export function StoryDialog({ className }) {
             <div className="text-2xl font-semibold">
               {/* TODO 여기에 스토리 이름 입력 */} 스토리 이름
             </div>
-            <div className="mt-4 text-xl font-semibold">등장인물</div>
+            <Link to="/product/char">
+              <div className="mt-4 text-xl font-semibold">등장인물</div>
+            </Link>
             <div>{/* TODO 여기에 등장인물 이미지 */}</div>
             <div className="flex text-2xl font-semibold ">내용</div>
           </div>

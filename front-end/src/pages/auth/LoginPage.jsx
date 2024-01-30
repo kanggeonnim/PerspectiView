@@ -11,11 +11,10 @@ export default function LoginPage() {
       <DefaultHeader />
       <div className="flex items-center justify-center w-full h-full">
         <LoginBox>
-          <Link to={`/workspace`}>
+          <Link to={`/workspace/1`}>
             <GoogleButton />
-            
           </Link>
-          <Link to={`/workspace`}>
+          <Link to={`/workspace/1`}>
             <KakaoButton />
           </Link>
           {/* FIXME 상기 버튼 누르기만 해도 워크스페이스로 이동하게 설정, 차후 수정할 것 */}

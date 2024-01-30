@@ -6,8 +6,8 @@ import CharInfo from "./CharInfo"
 export function CharTab() {
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Card className="box-border w-5/6 h-full p-3">
+    <div className="flex items-center justify-center h-full w-full box-border p-2">
+      <Card className="box-border w-full h-full">
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-1/2 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
