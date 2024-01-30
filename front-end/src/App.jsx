@@ -13,6 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+<<<<<<< Updated upstream
         <Route path="/" element={<IndexPage/>}></Route>
         <Route path="/login" element={<LoginPage/>}></Route>
         <Route path="/product/*" element={<ProductPage/>}></Route>
@@ -20,6 +21,19 @@ function App() {
         <Route path="/mypage/*" element={<MyPage/>}></Route>
         <Route path="/workspace" element={<MyWorkspacePage/>}></Route>
         <Route path="/teamWorkspacepage/*" element={<TeamWorkspacePage/>}></Route>
+=======
+        {/* {routes.map(({ path, component }) => {
+          return <Route key={path} path={path} element={<component/>} />;
+        })} */}
+        <Route path="/" element={<IndexPage/>}></Route>
+          <Route path="login" element={<LoginPage/>}></Route>
+          <Route path="product/*" element={<ProductPage/>}></Route>
+          <Route path="product/char" element={<CharPage/>}></Route>
+          <Route path="foreshadowingpage" element={<ForeshadowingPage/>}></Route>
+          <Route path="mypage/*" element={<MyPage/>}></Route>
+          <Route path="workspace/*" element={<MyWorkspacePage/>}></Route>
+          <Route path="teamWorkspacepage/*" element={<TeamWorkspacePage/>}></Route>
+>>>>>>> Stashed changes
       </Routes>
     </BrowserRouter>
   );
