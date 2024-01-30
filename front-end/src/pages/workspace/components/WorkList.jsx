@@ -11,7 +11,7 @@ function CreateWork() {
 
 function EachWork({ url, title }) {
   return (
-    <div className="flex flex-col items-center ">
+    <div className="flex flex-col items-center">
       <Card className="w-32 h-36 ">
         <img className="w-full h-full rounded-xl" src={url} alt="cover of work" />
       </Card>
@@ -22,7 +22,7 @@ function EachWork({ url, title }) {
 
 function WorkList({ works }) {
   return (
-    <div className="flex flex-wrap content-start justify-start p-6 gap-x-10 gap-y-20">
+    <div className="flex flex-wrap content-start justify-start w-full h-full gap-10 p-6">
       <CreateWork />
       {works.map((work, index) => (
         <EachWork key={index} url={work.url} title={work.title} />

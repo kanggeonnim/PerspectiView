@@ -1,4 +1,4 @@
-import TeamWorkspacePage from "./pages/workspace/TeamWorkspacePage";
+import ProductSidebar from "./components/sidebar/ProductSidebar";
 
 
 function App() {
@@ -16,12 +16,13 @@ function App() {
   // ];
   return (
     <>
-      {/* <LoginPage /> */}
       {/* <MyWorkspacePage /> */}
       {/* <TeamCreate /> */}
       {/* <MyPage /> */}
       {/* <IndexPage /> */}
-      <TeamWorkspacePage />
+      {/* <TeamWorkspacePage/> */}
+      <ProductSidebar />
+      {/* <UserSidebar /> */}
     </>
   );
 }
