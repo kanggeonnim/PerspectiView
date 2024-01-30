@@ -1,5 +1,14 @@
 import { Card } from "@/components/ui/card";
 import { BookPlus } from "lucide-react";
+import { Link } from "react-router-dom";
+
+const works = [
+  { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
+  { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
+  { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
+  { id: 4, url: "https://picsum.photos/200/300", title: "mywork" },
+  { id: 5, url: "https://picsum.photos/200/300", title: "mywork" },
+];
 
 function CreateWork() {
   return (
@@ -20,12 +29,14 @@ function EachWork({ url, title }) {
   );
 }
 
-function WorkList({ works }) {
+function WorkList() {
   return (
     <div className="flex flex-wrap content-start justify-start p-6 gap-x-10 gap-y-20">
       <CreateWork />
       {works.map((work, index) => (
-        <EachWork key={index} url={work.url} title={work.title} />
+        <Link to={`/product/${index}`} key={index}>
+          <EachWork url={work.url} title={work.title} />
+        </Link>
       ))}
     </div>
   );
