@@ -52,5 +52,11 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
+    @PostMapping("/{teamId}/")
+    public ApiResult<Object> newEnrollment(@PathVariable Long teamId,
+                                            @AuthenticationPrincipal PrincipalDetails principalDetails){
 
+        teamService.createEnrollment(teamId, principalDetails.getUser());
+        return ApiResult.OK(null);
+    }
 }

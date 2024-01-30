@@ -57,4 +57,8 @@ public class Team {
     public boolean ifManager(User user){
         return managers.contains(user);
     }
+
+    public void addEnrollment(Enrollment enrollment){
+        this.enrollments.add(enrollment);
+    }
 }

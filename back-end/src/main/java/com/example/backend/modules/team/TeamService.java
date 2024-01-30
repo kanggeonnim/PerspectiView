@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -12,6 +13,7 @@ import java.util.List;
 @Transactional
 public class TeamService {
     private final TeamRepository teamRepository;
+    private final EnrollmentRepository enrollmentRepository;
 
     public Team createTeam(Team team, User user){
         Team newTeam = teamRepository.save(team);;
@@ -47,4 +49,20 @@ public class TeamService {
 
         teamRepository.delete(findTeam);
     }
+
+    public Enrollment createEnrollment(Long teamId, User user){
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+        if(!enrollmentRepository.existsByTeamAndUser(findTeam, user)){
+            Enrollment enrollment = Enrollment.builder()
+                    .team(findTeam)
+                    .user(user)
+                    .enrolledAt(LocalDateTime.now())
+                    .build();
+            findTeam.addEnrollment(enrollment); // TODO @OneToMany new Entity 등록 체크
+            return enrollment;
+        }
+        throw new RuntimeException(); // TODO 이미 존재하는 등록 요청
+    }
+
+    
 }
