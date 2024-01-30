@@ -26,4 +26,15 @@ public class TeamService {
     public Team getTeam(Long id){
         return teamRepository.findById(id).orElseThrow(()-> new RuntimeException());
     }
+
+    public Team updateTeam(Long teamId, Team team, User user){
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+
+        if(!findTeam.ifManager(user)){
+            throw new RuntimeException(); // TODO 매니저만 수정가능
+        }
+
+        findTeam.changeInfo(team.getInfo());
+        return findTeam;
+    }
 }

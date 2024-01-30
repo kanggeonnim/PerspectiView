@@ -50,4 +50,11 @@ public class Team {
         managers.add(user);
     }
 
+    public void changeInfo(String info){
+        this.info = info;
+    }
+
+    public boolean ifManager(User user){
+        return managers.contains(user);
+    }
 }

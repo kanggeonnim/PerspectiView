@@ -38,5 +38,12 @@ public class TeamController {
         return ApiResult.OK(TeamResponseDto.of(team));
     }
 
+    @PatchMapping("/{teamId}")
+    public ApiResult<TeamResponseDto> updateTeam(@PathVariable Long teamId,
+                                                 @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                 @RequestBody @Valid TeamRequestDto teamRequestDto){
+        Team team = teamService.updateTeam(teamId, TeamRequestDto.from(teamRequestDto), principalDetails.getUser());
+        return ApiResult.OK(TeamResponseDto.of(team));
+    }
 
 }
