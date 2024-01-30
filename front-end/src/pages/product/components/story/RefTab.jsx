@@ -1,10 +1,11 @@
 import { Card } from "@/components/ui/card";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MessageCircleMore } from "lucide-react";
 
 export default function RefTab() {
   return (
-    <Tabs defaultValue="relation" className="flex flex-col justify-between w-1/2 h-full">
+    <Tabs defaultValue="relation" className="flex flex-col justify-between w-1/2 h-full m-5">
       <TabsList className="flex items-center justify-start w-full ">
         <TabsTrigger value="relation" className="text-bold">
           전체 인물 관계도
@@ -13,7 +14,12 @@ export default function RefTab() {
           복선 목록
         </TabsTrigger>
         <TabsTrigger value="comment" className="text-bold">
-          댓글
+          <div className="flex ">
+            <div className="mx-2">댓글</div>
+            <div>
+              <MessageCircleMore size={18} />
+            </div>
+          </div>
         </TabsTrigger>
       </TabsList>
       {/* 전체 인물 관계도 */}
@@ -26,7 +32,7 @@ export default function RefTab() {
         <Card className="h-full "></Card>
       </TabsContent>
 
-      {/* 댓글 */}
+      {/* 의견 */}
       <TabsContent value="comment" className="h-full">
         <Card className="h-full "></Card>
       </TabsContent>

@@ -45,6 +45,13 @@
     --ring: #5f4e9e;
 
     --radius: 0.5rem;
+
+    --progress: #d3e5ef;
+    --unused: #dbeddb;
+    --completed: #e3e2e0;
+    --progress-foreground: #4c75c2;
+    --unused-foreground: #518b68;
+    --completed-foreground: #5a5a58;
   }
 
   /* .dark {

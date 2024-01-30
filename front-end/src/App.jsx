@@ -30,7 +30,7 @@ function App() {
       <ProductPage />
 
       {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
-      {/* <MyWorkspacePage/> */}
+      {/* <MyWorkspacePage /> */}
       {/* <TeamCreate /> */}
       {/* <MyPage /> */}
       {/* <IndexPage /> */}

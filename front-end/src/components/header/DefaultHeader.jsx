@@ -45,7 +45,7 @@ function DefaultHeader(props) {
               </div>
             </div>
             {/* 로그인 버튼 */}
-            <Button variant="default" className="ml-4 text-sm font-semibold leading-6 ">
+            <Button variant="default" className="ml-4 text-sm leading-6 ">
               로그인
             </Button>
           </div>

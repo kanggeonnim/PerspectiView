@@ -12,7 +12,7 @@ export default function ProductPage() {
     <MainLayout variant="horizontal">
       <ProductSidebar />
       <PageLayout>
-        <ProductHeader />
+        {/* <ProductHeader /> */}
         <div className="flex items-center justify-center w-full h-full max-h-full ">
           {/* empty data */}
           {/* <div className="text-2xl font-bold text-center">
