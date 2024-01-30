@@ -1,7 +1,7 @@
 package com.example.backend.security.service;
 
-import com.example.springsecurity3.dto.RefreshToken;
-import com.example.springsecurity3.repository.RefreshTokenRepository;
+import com.example.backend.security.dto.RefreshToken;
+import com.example.backend.security.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
