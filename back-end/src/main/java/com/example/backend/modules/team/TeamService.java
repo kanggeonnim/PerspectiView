@@ -89,5 +89,11 @@ public class TeamService {
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(()->new RuntimeException()); // TODO
         enrollment.accepted();
         team.addMember(enrollment.getUser()); // TODO check
+        enrollmentRepository.delete(enrollment);
+    }
+
+    public void deniedEnrollment(Long enrollmentId) {
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(()->new RuntimeException()); // TODO
+        enrollmentRepository.delete(enrollment);
     }
 }

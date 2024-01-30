@@ -77,4 +77,16 @@ public class TeamController {
         teamService.acceptEnrollment(team, enrollmentId);
         return ApiResult.OK(null);
     }
+
+    @PostMapping("/{teamId}/enrollments/{enrollmentId}")
+    public ApiResult<Object> deniedEnrollment(@PathVariable Long teamId,
+                                              @PathVariable Long enrollmentId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
+        teamService.deniedEnrollment(enrollmentId);
+
+        return ApiResult.OK(null);
+    }
+
 }
