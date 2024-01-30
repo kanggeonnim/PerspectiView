@@ -32,5 +32,11 @@ public class TeamController {
                 .collect(Collectors.toList()));
     }
 
+    @GetMapping("/{teamId}")
+    public ApiResult<TeamResponseDto> getTeam(@PathVariable Long teamId){
+        Team team = teamService.getTeam(teamId);
+        return ApiResult.OK(TeamResponseDto.of(team));
+    }
+
 
 }
