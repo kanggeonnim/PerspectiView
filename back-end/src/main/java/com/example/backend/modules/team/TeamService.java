@@ -37,4 +37,14 @@ public class TeamService {
         findTeam.changeInfo(team.getInfo());
         return findTeam;
     }
+
+    public void deleteTeam(Long teamId, User user) {
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+
+        if(!findTeam.ifManager(user) || findTeam.isPersonal()){
+            throw new RuntimeException(); // TODO 매니저만 수정가능, 개인 팀은 삭제불가
+        }
+
+        teamRepository.delete(findTeam);
+    }
 }

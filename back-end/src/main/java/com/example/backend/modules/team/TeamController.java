@@ -46,4 +46,12 @@ public class TeamController {
         return ApiResult.OK(TeamResponseDto.of(team));
     }
 
+    @DeleteMapping("/{teamId}")
+    public ApiResult<Object> deleteTeam(@PathVariable Long teamId,
+                                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
+        teamService.deleteTeam(teamId,  principalDetails.getUser());
+        return ApiResult.OK(null);
+    }
+
+
 }

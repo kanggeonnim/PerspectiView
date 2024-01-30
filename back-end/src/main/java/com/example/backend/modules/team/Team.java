@@ -35,7 +35,7 @@ public class Team {
     }
 
     @Column(nullable = false)
-    private Boolean personal;
+    private boolean personal;
 
     @ManyToMany
     private Set<User> managers = new HashSet<>();
