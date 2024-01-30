@@ -72,4 +72,22 @@ public class TeamService {
             enrollmentRepository.delete(enrollment);
         }
     }
+
+    public Team getTeamToUpdate(User user, Long teamId){
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException()); // TODO entityGraph
+        checkIfManager(user, findTeam);
+        return findTeam;
+    }
+
+    private void checkIfManager(User user, Team team){
+        if(!team.ifManager(user)){
+            throw new RuntimeException(); // TODO Manager 아님, exception
+        }
+    }
+
+    public void acceptEnrollment(Team team, Long enrollmentId) {
+        Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(()->new RuntimeException()); // TODO
+        enrollment.accepted();
+        team.addMember(enrollment.getUser()); // TODO check
+    }
 }

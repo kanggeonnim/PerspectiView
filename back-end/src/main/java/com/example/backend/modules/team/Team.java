@@ -50,6 +50,8 @@ public class Team {
         managers.add(user);
     }
 
+    public void addMember(User user){members.add(user);}
+
     public void changeInfo(String info){
         this.info = info;
     }
@@ -65,4 +67,6 @@ public class Team {
     public void removeEnrollment(Enrollment enrollment) {
         enrollments.remove(enrollment);
     }
+
+
 }

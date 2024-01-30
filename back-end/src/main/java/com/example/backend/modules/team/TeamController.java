@@ -52,7 +52,7 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
-    @PostMapping("/{teamId}/")
+    @PostMapping("/{teamId}/enrollments")
     public ApiResult<Object> newEnrollment(@PathVariable Long teamId,
                                             @AuthenticationPrincipal PrincipalDetails principalDetails){
 
@@ -60,11 +60,21 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
-    @DeleteMapping("/{teamId}/")
+    @DeleteMapping("/{teamId}/enrollments")
     public ApiResult<Object> disEnrollment(@PathVariable Long teamId,
                                            @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         teamService.cancelEnrollment(teamId, principalDetails.getUser());
+        return ApiResult.OK(null);
+    }
+
+    @GetMapping("/{teamId}/enrollments/{enrollmentId}")
+    public ApiResult<Object> acceptEnrollment(@PathVariable Long teamId,
+                                              @PathVariable Long enrollmentId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
+        teamService.acceptEnrollment(team, enrollmentId);
         return ApiResult.OK(null);
     }
 }

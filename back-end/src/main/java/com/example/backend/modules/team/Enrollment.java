@@ -36,5 +36,8 @@ public class Enrollment {
         this.enrolledAt = enrolledAt;
     }
 
+    public void accepted(){
+        accepted = true;
+    }
 
 }
