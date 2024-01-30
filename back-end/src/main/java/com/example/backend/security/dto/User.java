@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class User {
 	@Id // primary key
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	private String username;
 	private String password;
 	private String email;
