@@ -9,15 +9,16 @@ import ForeshadowingPage from "./pages/product/ForeshadowingPage";
 function App() {
   return (
     <>
-      {/* <LoginPage /> */}
+      <LoginPage />
 
-      {/* <ProductPage /> */}
+      <ProductPage />
 
-      {/* <MyWorkspacePage /> */}
+      {/* <WorkspaceBody word="내 워크스페이스" works={works} /> */}
+      <MyWorkspacePage />
       {/* <TeamCreate /> */}
-      {/* <MyPage /> */}
-      {/* <IndexPage /> */}
-      {/* <TeamWorkspacePage /> */}
+      <MyPage />
+      <IndexPage />
+      <TeamWorkspacePage />
       <ForeshadowingPage />
     </>
   );

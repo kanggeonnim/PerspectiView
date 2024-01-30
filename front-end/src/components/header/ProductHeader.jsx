@@ -145,7 +145,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {productData.genreList.map((genreId, key) => (
-                    <Badge key={key} variant="destructive">
+                    <Badge key={key} variant="destructive" radius="full">
                       {getGenreName(genreId)}
                     </Badge>
                   ))}
@@ -158,7 +158,7 @@ export default function ProductHeader() {
                   분류
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
-                  <Badge className="text-stone-100 bg-badge">
+                  <Badge className="text-stone-100 bg-badge" radius="full">
                     {getCategoryName(productData.categoryId)}
                   </Badge>
                 </div>
