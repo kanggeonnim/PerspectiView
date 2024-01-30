@@ -6,10 +6,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,8 +22,14 @@ public class TeamController {
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         Team team = teamService.createTeam(TeamRequestDto.from(teamRequestDto), principalDetails.getUser());
-        // 매니저에 추가
         return ApiResult.OK(TeamResponseDto.of(team));
+    }
+
+    @GetMapping("/")
+    public ApiResult<List<TeamResponseDto>> getTeams(){
+        List<Team> teams = teamService.getTeams();
+        return ApiResult.OK(teams.stream().map(TeamResponseDto::of)
+                .collect(Collectors.toList()));
     }
 
 
