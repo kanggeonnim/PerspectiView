@@ -1,6 +1,6 @@
-package com.example.backend.security.jwt;
+package com.example.backend.infra.security;
 
-import com.example.backend.security.dto.StatusResponseDto;
+import com.example.backend.modules.auth.StatusResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;

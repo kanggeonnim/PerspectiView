@@ -1,10 +1,10 @@
 package com.example.backend.infra.config;
 
-import com.example.backend.security.config.oauth.PrincipalOauth2UserService;
-import com.example.backend.security.jwt.JwtAuthorizationFilter;
-import com.example.backend.security.jwt.JwtExceptionFilter;
-import com.example.backend.security.jwt.JwtSuccessHandler;
-import com.example.backend.security.jwt.MyAuthenticationFailureHandler;
+import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
+import com.example.backend.infra.security.JwtAuthorizationFilter;
+import com.example.backend.infra.security.JwtExceptionFilter;
+import com.example.backend.infra.security.JwtSuccessHandler;
+import com.example.backend.infra.security.MyAuthenticationFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

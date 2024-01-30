@@ -1,10 +1,10 @@
-package com.example.backend.security.jwt;
+package com.example.backend.infra.security;
 
 import java.io.IOException;
 
-import com.example.backend.security.config.auth.PrincipalDetails;
-import com.example.backend.security.dto.User;
-import com.example.backend.security.repository.UserRepository;
+import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.account.User;
+import com.example.backend.modules.account.UserRepository;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

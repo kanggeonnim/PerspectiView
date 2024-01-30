@@ -1,7 +1,7 @@
-package com.example.backend.security.jwt;
+package com.example.backend.infra.security;
 
-import com.example.backend.security.config.auth.PrincipalDetails;
-import com.example.backend.security.dto.GeneratedToken;
+import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.auth.GeneratedToken;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

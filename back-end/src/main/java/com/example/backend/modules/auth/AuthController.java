@@ -1,8 +1,8 @@
-package com.example.backend.security.controller;
+package com.example.backend.modules.auth;
 
-import com.example.backend.security.dto.StatusResponseDto;
-import com.example.backend.security.dto.response.TokenResponseStatus;
-import com.example.backend.security.service.RefreshTokenService;
+import com.example.backend.modules.auth.StatusResponseDto;
+import com.example.backend.modules.auth.TokenResponseStatus;
+import com.example.backend.modules.auth.RefreshTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

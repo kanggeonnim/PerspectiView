@@ -1,11 +1,11 @@
-package com.example.backend.security.config.oauth;
+package com.example.backend.modules.auth.oauth;
 
-import com.example.backend.security.config.auth.PrincipalDetails;
-import com.example.backend.security.config.oauth.provider.GoogleUserInfo;
-import com.example.backend.security.config.oauth.provider.KakaoUserInfo;
-import com.example.backend.security.config.oauth.provider.OAuth2UserInfo;
-import com.example.backend.security.dto.User;
-import com.example.backend.security.repository.UserRepository;
+import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.auth.oauth.provider.GoogleUserInfo;
+import com.example.backend.modules.auth.oauth.provider.KakaoUserInfo;
+import com.example.backend.modules.auth.oauth.provider.OAuth2UserInfo;
+import com.example.backend.modules.account.User;
+import com.example.backend.modules.account.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

@@ -1,6 +1,6 @@
-package com.example.backend.security.config.auth;
+package com.example.backend.modules.auth.principal;
 
-import com.example.backend.security.dto.User;
+import com.example.backend.modules.account.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;

@@ -1,6 +1,6 @@
-package com.example.backend.security.repository;
+package com.example.backend.modules.auth;
 
-import com.example.backend.security.dto.RefreshToken;
+import com.example.backend.modules.auth.RefreshToken;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

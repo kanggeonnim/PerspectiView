@@ -1,7 +1,7 @@
-package com.example.backend.security.jwt;
+package com.example.backend.infra.security;
 
-import com.example.backend.security.dto.GeneratedToken;
-import com.example.backend.security.service.AccessTokenService;
+import com.example.backend.modules.auth.GeneratedToken;
+import com.example.backend.modules.auth.AccessTokenService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;

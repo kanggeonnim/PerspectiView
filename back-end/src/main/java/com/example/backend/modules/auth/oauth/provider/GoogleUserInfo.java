@@ -1,4 +1,4 @@
-package com.example.backend.security.config.oauth.provider;
+package com.example.backend.modules.auth.oauth.provider;
 
 import java.util.Map;
 
