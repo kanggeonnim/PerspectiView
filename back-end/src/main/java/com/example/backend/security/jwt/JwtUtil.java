@@ -29,22 +29,22 @@ public class JwtUtil {
     }
 
 
-    public GeneratedToken generateToken(String email, String role) {
+    public GeneratedToken generateToken(String username, String role) {
         // refreshToken과 accessToken을 생성한다.
-        String refreshToken = generateRefreshToken(email, role);
-        String accessToken = generateAccessToken(email, role);
+        String refreshToken = generateRefreshToken(username, role);
+        String accessToken = generateAccessToken(username, role);
 
         // 토큰을 Redis에 저장한다.
-        tokenService.saveTokenInfo(email, refreshToken, accessToken);
+        tokenService.saveTokenInfo(username, refreshToken, accessToken);
         return new GeneratedToken(accessToken, refreshToken);
     }
 
-    public String generateRefreshToken(String email, String role) {
+    public String generateRefreshToken(String username, String role) {
         // 토큰의 유효 기간을 밀리초 단위로 설정.
         long refreshPeriod = 1000L * 60L * 60L * 24L * 14; // 2주
 
         // 새로운 클레임 객체를 생성하고, 이메일과 역할(권한)을 셋팅
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(username);
         claims.put("role", role);
 
         // 현재 시간과 날짜를 가져온다.
@@ -63,9 +63,9 @@ public class JwtUtil {
     }
 
 
-    public String generateAccessToken(String email, String role) {
+    public String generateAccessToken(String username, String role) {
         long tokenPeriod = 1000L * 60L * 30L; // 30분
-        Claims claims = Jwts.claims().setSubject(email);
+        Claims claims = Jwts.claims().setSubject(username);
         claims.put("role", role);
 
         Date now = new Date();
@@ -99,7 +99,7 @@ public class JwtUtil {
     }
 
 
-    // 토큰에서 Email을 추출한다.
+    // 토큰에서 username을 추출한다.
     public String getUid(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
