@@ -3,10 +3,13 @@ package com.example.backend.modules.team;
 import com.example.backend.modules.account.User;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -24,16 +27,27 @@ public class Team {
     @Column(nullable = true)
     private String info;
 
+    @Builder
+    public Team(String title, String info, Boolean personal) {
+        this.title = title;
+        this.info = info;
+        this.personal = personal;
+    }
+
     @Column(nullable = false)
     private Boolean personal;
 
     @ManyToMany
-    private Set<User> managers;
+    private Set<User> managers = new HashSet<>();
 
     @ManyToMany
-    private Set<User> members;
+    private Set<User> members = new HashSet<>();
 
-    @OneToMany
-    private List<Enrollment> enrollments;
+    @OneToMany(mappedBy = "team")
+    private List<Enrollment> enrollments = new ArrayList<>();
+
+    public void addManager(User user){
+        managers.add(user);
+    }
 
 }
