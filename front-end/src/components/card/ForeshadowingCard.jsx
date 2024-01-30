@@ -10,7 +10,7 @@ import Book from "@/assets/OpenBook.svg"
 
 export function ForeshadowingCard({ className }) {
   return (
-    <Card className="box-border w-full p-2 my-2">
+    <Card className="flex flex-col box-border w-full p-2 my-2">
       <CardHeader>
         <CardTitle>복선 
           {/* TODO '복선' text 입력 위치에 제목 내용 받아와 출력 */}
