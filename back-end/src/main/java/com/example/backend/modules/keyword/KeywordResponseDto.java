@@ -1,4 +1,4 @@
-package com.example.backend.keyword;
+package com.example.backend.modules.keyword;
 
 import lombok.Builder;
 import lombok.Data;

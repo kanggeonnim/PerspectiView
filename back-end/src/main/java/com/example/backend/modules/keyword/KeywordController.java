@@ -1,15 +1,9 @@
-package com.example.backend.keyword;
+package com.example.backend.modules.keyword;
 
-import com.example.backend.modules.api.ApiError;
 import com.example.backend.modules.api.ApiResult;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
