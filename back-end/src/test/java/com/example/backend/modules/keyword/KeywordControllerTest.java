@@ -1,4 +1,4 @@
-package com.example.backend.keyword;
+package com.example.backend.modules.keyword;
 
 import com.example.backend.modules.keyword.Keyword;
 import com.example.backend.modules.keyword.KeywordService;
