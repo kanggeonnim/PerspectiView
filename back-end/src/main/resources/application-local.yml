@@ -1,9 +1,4 @@
 spring:
-  jpa:
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: validate
   jwt:
     secret: ENC(OAdLW8Ke/pyGKNDSTMQ6b/XgpsboFinNPnFmjXShoFcgsHyEKxYGuaNGO0/GP3x83IGirgjZ+uussPFpdmC0Jmc9Qb4sfxXjmFbmAh0bkPk=)
     token-prefix: ENC(bu++C9y7w4zu3jmpl4haFTwDeXThrfG11Y3PaRfxkFzazYFA1y6OCfY/lZLHeBXA)
