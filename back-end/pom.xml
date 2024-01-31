@@ -126,9 +126,9 @@
 
 	<profiles>
 		<profile>
-			<id>app</id>
+			<id>dev</id>
 			<properties>
-				<spring.config.location>classpath:/application-app.properties</spring.config.location>
+				<spring.config.location>classpath:/application-dev.yml</spring.config.location>
 			</properties>
 		</profile>
 	</profiles>
