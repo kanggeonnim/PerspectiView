@@ -51,7 +51,7 @@ export function GradientPicker({
             className
           )}
         > */}
-          <div className="flex items-center mx-2 border border-pink-300">
+          <div className="flex items-center mx-2">
             {background ? (
               <div
                 className="h-4 w-4 rounded !bg-center !bg-cover transition-all"
@@ -68,8 +68,8 @@ export function GradientPicker({
           </div>
         {/* </Button> */}
       </PopoverTrigger>
-      <PopoverContent className="w-64">
-        <Tabs defaultValue='solid' className="w-full">
+      <PopoverContent className="w-32 h-32 p-1 border border-blue-500">
+        <Tabs defaultValue='solid' className="w-full border border-red-500">
           {/* <TabsList className="w-full mb-4">
             <TabsTrigger className="flex-1" value="solid">
               Solid
@@ -82,7 +82,12 @@ export function GradientPicker({
                 key={s}
                 style={{ background: s }}
                 className="w-6 h-6 rounded-md cursor-pointer active:scale-105"
-                onClick={() => setBackground(s)}
+                onClick={(e) => {
+                  setBackground(s);
+                  e.stopPropagation();
+                }}
+                // onClick={() => setBackground(s)}
+                // onClick={e => (e.stopPropagation())}
               />
             ))}
           </TabsContent>
@@ -94,8 +99,9 @@ export function GradientPicker({
         <Input
           id="custom"
           value={background}
-          className="h-8 col-span-2 mt-4"
+          className="h-8 col-span-2 my-1 border border-orange-500"
           onChange={(e) => setBackground(e.currentTarget.value)}
+          onClick={e => (e.stopPropagation())}
         />
       </PopoverContent>
     </Popover>

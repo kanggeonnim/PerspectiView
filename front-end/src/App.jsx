@@ -17,7 +17,6 @@ function App() {
   return (
     <>
       {/* <MyWorkspacePage /> */}
-      {/* <TeamCreate /> */}
       {/* <MyPage /> */}
       {/* <IndexPage /> */}
       {/* <TeamWorkspacePage/> */}

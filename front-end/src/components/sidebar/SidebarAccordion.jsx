@@ -12,25 +12,24 @@ export default function SidebarAccordion({ plot, stories }) {
     "linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)"
   );
   return (
-    <Accordion type="single" collapsible className="w-full border border-blue-500">
-      <AccordionItem value="item-1">
-        <AccordionTrigger className="flex flex-row-reverse justify-end w-full border border-black-500">
-          {/* 여기다 */}
-          <div className="flex justify-between border border-green-500 ">
-            <div className="w-1/5 text-left truncate border border-purple-500 text-nowrap">{plot}</div>
+    <Accordion type="single" collapsible className="w-full">
+      <AccordionItem value="item-1" className="w-full">
+        <AccordionTrigger className="flex flex-row-reverse justify-end w-full ">
+          <div className="flex justify-around w-full">
+            <div className="w-1/2 text-left truncate text-nowrap">{plot}</div>
             <GradientPicker
-              className="border border-red-500 "
+              className=""
               background={background}
               setBackground={setBackground}
             />
           </div>
         </AccordionTrigger>
         <AccordionContent>
-          {/* <div>
+          <div>
             {stories.data.map((story, index) => (
               <div key={index}>{story.storyTitle}</div>
             ))}
-          </div> */}
+          </div>
         </AccordionContent>
       </AccordionItem>
     </Accordion>

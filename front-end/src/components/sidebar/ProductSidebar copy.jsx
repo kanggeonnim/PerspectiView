@@ -167,9 +167,9 @@ function ProductSidebar() {
       </div>
     </div>
   ) : (
-    <div className="flex flex-col items-start justify-between w-1/6 pl-3 border-r-2 h-dvh">
+    <div className="flex flex-col items-center justify-between w-1/6 border-r-2 h-dvh">
       {/* 사용자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
-      <div className="flex flex-col items-start w-full">
+      <div className="flex flex-col items-start w-5/6">
         <div className="w-full my-3">
           <Chrome color="#657dc4" />
         </div>
@@ -191,14 +191,14 @@ function ProductSidebar() {
           </div>
 
           {/* 작품 흐름 */}
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full border border-red-500">
             <div className="flex items-center justify-start w-full">
               <Activity color="#657dc4" />
               <h4 className="w-full mx-3 text-xs text-left text-slate-700">
                 작품 흐름
               </h4>
             </div>
-            <div className="flex items-center justify-start w-full py-3 px-9">
+            <div className="flex items-center justify-start w-full">
               <div className="w-full text-xs text-left text-zinc-600">
                 플롯 생성하기
               </div>
@@ -225,7 +225,7 @@ function ProductSidebar() {
           <ChevronsLeft size={16} color="#686464" />
           <div className="mx-3 text-xs text-left text-slate-700">Collapse</div>
         </div>
-        <div className="flex flex-row items-center justify-start w-full py-3">
+        <div className="flex flex-row items-center justify-start w-full">
           <div className="mr-3">
             <img
               className="w-6 h-6 rounded-full"
