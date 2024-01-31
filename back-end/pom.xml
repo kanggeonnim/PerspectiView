@@ -97,8 +97,25 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/junit/junit -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
 
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>app</id>
+			<properties>
+				<spring.config.location>classpath:/application-app.properties</spring.config.location>
+			</properties>
+		</profile>
+	</profiles>
 
 	<build>
 		<plugins>

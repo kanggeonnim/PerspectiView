@@ -14,7 +14,7 @@ public class TeamResponseDto {
         return TeamResponseDto.builder()
                 .title(team.getTitle())
                 .info(team.getInfo())
-                .personal(team.getPersonal())
+                .personal(team.isPersonal())
                 .build();
     }
 }
