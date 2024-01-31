@@ -81,7 +81,7 @@ function OneButtonselect() {
   ));
 }
 
-function RadioGroupDemo() {
+function RadioSelect() {
 
   const arrs = [
     { id: 1, name: "웹소설" },
@@ -90,30 +90,32 @@ function RadioGroupDemo() {
     { id: 4, name: "게임 스토리" },
     { id: 5, name: "에세이" },
   ];
+  const [selectedOption, setSelectedOption] = useState('');
+
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
   return (
-    <RadioGroup className="flex flex-row" defaultValue="comfortable">
-      {
-        arrs.map((arr, idx) =>
-          <div className="flex items-center space-x-2">
-            <RadioGroupItem value={arr.name} id={arr.id} />
-            <Badge>
-              <Label htmlFor={arr.id}>{arr.name}</Label>
+    <div className="box-border flex flex-wrap w-5/6 gap-2">
+      {arrs.map((arr) =>
+          <label key={arr.id}>
+            <Badge variant={selectedOption === `option${arr.id}` ? "destructive" : 'off'}>
+              <input
+                type="radio"
+                value={`option${arr.id}`}
+                checked={selectedOption === `option${arr.id}`}
+                onChange={handleOptionChange}
+                className='hidden'
+              />
+              {arr.name}
             </Badge>
-          </div>
+          </label>
         )
       }
-    </RadioGroup>
+    </div>
   );
 }
-  
 
-// const arr = [
-//   { id: 1, name: "웹소설" },
-//   { id: 2, name: "시나리오" },
-//   { id: 3, name: "웹툰 스토리" },
-//   { id: 4, name: "게임 스토리" },
-//   { id: 5, name: "에세이" },
-// ];
 
 
 function WorkList() {
@@ -161,7 +163,7 @@ function WorkList() {
                   <Badge variant="off">게임 스토리</Badge>
                   <Badge variant="off">에세이</Badge> */}
                   {/* FIXME 임시 클릭으로 변경 계획중 */}
-                  <RadioGroupDemo />
+                  <RadioSelect />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
@@ -221,11 +223,7 @@ function WorkList() {
                 <div className="flex flex-row w-full m-2">
                   <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                   <div className="box-border flex flex-wrap w-5/6 gap-2">
-                    <Badge variant="destructive">웹소설</Badge>
-                    <Badge variant="off">시나리오</Badge>
-                    <Badge variant="off">웹툰 스토리</Badge>
-                    <Badge variant="off">게임 스토리</Badge>
-                    <Badge variant="off">에세이</Badge>
+                    <RadioSelect />
                     {/* FIXME 단일 선택 */}
                   </div>
                 </div>
