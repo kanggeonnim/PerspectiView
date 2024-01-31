@@ -1,10 +1,8 @@
 package com.example.backend.infra.security;
 
-import java.io.IOException;
-
-import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.account.User;
 import com.example.backend.modules.account.UserRepository;
+import com.example.backend.modules.auth.principal.PrincipalDetails;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -15,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
+import java.io.IOException;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -43,10 +43,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 		// AccessToken의 값이 있고, 유효한 경우에 진행한다.
 		if (jwtUtil.verifyToken(token)) {
 			// AccessToken 내부의 payload에 있는 email로 user를 조회한다. 없다면 예외를 발생시킨다 -> 정상 케이스가 아님
-			User user = userRepository.findByUsername(jwtUtil.getUid(token))
+			User user = userRepository.findWithAuthoritiesByUsername(jwtUtil.getUid(token))
 					.orElseThrow(IllegalStateException::new);
 
 			PrincipalDetails principalDetails = new PrincipalDetails(user);
+			log.info("authorize 권한 체크 : {}", principalDetails.getUser().getAuthorities());
+			log.info("authorize 권한 체크 : {}", principalDetails.getAuthorities());
 			Authentication authentication = new UsernamePasswordAuthenticationToken(
 					principalDetails, 	// 나중에 컨트롤러에서 DI해서 쓸 때 사용하기 편함.
 					null, 				// 패스워드 null 처리
