@@ -32,7 +32,7 @@ public class KeywordController {
         return ApiResult.OK(KeywordResponseDto.of(keyword.get()));
     }
 
-    @GetMapping("/{keywordName}")
+    @GetMapping("/name/{keywordName}")
     public ApiResult<List<KeywordResponseDto>> keywordFindByName(@PathVariable("keywordName") String name) {
         List<Keyword> keywords = keywordService.findKeywordByName(name);
         return ApiResult.OK(keywords.stream().map(KeywordResponseDto::of)
