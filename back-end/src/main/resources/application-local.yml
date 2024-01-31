@@ -1,4 +1,10 @@
 spring:
+  datasource:
+    url: ${DB_URL}
+    #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
   jwt:
     secret: ENC(OAdLW8Ke/pyGKNDSTMQ6b/XgpsboFinNPnFmjXShoFcgsHyEKxYGuaNGO0/GP3x83IGirgjZ+uussPFpdmC0Jmc9Qb4sfxXjmFbmAh0bkPk=)
     token-prefix: ENC(bu++C9y7w4zu3jmpl4haFTwDeXThrfG11Y3PaRfxkFzazYFA1y6OCfY/lZLHeBXA)
