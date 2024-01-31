@@ -1,8 +1,0 @@
-spring:
-  jwt:
-    secret: "kanggeonCodekanggeonCodekanggeonCode"
-    token-prefix: "Bearer "
-    haeder-refresh: "refresh-token"
-    haeder-access: "access-token"
-
-
