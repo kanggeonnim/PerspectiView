@@ -19,7 +19,7 @@ import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class KeywordControllerTest {
     @Autowired
     private MockMvc mockMvc;

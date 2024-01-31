@@ -1,4 +1,16 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   jwt:
     secret: ENC(OAdLW8Ke/pyGKNDSTMQ6b/XgpsboFinNPnFmjXShoFcgsHyEKxYGuaNGO0/GP3x83IGirgjZ+uussPFpdmC0Jmc9Qb4sfxXjmFbmAh0bkPk=)
     token-prefix: ENC(bu++C9y7w4zu3jmpl4haFTwDeXThrfG11Y3PaRfxkFzazYFA1y6OCfY/lZLHeBXA)
@@ -40,3 +52,12 @@ spring:
             scope:
               - email
               - profile
+
+logging:
+  level:
+    org.hibernate.sql: debug
+
+jasypt:
+  password : ${JASYPT_PASSWORD}
+  encryptor:
+    bean: jasyptEncryptor
