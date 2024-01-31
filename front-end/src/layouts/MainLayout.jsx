@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
 import React from "react";
 
-const layoutVariants = cva("flex max-h-screen w-screen h-screen justify-between ", {
+const layoutVariants = cva("flex max-h-screen w-screen h-screen justify-between", {
   variants: {
     variant: {
       vertical: "flex-col",
