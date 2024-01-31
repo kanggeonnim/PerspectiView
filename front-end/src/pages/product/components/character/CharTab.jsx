@@ -1,6 +1,7 @@
 import { Card } from "@/components/ui/card";
 import { Plus } from "lucide-react";
 import CharInfo from "./CharInfo";
+import EasyConnectExample from "../character/reactflow/CharRelative";
 
 export default function CharTab() {
   return (
@@ -10,7 +11,7 @@ export default function CharTab() {
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-1/2 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
-            <div>{/* TODO 여기에 인물관계도 */}</div>
+            <EasyConnectExample />
           </div>
           <div className="flex flex-col w-1/2">
             <div className="flex justify-between">
