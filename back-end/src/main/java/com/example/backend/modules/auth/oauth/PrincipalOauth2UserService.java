@@ -9,6 +9,7 @@ import com.example.backend.modules.auth.oauth.provider.KakaoUserInfo;
 import com.example.backend.modules.auth.oauth.provider.OAuth2UserInfo;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 
 	private final UserRepository userRepository;
@@ -33,9 +35,9 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		OAuth2User oAuth2User = super.loadUser(userRequest); // google의 회원 프로필 조회
 
 		// code를 통해 구성한 정보
-		System.out.println("userRequest clientRegistration : " + userRequest.getClientRegistration());
+		log.info("userRequest clientRegistration : " + userRequest.getClientRegistration());
 		// token을 통해 응답받은 회원정보
-		System.out.println("oAuth2User : " + oAuth2User);
+		log.info("oAuth2User : " + oAuth2User);
 	
 		return processOAuth2User(userRequest, oAuth2User);
 	}
@@ -45,10 +47,10 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
 		OAuth2UserInfo oAuth2UserInfo = null;
 		if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
-			System.out.println("구글 로그인 요청");
+			log.info("구글 로그인 요청");
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 		} else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
-			System.out.println("카카오 로그인 요청");
+			log.info("카카오 로그인 요청");
 			oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes());
 		}
 
