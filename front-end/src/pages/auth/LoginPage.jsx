@@ -1,4 +1,3 @@
-import DefaultHeader from "@/components/header/DefaultHeader";
 import { MainLayout } from "@/layouts/MainLayout";
 import { LoginBox } from "./components/LoginBox";
 import { GoogleButton } from "./components/button/GoogleButton";
@@ -8,12 +7,11 @@ import { Link } from "react-router-dom";
 export default function LoginPage() {
   return (
     <MainLayout variant="vertical">
-      <DefaultHeader />
+      {/* TODO: 크기 수정, 로고 추가*/}
       <div className="flex items-center justify-center w-full h-full">
         <LoginBox>
           <Link to={`/workspace`}>
             <GoogleButton />
-            
           </Link>
           <Link to={`/workspace`}>
             <KakaoButton />

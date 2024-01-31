@@ -22,6 +22,9 @@ export const theme = {
       ring: "var(--ring)",
       background: "var(--background)",
       foreground: "var(--foreground)",
+      progress: { DEFAULT: "var(--progress)", foreground: "var(--progress-foreground)" },
+      unused: { DEFAULT: "var(--unused)", foreground: "var(--unused-foreground)" },
+      completed: { DEFAULT: "var(--completed)", foreground: "var(--completed-foreground)" },
       primary: {
         DEFAULT: "var(--primary)",
         foreground: "var(--primary-foreground)",

@@ -7,10 +7,16 @@ import {
 } from "@/components/ui/card"
 import Check from "@/assets/Icon.svg"
 import Book from "@/assets/OpenBook.svg"
+// import { useState } from "react"
 
 export function ForeshadowingCard({ className }) {
+
+  // const [cardActive, setCardActive] = useState('')
+    
+  
   return (
-    <Card className="flex flex-col box-border w-full p-2 my-2">
+    
+    <Card className="box-border flex flex-col w-full p-2 my-2">
       <CardHeader>
         <CardTitle>복선 
           {/* TODO '복선' text 입력 위치에 제목 내용 받아와 출력 */}

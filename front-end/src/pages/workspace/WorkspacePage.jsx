@@ -1,13 +1,13 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
 import { MainLayout } from "@/layouts/MainLayout";
-import TeamWorkspaceBody from "./components/TeamWorkspaceBody";
+import { Outlet } from "react-router-dom";
 
-export default function TeamWorkspacePage() {
+export default function WorkspacePage() {
   return (
     <MainLayout variant="horizontal">
       <UserSidebar />
       <div className="flex items-center justify-center w-full h-full">
-      <TeamWorkspaceBody />
+        <Outlet />
       </div>
     </MainLayout>
   );
