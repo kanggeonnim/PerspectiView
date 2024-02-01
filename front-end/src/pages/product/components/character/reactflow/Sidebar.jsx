@@ -12,7 +12,7 @@ export default () => {
       {/* <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'input')} draggable>
         Input Node
       </div> */}
-      <div className="dndnode" onDragStart={(event) => onDragStart(event, '인물')} draggable>
+      <div className="dndnode" onDragStart={(event) => onDragStart(event, 'default')} draggable>
         인물 추가
       </div>
       {/* TODO event, 'default' 표현식에 현재 인물 데이터를 받아와 노드명으로 넣거나,

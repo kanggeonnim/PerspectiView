@@ -63,6 +63,7 @@ const DnDFlow = () => {
         type,
         position,
         data: { label: `${type} ${id}` },
+        className : '!w-32 !h-32 m-1 bg-white border-2 !rounded-full flex items-center justify-center shadow-md'
       };
 
       setNodes((nds) => nds.concat(newNode));
