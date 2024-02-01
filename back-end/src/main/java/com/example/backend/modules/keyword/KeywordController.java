@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class KeywordController {
     private final KeywordService keywordService;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<KeywordResponseDto> createKeyword(@RequestBody KeywordRequestDto keywordRequestDto) {
         Keyword keyword = keywordService.createKeyword(keywordRequestDto.toEntity());
         return ApiResult.OK(KeywordResponseDto.of(keyword));
@@ -33,7 +33,7 @@ public class KeywordController {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ApiResult<List<KeywordResponseDto>> keysordFindAll() {
         List<Keyword> keywords = keywordService.findAll();
         return ApiResult.OK(keywords.stream().map(KeywordResponseDto::of)

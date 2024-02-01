@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("genre")
+@RequestMapping("/genre")
 public class GenreController {
     private final GenreServeice genreServeice;
 
-    @GetMapping("/")
+    @GetMapping
     public ApiResult<List<GenreResponseDto>> genreFindAll() {
         List<Genre> genres = genreServeice.getGenres();
         return ApiResult.OK(genres.stream().map(GenreResponseDto::of)
