@@ -43,6 +43,8 @@ export const theme = {
         DEFAULT: "var(--primary)",
         foreground: "var(--primary-foreground)",
         accent: "var(--primary-accent)",
+        light: "var(--primary-light)",
+        "accent-light": "var(--primary-accent-light)",
       },
       secondary: {
         DEFAULT: "var(--secondary)",

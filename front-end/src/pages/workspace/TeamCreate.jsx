@@ -12,13 +12,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@ark-ui/react";
-import { Plus, X } from "lucide-react";
+import { Plus, PlusCircle, X } from "lucide-react";
 
 export default function TeamCreate() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Plus size={20} strokeWidth={1}/>
+        <PlusCircle
+          strokeWidth={2.5}
+          className="p-1 rounded-sm text-primary hover:bg-secondary-accent"
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className="my-3">
@@ -77,9 +80,7 @@ export default function TeamCreate() {
                         index={index}
                         value={value}
                       >
-                        <TagsInput.ItemText className="p-2">
-                          {value}
-                        </TagsInput.ItemText>
+                        <TagsInput.ItemText className="p-2">{value}</TagsInput.ItemText>
                         <TagsInput.ItemDeleteTrigger className="p-1">
                           <X size={20} strokeWidth={1} />
                         </TagsInput.ItemDeleteTrigger>

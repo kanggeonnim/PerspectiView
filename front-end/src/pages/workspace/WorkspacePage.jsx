@@ -1,5 +1,6 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
 import { MainLayout } from "@/layouts/MainLayout";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 
 export default function WorkspacePage() {
