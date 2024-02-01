@@ -17,11 +17,7 @@ public class Category {
     private String name;
 
     @Builder
-    public Category(Long id){
-        this.id = id;
-    }
-
-    public void setName(String name){
+    public Category(String name){
         this.name = name;
     }
 
