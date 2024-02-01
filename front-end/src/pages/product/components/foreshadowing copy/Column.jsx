@@ -22,20 +22,20 @@ const TaskList = styled.div`
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
 `;
 
-export default function Column({ column, tasks }) {
+export default function Column(props) {
   return (
     <Container>
-      <Title>{column.title}</Title>
-      <Droppable droppableId={column.id}>
+      <Title>{props.column.title}</Title>
+      <Droppable droppableId={props.column.id}>
         {(provided, snapshot) => (
           //innerRef가 아닌 ref (styledcomponent관련??)
-          <ScrollArea className="h-72">
+          <ScrollArea className="border border-red-500 h-72">
             <TaskList
               ref={provided.innerRef}
               {...provided.droppableProps}
               $isDraggingOver={snapshot.isDraggingOver}
             >
-              {tasks.map((task, index) => (
+              {props.tasks.map((task, index) => (
                 <Task key={task.fshadowId} task={task} index={index} />
               ))}
               {provided.placeholder}

@@ -37,7 +37,8 @@
     "styled-components": "^6.1.8",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "vaul": "^0.8.9"
+    "vaul": "^0.8.9",
+    "zustand": "^4.5.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",

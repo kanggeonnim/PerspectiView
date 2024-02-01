@@ -7,12 +7,15 @@ const Container = styled.div`
   display: flex;
 `;
 
+// const getItems = (count, offset = 0) =>
+//   Array.from({ length: count }, (v, k) => k).map((k) => ({
+//     id: `item-${k + offset}-${new Date().getTime()}`,
+//     content: `item ${k + offset}`,
+//   }));
+
 export default function DragAndDrop() {
-  //state는 {tasks:{각 복선 정보딕셔id,Name} ,columns:{각 컬럼 정보딕셔너리id,title,taksIds}, columnsOrder:[]}
-  const { state, setState } = useFshadow((state) => ({
-    state: state.allData,
-    setState: state.setAllData,
-  }));
+  // const [state, setState] = useState(initialData);
+  const state = useFshadow((state) => state.initialData);
 
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
@@ -78,6 +81,14 @@ export default function DragAndDrop() {
 
   return (
     <div>
+      {/* <button
+        type="button"
+        onClick={() => {
+          setState([...state, getItems(1)]);
+        }}
+      >
+        복선생성
+      </button> */}
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
           {state.columnOrder.map((columnId) => {
