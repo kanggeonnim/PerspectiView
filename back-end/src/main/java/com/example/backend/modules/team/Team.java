@@ -60,6 +60,10 @@ public class Team {
         return managers.contains(user);
     }
 
+    public boolean ifMember(User user){
+        return members.contains(user);
+    }
+
     public void addEnrollment(Enrollment enrollment){
         this.enrollments.add(enrollment);
     }
