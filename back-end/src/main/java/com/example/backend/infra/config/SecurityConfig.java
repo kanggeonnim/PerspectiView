@@ -50,6 +50,8 @@ public class SecurityConfig {
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
 						// hasRole('ROLE_USER')")
 						.requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+										.requestMatchers("/genre/**").permitAll()
+										.requestMatchers("/category/**").permitAll()
 						.anyRequest().permitAll())
 				.oauth2Login(oauth->
 						oauth
