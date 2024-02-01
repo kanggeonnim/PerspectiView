@@ -8,6 +8,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -20,6 +23,9 @@ public class Product {
     private String title;
     @Column(nullable = true)
     private String info;
+
+    @OneToMany(mappedBy = "product")
+    private Set<ProductGenre> productGenres = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -54,5 +60,10 @@ public class Product {
     //------작품의 제목만 수정하는 메서드----//
     public void updateProductTitle(String title) {
         this.title = title;
+    }
+
+    //-------genre set에 추가하는 메서드------//
+    public void addProductGenre(ProductGenre productGenre){
+        productGenres.add(productGenre);
     }
 }
