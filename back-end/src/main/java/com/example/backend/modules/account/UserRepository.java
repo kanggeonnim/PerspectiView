@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -14,6 +15,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 
 // JpaRepository 를 상속하면 자동 컴포넌트 스캔됨.
+@Repository
 public interface UserRepository extends JpaRepository<User, Long>{
 	// SELECT * FROM user WHERE username = ?1
 	@EntityGraph(attributePaths = "authorities")
