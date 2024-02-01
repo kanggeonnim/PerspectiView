@@ -1,9 +1,16 @@
 spring:
+  datasource:
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
-    open-in-view: false
-    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   jwt:
     secret: ENC(OAdLW8Ke/pyGKNDSTMQ6b/XgpsboFinNPnFmjXShoFcgsHyEKxYGuaNGO0/GP3x83IGirgjZ+uussPFpdmC0Jmc9Qb4sfxXjmFbmAh0bkPk=)
     token-prefix: ENC(bu++C9y7w4zu3jmpl4haFTwDeXThrfG11Y3PaRfxkFzazYFA1y6OCfY/lZLHeBXA)
@@ -39,9 +46,18 @@ spring:
               - gender
               - age_range
           google:
-            client-id: ENC(RImpFhH40nuFYBcsnFopx7wxNUbvRidnh3VEj+snsQt53Lxe9jbqPGTwTt+yavMJdSuFuhM+vLIgHGxTAsXVn9Gf26Wrht1PoAPvR8OiigZGE/aOESRm5kjS8Ha2sZ1r2hCdNeBzKcrHjalgJbzHhQ==)
-            client-secret: ENC(v96a4tJNlaF71/24oP3b3QGVSuHM2Vw8Qf9WZyJU6MU7gq6IHdiZhi3GWHvTOy/F+9frg+nKIOOxk/KDgkdzkUtb7gzjcWt1c3bcH2g8XAE=)
-            redirect-uri: ENC(13X1jvMogtALwwSFnS7OsvlQ6c/ML/JOQ+qWbHs6WgAB0BwAvi5IwU+Mr9hwZnLFx8PIfyeOrj2W6pB51/TNn6s4UCDtrg6K4PEVOHKOckM=)
+            client-id: ENC(7VJOT7ce1KrjadTZS7O0nv42N6xNJLAkLuPnOCFwSXU8QrylN5k2m3tBbuXh4pHCuykzszwjOJHwDe2HKUsGTogzXQUtCWjh7uy594LooFKiTF/6splWnk502sPfDs5XXvHTOXxmNeht2oefP61lJA==)
+            client-secret: ENC(ZOGf1b+fVbuX+0i6wmiumVv02kkKSeeloVQd0B7+nAN76JPaVtoe6a2lHm2tl3l/vJkQv7nqFIpp9O2kt0fAgB6Y8kNLR9e32Kj46h9xVRQ=)
+            redirect-uri: ENC(39kGRy4CbGjmUeKV4k7OuaB8ZfceVorkFzXHVDO7whYH2jkuH8XzbpRaigi294OQ40DVDnHXBw03WneMrVnBG9vm5845NFb3R6qKp4YFzJk=)
             scope:
               - email
               - profile
+
+logging:
+  level:
+    org.hibernate.sql: debug
+
+jasypt:
+  password : ${JASYPT_PASSWORD}
+  encryptor:
+    bean: jasyptEncryptor

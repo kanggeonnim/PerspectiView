@@ -1,6 +1,5 @@
-package com.example.backend.keyword;
+package com.example.backend.modules.keyword;
 
-import jakarta.persistence.Entity;
 import lombok.Data;
 import org.antlr.v4.runtime.misc.NotNull;
 

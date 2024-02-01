@@ -126,9 +126,9 @@
 
 	<profiles>
 		<profile>
-			<id>app</id>
+			<id>dev</id>
 			<properties>
-				<spring.config.location>classpath:/application-app.properties</spring.config.location>
+				<spring.config.location>classpath:/application-dev.yml</spring.config.location>
 			</properties>
 		</profile>
 	</profiles>
@@ -148,6 +148,16 @@
 				</configuration>
 			</plugin>
 		</plugins>
+<!--		<resources>-->
+<!--			<resource>-->
+<!--				<directory>src/main/resources/${env}</directory>-->
+<!--			</resource>-->
+<!--		</resources>-->
+<!--		<testResources>-->
+<!--			<testResource>-->
+<!--				<directory>src/test/resources/${env}</directory>-->
+<!--			</testResource>-->
+<!--		</testResources>-->
 	</build>
 
 </project>

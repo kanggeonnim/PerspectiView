@@ -1,6 +1,5 @@
-package com.example.backend.keyword;
+package com.example.backend.modules.keyword;
 
-import com.example.backend.keyword.Keyword;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
