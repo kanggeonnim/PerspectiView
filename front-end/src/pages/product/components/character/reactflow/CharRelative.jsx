@@ -9,6 +9,8 @@ import 'reactflow/dist/base.css';
 import CustomNode from './CustomNode';
 import FloatingEdge from './FloatingEdge';
 import CustomConnectionLine from './CustomConnectionLine';
+import BiDirectionalEdge from './BiDirectionalEdge';
+import BiDirectionalNode from './BiDirectionalNode';
 
 const connectionLineStyle = {
   strokeWidth: 3,
@@ -17,10 +19,12 @@ const connectionLineStyle = {
 
 const nodeTypes = {
   custom: CustomNode,
+  bidirectional: BiDirectionalNode,
 };
 
 const edgeTypes = {
   floating: FloatingEdge,
+  bidirectional: BiDirectionalEdge,
 };
 
 const defaultEdgeOptions = {
@@ -57,11 +61,10 @@ const initNodes = [
 
 const initEdges = [
   {
-    type: 'straight',
     source: '1',
     target: '2',
     id: '1',
-    label: 'straht',
+    type : "bidirectional"
   },
 ];
 
