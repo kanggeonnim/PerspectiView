@@ -1,11 +1,13 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
+import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.team.Team;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.HashSet;
+import java.util.List;
 
 @Data
 @Builder
@@ -14,7 +16,7 @@ public class ProductRequestDto {
     private String productTitle;
     private String productInfo;
     private Category category;
-//    private HashSet<Genre> genres;
+    private List<Genre> genres;
     private Team team;
 
     public Product of(ProductRequestDto productRequestDto){
