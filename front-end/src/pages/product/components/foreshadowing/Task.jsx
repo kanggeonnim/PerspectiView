@@ -1,7 +1,7 @@
 import { useFshadow } from "@/store/useFshadow";
 import { Draggable } from "react-beautiful-dnd";
 import styled from "styled-components";
-// 원래 이거 밑에 추가되있었음.
+
 const Container = styled.div`
   border: 1px solid lightgrey;
   border-radius: 2px;
@@ -20,7 +20,6 @@ const Container = styled.div`
 // `;
 
 export default function Task({ task, index }) {
-  console.log(task);
   const { state, setState } = useFshadow((state) => ({
     state: state.allData,
     setState: state.setAllData,
@@ -46,8 +45,6 @@ export default function Task({ task, index }) {
       columns: { ...updatedColumns },
     });
   };
-
-  console.log("tasks", state.tasks);
   return (
     <Draggable draggableId={task.fshadowId} index={index}>
       {(provided, snapshot) => (
@@ -56,11 +53,11 @@ export default function Task({ task, index }) {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           $isDragging={snapshot.isDragging}
-          className="flex"
+          className="flex justify-between"
         >
           {task.fshadowName}
           <button type="button" onClick={deleteTask}>
-            delete
+            x
           </button>
         </Container>
       )}

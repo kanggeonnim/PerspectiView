@@ -15,6 +15,7 @@ export default function DragAndDrop() {
   }));
 
   const onDragEnd = (result) => {
+    console.log(result);
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -28,7 +29,6 @@ export default function DragAndDrop() {
     }
     const start = state.columns[source.droppableId];
     const finish = state.columns[destination.droppableId];
-    //TODO 윗부분이랑 차이 이해하기
     if (start === finish) {
       const newTaskIds = Array.from(start.taskIds);
       newTaskIds.splice(source.index, 1);
