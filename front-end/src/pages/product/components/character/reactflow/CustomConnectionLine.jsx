@@ -1,20 +1,21 @@
-import React from 'react';
-import { getStraightPath } from 'reactflow';
+import { useState } from "react";
+import { getStraightPath } from "reactflow";
 
-export default function CustomConnectionLine({ fromX, fromY, toX, toY, connectionLineStyle }) {
+function CustomConnectionLine({ fromX, fromY, toX, toY, connectionLineStyle }) {
+ 
   const [edgePath] = getStraightPath({
     sourceX: fromX,
     sourceY: fromY,
     targetX: toX,
     targetY: toY,
-  });
-
+  })
   return (
+    
     <g>
-      <path style={connectionLineStyle} fill="none" d={edgePath} />
-      <circle cx={toX} cy={toY} fill="black" r={3} stroke="black" strokeWidth={1.5} />
+      <path style={connectionLineStyle} fill="none" d={edgePath}/>
+      <circle cx={toX} cy={toY} fill="black" r={3} stroke="black" strokeWidth={1.5}/>
     </g>
   );
 }
 
-
+export default CustomConnectionLine;
