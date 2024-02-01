@@ -55,6 +55,7 @@ public class User {
 	@OneToMany(mappedBy = "user")
 	private List<UserAuthority> authorities = new ArrayList<>();
 
+	public void addAuthority(UserAuthority userAuthority) {authorities.add(userAuthority); }
 	@Builder
 	public User(String username, String userNickname, String email, String provider, String providerId, List<UserAuthority> roles) {
 		this.username = username;
