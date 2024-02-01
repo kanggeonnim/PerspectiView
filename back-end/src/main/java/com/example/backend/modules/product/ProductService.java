@@ -2,13 +2,17 @@ package com.example.backend.modules.product;
 
 import com.example.backend.modules.account.User;
 import com.example.backend.modules.account.UserService;
+import com.example.backend.modules.genre.Genre;
+import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -17,6 +21,10 @@ public class ProductService {
     private final ProductRepository productRepository;
 
     private final TeamService teamService;
+
+    private final ProductGenreRepository productGenreRepository;
+
+    private final GenreRepository genreRepository;
 
     /**
      * 유저가 작품을 수정할 수 있는지 확인
@@ -40,7 +48,7 @@ public class ProductService {
      * 팀 작품 생성
      */
     @Transactional
-    public Product createTeamProduct(User user, Team team, Product product) { //TODO EntityGraph
+    public Product createTeamProduct(User user, Team team, Product product, List<Genre> genres) { //TODO EntityGraph
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -48,6 +56,14 @@ public class ProductService {
         if (team.isPersonal()) {
             throw new RuntimeException();
         }
+
+        //중간 테이블 저장
+        //장르 + 작품에 대한 값이 있어야함
+        for (Genre g : genres) {
+            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
+            product.addProductGenre(productGenreRepository.save(new ProductGenre(product, genre)));
+        }
+
         return productRepository.save(product);
     }
 
@@ -55,7 +71,7 @@ public class ProductService {
      * 팀 작품 수정
      */
     @Transactional
-    public Product updateProduct(User user, Team team, Product product) {//TODO EntityGraph
+    public Product updateProduct(User user, Team team, Product product, List<Genre> genres) {//TODO EntityGraph
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -66,6 +82,17 @@ public class ProductService {
 
         //작품 아이디로 찾아오기
         Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
+
+        //원래 있던 장르작품 삭제하고
+        for (ProductGenre pg : findProduct.getProductGenres()) {
+            productGenreRepository.deleteById(pg.getId());
+        }
+
+        //다시 만들어서 add
+        for (Genre g : genres) {
+            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
+            product.addProductGenre(productGenreRepository.save(new ProductGenre(findProduct, genre)));
+        }
 
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
         return findProduct;
@@ -123,6 +150,17 @@ public class ProductService {
         }
 
         return findProduct;
+    }
+
+    /**
+     * 작품장르 리스트로 장르 리스트 주기
+     */
+    public List<Genre> findGenreList(Set<ProductGenre> productGenres) {
+        List<Genre> genres = new ArrayList<>();
+        for (ProductGenre pg : productGenres) {
+            Genre genre = genreRepository.findById(pg.getGenre().getId()).orElseThrow(() -> new RuntimeException());
+        }
+        return genres;
     }
 
     /** todo
