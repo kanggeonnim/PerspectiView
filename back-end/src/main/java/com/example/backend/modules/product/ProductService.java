@@ -52,22 +52,6 @@ public class ProductService {
     }
 
     /**
-     * 1인팀 작품 생성
-     */
-    @Transactional
-    public Product createPersonalProduct(User user, Team team, Product product) {//TODO EntityGraph
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //팀이 1인팀이 아닌지 확인
-        if (!team.isPersonal()) {
-            throw new RuntimeException();
-        }
-
-        return productRepository.save(product);
-    }
-
-    /**
      * 팀 작품 수정
      */
     @Transactional
