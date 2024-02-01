@@ -1,21 +1,25 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 
 import ErrorPage from "./pages/ErrorPage.jsx";
 import IndexPage from "./pages/auth/IndexPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
+import MyPage from "./pages/auth/MyPage.jsx";
 import ProductPage from "./pages/product/ProductPage.jsx";
 import CharTab from "./pages/product/components/character/CharTab.jsx";
-import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
-import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
-import MyPage from "./pages/auth/MyPage.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
+import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
+import DragAndDrop from "./pages/product/components/foreshadowing/DragAndDrop.jsx";
+import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
-import WorkListCard from "./pages/workspace/components/WorkListCard.jsx";
 import TeamWorkspaceBody from "./pages/workspace/components/TeamWorkspaceBody.jsx";
+import WorkListCard from "./pages/workspace/components/WorkListCard.jsx";
 
 const router = createBrowserRouter([
   {
@@ -24,6 +28,10 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
 
     children: [
+      {
+        path: "product/:productId/foreshadowing",
+        element: <DragAndDrop />,
+      },
       {
         path: "",
         element: <IndexPage />,
@@ -81,7 +89,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <RouterProvider router={router} />
+  // </React.StrictMode>
 );
