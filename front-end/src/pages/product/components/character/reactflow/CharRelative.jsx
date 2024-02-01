@@ -1,38 +1,16 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 
-import ReactFlow, { addEdge, useNodesState, useEdgesState, MarkerType } from 'reactflow';
+import ReactFlow, { addEdge, useNodesState, useEdgesState, MarkerType, Controls, updateEdge, useReactFlow,
+  ReactFlowProvider, } from 'reactflow';
+
+
+import 'reactflow/dist/base.css';
 
 import CustomNode from './CustomNode';
 import FloatingEdge from './FloatingEdge';
 import CustomConnectionLine from './CustomConnectionLine';
-
-import 'reactflow/dist/style.css';
-import './style.css';
-
-const initialNodes = [
-  {
-    id: '1',
-    type: 'custom',
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: '2',
-    type: 'custom',
-    position: { x: 250, y: 320 },
-  },
-  {
-    id: '3',
-    type: 'custom',
-    position: { x: 40, y: 300 },
-  },
-  {
-    id: '4',
-    type: 'custom',
-    position: { x: 300, y: 0 },
-  },
-];
-
-const initialEdges = [];
+import BiDirectionalEdge from './BiDirectionalEdge';
+import BiDirectionalNode from './BiDirectionalNode';
 
 const connectionLineStyle = {
   strokeWidth: 3,
@@ -41,10 +19,12 @@ const connectionLineStyle = {
 
 const nodeTypes = {
   custom: CustomNode,
+  bidirectional: BiDirectionalNode,
 };
 
 const edgeTypes = {
   floating: FloatingEdge,
+  bidirectional: BiDirectionalEdge,
 };
 
 const defaultEdgeOptions = {
@@ -56,11 +36,43 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function EasyConnectExample() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+const initNodes = [
+  {
+    id: '1',
+    type: 'custom',
+    data: { name: '남주', job: 'CEO', emoji: '😎' },
+    position: { x: 0, y: 0 },
+  },
+  {
+    id: '2',
+    type: 'custom',
+    data: { name: '여주', job: 'Designer', emoji: '🤓' },
+
+    position: { x: -200, y: 200 },
+  },
+  {
+    id: '3',
+    type: 'custom',
+    data: { name: '서브남주', job: 'Developer', emoji: '🤩' },
+    position: { x: 200, y: 200 },
+  },
+];
+
+const initEdges = [
+  {
+    source: '1',
+    target: '2',
+    id: '1',
+    type : "bidirectional"
+  },
+];
+
+const Flow = () => {
+  const [nodes, setNodes, onNodesChange] = useNodesState(initNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initEdges);
+
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
   return (
     <ReactFlow
@@ -69,14 +81,16 @@ export default function EasyConnectExample() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
-      fitView
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
       defaultEdgeOptions={defaultEdgeOptions}
       connectionLineComponent={CustomConnectionLine}
       connectionLineStyle={connectionLineStyle}
-    />
+      fitView
+      className="bg-teal-50"
+    >
+    </ReactFlow>
   );
 };
 
-
+export default Flow;

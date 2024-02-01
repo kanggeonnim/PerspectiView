@@ -1,37 +1,31 @@
+import React, { memo } from 'react';
 import { Handle, Position, useStore } from 'reactflow';
+
 
 const connectionNodeIdSelector = (state) => state.connectionNodeId;
 
-export default function CustomNode({ id }) {
+function CustomNode({ data, id }) {
+  
   const connectionNodeId = useStore(connectionNodeIdSelector);
-
-  const isConnecting = !!connectionNodeId;
+  
+  const isConnecting = !!connectionNodeId;  
   const isTarget = connectionNodeId && connectionNodeId !== id;
-  const label = isTarget ? '여기에 놓으세요' : '드래그 하여 연결하세요';
 
   return (
-    <div className="customNode">
-      <div
-        className="customNodeBody flex text-center"
-        style={{
-          borderStyle: isTarget ? 'dashed' : 'solid',
-          backgroundColor: isTarget ? '#ffcce3' : '#ccd9f6',
-        }}
-      >
-        {/* If handles are conditionally rendered and not present initially, you need to update the node internals https://reactflow.dev/docs/api/hooks/use-update-node-internals/ */}
-        {/* In this case we don't need to use useUpdateNodeInternals, since !isConnecting is true at the beginning and all handles are rendered initially. */}
-        {!isConnecting && (
-          <Handle className="customHandle" position={Position.Right} type="source" />
-        )}
-
-        <Handle
-          className="customHandle"
-          position={Position.Left}
-          type="target"
-          isConnectableStart={false}
-        />
-        {label}
+      <div className="flex items-center justify-center w-32 h-32 m-1 bg-white border-2 rounded-full shadow-md">
+        <div className="w-max h-max">
+          <div className="w=max h-max flex flex-col items-center">
+            <div className="text-sm font-bold w-max h-max">{data.name}</div>
+            <div className="text-sm text-gray-500 w-max h-max">{data.job}</div>
+          </div>
+          {!isConnecting && (
+              <Handle className="-z-40 w-44 h-44 !bg-transparent rounded-full !-top-5" type="source"/>
+              
+            )}
+          <Handle type="target" isConnectableStart={false} className=" -z-50 w-44 h-44 !bg-transparent !-top-5 rounded-full" />
+        </div>
       </div>
-    </div>
   );
 }
+
+export default memo(CustomNode);
