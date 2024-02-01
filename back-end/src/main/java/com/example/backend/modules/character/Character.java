@@ -47,4 +47,11 @@ public class Character {
         this.productId = productId;
     }
 
+    @Builder(builderMethodName = "positionBuilder")
+    public Character(String characterName, String characterDetail, double positionX, double positionY) {
+        this.characterName = characterName;
+        this.characterDetail = characterDetail;
+        this.positionX = positionX;
+        this.positionY = positionY;
+    }
 }
