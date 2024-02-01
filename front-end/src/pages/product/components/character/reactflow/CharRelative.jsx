@@ -40,21 +40,21 @@ const defaultEdgeOptions = {
 const initNodes = [
   {
     id: '1',
-    type: 'custom',
-    data: { name: '남주', job: 'CEO', emoji: '😎' },
+    type: '',
+    data: { name: '남주', job: 'CEO' },
     position: { x: 0, y: 0 },
   },
   {
     id: '2',
     type: 'custom',
-    data: { name: '여주', job: 'Designer', emoji: '🤓' },
+    data: { name: '여주', job: 'Designer' },
 
     position: { x: -200, y: 200 },
   },
   {
     id: '3',
     type: 'custom',
-    data: { name: '서브남주', job: 'Developer', emoji: '🤩' },
+    data: { name: '서브남주', job: 'Developer' },
     position: { x: 200, y: 200 },
   },
 ];
@@ -64,6 +64,12 @@ const initEdges = [
     source: '1',
     target: '2',
     id: '1',
+    type : "bidirectional"
+  },
+  {
+    source: '2',
+    target: '1',
+    id: '2',
     type : "bidirectional"
   },
 ];
