@@ -22,17 +22,13 @@ public class CategoryController {
     @GetMapping("/")
     public ApiResult<List<CategoryResponseDto>> findAllCategory() {
         List<Category> categories = categoryService.findAll();
-        System.out.println("전체조회를 들어옴");
         return ApiResult.OK(categories.stream().map(CategoryResponseDto::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{categoryId}")
     public ApiResult<CategoryResponseDto> findById(@PathVariable("categoryId") Long id) {
-        Category findcategory = Category.builder()
-                .id(id)
-                .build();
-        Optional<Category> category = categoryService.findById(findcategory);
+        Optional<Category> category = categoryService.findById(id);
         return ApiResult.OK(CategoryResponseDto.of(category.get()));
     }
 
