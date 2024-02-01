@@ -21,7 +21,7 @@ public class ProductService {
     /**
      * 유저가 작품을 수정할 수 있는지 확인
      */
-    public boolean canChange(User user, Team team,Product product){
+    public boolean canChange(User user, Team team, Product product) {
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -48,15 +48,6 @@ public class ProductService {
         if (team.isPersonal()) {
             throw new RuntimeException();
         }
-
-        //product 생성
-        Product makeProduct = Product.builder()
-                .title(product.getTitle())
-                .info(product.getInfo())
-                .team(team)
-                .category(product.getCategory())
-                .build();
-
         return productRepository.save(product);
     }
 
@@ -72,14 +63,6 @@ public class ProductService {
         if (!team.isPersonal()) {
             throw new RuntimeException();
         }
-
-        //product 생성
-        Product makeProduct = Product.builder()
-                .title(product.getTitle())
-                .info(product.getInfo())
-                .team(team)
-                .category(product.getCategory())
-                .build();
 
         return productRepository.save(product);
     }
@@ -99,7 +82,6 @@ public class ProductService {
 
         //작품 아이디로 찾아오기
         Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
-
 
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
         return findProduct;
@@ -149,18 +131,15 @@ public class ProductService {
     public Product findByProductId(User user, Team team, Long productId) {//TODO EntityGraph
         //유저가 팀의 매니저인지 확인
         teamService.checkIfMember(user, team);
-        Product findProduct = productRepository.findById(productId).orElseThrow(()->new RuntimeException());
+        Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
 
         //팀에 속하는 작품인지 확인
         if (!findProduct.isProductTeam(team)) {
             throw new RuntimeException();
         }
 
-
-
         return findProduct;
     }
-
 
     /** todo
      * 팀 인물 관계 조회
