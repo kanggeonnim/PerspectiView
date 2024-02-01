@@ -3,6 +3,7 @@ package com.example.backend.modules.product;
 import com.example.backend.modules.account.User;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
@@ -11,6 +12,8 @@ import lombok.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,8 +28,10 @@ public class ProductController {
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto, @PathVariable("teamId") Long teamId,
                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Team team = teamService.getTeam(teamId);
-        Product product = productService.createTeamProduct(principalDetails.getUser(), team, productRequestDto.of(productRequestDto));
-        return ApiResult.OK(ProductResponseDto.from(product));
+
+        Product product = productService.createTeamProduct(principalDetails.getUser(), team, productRequestDto.of(productRequestDto),productRequestDto.getGenres());
+        List<Genre> genres = productService.findGenreList(product.getProductGenres());
+        return ApiResult.OK(ProductResponseDto.from(product,genres));
     }
 
     @GetMapping("/{productId}")
@@ -34,7 +39,8 @@ public class ProductController {
                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Team team = teamService.getTeam(teamId);
         Product product = productService.findByProductId(principalDetails.getUser(), team, productId);
-        return ApiResult.OK(ProductResponseDto.from(product));
+        List<Genre> genres = productService.findGenreList(product.getProductGenres());
+        return ApiResult.OK(ProductResponseDto.from(product,genres));
     }
 
     @PatchMapping("/{productId}")
@@ -44,8 +50,9 @@ public class ProductController {
                                                            @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Team team = teamService.getTeam(teamId);
         productRequestDto.setProductId(productId);
-        Product product = productService.createTeamProduct(principalDetails.getUser(), team, productRequestDto.of(productRequestDto));
-        return ApiResult.OK(ProductResponseDto.from(product));
+        Product product = productService.updateProduct(principalDetails.getUser(), team, productRequestDto.of(productRequestDto),productRequestDto.getGenres());
+        List<Genre> genres = productService.findGenreList(product.getProductGenres());
+        return ApiResult.OK(ProductResponseDto.from(product,genres));
     }
 
     @PatchMapping("/title/{productId}")
@@ -56,7 +63,8 @@ public class ProductController {
         Team team = teamService.getTeam(teamId);
         productRequestDto.setProductId(productId);
         Product product = productService.updateProductTitle(principalDetails.getUser(), team, productRequestDto.of(productRequestDto));
-        return ApiResult.OK(ProductResponseDto.from(product));
+        List<Genre> genres = productService.findGenreList(product.getProductGenres());
+        return ApiResult.OK(ProductResponseDto.from(product,genres));
     }
 
     @DeleteMapping("/{productId}")
