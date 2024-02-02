@@ -18,7 +18,7 @@ public class AuthController {
 
     private final RefreshTokenService tokenService;
 
-    @PostMapping("token/logout")
+    @PostMapping("/token/logout")
     public ResponseEntity<StatusResponseDto> logout(@RequestHeader(value = "Authorization") final String accessToken) {
         // 엑세스 토큰으로 현재 Redis 정보 삭제
         tokenService.removeRefreshToken(accessToken);
