@@ -146,7 +146,7 @@ public class ProductService {
      */
     public Product findByProductId(User user, Long teamId, Long productId) {//TODO EntityGraph
         Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
+        //유저가 팀의 멤버인지 확인
         teamService.checkIfMember(user, team);
         Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
 
