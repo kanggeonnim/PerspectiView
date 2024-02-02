@@ -10,15 +10,14 @@ import Book from "@/assets/OpenBook.svg"
 
 export function ForeshadowingCard({ className }) {
   return (
-    <Card className={cn(" w-5/12 m-1", className)}>
+    <Card className="box-border flex flex-col w-full p-2 my-2">
       <CardHeader>
         <CardTitle>복선 
           {/* TODO '복선' text 입력 위치에 제목 내용 받아와 출력 */}
         </CardTitle>
       </CardHeader>
-      <CardContent className="grid gap-4">
-        {/* TODO ICON 샤크라에서 받아올 것 */}
-        <div className="flex space-y-1 p-1">
+      <CardContent className="flex flex-col gap-4">
+        <div className="flex p-1 space-y-1">
           <img src={Book} className="mr-2" />
           <p className="text-sm font-medium leading-none ">
             내용
@@ -28,7 +27,7 @@ export function ForeshadowingCard({ className }) {
           </p>
           
         </div>
-        <div className="flex space-y-1 p-1">
+        <div className="flex p-1 space-y-1">
           <img src={Check} className="mr-2" />
           <p className="text-sm font-medium leading-none">
             언급된 스토리
