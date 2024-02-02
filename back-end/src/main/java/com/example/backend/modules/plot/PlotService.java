@@ -20,8 +20,6 @@ public class PlotService {
 
     private final ProductService productService;
 
-    private final TeamService teamService;
-
     /**
      * 권한 확인
      */
