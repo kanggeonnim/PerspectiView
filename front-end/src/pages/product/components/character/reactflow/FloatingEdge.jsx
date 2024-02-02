@@ -3,7 +3,7 @@ import { useStore, getStraightPath } from 'reactflow';
 
 import { getEdgeParams } from './utils.js';
 
-export default function FloatingEdge({ id, source, target, markerEnd, style }) {
+function FloatingEdge({ id, source, target, markerEnd, style }) {
   const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
   const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
 
@@ -31,3 +31,4 @@ export default function FloatingEdge({ id, source, target, markerEnd, style }) {
   );
 }
 
+export default FloatingEdge;

@@ -1,75 +1,106 @@
-import React, { useState, useRef, useCallback } from 'react';
+// DnDFlow.js
+
+import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
   useNodesState,
   useEdgesState,
   Controls,
-} from 'reactflow';
-import 'reactflow/dist/style.css';
+  MarkerType
 
-import Sidebar from './Sidebar';
+} from "reactflow";
+import "reactflow/dist/style.css";
+import CustomNode from "./CustomNode";
+// import FloatingEdge from "./FloatingEdge";
+import CustomConnectionLine from "./CustomConnectionLine";
 
-import './style.css';
+import Sidebar from "./Sidebar";
 
-const initialNodes = [
-//   {
-//     id: '1',
-//     type: 'input',
-//     data: { label: 'input node' },
-//     position: { x: 250, y: 5 },
-//   },
-];
+import "./style.css";
+
+const initialNodes = [];
 
 let id = 0;
-const getId = () => `dndnode_${id++}`;
+const getId = () => `${id++}`;
+// const getId = () => `dndnode_${id++}`;
+const nodeTypes = {
+  custom: CustomNode,
+};
+const initialEdges = [];
 
-const DnDFlow = () => {
+const edgeTypes = {
+  
+};
+
+const defaultEdgeOptions = {
+  style: { strokeWidth: 1, stroke: 'black' },
+  type: 'straight',
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: 'black',
+  },
+};
+
+export default function DnDFlow() {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
+  const [labelInput, setLabelInput] = useState("");
 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
-  );
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = 'move';
+    event.dataTransfer.dropEffect = "move";
   }, []);
 
-  const onDrop = useCallback(
-    (event) => {
-      event.preventDefault();
+  const onDrop = useCallback((event) => {
+    event.preventDefault();
 
-      const type = event.dataTransfer.getData('application/reactflow');
+    const type = event.dataTransfer.getData("application/reactflow");
 
-      // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type) {
-        return;
-      }
+    if (typeof type === "undefined" || !type) {
+      return;
+    }
 
-      // reactFlowInstance.project was renamed to reactFlowInstance.screenToFlowPosition
-      // and you don't need to subtract the reactFlowBounds.left/top anymore
-      // details: https://reactflow.dev/whats-new/2023-11-10
-      const position = reactFlowInstance.screenToFlowPosition({
-        x: event.clientX,
-        y: event.clientY,
-      });
-      const newNode = {
-        id: getId(),
-        type,
-        position,
-        data: { label: `${type} ${id}` },
-        className : '!w-32 !h-32 m-1 bg-white border-2 !rounded-full flex items-center justify-center shadow-md'
-      };
+    const position = reactFlowInstance.screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+    const newNode = {
+      id: getId(),
+      type,
+      position,
+      data: {
+        label: (
+          <input
+            className="flex items-center justify-center text-sm text-center bg-transparent"
+            type="text"
+            placeholder="Enter label"
+            onChange={handleLabelInputChange}
+            id={`${getId()}`}
+            defaultValue={`${getId()}`}
+          />
+        ),
+      },
+      className:
+        "w-24 h-24 !rounded-full flex items-center justify-center !bg-transparent",
+      onchange: {},
+    };
 
-      setNodes((nds) => nds.concat(newNode));
-    },
-    [reactFlowInstance],
-  );
+    setNodes((nds) => nds.concat(newNode));
+  }, [reactFlowInstance, labelInput]);
+
+  const handleLabelInputChange = (event) => {
+    setLabelInput(event.target.value);
+  };
+  
+  const connectionLineStyle = {
+    strokeWidth: 1,
+    stroke: 'black',
+  };
 
   return (
     <div className="dndflow">
@@ -78,14 +109,21 @@ const DnDFlow = () => {
           <ReactFlow
             nodes={nodes}
             edges={edges}
+            nodeTypes={nodeTypes}
+            edgeTypes={edgeTypes}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            fitView
-          >
+            connectionLineComponent={CustomConnectionLine} // Use CustomConnectionLine for connection line
+            snapToGrid
+            snapGrid={[8, 8]}
+            elementsSelectable={true} 
+            defaultEdgeOptions={defaultEdgeOptions}
+            connectionLineStyle={connectionLineStyle}
+          > 
             <Controls />
           </ReactFlow>
         </div>
@@ -93,6 +131,4 @@ const DnDFlow = () => {
       </ReactFlowProvider>
     </div>
   );
-};
-
-export default DnDFlow;
+}
