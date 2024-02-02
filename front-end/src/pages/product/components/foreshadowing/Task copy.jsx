@@ -32,12 +32,12 @@ export default function Task({ task, column, index }) {
     // 'columns' 내의 모든 'taskIds' 배열에서 현재 작업(task)의 ID를 제거
     const copiedTaskIds = Array.from(column.taskIds);
     const columnId = column.id;
+    console.log(columnId);
     const updatdeTaskIds = copiedTaskIds.filter(
       (taskId) => taskId != task.fshadowId
     );
 
     // 업데이트된 'updatedTasks'와 'updatedTaskIds'로 상태를 업데이트
-    // TODO immer 사용해보기
     setState({
       ...state,
       tasks: { ...updatedTasks },
@@ -49,6 +49,12 @@ export default function Task({ task, column, index }) {
         },
       },
     });
+    console.log(state);
+    // Object.keys(updatedColumns).forEach((columnId) => {
+    //   updatedColumns[columnId].taskIds = updatedColumns[
+    //     columnId
+    //   ].taskIds.filter((id) => id !== task.fshadowId);
+    // });
   };
   return (
     <Draggable draggableId={task.fshadowId} index={index}>

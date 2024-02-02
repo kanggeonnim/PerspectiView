@@ -13,9 +13,7 @@ export default function DragAndDrop() {
     state: state.allData,
     setState: state.setAllData,
   }));
-
   const onDragEnd = (result) => {
-    console.log(result);
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -64,7 +62,6 @@ export default function DragAndDrop() {
       ...finish,
       taskIds: finishTaskIds,
     };
-
     const newState = {
       ...state,
       columns: {

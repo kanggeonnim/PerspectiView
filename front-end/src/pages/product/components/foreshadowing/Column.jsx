@@ -19,6 +19,7 @@ const TaskList = styled.div`
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
+  //TODO 작동안하는 것 고치기
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
 `;
 
@@ -36,7 +37,12 @@ export default function Column({ column, tasks }) {
               $isDraggingOver={snapshot.isDraggingOver}
             >
               {tasks.map((task, index) => (
-                <Task key={task.fshadowId} task={task} index={index} />
+                <Task
+                  key={task.fshadowId}
+                  column={column}
+                  task={task}
+                  index={index}
+                />
               ))}
               {provided.placeholder}
             </TaskList>

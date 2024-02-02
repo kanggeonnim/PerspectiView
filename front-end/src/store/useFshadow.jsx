@@ -3,6 +3,7 @@ const dummyForeshadowing = {
   code: "200",
   message: "ok",
   data: {
+    //TODO fshadowList->Object로 이름 변경
     fshadowList: {
       //key값이 "string"으로 작성했는데 integer로 바뀜.but, 작동함.
       1: {
