@@ -45,9 +45,9 @@ class GenreControllerTest {
         //when
         mvc.perform(MockMvcRequestBuilders.get("/genre"))
                 //then
-//                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "SF").exists())
-//                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "액션").exists())
-//                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "우주").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "SF").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "액션").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath(expectByName, "우주").exists())
                 .andDo(MockMvcResultHandlers.print());
     }
 }
