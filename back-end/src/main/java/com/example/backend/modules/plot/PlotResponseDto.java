@@ -9,8 +9,9 @@ public class PlotResponseDto {
     Long plotId;
     String plotName;
     String plotColor;
+    //TODO STORY List 가져오기
 
-    public PlotResponseDto from(Plot plot){
+    public static PlotResponseDto from(Plot plot){
         return PlotResponseDto.builder()
                 .plotId(plot.getId())
                 .plotName(plot.getName())
