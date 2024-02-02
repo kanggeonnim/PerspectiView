@@ -1,14 +1,8 @@
 package com.example.backend.modules.character;
 
-import com.example.backend.modules.account.User;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -53,5 +47,12 @@ public class Character {
         this.characterDetail = characterDetail;
         this.positionX = positionX;
         this.positionY = positionY;
+    }
+
+    public void changeCharacter(Character character) {
+        this.characterName = character.getCharacterName();
+        this.characterDetail = character.getCharacterDetail();
+        this.positionX = character.getPositionX();
+        this.positionY = character.getPositionY();
     }
 }
