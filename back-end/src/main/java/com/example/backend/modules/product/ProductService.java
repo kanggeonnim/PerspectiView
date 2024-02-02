@@ -29,7 +29,8 @@ public class ProductService {
     /**
      * 유저가 작품을 수정할 수 있는지 확인
      */
-    public boolean canChange(User user, Team team, Product product) {
+    public boolean canChange(User user, Long teamId, Product product) {
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -48,7 +49,8 @@ public class ProductService {
      * 팀 작품 생성
      */
     @Transactional
-    public Product createTeamProduct(User user, Team team, Product product, List<Genre> genres) { //TODO EntityGraph
+    public Product createTeamProduct(User user, Long teamId, Product product, List<Genre> genres) { //TODO EntityGraph
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -71,7 +73,8 @@ public class ProductService {
      * 팀 작품 수정
      */
     @Transactional
-    public Product updateProduct(User user, Team team, Product product, List<Genre> genres) {//TODO EntityGraph
+    public Product updateProduct(User user,Long teamId, Product product, List<Genre> genres) {//TODO EntityGraph
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -101,7 +104,8 @@ public class ProductService {
     /**
      * 팀 작품 이름만 수정
      */
-    public Product updateProductTitle(User user, Team team, Product product) {
+    public Product updateProductTitle(User user,Long teamId, Product product) {
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -121,7 +125,8 @@ public class ProductService {
      * 팀 작품 삭제
      */
     @Transactional
-    public void deleteProduct(User user, Team team, Long productId) {//TODO EntityGraph
+    public void deleteProduct(User user, Long teamId, Long productId) {//TODO EntityGraph
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfManager(user, team);
 
@@ -139,7 +144,8 @@ public class ProductService {
     /**
      * 팀 작품 아이디로 하나 조회
      */
-    public Product findByProductId(User user, Team team, Long productId) {//TODO EntityGraph
+    public Product findByProductId(User user, Long teamId, Long productId) {//TODO EntityGraph
+        Team team = teamService.getTeam(teamId);
         //유저가 팀의 매니저인지 확인
         teamService.checkIfMember(user, team);
         Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
