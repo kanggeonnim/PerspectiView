@@ -1,5 +1,6 @@
 package com.example.backend.modules.account;
 
+import com.example.backend.modules.team.Enrollment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -21,47 +22,55 @@ import java.util.List;
 @EqualsAndHashCode(of = "id")
 @Table(name = "users")
 public class User {
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@Column(nullable = false)
-	private String username;
+    @Column(nullable = false)
+    private String username;
 
-	@Column(nullable = true)
-	private String userImage;
+    @Column(nullable = true)
+    private String userImage;
 
-	@Column(nullable = false)
-	private String userNickname;
+    @Column(nullable = false)
+    private String userNickname;
 
-	@Column(nullable = true)
-	private String email;
+    @Column(nullable = true)
+    private String email;
 
-	@Column(nullable = true)
-	private String userPhone;
+    @Column(nullable = true)
+    private String userPhone;
 
-	@Column(nullable = true)
-	private String userInfo;
+    @Column(nullable = true)
+    private String userInfo;
 
-	@CreationTimestamp
-	private Timestamp createAt;
+    @CreationTimestamp
+    private Timestamp createAt;
 
-	@Column(nullable = false)
-	private String provider;
+    @Column(nullable = false)
+    private String provider;
 
-	@Column(nullable = false)
-	private String providerId;
+    @Column(nullable = false)
+    private String providerId;
 
-	@JsonManagedReference
-	@OneToMany(mappedBy = "user")
-	private List<UserAuthority> authorities = new ArrayList<>();
+    // 팀 참가신청 리스트
+    @OneToMany(mappedBy = "user")
+    private List<Enrollment> enrollments = new ArrayList<>();
 
-	public void addAuthority(UserAuthority userAuthority) {authorities.add(userAuthority); }
-	@Builder
-	public User(String username, String userNickname, String email, String provider, String providerId, List<UserAuthority> roles) {
-		this.username = username;
-		this.userNickname = userNickname;
-		this.email = email;
-		this.provider = provider;
-		this.providerId = providerId;
-	}
+    @JsonManagedReference
+    @OneToMany(mappedBy = "user")
+    private List<UserAuthority> authorities = new ArrayList<>();
+
+    public void addAuthority(UserAuthority userAuthority) {
+        authorities.add(userAuthority);
+    }
+
+    @Builder
+    public User(String username, String userNickname, String email, String provider, String providerId, List<UserAuthority> roles) {
+        this.username = username;
+        this.userNickname = userNickname;
+        this.email = email;
+        this.provider = provider;
+        this.providerId = providerId;
+    }
 }
