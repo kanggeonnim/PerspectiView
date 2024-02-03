@@ -79,9 +79,18 @@ public class TeamService {
         return findTeam;
     }
 
-    private void checkIfManager(User user, Team team){
+    public void checkIfManager(User user, Team team){
         if(!team.ifManager(user)){
             throw new RuntimeException(); // TODO Manager 아님, exception
+        }
+    }
+
+    /**
+     * 사용자가 팀멤버인지 확인
+     */
+    public void checkIfMember(User user, Team team){
+        if(!team.ifMember(user)&&!team.ifManager(user)){
+            throw new RuntimeException(); // TODO Member 아님, exception
         }
     }
 
