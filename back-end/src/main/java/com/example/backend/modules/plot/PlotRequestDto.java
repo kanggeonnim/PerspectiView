@@ -14,7 +14,7 @@ public class PlotRequestDto {
     private String plotColor;
 
     public static Plot of(PlotRequestDto plotRequestDto){
-        return Plot.builder().name(plotRequestDto.plotName)
-                .color(plotRequestDto.plotColor).build();
+        return Plot.builder().name(plotRequestDto.getPlotName())
+                .color(plotRequestDto.getPlotColor()).build();
     }
 }
