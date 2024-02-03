@@ -1,20 +1,24 @@
 package com.example.backend.infra.config;
 
+import com.example.backend.infra.security.*;
 import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
-import com.example.backend.infra.security.JwtAuthorizationFilter;
-import com.example.backend.infra.security.JwtExceptionFilter;
-import com.example.backend.infra.security.JwtSuccessHandler;
-import com.example.backend.infra.security.MyAuthenticationFailureHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDecisionManager;
+import org.springframework.security.access.AccessDecisionVoter;
+import org.springframework.security.access.vote.UnanimousBased;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration // IoC 빈(bean)을 등록
 @RequiredArgsConstructor
@@ -25,10 +29,22 @@ public class SecurityConfig {
 	private final MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
+	private final TeamCheckVoter teamCheckVoter;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
 		return new BCryptPasswordEncoder();
+	}
+
+
+	@Bean
+	public AccessDecisionManager accessDecisionManager() {
+		List<AccessDecisionVoter<?>> decisionVoters = new ArrayList<>();
+		decisionVoters.add(new WebExpressionVoter());
+		// voter 목록에 teamCheckVoter 추가
+		decisionVoters.add(teamCheckVoter);
+		// 모든 voter 승인 시 허가
+		return new UnanimousBased(decisionVoters);
 	}
 
 	@Bean
@@ -43,7 +59,8 @@ public class SecurityConfig {
 				.sessionManagement(sessionManagement->sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeRequests(authorize ->
-								authorize
+						// accessDecisionManager
+						authorize.accessDecisionManager(accessDecisionManager())
 						.requestMatchers("/user/**").authenticated()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
 						// hasRole('ROLE_USER')")
