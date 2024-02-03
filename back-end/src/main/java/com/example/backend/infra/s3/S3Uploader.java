@@ -25,6 +25,12 @@ public class S3Uploader {
     private String bucketName;
     private final String folderName = "images";
 
+    // 외부 서비스에서 사용할 upload 메소드
+    public Optional<String> upload(MultipartFile multipartFile) throws  IOException {
+        File uploadFile = convert(multipartFile)
+                .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
+        return Optional.of(putS3AndReturnURL(uploadFile);
+    }
 
 
     // MultipartFile -> File convert
