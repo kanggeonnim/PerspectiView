@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +18,15 @@ public class Content {
     private Long id;
 
     private String content;
+
+    //----생성 메서드-----//
+    @Builder
+    public Content(String content){
+        this.content = content;
+    }
+
+    //------수정 메서드------//
+    public void updateContent(String content){
+        this.content = content;
+    }
 }
