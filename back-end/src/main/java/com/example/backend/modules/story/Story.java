@@ -18,7 +18,15 @@ import java.util.Set;
 public class Story {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Plot plot;
+
+    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    private Content content;
 
     @OneToMany
     @JoinColumn(name = "story_relation_id")
@@ -27,19 +35,34 @@ public class Story {
     //todo 복선리스트
 
     //index번호
-    private Double position_x;
-    private Double position_y;
+    @Column(nullable = false)
+    private int positionX;
+
+    @Column(nullable = false)
+    private Double positionY;
 
     @Builder
-    public Story(Long id, String title, Set<StoryRelation> storyRelations, Double position_x, Double position_y){
+    public Story(Long id, String title, Content content, Set<StoryRelation> storyRelations, int positionX, Double positionY, Plot plot){
         this.id = id;
         this.title = title;
+        this.content = content;
         this.storyRelations = storyRelations;
-        this.position_x = position_x;
-        this.position_y = position_y;
+        this.positionX = positionX;
+        this.positionY = positionY;
+        this.plot = plot;
     }
 
     //------수정 메서드-----//
-    public 
+    public void updateStory(String title, Content content, Set<StoryRelation> storyRelations, Double positionY){
+        this.title = title;
+        this.content = content;
+        this.storyRelations = storyRelations;
+        this.positionY =positionY;
+    }
+
+    //-----storyRelation에 추가----//
+    public void addStoryRelation(StoryRelation storyRelation){
+        this.storyRelations.add(storyRelation);
+    }
 
 }
