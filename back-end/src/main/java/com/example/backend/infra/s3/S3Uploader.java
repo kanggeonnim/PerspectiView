@@ -1,3 +1,5 @@
+package com.example.backend.infra.s3;
+
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
@@ -29,7 +31,7 @@ public class S3Uploader {
     public Optional<String> upload(MultipartFile multipartFile) throws  IOException {
         File uploadFile = convert(multipartFile)
                 .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File 전환 실패"));
-        return Optional.of(putS3AndReturnURL(uploadFile);
+        return Optional.of(putS3AndReturnURL(uploadFile));
     }
 
 
@@ -45,7 +47,7 @@ public class S3Uploader {
             }
             return Optional.empty();
         }
-        throw new RuntimeException(); // TODO Exception
+        throw new RuntimeException("not image"); // TODO Exception
     }
     // S3 업로드 및 url 반환
     private String putS3AndReturnURL(File uploadFile) {
@@ -59,7 +61,7 @@ public class S3Uploader {
     }
 
     // null 체크, 이미지 타입 체크
-    public boolean verify(MultipartFile multipartFile) {
+    private boolean verify(MultipartFile multipartFile) {
         if (multipartFile != null && multipartFile.getSize() > 0 && multipartFile.getOriginalFilename() != null) {
             String contentType = multipartFile.getContentType();
             return (contentType != null) && contentType.toLowerCase().startsWith("image");
