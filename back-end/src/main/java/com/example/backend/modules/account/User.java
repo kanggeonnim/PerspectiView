@@ -65,6 +65,22 @@ public class User {
         authorities.add(userAuthority);
     }
 
+    public void changeUser(User user){
+        this.userImage = user.getUserImage();
+        this.userNickname = user.getUserNickname();
+        this.email = user.getEmail();
+        this.userPhone = user.getUserPhone();
+        this.userInfo = user.getUserInfo();
+    }
+
+    @Builder(builderMethodName = "requestBuilder")
+    public User(String userNickname, String image, String email, String userPhone, String userInfo) {
+        this.userNickname = userNickname;
+        this.userImage = image;
+        this.email = email;
+        this.userPhone = userPhone;
+        this.userInfo = userInfo;
+    }
     @Builder
     public User(String username, String userNickname, String email, String provider, String providerId, List<UserAuthority> roles) {
         this.username = username;
