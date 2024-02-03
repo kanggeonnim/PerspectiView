@@ -8,9 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 public interface StoryRepository extends JpaRepository<Story,Long> {
     @Modifying
     @Query("UPDATE Story s " +
-            "SET s.position_x = :positionx " +
+            "SET s.positionX = :positionX " +
             "WHERE s.plot.id = :plotId")
-    void updatePositionX(@Param("plotId") Long plotId, @Param("newPositionX") int positionx);
+    void updatePositionX(@Param("plotId") Long plotId, @Param("PositionX") int positionX);
 
 
 }
