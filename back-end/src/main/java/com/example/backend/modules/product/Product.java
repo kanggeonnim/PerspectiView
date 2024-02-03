@@ -1,14 +1,18 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
+import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.team.Team;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -26,6 +30,13 @@ public class Product {
 
     @OneToMany(mappedBy = "product")
     private Set<ProductGenre> productGenres = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    private Set<ProductRelation> productRelations = new HashSet<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "product")
+    private List<Plot> plots = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -65,5 +76,9 @@ public class Product {
     //-------genre set에 추가하는 메서드------//
     public void addProductGenre(ProductGenre productGenre){
         productGenres.add(productGenre);
+    }
+
+    public void addPlot(Plot plot){
+        plots.add(plot);
     }
 }
