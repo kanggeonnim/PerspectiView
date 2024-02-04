@@ -73,19 +73,14 @@ public class User {
         this.userInfo = user.getUserInfo();
     }
 
-    @Builder(builderMethodName = "requestBuilder")
-    public User(String userNickname, String image, String email, String userPhone, String userInfo) {
+    @Builder
+    public User(String username, String userImage, String userNickname, String email, String userPhone, String userInfo, String provider, String providerId) {
+        this.username = username;
+        this.userImage = userImage;
         this.userNickname = userNickname;
-        this.userImage = image;
         this.email = email;
         this.userPhone = userPhone;
         this.userInfo = userInfo;
-    }
-    @Builder
-    public User(String username, String userNickname, String email, String provider, String providerId, List<UserAuthority> roles) {
-        this.username = username;
-        this.userNickname = userNickname;
-        this.email = email;
         this.provider = provider;
         this.providerId = providerId;
     }
