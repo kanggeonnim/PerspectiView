@@ -1,6 +1,7 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.foreshadowing.ForeShadowing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,7 @@ public class StoryService {
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
     private final StoryRelationRepository storyRelationRepository;
+    private final StoryForeShadowingRepository storyForeShadowingRepository;
 
     /**
      * 스토리 생성
@@ -54,25 +56,30 @@ public class StoryService {
         return contentRepository.save(makeContent);
     }
 
-    public Story updateStory(Story story, List<Character> characters) {
+    public Story updateStory(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
         storyRelationRepository.deleteAll(story.getStoryRelations());
+        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
 
         Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
 
-        Set<StoryRelation> storyRelations = new HashSet<>();
+        Set<StoryRelation> storyRelations;
+        Set<StoryForeShadowing> storyForeShadowings;
 
-        for (Character c : characters) {
-            StoryRelation storyRelation = StoryRelation.builder()
-                    .story(findStory)
-                    .character(c).build();
-            storyRelations.add(storyRelationRepository.save(storyRelation));
-        }
+        storyRelations = characters.stream()
+                .map(c -> StoryRelation.builder().story(findStory).character(c).build())
+                .map(storyRelationRepository::save)
+                .collect(Collectors.toSet());
+
+        storyForeShadowings = foreShadowings.stream()
+                .map(fs -> StoryForeShadowing.builder().story(findStory).foreShadowing(fs).build())
+                .map(storyForeShadowingRepository::save)
+                .collect(Collectors.toSet());
         
         //Content를 가져와서 수정
         Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(()->new RuntimeException());
 
-        findStory.updateStory(story.getTitle(), content, storyRelations, story.getPositionY());
+        findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
     }
 
@@ -85,7 +92,12 @@ public class StoryService {
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
-        return StoryResponseDto.from(story, characterList);
+
+        List<ForeShadowing> foreShadowingList = story.getStoryForeShadowings().stream()
+                .map(StoryForeShadowing::getForeShadowing)
+                .collect(Collectors.toList());
+
+        return StoryResponseDto.from(story, characterList, foreShadowingList);
     }
 
 }

@@ -1,7 +1,12 @@
 package com.example.backend.modules.character;
 
+import com.example.backend.modules.keyword.Keyword;
+import com.example.backend.modules.product.Product;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -17,10 +22,17 @@ public class Character {
     private String characterName;
 
     @Column(nullable = true)
+    private String characterImage;
+
+    @Column(nullable = true)
     private String characterDetail;
 
-    @Column(nullable = false)
-    private Long productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @OneToMany(mappedBy = "character")
+    private Set<CharacterKeyword> characterKeywords = new HashSet<>();
 
     @Column(nullable = true)
     private double positionX;
@@ -29,21 +41,16 @@ public class Character {
     private double positionY;
 
     @Builder
-    public Character(String characterName, Long productId) {
+    public Character(String characterName, Product product) {
         this.characterName = characterName;
-        this.productId = productId;
-    }
-
-    @Builder
-    public Character(String characterName, String characterDetail, Long productId) {
-        this.characterName = characterName;
-        this.characterDetail = characterDetail;
-        this.productId = productId;
+        this.product = product;
     }
 
     @Builder(builderMethodName = "positionBuilder")
     public Character(String characterName, String characterDetail, double positionX, double positionY) {
         this.characterName = characterName;
+
+
         this.characterDetail = characterDetail;
         this.positionX = positionX;
         this.positionY = positionY;
@@ -51,8 +58,17 @@ public class Character {
 
     public void changeCharacter(Character character) {
         this.characterName = character.getCharacterName();
+        this.characterImage = character.getCharacterImage();
         this.characterDetail = character.getCharacterDetail();
         this.positionX = character.getPositionX();
         this.positionY = character.getPositionY();
+    }
+
+    public void addKeyword(CharacterKeyword characterKeyword) {
+        this.characterKeywords.add(characterKeyword);
+    }
+
+    public void removeKeywords(CharacterKeyword characterKeyword) {
+        characterKeywords.remove(characterKeyword);
     }
 }
