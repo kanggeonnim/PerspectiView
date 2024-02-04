@@ -25,31 +25,29 @@ export default function Task({ task, column, index }) {
     setState: state.setAllData,
   }));
 
-  const deleteTask = () => {
-    // 'tasks'에서 현재 작업(task)을 제거
-    const { [task.fshadowId]: _, ...updatedTasks } = state.tasks;
-
-    // 'columns' 내의 모든 'taskIds' 배열에서 현재 작업(task)의 ID를 제거
-    const copiedTaskIds = Array.from(column.taskIds);
-    const columnId = column.id;
-    const updatdeTaskIds = copiedTaskIds.filter(
-      (taskId) => taskId != task.fshadowId
-    );
-
-    // 업데이트된 'updatedTasks'와 'updatedTaskIds'로 상태를 업데이트
-    // TODO immer 사용해보기
-    setState({
-      ...state,
-      tasks: { ...updatedTasks },
-      columns: {
-        ...state.columns,
-        [columnId]: {
-          ...state.columns[columnId],
-          taskIds: updatdeTaskIds,
-        },
-      },
-    });
-  };
+  // const deleteTask = () => {
+  //   // 'tasks'에서 현재 작업(task)을 제거
+  //   const { [task.fshadowId]: _, ...updatedTasks } = state.tasks;
+  //   // 'columns' 내의 모든 'taskIds' 배열에서 현재 작업(task)의 ID를 제거
+  //   const copiedTaskIds = Array.from(column.taskIds);
+  //   const columnId = column.id;
+  //   const updatdeTaskIds = copiedTaskIds.filter(
+  //     (taskId) => taskId != task.fshadowId
+  //   );
+  //   // 업데이트된 'updatedTasks'와 'updatedTaskIds'로 상태를 업데이트
+  //   // TODO immer 사용해보기
+  //   setState({
+  //     ...state,
+  //     tasks: { ...updatedTasks },
+  //     columns: {
+  //       ...state.columns,
+  //       [columnId]: {
+  //         ...state.columns[columnId],
+  //         taskIds: updatdeTaskIds,
+  //       },
+  //     },
+  //   });
+  // };
   return (
     <Draggable draggableId={task.fshadowId} index={index}>
       {(provided, snapshot) => (
@@ -61,10 +59,8 @@ export default function Task({ task, column, index }) {
           className="flex justify-between"
         >
           {task.fshadowName}
-          <button type="button" onClick={deleteTask}>
-            x
-          </button>
-          <div>{task.fshadowId}</div>
+          {/* //TODO api delete기능 */}
+          <button type="button">x</button>
         </Container>
       )}
     </Draggable>

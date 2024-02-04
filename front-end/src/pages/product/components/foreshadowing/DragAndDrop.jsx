@@ -2,6 +2,7 @@ import { useFshadow } from "@/store/useFshadow";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Column from "./Column";
+import { ForeshadowingCreateCard } from "./ForeshadowingCreateCard";
 
 const Container = styled.div`
   display: flex;
@@ -75,6 +76,7 @@ export default function DragAndDrop() {
 
   return (
     <div>
+      <ForeshadowingCreateCard />
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
           {state.columnOrder.map((columnId) => {

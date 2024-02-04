@@ -2,21 +2,18 @@ import { useFshadow } from "@/store/useFshadow";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import Column from "./Column";
+import { ForeshadowingCreateCard } from "./ForeshadowingCreateCard";
 
 const Container = styled.div`
   display: flex;
 `;
 
-// const getItems = (count, offset = 0) =>
-//   Array.from({ length: count }, (v, k) => k).map((k) => ({
-//     id: `item-${k + offset}-${new Date().getTime()}`,
-//     content: `item ${k + offset}`,
-//   }));
-
 export default function DragAndDrop() {
-  // const [state, setState] = useState(initialData);
-  const state = useFshadow((state) => state.initialData);
-
+  //state는 {tasks:{각 복선 정보딕셔id,Name} ,columns:{각 컬럼 정보딕셔너리id,title,taksIds}, columnsOrder:[]}
+  const { state, setState } = useFshadow((state) => ({
+    state: state.allData,
+    setState: state.setAllData,
+  }));
   const onDragEnd = (result) => {
     const { destination, source, draggableId } = result;
     if (!destination) {
@@ -31,7 +28,6 @@ export default function DragAndDrop() {
     }
     const start = state.columns[source.droppableId];
     const finish = state.columns[destination.droppableId];
-    //TODO 윗부분이랑 차이 이해하기
     if (start === finish) {
       const newTaskIds = Array.from(start.taskIds);
       newTaskIds.splice(source.index, 1);
@@ -67,7 +63,6 @@ export default function DragAndDrop() {
       ...finish,
       taskIds: finishTaskIds,
     };
-
     const newState = {
       ...state,
       columns: {
@@ -81,14 +76,7 @@ export default function DragAndDrop() {
 
   return (
     <div>
-      {/* <button
-        type="button"
-        onClick={() => {
-          setState([...state, getItems(1)]);
-        }}
-      >
-        복선생성
-      </button> */}
+      <ForeshadowingCreateCard />
       <DragDropContext onDragEnd={onDragEnd}>
         <Container>
           {state.columnOrder.map((columnId) => {

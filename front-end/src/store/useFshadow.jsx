@@ -193,12 +193,12 @@ export const useFshadow = create((set) => ({
       "column-1": {
         id: "column-1",
         title: "미사용 복선",
-        taskIds: [1, 2, 3, 4, 5, 6, 7],
+        taskIds: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14],
       },
       "column-2": {
         id: "column-2",
         title: "사용 중인 복선",
-        taskIds: [8, 9, 10, 11, 12, 13, 14],
+        taskIds: [],
       },
       "column-3": {
         id: "column-3",
@@ -210,4 +210,9 @@ export const useFshadow = create((set) => ({
     columnOrder: ["column-1", "column-2", "column-3"],
   },
   setAllData: (newAllData) => set({ allData: newAllData }),
+
+  //복선 생성시 복선리스트 업데이트하기 위함
+  // triggerUpdate: false,
+  // setTriggerUpdate: () =>
+  //   set((state) => ({ triggerUpdate: !state.triggerUpdate })),
 }));

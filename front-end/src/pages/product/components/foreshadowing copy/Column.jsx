@@ -19,24 +19,30 @@ const TaskList = styled.div`
   padding: 8px;
   flex-grow: 1;
   min-height: 100px;
+  //TODO 작동안하는 것 고치기
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
 `;
 
-export default function Column(props) {
+export default function Column({ column, tasks }) {
   return (
     <Container>
-      <Title>{props.column.title}</Title>
-      <Droppable droppableId={props.column.id}>
+      <Title>{column.title}</Title>
+      <Droppable droppableId={column.id}>
         {(provided, snapshot) => (
           //innerRef가 아닌 ref (styledcomponent관련??)
-          <ScrollArea className="border border-red-500 h-72">
+          <ScrollArea className="h-72">
             <TaskList
               ref={provided.innerRef}
               {...provided.droppableProps}
               $isDraggingOver={snapshot.isDraggingOver}
             >
-              {props.tasks.map((task, index) => (
-                <Task key={task.fshadowId} task={task} index={index} />
+              {tasks.map((task, index) => (
+                <Task
+                  key={task.fshadowId}
+                  column={column}
+                  task={task}
+                  index={index}
+                />
               ))}
               {provided.placeholder}
             </TaskList>

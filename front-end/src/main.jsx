@@ -28,6 +28,7 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
 
     children: [
+      // 임시 추가(sooji)
       {
         path: "product/:productId/foreshadowing",
         element: <DragAndDrop />,
