@@ -1,6 +1,8 @@
 package com.example.backend.modules.character;
 
 import com.example.backend.modules.account.User;
+import com.example.backend.modules.product.Product;
+import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
 import org.assertj.core.api.Assertions;
@@ -43,6 +45,9 @@ class CharacterServiceTest {
     @Autowired
     private CharacterService characterService;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     @BeforeEach
     public void setup() {
 
@@ -52,15 +57,17 @@ class CharacterServiceTest {
     @DisplayName("전체 등장인물 조회 서비스 테스트")
     void 전체인물조회() throws Exception {
         //given
-        Character character1 = Character.builder().characterName("뽀로로").productId(1L).build();
-        Character character2 = Character.builder().characterName("포비").productId(1L).build();
-        Character character3 = Character.builder().characterName("루피").productId(1L).build();
+        Product product = Product.builder().title("title").info("info").category(null).build();
+        productRepository.save(product);
+        Character character1 = Character.builder().characterName("뽀로로").product(product).build();
+        Character character2 = Character.builder().characterName("포비").product(product).build();
+        Character character3 = Character.builder().characterName("루피").product(product).build();
 
         characterRepository.save(character1);
         characterRepository.save(character2);
         characterRepository.save(character3);
         //when
-        List<Character> result = characterRepository.findAllByProductId(1L);
+        List<Character> result = characterRepository.findAllByProduct(product);
 
         //then
         Assertions.assertThat(result.size()).isEqualTo(3);
@@ -70,7 +77,8 @@ class CharacterServiceTest {
     @DisplayName("단일 등장인물 조회 서비스 테스트")
     void 단일인물조회() throws Exception {
         //given
-        Character character1 = Character.builder().characterName("뽀로로").productId(1L).build();
+        Product product = Product.builder().title("title").info("info").category(null).build();
+        Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         characterRepository.save(character1);
         //when
         Optional<Character> result = characterRepository.findById(1L);
@@ -83,7 +91,8 @@ class CharacterServiceTest {
     @DisplayName("등장인물 생성 서비스 테스트")
     void 등장인물생성() {
         // given
-        Character character1 = Character.builder().characterName("뽀로로").productId(1L).build();
+        Product product = Product.builder().title("title").info("info").category(null).build();
+        Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         User user = User.builder().userNickname("nickname").email("email").build();
         Team team = Team.builder().title("title").info("info").personal(false).build();
         team.addManager(user);
@@ -101,7 +110,8 @@ class CharacterServiceTest {
     @DisplayName("등장인물 삭제 서비스 테스트")
     void 등장인물삭제() {
         // given
-        Character character1 = Character.builder().characterName("뽀로로").productId(1L).build();
+        Product product = Product.builder().title("title").info("info").category(null).build();
+        Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         User user = User.builder().userNickname("nickname").email("email").build();
         Team team = Team.builder().title("title").info("info").personal(false).build();
         team.addManager(user);

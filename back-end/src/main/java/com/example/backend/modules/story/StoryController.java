@@ -23,7 +23,7 @@ public class StoryController {
 
     @PatchMapping("/{storyId}")
     public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto){
-        Story story = storyService.updateStory(StoryRequestDto.of(storyRequestDto),storyRequestDto.getCharacters());
+        Story story = storyService.updateStory(StoryRequestDto.of(storyRequestDto),storyRequestDto.getCharacters(), storyRequestDto.getForeShadowings());
         StoryResponseDto storyResponseDto = storyService.findByStoryId(story.getId());
         return ApiResult.OK(storyResponseDto);
     }
