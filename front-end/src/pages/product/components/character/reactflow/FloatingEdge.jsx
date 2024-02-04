@@ -1,34 +1,38 @@
-import { useCallback } from 'react';
-import { useStore, getStraightPath } from 'reactflow';
+import React from 'react';
+import { getStraightPath, EdgeLabelRenderer, BaseEdge, EdgeText } from 'reactflow';
+ 
+function FloatingEdge({id, fromX, fromY, toX, toY, sourcePosition, targetPosition, connectionLineStyle  }) {
+  const [edgePath, labelX, labelY] = getStraightPath({
+    sourceX: fromX,
+    sourceY: fromY,
+    targetX: toX,
+    targetY: toY,
+    sourcePosition,
+    targetPosition,
 
-import { getEdgeParams } from './utils.js';
-
-function FloatingEdge({ id, source, target, markerEnd, style }) {
-  const sourceNode = useStore(useCallback((store) => store.nodeInternals.get(source), [source]));
-  const targetNode = useStore(useCallback((store) => store.nodeInternals.get(target), [target]));
-
-  if (!sourceNode || !targetNode) {
-    return null;
-  }
-
-  const { sx, sy, tx, ty } = getEdgeParams(sourceNode, targetNode);
-
-  const [edgePath] = getStraightPath({
-    sourceX: sx,
-    sourceY: sy,
-    targetX: tx,
-    targetY: ty,
   });
-
+ 
   return (
-    <path
-      id={id}
-      className="react-flow__edge-path"
-      d={edgePath}
-      markerEnd={markerEnd}
-      style={style}
-    />
+    <>
+      <BaseEdge id={id} path={edgePath} />
+      <EdgeLabelRenderer>
+        <div
+          style={{
+            position: 'absolute',
+            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            background: 'bg-transparent',
+            padding: 10,
+            borderRadius: 5,
+            fontSize: 12,
+            fontWeight: 700,
+          }}
+          className="nodrag nopan"
+        >
+          12312
+        </div>
+      </EdgeLabelRenderer>
+    </>
   );
-}
-
+};
+ 
 export default FloatingEdge;
