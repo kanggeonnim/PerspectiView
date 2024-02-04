@@ -1,6 +1,8 @@
 package com.example.backend.infra.security;
 
+import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.GeneratedToken;
+import com.example.backend.modules.auth.TokenResponseDto;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
@@ -35,7 +37,7 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
                 );
 
         // body를 통해 access token과 refresh token 전달
-        String result = objectMapper.writeValueAsString(token);
+        String result = objectMapper.writeValueAsString(ApiResult.OK(TokenResponseDto.from(token)));
         response.getWriter().write(result);
 
         // header를 통해 access token과 refresh token 전달
