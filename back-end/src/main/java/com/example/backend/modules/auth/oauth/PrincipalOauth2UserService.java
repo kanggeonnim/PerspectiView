@@ -6,6 +6,7 @@ import com.example.backend.modules.account.UserAuthorityRepository;
 import com.example.backend.modules.account.UserRepository;
 import com.example.backend.modules.auth.oauth.provider.GoogleUserInfo;
 import com.example.backend.modules.auth.oauth.provider.KakaoUserInfo;
+import com.example.backend.modules.auth.oauth.provider.NaverUserInfo;
 import com.example.backend.modules.auth.oauth.provider.OAuth2UserInfo;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.team.Team;
@@ -45,28 +46,32 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 	}
 
 	private OAuth2User processOAuth2User(OAuth2UserRequest userRequest, OAuth2User oAuth2User) {
-
 		// Attribute를 파싱해서 공통 객체로 묶는다. 관리가 편함.
 		OAuth2UserInfo oAuth2UserInfo = null;
+		String provider = userRequest.getClientRegistration().getRegistrationId();
+
 		if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
 			log.info("구글 로그인 요청");
 			oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
 		} else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
 			log.info("카카오 로그인 요청");
 			oAuth2UserInfo = new KakaoUserInfo((Map)oAuth2User.getAttributes());
+		} else if( userRequest.getClientRegistration().getRegistrationId().equals("naver")){
+			log.info("네이버 로그인 요청");
+			oAuth2UserInfo = new NaverUserInfo((Map)oAuth2User.getAttributes());
 		}
 
 		Optional<User> optionalUser =
-				userRepository.findByProviderAndProviderId(oAuth2UserInfo.getProvider(), oAuth2UserInfo.getProviderId());
-
+				userRepository.findByUsername(oAuth2UserInfo.getName());
 		if (optionalUser.isEmpty()) {
+			String providerId = oAuth2UserInfo.getProviderId();
 			// 신규 회원가입
 			User newUser = User.builder()
-                    .username(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
-					.userNickname(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId())
+                    .username(provider + "_" + providerId)
+					.userNickname(provider + "_" + providerId)
                     .email(oAuth2UserInfo.getEmail())
-                    .provider(oAuth2UserInfo.getProvider())
-                    .providerId(oAuth2UserInfo.getProviderId())
+                    .provider(provider)
+                    .providerId(providerId)
                     .build();
 
 			UserAuthority auth = UserAuthority.builder()
