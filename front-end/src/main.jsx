@@ -14,8 +14,8 @@ import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
 import MyPage from "./pages/auth/MyPage.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
-import WorkListCard from "./pages/workspace/components/WorkListCard.jsx";
-import TeamWorkspaceBody from "./pages/workspace/components/TeamWorkspaceBody.jsx";
+import ProductListCard from "./pages/workspace/components/ProductListCard.jsx";
+import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,11 +42,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <WorkListCard />,
+            element: <ProductListCard />,
           },
           {
             path: "team/:teamId",
-            element: <TeamWorkspaceBody />,
+            element: <TeamInfo />,
           },
         ],
       },

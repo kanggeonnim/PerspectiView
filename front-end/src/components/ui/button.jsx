@@ -21,8 +21,8 @@ const buttonVariants = cva(
         indigo:
           "text-primary-foreground font-semibold shadow hover:text-accent-foreground hover:bg-indigo-200 bg-indigo-700",
         kakao:
-          "text-secondary-foreground font-semibold shadow hover:text-accent-foreground hover:bg-yellow-400 bg-yellow-300",
-        google: "text-secondary-foreground font-semibold shadow hover:bg-secondary/80",
+          "text-secondary-foreground font-semibold shadow hover:text-accent-foreground hover:bg-yellow-400/80 bg-yellow-300",
+        google: "text-secondary-foreground font-semibold shadow hover:bg-secondary-accent",
       },
 
       size: {

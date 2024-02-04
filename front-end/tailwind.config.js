@@ -61,6 +61,7 @@ export const theme = {
       },
       badge: {
         DEFAULT: "var(--badge)",
+        accent: "var(--badge-accent)",
       },
       accent: {
         DEFAULT: "var(--accent)",
@@ -80,19 +81,10 @@ export const theme = {
       md: "calc(var(--radius) - 2px)",
       sm: "calc(var(--radius) - 4px)",
     },
-    keyframes: {
-      "accordion-down": {
-        from: { height: "0" },
-        to: { height: "var(--radix-accordion-content-height)" },
-      },
-      "accordion-up": {
-        from: { height: "var(--radix-accordion-content-height)" },
-        to: { height: "0" },
-      },
-    },
-    animation: {
-      "accordion-down": "accordion-down 0.2s ease-out",
-      "accordion-up": "accordion-up 0.2s ease-out",
+    dropShadow: {
+      custom: "0 24px 60px rgba(0, 0, 0, 0.3)",
+      "3xl": "0 35px 35px rgba(0, 0, 0, 0.25)",
+      "4xl": ["0 35px 35px rgba(0, 0, 0, 0.25)", "0 45px 65px rgba(0, 0, 0, 0.15)"],
     },
   },
 };

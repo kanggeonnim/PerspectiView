@@ -21,10 +21,11 @@ function DefaultHeader(props) {
           aria-label="Global"
         >
           {/* 로고 */}
-          <div className="flex items-center justify-start lg:flex-1">
-            <img className="w-auto h-8" src={logo} alt="logo" />
-          </div>
-
+          <Link to={`/`}>
+            <div className="flex items-center justify-start lg:flex-1">
+              <img className="w-auto h-8" src={logo} alt="logo" />
+            </div>
+          </Link>
           {/* 화면 축소 시, 검색 아이콘과 로그인 버튼  */}
           <div className="flex items-center justify-end">
             <div className="flex lg:hidden">

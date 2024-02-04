@@ -14,6 +14,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@ark-ui/react";
 import { Plus, PlusCircle, X } from "lucide-react";
 
+// TODO: Dialog 화면 비율에 따라서 스크롤바 생기도록 수정
+// TODO: 팀 추가 ui 수정
 export default function TeamCreate() {
   return (
     <Dialog>
@@ -70,17 +72,18 @@ export default function TeamCreate() {
           >
             {(api) => (
               <div className="flex flex-col gap-3">
-                <TagsInput.Label>팀원 추가하기</TagsInput.Label>
+                <Label className="font-md">팀원 추가 </Label>
+                {/* <TagsInput.Label>팀원 추가하기</TagsInput.Label> */}
                 <div className="flex flex-col gap-3">
                   <TagsInput.Control className="flex flex-wrap gap-3">
                     {api.value.map((value, index) => (
                       <TagsInput.Item
-                        className="flex items-center border rounded-lg"
+                        className=" rounded-full inline-flex items-center border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-badge-accent text-primary-foreground shadow hover:bg-primary/80"
                         key={index}
                         index={index}
                         value={value}
                       >
-                        <TagsInput.ItemText className="p-2">{value}</TagsInput.ItemText>
+                        <TagsInput.ItemText className="p-1">{value}</TagsInput.ItemText>
                         <TagsInput.ItemDeleteTrigger className="p-1">
                           <X size={20} strokeWidth={1} />
                         </TagsInput.ItemDeleteTrigger>
@@ -89,8 +92,8 @@ export default function TeamCreate() {
                   </TagsInput.Control>
                   <div className="border rounded-lg w-80">
                     <TagsInput.Input
-                      className="w-full h-full p-2 rounded-lg"
-                      placeholder="  팀원 이메일을 추가하세요"
+                      className="flex w-full px-3 py-1 text-sm transition-colors bg-transparent border rounded-md shadow-sm h-9 border-input file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="ssafy@ssafy.com"
                     />
                   </div>
                 </div>

@@ -7,7 +7,7 @@ import {
   SendToBack,
   Users,
 } from "lucide-react";
-import { NavLink, useParams } from "react-router-dom";
+import { Link, NavLink, useParams } from "react-router-dom";
 import { useState } from "react";
 import { ScrollArea } from "../ui/scroll-area";
 import SidebarAccordion from "./SidebarAccordion";
@@ -81,9 +81,11 @@ function ProductSidebar() {
       </div>
       <div className="flex flex-row items-center justify-start w-full">
         <div className="mr-3">
-          <div className="flex items-center justify-start lg:flex-1">
-            <img className="w-auto h-8" src={logoIcon} alt="logo" />
-          </div>
+          <Link to={`/`}>
+            <div className="flex items-center justify-start lg:flex-1">
+              <img className="w-auto h-8" src={logoIcon} alt="logo" />
+            </div>
+          </Link>
         </div>
       </div>
     </div>
@@ -92,9 +94,11 @@ function ProductSidebar() {
       {/* 사용자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
       <div className="flex flex-col items-start w-full">
         <div className="w-full my-3">
-          <div className="flex items-center justify-start lg:flex-1">
-            <img className="w-auto h-8" src={logo} alt="logo" />
-          </div>
+          <Link to={`/`}>
+            <div className="flex items-center justify-start lg:flex-1">
+              <img className="w-auto h-8" src={logo} alt="logo" />
+            </div>
+          </Link>
         </div>
         <div className="flex flex-col justify-start w-full gap-4 my-3">
           {/* 인물 */}
