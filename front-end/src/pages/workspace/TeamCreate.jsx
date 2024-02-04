@@ -12,19 +12,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { TagsInput } from "@ark-ui/react";
+import { Plus, PlusCircle, X } from "lucide-react";
 
 export default function TeamCreate() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">+</Button>
+        <PlusCircle
+          strokeWidth={2.5}
+          className="p-1 rounded-sm text-primary hover:bg-secondary-accent"
+        />
       </DialogTrigger>
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className="my-3">
           <DialogTitle>팀 생성하기</DialogTitle>
-          <DialogDescription>
-            작품을 공유할 수 있는 팀을 생성해보세요.
-          </DialogDescription>
+          <DialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
@@ -44,11 +46,11 @@ export default function TeamCreate() {
             />
           </div>
           {/* //TODO 엔터치면 배지만들어지는것 */}
-          <div className="flex flex-col gap-y-2">
+          {/* <div className="flex flex-col gap-y-2">
             <Label htmlFor="addMemember" className="">
               팀원 추가
             </Label>
-            {/* <div>
+            <div>
             <Input
               id="addMemember"
               placeholder="팀원 추가"
@@ -58,26 +60,43 @@ export default function TeamCreate() {
               gkdrhd6788@gmail.com
               <X size={16} strokeWidth={1} className="" />
             </Badge>
-            </div> */}
-<TagsInput.Root addOnPaste delimiter=",">
-      {(api) => (
-        <>
-          <TagsInput.Label>Frameworks</TagsInput.Label>
-          <TagsInput.Control>
-            {api.value.map((value, index) => (
-              <TagsInput.Item key={index} index={index} value={value}>
-                <TagsInput.ItemInput />
-                <TagsInput.ItemText>{value}</TagsInput.ItemText>
-                <TagsInput.ItemDeleteTrigger>Delete</TagsInput.ItemDeleteTrigger>
-              </TagsInput.Item>
-            ))}
-          </TagsInput.Control>
-          <TagsInput.Input placeholder="Add Framework" />
-          <TagsInput.ClearTrigger>Clear all</TagsInput.ClearTrigger>
-        </>
-      )}
-    </TagsInput.Root>
-          </div>
+            </div>
+          </div> */}
+          {/* //TODO 폰트맞추기, 수정기능이상한거고치기 중복일때 */}
+          <TagsInput.Root
+            validate={(details) => {
+              return !details.value.includes(details.inputValue);
+            }}
+          >
+            {(api) => (
+              <div className="flex flex-col gap-3">
+                <TagsInput.Label>팀원 추가하기</TagsInput.Label>
+                <div className="flex flex-col gap-3">
+                  <TagsInput.Control className="flex flex-wrap gap-3">
+                    {api.value.map((value, index) => (
+                      <TagsInput.Item
+                        className="flex items-center border rounded-lg"
+                        key={index}
+                        index={index}
+                        value={value}
+                      >
+                        <TagsInput.ItemText className="p-2">{value}</TagsInput.ItemText>
+                        <TagsInput.ItemDeleteTrigger className="p-1">
+                          <X size={20} strokeWidth={1} />
+                        </TagsInput.ItemDeleteTrigger>
+                      </TagsInput.Item>
+                    ))}
+                  </TagsInput.Control>
+                  <div className="border rounded-lg w-80">
+                    <TagsInput.Input
+                      className="w-full h-full p-2 rounded-lg"
+                      placeholder="  팀원 이메일을 추가하세요"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </TagsInput.Root>
         </div>
         <DialogFooter>
           <Button type="submit">팀 생성</Button>

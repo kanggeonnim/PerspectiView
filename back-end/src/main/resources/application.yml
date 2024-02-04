@@ -1,7 +1,7 @@
 server:
-  port: 8080
+  port: 8081
   servlet:
-    context-path: /
+    context-path: /api
     encoding:
       charset: UTF-8
       enabled: true
@@ -78,7 +78,11 @@ spring:
             scope:
               - email
               - profile
-
+s3:
+  id: ENC(F4b/bu6uAj+//tCvkpaxpMHZ+a3X1DQuVej2wEXPnY/2ej6IKzHeFTi654rgC7vtFQDn1LCduY/adSUwdlmKag==)
+  secret: ENC(1P3wOZJRMUMWCWleY17yLc03ej04dX/QLUbayaaaBOiHUlI2DRPGEZmqhv0/KoCvrzBywW2DUcYRiQ4ORtAjibK4C3fCwkfnl3lGdQsXT04=)
+  url: ENC(r3H90+SXyhUc0ws/0QvfFRj3NXUV/Ho1oCwR6sOv+nC9U83mhzhe3N3fEO40JWiLh+GNAZe2sIVao4stOByBXAtKKNgMEsOwDkeW3dOudvD7TcOJdbDKqN2z0SQsF7cM)
+  bucket: ENC(mX+7o5mCckluXg5PWdoAUMaVsI2ublHLEDdiEKy8lQ+NiGfU+dz2a2lyPnsJZ9dt)
 jasypt:
   password : ${JASYPT_PASSWORD}
   encryptor:

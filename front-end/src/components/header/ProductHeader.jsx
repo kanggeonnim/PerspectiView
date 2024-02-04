@@ -122,22 +122,22 @@ const getCategoryName = (categoryId) => {
 export default function ProductHeader() {
   return (
     <>
-      <header className="bg-white">
+      <header className="w-full bg-white">
         <nav
-          className="flex flex-col items-center justify-between p-6 mx-auto max-w-9xl lg:px-8 min-w-64"
+          className="flex flex-col items-center justify-between p-3 mx-auto "
           aria-label="Global"
         >
           <div className="flex items-center justify-between w-full my-2 ">
             {/* 작품 */}
             <div className="flex ">
-              <div className="px-6 mx-auto text-sm font-semibold leading-6 text-gray-900 min-w-24">
+              <div className="px-6 text-sm font-semibold leading-6 text-gray-900 min-w-24">
                 작품명
               </div>
 
               <div className="w-full">{productData.productname}</div>
             </div>
 
-            <div className="flex justify-between ">
+            <div className="flex items-center justify-between ">
               {/* 장르 */}
               <div className="flex ">
                 <div className="px-6 text-sm font-semibold leading-6 text-gray-900 min-w-20">
@@ -145,7 +145,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {productData.genreList.map((genreId, key) => (
-                    <Badge key={key} variant="destructive">
+                    <Badge key={key} variant="destructive" radius="full">
                       {getGenreName(genreId)}
                     </Badge>
                   ))}
@@ -158,7 +158,7 @@ export default function ProductHeader() {
                   분류
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
-                  <Badge className="text-stone-100 bg-badge">
+                  <Badge className="text-stone-100 bg-badge" radius="full">
                     {getCategoryName(productData.categoryId)}
                   </Badge>
                 </div>
@@ -168,7 +168,7 @@ export default function ProductHeader() {
           <div className="flex items-center justify-between w-full my-2 ">
             {/* 설명 */}
             <div className="flex w-full">
-              <div className="px-6 mx-auto text-sm font-semibold leading-6 text-gray-900 min-w-24">
+              <div className="px-6 text-sm font-semibold leading-6 text-gray-900 min-w-24">
                 설명
               </div>
 

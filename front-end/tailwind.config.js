@@ -16,16 +16,35 @@ export const theme = {
     },
   },
   extend: {
+    keyframes: {
+      "accordion-down": {
+        from: { height: "0" },
+        to: { height: "var(--radix-accordion-content-height)" },
+      },
+      "accordion-up": {
+        from: { height: "var(--radix-accordion-content-height)" },
+        to: { height: "0" },
+      },
+    },
+    animation: {
+      "accordion-down": "accordion-down 0.2s ease-out",
+      "accordion-up": "accordion-up 0.2s ease-out",
+    },
     colors: {
       border: "var(--border)",
       input: "var(--input)",
       ring: "var(--ring)",
       background: "var(--background)",
       foreground: "var(--foreground)",
+      progress: { DEFAULT: "var(--progress)", foreground: "var(--progress-foreground)" },
+      unused: { DEFAULT: "var(--unused)", foreground: "var(--unused-foreground)" },
+      completed: { DEFAULT: "var(--completed)", foreground: "var(--completed-foreground)" },
       primary: {
         DEFAULT: "var(--primary)",
         foreground: "var(--primary-foreground)",
         accent: "var(--primary-accent)",
+        light: "var(--primary-light)",
+        "accent-light": "var(--primary-accent-light)",
       },
       secondary: {
         DEFAULT: "var(--secondary)",
