@@ -1,4 +1,12 @@
-import { Activity, ChevronDown, ChevronsLeft, Chrome, Plus, SendToBack, Users } from "lucide-react";
+import {
+  Activity,
+  ChevronDown,
+  ChevronsLeft,
+  Chrome,
+  Plus,
+  SendToBack,
+  Users,
+} from "lucide-react";
 import { NavLink, useParams } from "react-router-dom";
 
 function ProductSidebar() {
@@ -9,14 +17,18 @@ function ProductSidebar() {
       {/* 사용자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
       <div className="flex flex-col items-start w-full">
         <div className="w-full my-3">
-          <Chrome color="#657dc4" />
+          <NavLink to="/workspace">
+            <Chrome color="#657dc4" />
+          </NavLink>
         </div>
         <div className="flex flex-col justify-start w-full gap-4 my-3">
           {/* 인물 */}
           <NavLink
             to={`/product/${productId}/character`}
             className={({ isActive }) =>
-              isActive ? "*:active *:text-primary-accent *:bg-border" : "text-slate-700"
+              isActive
+                ? "*:active *:text-primary-accent *:bg-border"
+                : "text-slate-700"
             }
           >
             <div className="flex items-center justify-start w-full hover:bg-border">
@@ -29,7 +41,9 @@ function ProductSidebar() {
           <NavLink
             to={`/product/${productId}/foreshadowing`}
             className={({ isActive }) =>
-              isActive ? "*:active *:text-primary-accent *:bg-border" : "text-slate-700"
+              isActive
+                ? "*:active *:text-primary-accent *:bg-border"
+                : "text-slate-700"
             }
           >
             <div className="flex items-center justify-start w-full hover:bg-border">
@@ -43,17 +57,23 @@ function ProductSidebar() {
             <NavLink
               to={`/product/${productId}/flow`}
               className={({ isActive }) =>
-                isActive ? "*:active *:text-primary-accent *:bg-border" : "text-slate-700"
+                isActive
+                  ? "*:active *:text-primary-accent *:bg-border"
+                  : "text-slate-700"
               }
             >
               <div className="flex items-center justify-start w-full hover:bg-border">
                 <Activity color="#657dc4" />
-                <h4 className="w-full mx-3 text-xs text-left text-slate-700">작품 흐름</h4>
+                <h4 className="w-full mx-3 text-xs text-left text-slate-700">
+                  작품 흐름
+                </h4>
               </div>
             </NavLink>
             <div className="flex items-center justify-start w-full mx-3 mt-4">
               <ChevronDown size={20} color="#52525b" />
-              <div className="w-full mx-3 text-xs text-left text-zinc-600">플롯</div>
+              <div className="w-full mx-3 text-xs text-left text-zinc-600">
+                플롯
+              </div>
               <Plus className="mr-8" size={20} color="#52525b" />
             </div>
           </div>
@@ -67,11 +87,17 @@ function ProductSidebar() {
         </div>
         <div className="flex flex-row items-center justify-start w-full">
           <div className="mr-3">
-            <img className="w-6 h-6 rounded-full" src="path-to-your-profile-image.jpg" alt="" />
+            <img
+              className="w-6 h-6 rounded-full"
+              src="path-to-your-profile-image.jpg"
+              alt=""
+            />
           </div>
           <div className="flex-col items-start text-sm">
             <div className="m-1 text-xs text-left">작가명</div>
-            <div className="m-1 text-xs text-left break-all text-slate-700">user@gmail.com</div>
+            <div className="m-1 text-xs text-left break-all text-slate-700">
+              user@gmail.com
+            </div>
           </div>
         </div>
       </div>
