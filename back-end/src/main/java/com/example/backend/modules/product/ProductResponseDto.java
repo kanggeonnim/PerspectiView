@@ -3,6 +3,7 @@ package com.example.backend.modules.product;
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.category.CategoryResponseDto;
 import com.example.backend.modules.genre.Genre;
+import com.example.backend.modules.plot.Plot;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,9 +18,11 @@ public class ProductResponseDto {
     private String productInfo;
     private Category category;
     private List<Genre> genres;
+    private List<ProductRelation> productRelations;
+    private List<Plot> plots;
     //플롯 hashset - 스토리까지 todo entitygraph
 
-    public static ProductResponseDto from(Product product, List<Genre> genres){
+    public static ProductResponseDto from(Product product, List<Genre> genres, List<ProductRelation> productRelations, List<Plot> plots){
         return ProductResponseDto.builder()
                 .productId(product.getId())
                 .productTitle(product.getTitle())
