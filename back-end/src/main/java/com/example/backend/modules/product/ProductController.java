@@ -1,5 +1,6 @@
 package com.example.backend.modules.product;
 
+import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.genre.Genre;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,15 +19,16 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService productService;
+    private final S3Uploader s3Uploader;
 
     @PostMapping("/")
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto, @PathVariable("teamId") Long teamId,
-                                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                                          @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
-
-        Product product = productService.createTeamProduct(principalDetails.getUser(), teamId, productRequestDto.of(productRequestDto),productRequestDto.getGenres());
+        String imageUrl = String.valueOf(s3Uploader.upload(productRequestDto.getMultipartFile()));
+        Product product = productService.createTeamProduct(principalDetails.getUser(), teamId, productRequestDto.from(productRequestDto, imageUrl),productRequestDto.getGenres());
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
-        return ApiResult.OK(ProductResponseDto.from(product,genres, null, null));
+        return ApiResult.OK(ProductResponseDto.of(product,genres, null, null));
     }
 
     @GetMapping("/{productId}")
@@ -35,20 +38,21 @@ public class ProductController {
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
         List<ProductRelation> productRelations = productService.findProductRelations(productId);
         List<Plot> plots = productService.findPlots(productId);
-        return ApiResult.OK(ProductResponseDto.from(product, genres, productRelations, plots));
+        return ApiResult.OK(ProductResponseDto.of(product, genres, productRelations, plots));
     }
 
     @PatchMapping("/{productId}")
     public ApiResult<ProductResponseDto> updateTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
                                                            @PathVariable("productId") Long productId,
                                                            @PathVariable("teamId") Long teamId,
-                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+        String imageUrl = String.valueOf(s3Uploader.upload(productRequestDto.getMultipartFile()));
         productRequestDto.setProductId(productId);
-        Product product = productService.updateProduct(principalDetails.getUser(), teamId, productRequestDto.of(productRequestDto),productRequestDto.getGenres());
+        Product product = productService.updateProduct(principalDetails.getUser(), teamId, productRequestDto.from(productRequestDto,imageUrl),productRequestDto.getGenres());
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
         List<ProductRelation> productRelations = productService.findProductRelations(productId);
         List<Plot> plots = productService.findPlots(productId);
-        return ApiResult.OK(ProductResponseDto.from(product,genres, productRelations, plots));
+        return ApiResult.OK(ProductResponseDto.of(product,genres, productRelations, plots));
     }
 
     @PatchMapping("/title/{productId}")
@@ -57,8 +61,8 @@ public class ProductController {
                                                                 @PathVariable("teamId") Long teamId,
                                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
         productRequestDto.setProductId(productId);
-        Product product = productService.updateProductTitle(principalDetails.getUser(), teamId, productRequestDto.of(productRequestDto));
-        return ApiResult.OK(ProductResponseDto.from(product,null, null, null));
+        Product product = productService.updateProductTitle(principalDetails.getUser(), teamId, productRequestDto.from(productRequestDto,null));
+        return ApiResult.OK(ProductResponseDto.of(product,null, null, null));
     }
 
     @DeleteMapping("/{productId}")
