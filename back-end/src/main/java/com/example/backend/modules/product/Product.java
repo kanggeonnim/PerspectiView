@@ -25,6 +25,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = true)
     private String image;
 
     @Column(nullable = false)
@@ -52,11 +53,12 @@ public class Product {
     private Team team;
 
     @Builder
-    public Product(String title, String info, Category category, Team team) {
+    public Product(String title, String info, Category category, Team team,String image) {
         this.title = title;
         this.info = info;
         this.category = category;
         this.team = team;
+        this.image = image;
     }
 
     public void updateProduct(String title, String info, Category category) {
