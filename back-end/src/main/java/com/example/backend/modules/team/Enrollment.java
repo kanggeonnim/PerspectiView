@@ -26,18 +26,12 @@ public class Enrollment {
 
     private LocalDateTime enrolledAt;
 
-    private boolean accepted;
-    private boolean attended;
 
     @Builder
     public Enrollment(Team team, User user, LocalDateTime enrolledAt) {
         this.team = team;
         this.user = user;
         this.enrolledAt = enrolledAt;
-    }
-
-    public void accepted(){
-        accepted = true;
     }
 
 }
