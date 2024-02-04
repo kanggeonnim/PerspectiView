@@ -45,7 +45,7 @@ function UserSidebar() {
 
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
-      {/* 사용자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
+      {/* 사용 자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
       <div className="flex flex-col justify-between h-full my-2 ml-2 mr-8 border rounded shadow-md w-max">
         <div className="mx-2 my-3 ">
           {/* 로고 */}

@@ -10,7 +10,7 @@ export default function ProductPage() {
       <ProductSidebar />
       <PageLayout>
         <ProductHeader />
-        <div className="flex items-center justify-center w-full h-full max-h-full ">
+        <div className="flex flex-col items-center justify-center w-full h-full max-h-full ">
           <Outlet />
         </div>
       </PageLayout>

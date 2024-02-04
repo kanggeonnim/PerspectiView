@@ -122,7 +122,7 @@ const getCategoryName = (categoryId) => {
 export default function ProductHeader() {
   return (
     <>
-      <header className="w-full bg-white">
+      <header className="w-full border rounded shadow-md">
         <nav
           className="flex flex-col items-center justify-between p-3 mx-auto "
           aria-label="Global"

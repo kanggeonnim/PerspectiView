@@ -5,9 +5,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function ForeshadowingTab() {
   return (
-    // TODO: 복선 tab contents 크기 수정
-    <Card className="box-border h-full p-3">
-      <CardTitle className="box-border m-4 text-3xl">복선 목록</CardTitle>
+    <Card className="w-full h-full p-3 mt-2 border rounded shadow-md">
+      <CardTitle className="m-4 text-2xl">복선 목록</CardTitle>
       <CardContent className="box-border flex flex-row justify-around gap-4 px-12 h-5/6">
         <div className="flex flex-col items-center w-1/3">
           <div className="box-border flex justify-start w-full gap-3 m-4">
@@ -16,7 +15,7 @@ export default function ForeshadowingTab() {
               2{/* FIXME 임시 입력 숫자 */}
             </Badge>
           </div>
-          <ScrollArea className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
+          <ScrollArea className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto">
             <ForeshadowingCard />
             <ForeshadowingCard />
             <ForeshadowingCard />
@@ -33,7 +32,7 @@ export default function ForeshadowingTab() {
           </div>
           <ScrollArea
             id="while"
-            className="flex flex-col items-center w-full h-full m-2 overflow-y-auto"
+            className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto"
           >
             <ForeshadowingCard />
             <ForeshadowingCard />
@@ -51,7 +50,7 @@ export default function ForeshadowingTab() {
           </div>
           <ScrollArea
             id="done"
-            className="flex flex-col items-center w-full h-full m-2 overflow-y-auto"
+            className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto"
           >
             <ForeshadowingCard />
             <ForeshadowingCard />
