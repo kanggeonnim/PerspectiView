@@ -18,9 +18,9 @@ public class UserRequestDto {
     private String userInfo;
 
     public static User from(UserRequestDto userRequestDto){
-        return User.requestBuilder()
+        return User.builder()
                 .userNickname(userRequestDto.getNickname())
-                .image(userRequestDto.getImage())
+                .userImage(userRequestDto.getImage())
                 .email(userRequestDto.getEmail())
                 .userPhone(userRequestDto.getUserPhone())
                 .userInfo(userRequestDto.getUserInfo())
