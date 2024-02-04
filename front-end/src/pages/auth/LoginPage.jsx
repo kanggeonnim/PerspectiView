@@ -9,7 +9,7 @@ export default function LoginPage() {
     <MainLayout variant="vertical">
       {/* TODO: 크기 수정, 로고 추가*/}
       <div className="flex items-center justify-center w-full h-full">
-        <LoginBox>
+        <LoginBox className="w-full h-full">
           <Link to={`/workspace`}>
             <GoogleButton />
           </Link>
