@@ -93,12 +93,14 @@ function ProductSidebar() {
               alt=""
             />
           </div>
-          <div className="flex-col items-start text-sm">
-            <div className="m-1 text-xs text-left">작가명</div>
-            <div className="m-1 text-xs text-left break-all text-slate-700">
-              user@gmail.com
+          <NavLink to="/settings/profile">
+            <div className="flex-col items-start text-sm">
+              <div className="m-1 text-xs text-left">작가명</div>
+              <div className="m-1 text-xs text-left break-all text-slate-700">
+                user@gmail.com
+              </div>
             </div>
-          </div>
+          </NavLink>
         </div>
       </div>
     </div>
