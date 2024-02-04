@@ -27,37 +27,10 @@ public class ProductService {
     private final GenreRepository genreRepository;
 
     /**
-     * 유저가 작품을 수정할 수 있는지 확인
-     */
-    public boolean canChange(User user, Long teamId, Product product) {
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //팀에 속하는 작품인지 확인
-        if (!product.isProductTeam(team)) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * 유저가 작품을 조회 할 수 있는지 확인
-     */
-
-    /**
      * 팀 작품 생성
      */
     @Transactional
     public Product createTeamProduct(User user, Long teamId, Product product, List<Genre> genres) { //TODO EntityGraph
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //팀이 1인팀이 아닌지 확인
-        if (team.isPersonal()) {
-            throw new RuntimeException();
-        }
 
         //중간 테이블 저장
         //장르 + 작품에 대한 값이 있어야함
@@ -74,14 +47,6 @@ public class ProductService {
      */
     @Transactional
     public Product updateProduct(User user,Long teamId, Product product, List<Genre> genres) {//TODO EntityGraph
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //팀에 속하는 작품인지 확인
-        if (!product.isProductTeam(team)) {
-            throw new RuntimeException();
-        }
 
         //작품 아이디로 찾아오기
         Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
@@ -105,14 +70,6 @@ public class ProductService {
      * 팀 작품 이름만 수정
      */
     public Product updateProductTitle(User user,Long teamId, Product product) {
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //팀에 속하는 작품인지 확인
-        if (!product.isProductTeam(team)) {
-            throw new RuntimeException();
-        }
 
         //작품 아이디로 찾아오기
         Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
@@ -126,18 +83,6 @@ public class ProductService {
      */
     @Transactional
     public void deleteProduct(User user, Long teamId, Long productId) {//TODO EntityGraph
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 매니저인지 확인
-        teamService.checkIfManager(user, team);
-
-        //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
-
-        //팀에 속하는 작품인지 확인
-        if (!findProduct.isProductTeam(team)) {
-            throw new RuntimeException();
-        }
-
         productRepository.deleteById(productId);
     }
 
@@ -145,15 +90,7 @@ public class ProductService {
      * 팀 작품 아이디로 하나 조회
      */
     public Product findByProductId(User user, Long teamId, Long productId) {//TODO EntityGraph
-        Team team = teamService.getTeam(teamId);
-        //유저가 팀의 멤버인지 확인
-        teamService.checkIfMember(user, team);
         Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
-
-        //팀에 속하는 작품인지 확인
-        if (!findProduct.isProductTeam(team)) {
-            throw new RuntimeException();
-        }
 
         return findProduct;
     }
