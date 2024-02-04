@@ -1,5 +1,6 @@
 package com.example.backend.modules.auth;
 
+import com.example.backend.infra.security.JwtUtil;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.StatusResponseDto;
 import com.example.backend.modules.auth.TokenResponseStatus;
@@ -17,11 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final RefreshTokenService tokenService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/token/logout")
     public ApiResult<StatusResponseDto> logout(@RequestHeader(value = "Authorization") final String accessToken) {
         // 엑세스 토큰으로 현재 Redis 정보 삭제
-        tokenService.removeRefreshToken(accessToken);
+        tokenService.removeRefreshToken(jwtUtil.BearerRemove(accessToken));
 
         return ApiResult.OK(null);
     }
@@ -29,7 +31,7 @@ public class AuthController {
     @PostMapping("/token/refresh")
     public ApiResult<?> refresh(@RequestHeader("Authorization") final String refreshToken) {
 
-        String newAccessToken = tokenService.republishAccessToken(refreshToken);
+        String newAccessToken = tokenService.republishAccessToken(jwtUtil.BearerRemove(refreshToken));
         if (StringUtils.hasText(newAccessToken)) {
             return ApiResult.OK(TokenResponseStatus.addStatus(200, newAccessToken));
         }
