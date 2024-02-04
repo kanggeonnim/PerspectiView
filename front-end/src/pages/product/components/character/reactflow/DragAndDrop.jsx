@@ -1,5 +1,3 @@
-// DnDFlow.js
-
 import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
   ReactFlowProvider,
@@ -127,7 +125,7 @@ export default function DnDFlow() {
             onInit={setReactFlowInstance}
             onDrop={onDrop}
             onDragOver={onDragOver}
-            connectionLineComponent={CustomEdge} // Use CustomConnectionLine for connection line
+            connectionLineComponent={CustomEdge} 
             snapToGrid
             snapGrid={[8, 8]}
             defaultViewport={defaultViewport}

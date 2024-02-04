@@ -21,10 +21,6 @@ export default function Sidebar () {
           인물 관계 추가
         </div>
       </div>
-      {/* TODO event, 노드를 클릭시 노드명을 바꿀수 있게 하거나 하는 방법들을 갈구. */}
-      {/* <div className="dndnode output" onDragStart={(event) => onDragStart(event, 'output')} draggable>
-        Output Node
-      </div> */}
     </aside>
   );
 };

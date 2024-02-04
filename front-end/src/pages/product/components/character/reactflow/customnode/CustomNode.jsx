@@ -95,7 +95,6 @@ export default function CustomNode({ data, isConnectable }) {
               type="target"
               position={Position.Top}
               id="h"
-              // style={Nodecheck.bottom.bottomR}
               isConnectable={isConnectable}
               className="!left-14 hover:!bg-red-500 !bg-transparent !border-0 !w-3 !h-3"
             />
