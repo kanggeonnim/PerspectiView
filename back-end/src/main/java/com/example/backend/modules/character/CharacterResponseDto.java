@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CharacterResponseDto {
+    private Long id;
     private String name;
     private String detail;
     private double positionX;
@@ -14,6 +15,7 @@ public class CharacterResponseDto {
 
     public static CharacterResponseDto of(Character character) {
         return CharacterResponseDto.builder()
+                .id(character.getId())
                 .name(character.getCharacterName())
                 .detail(character.getCharacterDetail())
                 .positionX(character.getPositionX())

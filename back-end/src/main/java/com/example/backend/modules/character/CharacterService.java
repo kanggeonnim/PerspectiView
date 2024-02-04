@@ -1,6 +1,8 @@
 package com.example.backend.modules.character;
 
 import com.example.backend.modules.account.User;
+import com.example.backend.modules.product.Product;
+import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.TeamService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.List;
 public class CharacterService {
     private final CharacterRepository characterRepository;
     private final TeamService teamService;
+    private final ProductService productService;
 
     /**
      * 등장인물 생성
@@ -41,10 +44,11 @@ public class CharacterService {
      * @return 등장인물 리스트
      */
     public List<Character> getCharacters(Long productId, Long teamId, User user) {
+        Product product = productService.findByProductId(user, teamId, productId);
         teamService.checkIfMember(user, teamService.getTeam(teamId));
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
-        return characterRepository.findAllByProductId(productId);
+        return characterRepository.findAllByProduct(product);
     }
 
     /**
