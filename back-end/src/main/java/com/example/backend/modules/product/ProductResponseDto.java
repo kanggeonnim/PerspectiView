@@ -14,7 +14,7 @@ public class ProductResponseDto {
     private Long productId;
     private String productTitle;
     private String productInfo;
-    private String productImage;
+    private String productImageUrl;
     private Category category;
     private List<Genre> genres;
     private List<ProductRelation> productRelations;
@@ -26,7 +26,7 @@ public class ProductResponseDto {
                 .productId(product.getId())
                 .productTitle(product.getTitle())
                 .productInfo(product.getInfo())
-                .productImage(product.getImage())
+                .productImageUrl(product.getProductImageuRL())
                 .category(product.getCategory())
                 .genres(genres)
                 .productRelations(productRelations)
