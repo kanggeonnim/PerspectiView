@@ -5,11 +5,9 @@ import com.example.backend.modules.category.CategoryService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.team.Team;
-<<<<<<< HEAD
 import com.example.backend.modules.user.User;
-=======
 import com.example.backend.modules.team.TeamService;
->>>>>>> back-feat/product
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.Test;
