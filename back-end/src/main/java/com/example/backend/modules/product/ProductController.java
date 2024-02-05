@@ -21,7 +21,7 @@ public class ProductController {
     private final ProductService productService;
     private final S3Uploader s3Uploader;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto, @PathVariable("teamId") Long teamId,
                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
 
@@ -46,7 +46,10 @@ public class ProductController {
                                                            @PathVariable("productId") Long productId,
                                                            @PathVariable("teamId") Long teamId,
                                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-        String imageUrl = String.valueOf(s3Uploader.upload(productRequestDto.getMultipartFile()));
+        String imageUrl = null;
+        if(productRequestDto.getMultipartFile()!=null){
+             String.valueOf(s3Uploader.upload(productRequestDto.getMultipartFile()));
+        }
         productRequestDto.setProductId(productId);
         Product product = productService.updateProduct(principalDetails.getUser(), teamId, productRequestDto.from(productRequestDto,imageUrl),productRequestDto.getGenres());
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
