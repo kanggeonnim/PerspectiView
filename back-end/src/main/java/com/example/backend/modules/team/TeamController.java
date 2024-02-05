@@ -89,4 +89,14 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
+    @GetMapping("/{teamId}/enrollments")
+    public ApiResult<Object> getEnrollment(@PathVariable Long teamId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
+        List<Enrollment> enrollments = teamService.getEnrollmentWithManager(teamId);
+
+        return ApiResult.OK(enrollments.stream()
+                .map(EnrollmentResponseDto::of).collect(Collectors.toList()));
+    }
 }

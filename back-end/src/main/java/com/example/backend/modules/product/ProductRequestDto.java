@@ -5,6 +5,7 @@ import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.team.Team;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 public class ProductRequestDto {
     private Long productId;
     private String productTitle;
+    private MultipartFile multipartFile;
     private String productInfo;
     private Category category;
     private List<Genre> genres;
