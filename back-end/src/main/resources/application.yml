@@ -14,7 +14,7 @@ server:
 
   data:
     redis:
-      host: localhost
+      host: i10b310.p.ssafy.io
       port: 6379
     rest:
       base-path: /api
