@@ -4,6 +4,7 @@ import com.example.backend.modules.character.Character;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class StoryService {
     private final StoryRepository storyRepository;
     private final ContentRepository contentRepository;
@@ -22,6 +24,7 @@ public class StoryService {
     /**
      * 스토리 생성
      */
+    @Transactional
     public Story createStory(Story story, String storycontent, List<Character> characters) {
         /**
          * 순서는 플롯 안에서의 순서는 따진다.
@@ -49,6 +52,12 @@ public class StoryService {
         return madeStory;
     }
 
+    /**
+     * story content 생성
+     * @param content
+     * @return
+     */
+    @Transactional
     public Content createContent(String content) {
         Content makeContent = Content.builder()
                 .content(content)
@@ -56,6 +65,14 @@ public class StoryService {
         return contentRepository.save(makeContent);
     }
 
+    /**
+     * 스토리 수정
+     * @param story
+     * @param characters
+     * @param foreShadowings
+     * @return
+     */
+    @Transactional
     public Story updateStory(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
         storyRelationRepository.deleteAll(story.getStoryRelations());
@@ -83,10 +100,20 @@ public class StoryService {
         return findStory;
     }
 
+    /**
+     * 스토리 삭제
+     * @param storyId
+     */
+    @Transactional
     public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
     }
 
+    /**
+     * 스토리 아이디로 조회
+     * @param storyId
+     * @return
+     */
     public StoryResponseDto findByStoryId(Long storyId) {
         Story story = storyRepository.findById(storyId).orElseThrow(() -> new RuntimeException());
         List<Character> characterList = story.getStoryRelations().stream()

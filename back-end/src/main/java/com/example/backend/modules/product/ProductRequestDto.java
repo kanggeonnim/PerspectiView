@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -21,11 +20,12 @@ public class ProductRequestDto {
     private List<Genre> genres;
     private Team team;
 
-    public Product of(ProductRequestDto productRequestDto){
+    public Product from(ProductRequestDto productRequestDto, String imageUrl){
         return Product.builder()
                 .title(productRequestDto.getProductTitle())
                 .info(productRequestDto.getProductInfo())
                 .category(productRequestDto.getCategory())
+                .image(imageUrl)
                 .build();
     }
 }

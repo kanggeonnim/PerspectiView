@@ -1,13 +1,11 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
-import com.example.backend.modules.category.CategoryResponseDto;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.plot.Plot;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.HashSet;
 import java.util.List;
 
 @Data
@@ -16,19 +14,23 @@ public class ProductResponseDto {
     private Long productId;
     private String productTitle;
     private String productInfo;
+    private String productImage;
     private Category category;
     private List<Genre> genres;
     private List<ProductRelation> productRelations;
     private List<Plot> plots;
     //플롯 hashset - 스토리까지 todo entitygraph
 
-    public static ProductResponseDto from(Product product, List<Genre> genres, List<ProductRelation> productRelations, List<Plot> plots){
+    public static ProductResponseDto of(Product product, List<Genre> genres, List<ProductRelation> productRelations, List<Plot> plots){
         return ProductResponseDto.builder()
                 .productId(product.getId())
                 .productTitle(product.getTitle())
                 .productInfo(product.getInfo())
+                .productImage(product.getImage())
                 .category(product.getCategory())
                 .genres(genres)
+                .productRelations(productRelations)
+                .plots(plots)
                 .build();
     }
 }
