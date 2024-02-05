@@ -14,7 +14,7 @@ server:
 
   data:
     redis:
-      host: Unxs907v2Mllb8PG3x/hT7TAJ1+IO9i3pSsLUvTF9pOL9+NUfn8jUWDeEioD0cNQ
+      host: my-redis
       port: 6379
     rest:
       base-path: /api
