@@ -10,6 +10,7 @@ import {
 import { CardTitle } from "@/components/ui/card";
 import { PlusCircleIcon } from "lucide-react";
 import { Plus } from "lucide-react";
+import CharTag from "./CharTag";
 
 
 
@@ -46,7 +47,7 @@ export default function CharAdd({name, description, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2 h-1/4">
                 <div className="box-border w-1/5 mr-3 text-xl">특징</div>
                 <div className="box-border w-4/5">
-                  <input className="border" /> 
+                  <CharTag />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2 h-2/3">
