@@ -74,7 +74,7 @@ public class TeamService {
     }
 
     public void cancelEnrollment(Long teamId, User user) {
-        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new NotFoundException();
+        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new NotFoundException());
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(findTeam, user);
         if (enrollment != null) {
             findTeam.removeEnrollment(enrollment);
@@ -83,7 +83,7 @@ public class TeamService {
     }
 
     public Team getTeamToUpdate(User user, Long teamId) {
-        Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new NotFoundException();
+        Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new NotFoundException());
         checkIfManager(user, findTeam);
         return findTeam;
     }
