@@ -117,6 +117,7 @@ public class ProductService {
         List<Genre> genres = new ArrayList<>();
         for (ProductGenre pg : productGenres) {
             Genre genre = genreRepository.findById(pg.getGenre().getId()).orElseThrow(() -> new RuntimeException());
+            genres.add(genre);
         }
         return genres;
     }
@@ -129,6 +130,7 @@ public class ProductService {
         return product.getProductRelations().stream().toList();
 
     }
+
     /**
      * 작품 플롯 전체 조회
      */
