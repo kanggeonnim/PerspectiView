@@ -29,6 +29,7 @@ public class ProductRelation {
 
     @Column(nullable = false)
     private String productRelationInfo;
+    //TODO 작품인물관계선 좌표
 
     @Builder
     public ProductRelation(Product product, Character fromCharacter, Character toCharacter, String productRelationInfo) {

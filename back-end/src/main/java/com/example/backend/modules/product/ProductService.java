@@ -30,7 +30,7 @@ public class ProductService {
      * 팀 작품 생성
      */
     @Transactional
-    public Product createTeamProduct(User user, Long teamId, Product product, List<Genre> genres) { //TODO EntityGraph
+    public Product createTeamProduct(Product product, List<Genre> genres) { //TODO EntityGraph
 
         //중간 테이블 저장
         //장르 + 작품에 대한 값이 있어야함
@@ -45,17 +45,21 @@ public class ProductService {
     /**
      * 팀 작품 수정
      */
+    //TODO 장르 List 수정하는 로직 필요
     @Transactional
-    public Product updateProduct(User user, Long teamId, Product product, List<Genre> genres) {//TODO EntityGraph
+
+    public Product updateProduct(Long productId, Product product, List<Genre> genres) {
+
 
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
 
         //원래 있던 장르작품 삭제하고
         for (ProductGenre pg : findProduct.getProductGenres()) {
-//            System.out.println(pg.getGenre().getGenreName());
             productGenreRepository.delete(pg);
         }
+
+        List<ProductGenre> productGenres = new ArrayList<>();
 
         //다시 만들어서 add
         for (Genre g : genres) {
@@ -63,16 +67,11 @@ public class ProductService {
             Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
             System.out.println("추가할 장르 이름: "+genre.getGenreName());
 
-
             ProductGenre productGenre = productGenreRepository.save(new ProductGenre(findProduct, genre));
 
-//            System.out.println(productGenre.getGenre().getGenreName()); //
-//
-            //새로 리스트를 만들어서 productGenre로 옮기기
-//            product.addProductGenre(productGenre);
+            productGenres.add(productGenre);
         }
-//        System.out.println("새 장르작품 생성 끝");
-        
+
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
         if(product.getImage()!=null){
             findProduct.updateProductImage(product.getImage());
@@ -83,10 +82,11 @@ public class ProductService {
     /**
      * 팀 작품 이름만 수정
      */
-    public Product updateProductTitle(User user, Long teamId, Product product) {
 
+    @Transactional
+    public Product updateProductTitle(Long ProductId,Product product) {
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findById(product.getId()).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findById(ProductId).orElseThrow(() -> new RuntimeException());
 
         findProduct.updateProductTitle(product.getTitle());
         return findProduct;
@@ -96,7 +96,7 @@ public class ProductService {
      * 팀 작품 삭제
      */
     @Transactional
-    public void deleteProduct(User user, Long teamId, Long productId) {//TODO EntityGraph
+    public void deleteProduct(Long productId) {//TODO EntityGraph
         productRepository.deleteById(productId);
     }
 
@@ -116,6 +116,7 @@ public class ProductService {
         List<Genre> genres = new ArrayList<>();
         for (ProductGenre pg : productGenres) {
             Genre genre = genreRepository.findById(pg.getGenre().getId()).orElseThrow(() -> new RuntimeException());
+            genres.add(genre);
         }
         return genres;
     }
