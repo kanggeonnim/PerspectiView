@@ -1,13 +1,11 @@
 import React, { useState, useRef, useCallback } from "react";
 import ReactFlow, {
-  ReactFlowProvider,
   addEdge,
   useNodesState,
   useEdgesState,
   Controls,
   MarkerType,
 } from "reactflow";
-import "reactflow/dist/style.css";
 import CustomNode from "./customnode/CustomNode";
 import FloatingEdge from "./FloatingEdge";
 import CustomEdge from "./CustomConnectionLine";
@@ -30,6 +28,7 @@ const initialEdges = [];
 
 const edgeTypes = {
   floating: FloatingEdge,
+  custom: CustomEdge,
 };
 
 const defaultEdgeOptions = {
@@ -112,7 +111,6 @@ export default function DnDFlow() {
 
   return (
     <div className="dndflow">
-      <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
             nodes={nodes}
@@ -139,7 +137,6 @@ export default function DnDFlow() {
           </ReactFlow>
         </div>
         <Sidebar />
-      </ReactFlowProvider>
     </div>
   );
 }

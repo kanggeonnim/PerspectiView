@@ -31,6 +31,10 @@ const works = [
   { id: 5, url: "https://picsum.photos/200/300", title: "mywork" },
 ];
 
+
+// TODO 컴포넌트 분화 필요
+
+
 function CreateWork() {
   return (
     <Card className="flex items-center justify-center w-32 border-dashed h-36">

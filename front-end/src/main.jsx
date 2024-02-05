@@ -16,11 +16,18 @@ import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import WorkListCard from "./pages/workspace/components/WorkListCard.jsx";
 import TeamWorkspaceBody from "./pages/workspace/components/TeamWorkspaceBody.jsx";
+import { ReactFlowProvider } from "reactflow";
+import "reactflow/dist/style.css";
+
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: 
+    <ReactFlowProvider>
+    <App />
+    </ReactFlowProvider>,
+
     errorElement: <ErrorPage />,
 
     children: [
