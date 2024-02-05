@@ -115,7 +115,6 @@ public class ProductServiceTest {
 
         //update
         Product updateProduct = Product.builder()
-                .id(1L)
                 .team(team)
                 .title("작품3")
                 .info("eng plz")
