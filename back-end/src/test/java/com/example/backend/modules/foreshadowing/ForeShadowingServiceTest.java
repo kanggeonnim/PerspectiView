@@ -20,6 +20,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
@@ -46,37 +47,11 @@ class ForeShadowingServiceTest {
     @Autowired
     ForeShadowingService foreShadowingService;
 
-    @Autowired
-    StoryRepository storyRepository;
 
     @Autowired
     ProductRepository productRepository;
 
-    @Autowired
-    PlotRepository plotRepository;
-
-    @Autowired
-    ContentRepository contentRepository;
-
-    @Autowired
-    StoryService storyService;
-
-    @Autowired
-    StoryForeShadowingRepository storyForeShadowingRepository;
-
     private Product product;
-
-    private Plot plot;
-
-    private ForeShadowing foreShadowing;
-
-    private List<ForeShadowing> foreShadowings;
-
-    List<Character> characters;
-
-    private Story story;
-
-    private Content content;
 
     @BeforeEach
     public void setup() {
@@ -87,50 +62,6 @@ class ForeShadowingServiceTest {
                 .build();
         productRepository.save(product);
 
-        plot = Plot.builder()
-                .name("name")
-                .color("red")
-                .product(product)
-                .build();
-        plotRepository.save(plot);
-
-        content = Content.builder()
-                .content("SibalContents: StartContents")
-                .build();
-        contentRepository.save(content);
-
-        story = Story.builder()
-                .title("storyTitle")
-                .positionX(1)
-                .positionY(1.0)
-                .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
-                .build();
-
-        characters = new ArrayList<>();
-        foreShadowings = new ArrayList<>();
-
-        storyService.createStory(story, "", characters);
-
-        foreShadowing = ForeShadowing.builder()
-                .product(product)
-                .fShadowClose(false)
-                .fShadowName("fShadowName")
-                .fShadowContent("fShadowContent")
-                .build();
-        foreShadowingRepository.save(foreShadowing);
-
-        StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
-                .story(story)
-                .foreShadowing(foreShadowing)
-                .build();
-        storyForeShadowingRepository.save(storyForeShadowing);
-
-        log.info(storyForeShadowing.getStory().getTitle());
-        log.info(String.valueOf(storyForeShadowing.getStory().getPositionX()));
-
-        story.addStoryForeShadowing(storyForeShadowing);
     }
 
     private Team makeTeam(User user) {
@@ -176,4 +107,53 @@ class ForeShadowingServiceTest {
         assertEquals(createdFS.getFShadowName(), foreShadowing.getFShadowName());
     }
 
+    @Test
+    public void 복선수정테스트() throws Exception {
+        //given
+        ForeShadowing foreShadowing = ForeShadowing.builder()
+                .product(product)
+                .fShadowName("fshName")
+                .fShadowContent("fshContent")
+                .fShadowClose(false)
+                .build();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), foreShadowing);
+
+        ForeShadowing updateFS = ForeShadowing.builder()
+                .id(foreShadowing.getId())
+                .product(product)
+                .fShadowName("updatedName")
+                .fShadowContent("fshContent")
+                .fShadowClose(false)
+                .build();
+
+        //when
+        ForeShadowing atferUpdate = foreShadowingService.updateForeShadowing(user, team.getId(), product.getId(),updateFS);
+
+        //then
+        assertEquals(atferUpdate.getFShadowName(), updateFS.getFShadowName());
+    }
+
+    @Test
+    public void 복선삭제테스트() throws Exception {
+        //given
+        ForeShadowing foreShadowing = ForeShadowing.builder()
+                .product(product)
+                .fShadowName("fshName")
+                .fShadowContent("fshContent")
+                .fShadowClose(false)
+                .build();
+
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
+        foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), foreShadowing);
+
+        //when
+        foreShadowingService.deleteForeShadowing(user, team.getId(), product.getId(), foreShadowing.getId());
+
+        //then
+        List<ForeShadowing> foreShadowingList = foreShadowingService.findByProductId(user, team.getId(), product.getId());
+        assertEquals(foreShadowingList.size(), 0);
+    }
 }
