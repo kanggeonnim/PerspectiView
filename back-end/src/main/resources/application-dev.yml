@@ -29,7 +29,7 @@ spring:
             client-id: ENC(1B6M9jx922aR/BW+79Qc7DzKcqw0A1gmCgELay9fE40qhC5s5f+sFjT6fFzeOk+0Jq3ePiDeWT0QgqIvvmPp/YzdaSnu1SdC0CYE6EvEL0U=)
             client-secret: ENC(+vU7rcbgVhv5oBaaE6vJm0IZHEMIn+JEq6l5xwPVEbCM0L7x7AHf36G7n9PAZPN3wf7lKZcbljks33Fjd9kySR6injmKDOe31zFutkF6k04=)
             client-authentication-method: ENC(XqpkUuwSmD7b+N/1eadLjaZnGnvoo67sOmnVYuXz6cnVDkctYc1LbYrginLx7bPIKdUYb10ZPNLn9oQOfnfQQg==)
-            redirect-uri: ENC(XPvxn3vWPIwAG5A+vxg+AhrHI3P8CHe2stKgdcLyxDsiXuMzwd2IVQtaq+26s+jkg+aRsKAV1w/2WodN7kaPH8sc+iNkQPyEdQJYJEUe1QZlbc0lj8auneVkcobUsUSy)
+            redirect-uri: ENC(3OipATMR34DERtX9Qz+lgvf+jJZ1iOVsdzN+0QIDXDf2guci25ckHGi3CJvZmRURaatGjCPJwjwhtMHUNCzdZNwykBSx5Nr87mF9nPovuJ9iNgtg+LAzIOuktOqL67vW)
             authorization-grant-type: ENC(C6CFq2RAOmE04CWKthR5kmxkqS1KCThTZImpFDqGztdVc/8NEPG1N/WuS1qjDBD2ipinkSb6FXKybqBzwy3f8Q==)
             client-name: kakao
             scope:
@@ -48,7 +48,7 @@ spring:
           naver:
             client-id: ENC(NHAFYgMV69yPNebLQuZRvVd5p1GEPGTgfUL48LvZ96z6LaeZSeEpm77YJ7WRpdl0OoNmrZ2j4beJJFXB8WxHXw==)
             client-secret: ENC(xSwet+JbB18FNFrCbiW9EroF6+WGP01XfkgTVe6dFYbCKOwUq8OQnuWrD0VZHub2)
-            redirect-uri: ENC(RfoKW+GFDnqkxRObkXGOeUaZwqpUO88eF3FbuPAHEySPl5Z+Yg194g0DnAT8ibwvgG0qdtHfHcokZevhVIVKlIaTEBTkwcsHzSY5EjCCFDkF3S23E/ebqdpthP78JNdH)
+            redirect-uri: ENC(JalXTTDHfAdeF9eLjZrsxJtk6bON/uBpKMLiRKye9CkDYoHxAb/TDspVKc39Vzt11NgeTArybu85oqMf8VyITKHBXUUICiOIOJLU9MB0cEeAlWk3OCy2ACwJFjKysyid)
             authorization-grant-type: authorization_code
             client-name: naver
             scope:
