@@ -36,7 +36,7 @@ public class JwtUtil {
 
         // 토큰을 Redis에 저장한다.
         tokenService.saveTokenInfo(username, refreshToken, accessToken);
-        return new GeneratedToken(accessToken, refreshToken);
+        return new GeneratedToken("Bearer " + accessToken, "Bearer " + refreshToken);
     }
 
     public String generateRefreshToken(String username, String role) {
@@ -108,5 +108,8 @@ public class JwtUtil {
     public String getRole(String token) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("role", String.class);
     }
-
+    // Bearer 제거
+    public String BearerRemove(String token) {
+        return token.substring("Bearer ".length());
+    }
 }

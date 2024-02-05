@@ -46,7 +46,7 @@ public class RefreshTokenService {
             // 새로운 액세스 토큰을 반환해준다.
             return newAccessToken;
         }
-        // 만약 AccessToken이 유효하지만 refreshToken을 토앻 요청하면다면 refreshToken이 탈취되었음을 의미.
+        // 만약 AccessToken이 유효하지만 refreshToken을 통해 요청하면다면 refreshToken이 탈취되었음을 의미.
         // refresh, access Token 만료 후 재로그인 요청
         else{
             removeRefreshToken(accessToken);

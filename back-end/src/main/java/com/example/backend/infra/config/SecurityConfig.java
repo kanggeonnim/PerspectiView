@@ -61,6 +61,7 @@ public class SecurityConfig {
 				.authorizeRequests(authorize ->
 						// accessDecisionManager
 						authorize.accessDecisionManager(accessDecisionManager())
+								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
 						// hasRole('ROLE_USER')")
@@ -78,6 +79,8 @@ public class SecurityConfig {
 								.failureHandler(myAuthenticationFailureHandler))
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
 				.addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class);
+
+
 		return http.build();
 	}
 }

@@ -4,6 +4,7 @@ import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
@@ -26,7 +27,7 @@ public class TeamCheckVoter implements AccessDecisionVoter<FilterInvocation> {
     private final RequestMatcher requiresAuthorizationRequestMatcher;
     private final Function<String, Long> idExtractor;
 
-    private TeamService teamService;
+    private final TeamService teamService;
 
     @Autowired
     public TeamCheckVoter(TeamService teamService) {
