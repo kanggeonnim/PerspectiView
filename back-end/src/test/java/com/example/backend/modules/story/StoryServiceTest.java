@@ -26,7 +26,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-@Rollback(false)
 @Slf4j
 @TestMethodOrder(MethodOrderer.class)
 class StoryServiceTest {
@@ -180,6 +179,7 @@ class StoryServiceTest {
         //when
         storyService.deleteStory(story.getId());
         //then
-
+        assertThrows(RuntimeException.class, () ->
+                storyService.findByStoryId(story.getId()));
     }
 }
