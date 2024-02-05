@@ -2,6 +2,11 @@ package com.example.backend.modules.team;
 
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -13,9 +18,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/team")
+@Tag(name = "team", description = "Team 도메인 컨트롤러")
 public class TeamController {
     private final TeamService teamService;
-
+    @Operation(
+            responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
+            @ApiResponse(responseCode = "401", description = "please login"),
+            @ApiResponse(responseCode = "403", description = "not manager")
+            }
+    )
     @PostMapping
     public ApiResult<TeamResponseDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -31,12 +42,19 @@ public class TeamController {
                 .collect(Collectors.toList()));
     }
 
+
     @GetMapping("/{teamId}")
     public ApiResult<TeamResponseDto> getTeam(@PathVariable Long teamId){
         Team team = teamService.getTeam(teamId);
         return ApiResult.OK(TeamResponseDto.of(team));
     }
 
+    @Operation(
+            responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
+                    @ApiResponse(responseCode = "401", description = "please login"),
+                    @ApiResponse(responseCode = "403", description = "not manager")
+            }
+    )
     @PatchMapping("/{teamId}")
     public ApiResult<TeamResponseDto> updateTeam(@PathVariable Long teamId,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails,
@@ -45,6 +63,12 @@ public class TeamController {
         return ApiResult.OK(TeamResponseDto.of(team));
     }
 
+    @Operation(
+            responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
+                    @ApiResponse(responseCode = "401", description = "please login"),
+                    @ApiResponse(responseCode = "403", description = "not manager")
+            }
+    )
     @DeleteMapping("/{teamId}")
     public ApiResult<Object> deleteTeam(@PathVariable Long teamId,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -68,23 +92,35 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
+    @Operation(
+            responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
+                    @ApiResponse(responseCode = "401", description = "please login"),
+                    @ApiResponse(responseCode = "403", description = "not manager")
+            }
+    )
     @GetMapping("/{teamId}/enrollments/{enrollmentId}")
     public ApiResult<Object> acceptEnrollment(@PathVariable Long teamId,
                                               @PathVariable Long enrollmentId,
                                               @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
-        teamService.acceptEnrollment(team, enrollmentId);
+        teamService.acceptEnrollment(team, enrollmentId, principalDetails.getUser());
         return ApiResult.OK(null);
     }
 
+    @Operation(
+            responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
+                    @ApiResponse(responseCode = "401", description = "please login"),
+                    @ApiResponse(responseCode = "403", description = "not manager")
+            }
+    )
     @PostMapping("/{teamId}/enrollments/{enrollmentId}")
     public ApiResult<Object> deniedEnrollment(@PathVariable Long teamId,
                                               @PathVariable Long enrollmentId,
                                               @AuthenticationPrincipal PrincipalDetails principalDetails){
 
         Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
-        teamService.deniedEnrollment(enrollmentId);
+        teamService.deniedEnrollment(team, enrollmentId, principalDetails.getUser());
 
         return ApiResult.OK(null);
     }
