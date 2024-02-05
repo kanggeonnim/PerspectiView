@@ -3,6 +3,7 @@ package com.example.backend.modules.product;
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.productrelation.ProductRelation;
 import lombok.Builder;
 import lombok.Data;
 
