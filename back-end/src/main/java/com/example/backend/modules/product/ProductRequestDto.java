@@ -20,12 +20,12 @@ public class ProductRequestDto {
     private List<Genre> genres;
     private Team team;
 
-    public Product from(ProductRequestDto productRequestDto, String imageUrl){
+    public Product from(ProductRequestDto productRequestDto, String productImageuRL){
         return Product.builder()
                 .title(productRequestDto.getProductTitle())
                 .info(productRequestDto.getProductInfo())
                 .category(productRequestDto.getCategory())
-                .image(imageUrl)
+                .productImageuRL(productImageuRL)
                 .build();
     }
 }
