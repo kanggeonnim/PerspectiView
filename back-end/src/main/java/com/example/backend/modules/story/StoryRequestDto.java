@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @Builder
 public class StoryRequestDto {
-    private Plot plot;
     private String storyTitle;
     private String storyContent;
     private List<Character> characters;
@@ -19,10 +18,9 @@ public class StoryRequestDto {
     private int positionX;
     private Double positionY;
 
-    public static Story of(StoryRequestDto storyRequestDto){
+    public static Story of(StoryRequestDto storyRequestDto) {
         return Story.builder()
                 .title(storyRequestDto.getStoryTitle())
-                .plot(storyRequestDto.getPlot())
                 .positionX(storyRequestDto.getPositionX())
                 .positionY(storyRequestDto.getPositionY())
                 .build();
