@@ -31,7 +31,7 @@ public class PlotController {
      * @param principalDetails
      * @return
      */
-    @GetMapping("/")
+    @GetMapping
     public ApiResult<List<PlotResponseDto>> findByProduct(@PathVariable("teamId") Long teamId,
                                                           @PathVariable("productId") Long productId,
                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
@@ -49,7 +49,7 @@ public class PlotController {
                 .collect(Collectors.toList()));
     }
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<PlotResponseDto> createPlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
                                                  @PathVariable("teamId") Long teamId,
                                                  @PathVariable("productId") Long productId,
