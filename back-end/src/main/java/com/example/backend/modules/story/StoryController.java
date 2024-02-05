@@ -12,7 +12,7 @@ import java.util.List;
 public class StoryController {
     private final StoryService storyService;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<StoryResponseDto> createStory(@RequestBody StoryRequestDto storyRequestDto) {
 
         //story 등록
