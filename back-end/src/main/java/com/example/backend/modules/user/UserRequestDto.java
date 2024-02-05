@@ -19,7 +19,7 @@ public class UserRequestDto {
     public static User from(UserRequestDto userRequestDto) {
         return User.builder()
                 .userNickname(userRequestDto.getNickname())
-                .userImage(userRequestDto.getImage())
+                .userImageUrl(userRequestDto.getImage())
                 .email(userRequestDto.getEmail())
                 .userPhone(userRequestDto.getUserPhone())
                 .userInfo(userRequestDto.getUserInfo())

@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 public class UserResponseDto {
     private String userNickname;
-    private String userImage;
+    private String userImageUrl;
     private String email;
     private String userPhone;
     private String userInfo;
@@ -15,7 +15,7 @@ public class UserResponseDto {
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
                 .userNickname(user.getUserNickname())
-                .userImage(user.getUserImage())
+                .userImageUrl(user.getUserImageUrl())
                 .email(user.getEmail())
                 .userPhone(user.getUserPhone())
                 .userInfo(user.getUserInfo())

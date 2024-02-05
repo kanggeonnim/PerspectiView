@@ -46,7 +46,7 @@ class TeamServiceTest {
 
     private User makeUser(String username) {
         User user = User.builder().userNickname("nickname")
-                .userImage("https://s3")
+                .userImageUrl("https://s3")
                 .username(username)
                 .email("kangkun@naver.com")
                 .provider("kakao")
