@@ -1,17 +1,12 @@
-package com.example.backend.modules.account;
+package com.example.backend.modules.user;
 
-import ch.qos.logback.core.model.Model;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Iterator;
 
 @RestController
 @RequiredArgsConstructor

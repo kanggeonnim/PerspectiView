@@ -1,7 +1,7 @@
 package com.example.backend.infra.security;
 
 import com.example.backend.infra.config.SecurityConfig;
-import com.example.backend.modules.account.UserService;
+import com.example.backend.modules.user.UserService;
 import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = SecurityConfig.class)
 @WebAppConfiguration

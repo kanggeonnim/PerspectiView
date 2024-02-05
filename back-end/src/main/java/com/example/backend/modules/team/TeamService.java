@@ -1,6 +1,6 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.User;
+import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -69,7 +69,7 @@ public class TeamService {
     public void cancelEnrollment(Long teamId, User user) {
         Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(findTeam, user);
-        if(enrollment != null){
+        if (enrollment != null) {
             findTeam.removeEnrollment(enrollment);
             enrollmentRepository.delete(enrollment);
         }
@@ -109,7 +109,7 @@ public class TeamService {
         enrollmentRepository.delete(enrollment);
     }
 
-    public List<Enrollment> getEnrollmentWithManager(Long teamId){
+    public List<Enrollment> getEnrollmentWithManager(Long teamId) {
         return enrollmentRepository.findByTeamIdOrderByEnrolledAtDesc(teamId);
     }
 }

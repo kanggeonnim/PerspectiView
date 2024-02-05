@@ -1,4 +1,4 @@
-package com.example.backend.modules.account;
+package com.example.backend.modules.user;
 
 import com.example.backend.modules.team.Enrollment;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -65,7 +65,7 @@ public class User {
         authorities.add(userAuthority);
     }
 
-    public void changeUser(User user){
+    public void changeUser(User user) {
         this.userImage = user.getUserImage();
         this.userNickname = user.getUserNickname();
         this.email = user.getEmail();

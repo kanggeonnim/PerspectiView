@@ -1,27 +1,23 @@
-package com.example.backend.modules.account;
+package com.example.backend.modules.user;
 
 import com.example.backend.infra.security.JwtSuccessHandler;
 import com.example.backend.infra.security.MyAuthenticationFailureHandler;
 import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @RequiredArgsConstructor
 @ActiveProfiles("app")
-
 class UserControllerTest {
 
     @Autowired
