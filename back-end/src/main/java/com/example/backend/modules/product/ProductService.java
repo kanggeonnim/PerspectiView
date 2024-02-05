@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -55,16 +56,30 @@ public class ProductService {
 
         //원래 있던 장르작품 삭제하고
         for (ProductGenre pg : findProduct.getProductGenres()) {
-            productGenreRepository.deleteById(pg.getId());
+//            System.out.println(pg.getGenre().getGenreName());
+            productGenreRepository.delete(pg);
         }
 
         //다시 만들어서 add
         for (Genre g : genres) {
+            //이미 있는 장르만 고를거니깐 그거 골라 오기
             Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
-            product.addProductGenre(productGenreRepository.save(new ProductGenre(findProduct, genre)));
-        }
+            System.out.println("추가할 장르 이름: "+genre.getGenreName());
 
+
+            ProductGenre productGenre = productGenreRepository.save(new ProductGenre(findProduct, genre));
+
+//            System.out.println(productGenre.getGenre().getGenreName()); //
+//
+            //새로 리스트를 만들어서 productGenre로 옮기기
+//            product.addProductGenre(productGenre);
+        }
+//        System.out.println("새 장르작품 생성 끝");
+        
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
+        if(product.getImage()!=null){
+            findProduct.updateProductImage(product.getImage());
+        }
         return findProduct;
     }
 

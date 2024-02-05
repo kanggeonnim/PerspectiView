@@ -19,7 +19,7 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("/")
+    @GetMapping
     public ApiResult<List<CategoryResponseDto>> findAllCategory() {
         List<Category> categories = categoryService.findAll();
         return ApiResult.OK(categories.stream().map(CategoryResponseDto::of)
