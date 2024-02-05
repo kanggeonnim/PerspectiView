@@ -41,7 +41,7 @@ spring:
           google:
             client-id: ENC(RImpFhH40nuFYBcsnFopx7wxNUbvRidnh3VEj+snsQt53Lxe9jbqPGTwTt+yavMJdSuFuhM+vLIgHGxTAsXVn9Gf26Wrht1PoAPvR8OiigZGE/aOESRm5kjS8Ha2sZ1r2hCdNeBzKcrHjalgJbzHhQ==)
             client-secret: ENC(v96a4tJNlaF71/24oP3b3QGVSuHM2Vw8Qf9WZyJU6MU7gq6IHdiZhi3GWHvTOy/F+9frg+nKIOOxk/KDgkdzkUtb7gzjcWt1c3bcH2g8XAE=)
-            redirect-uri: ENC(13X1jvMogtALwwSFnS7OsvlQ6c/ML/JOQ+qWbHs6WgAB0BwAvi5IwU+Mr9hwZnLFx8PIfyeOrj2W6pB51/TNn6s4UCDtrg6K4PEVOHKOckM=)
+            redirect-uri: ENC(xXLqaPj+wZ6KtCuB/IqTxNnTMmCXvS7DakJWpsvAgVOS238PRzij1aPLKcTSOJLetWkvjpkS57dpmNSE2QaKp3LpWqVnCU+dMafvxwkydB/oU+OCGF1nr72eCFiUSEng)
             scope:
               - email
               - profile
