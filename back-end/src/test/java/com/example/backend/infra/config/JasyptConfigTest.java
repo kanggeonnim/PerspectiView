@@ -10,12 +10,12 @@ class JasyptConfigTest {
 
     @Test
     void stringEncryptor() {
-        String url = "";
+        String url = "P@ssw0rd";
         System.out.println(jasyptEncoding(url));
     }
 
     public String jasyptEncoding(String value) {
-        String key = "";
+        String key = "P@ssw0rd";
         StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
         pbeEnc.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
         pbeEnc.setPassword(key);
