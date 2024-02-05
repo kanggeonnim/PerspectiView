@@ -12,11 +12,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("team")
+@RequestMapping("/team")
 public class TeamController {
     private final TeamService teamService;
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<TeamResponseDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
 
@@ -24,7 +24,7 @@ public class TeamController {
         return ApiResult.OK(TeamResponseDto.of(team));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public ApiResult<List<TeamResponseDto>> getTeams(){
         List<Team> teams = teamService.getTeams();
         return ApiResult.OK(teams.stream().map(TeamResponseDto::of)
@@ -89,4 +89,14 @@ public class TeamController {
         return ApiResult.OK(null);
     }
 
+    @GetMapping("/{teamId}/enrollments")
+    public ApiResult<Object> getEnrollment(@PathVariable Long teamId,
+                                              @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Team team = teamService.getTeamToUpdate(principalDetails.getUser(), teamId);
+        List<Enrollment> enrollments = teamService.getEnrollmentWithManager(teamId);
+
+        return ApiResult.OK(enrollments.stream()
+                .map(EnrollmentResponseDto::of).collect(Collectors.toList()));
+    }
 }

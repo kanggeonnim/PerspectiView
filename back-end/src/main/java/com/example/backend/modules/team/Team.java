@@ -27,11 +27,15 @@ public class Team {
     @Column(nullable = true)
     private String info;
 
+    @Column(nullable = true)
+    private String profileImageUrl;
+
     @Builder
-    public Team(String title, String info, Boolean personal) {
+    public Team(String title, String info, Boolean personal, String profileImageUrl) {
         this.title = title;
         this.info = info;
         this.personal = personal;
+        this.profileImageUrl = profileImageUrl;
     }
 
     @Column(nullable = false)
@@ -58,6 +62,10 @@ public class Team {
 
     public boolean ifManager(User user){
         return managers.contains(user);
+    }
+
+    public boolean ifMember(User user){
+        return members.contains(user);
     }
 
     public void addEnrollment(Enrollment enrollment){

@@ -28,12 +28,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-			throws IOException, ServletException {
+			throws IOException, ServletException, IllegalStateException {
 		String token = request.getHeader("Authorization");
 		if (token == null ) {
 			chain.doFilter(request, response);
 			return;
 		}
+
+		token = jwtUtil.BearerRemove(token);
 
 		// AccessToken을 검증하고, 만료되었을경우 예외를 발생시킨다.
 		if (!jwtUtil.verifyToken(token)) {

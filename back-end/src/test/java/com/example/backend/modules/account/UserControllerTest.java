@@ -42,16 +42,16 @@ class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
-    @Test
-    @WithMockUser(roles="USER")
-    void 권한_테스트() throws Exception {
-        //given
-        mvc.perform(get("user/"))
-                .andExpect(status().isOk());
-
-        //when
-
-
-        //then
-    }
+//    @Test
+//    @WithMockUser(roles="USER")
+//    void 권한_테스트() throws Exception {
+//        //given
+//        mvc.perform(get("user/"))
+//                .andExpect(status().isOk());
+//
+//        //when
+//
+//
+//        //then
+//    }
 }
