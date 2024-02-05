@@ -74,8 +74,8 @@ public class ProductService {
         }
 
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
-        if(product.getImage()!=null){
-            findProduct.updateProductImage(product.getImage());
+        if(product.getProductImageuRL()!=null){
+            findProduct.updateProductImage(product.getProductImageuRL());
         }
         return findProduct;
     }
