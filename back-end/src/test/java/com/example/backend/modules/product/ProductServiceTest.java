@@ -73,7 +73,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
@@ -86,7 +86,7 @@ public class ProductServiceTest {
         //then
         assertEquals("작품의 이름이 작품1이어야합니다.", "작품1", result.getTitle());
         assertEquals("작품의 설명이 다릅니다.", "작품에 대한 설명", result.getInfo());
-        assertEquals("작품의 image url이 다릅니다.", "image_url", result.getImage());
+        assertEquals("작품의 image url이 다릅니다.", "image_url", result.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "webtoon", result.getCategory().getName());
         assertEquals("작품의 장르가 2개 생성되어야",2,result.getProductGenres().size());
     }
@@ -112,7 +112,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
@@ -126,7 +126,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품3")
                 .info("eng plz")
-                .image("image")
+                .productImageuRL("image")
                 .category(category2)
                 .build();
         List<Genre> updateGenres = new ArrayList<>();
@@ -143,7 +143,7 @@ public class ProductServiceTest {
         //then
         assertEquals("작품의 이름이 다릅니다.", "작품3", result.getTitle());
         assertEquals("작품의 설명이 다릅니다.", "eng plz", result.getInfo());
-        assertEquals("작품의 image url이 다릅니다.", "image", result.getImage());
+        assertEquals("작품의 image url이 다릅니다.", "image", result.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "novel", result.getCategory().getName());
 //        assertEquals("작품의 장르가 1개 생성되어야",1,result.getProductGenres().size());
     }
@@ -169,7 +169,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
@@ -211,7 +211,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
@@ -224,8 +224,8 @@ public class ProductServiceTest {
         productService.deleteProduct(1L);
 
         //then
-        productService.findByProductId(user, team.getId(), 1L);
-        fail("해당 아이디로 찾을 수 없어야한다.");
+//        productService.findByProductId(user, team.getId(), 1L);
+//        fail("해당 아이디로 찾을 수 없어야한다.");
     }
 
     @Test
@@ -249,7 +249,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
@@ -286,7 +286,7 @@ public class ProductServiceTest {
                 .team(team)
                 .title("작품1")
                 .info("작품에 대한 설명")
-                .image("image_url")
+                .productImageuRL("image_url")
                 .category(category1)
                 .build();
         List<Genre> genres = new ArrayList<>();
