@@ -14,8 +14,9 @@ server:
 
   data:
     redis:
-      host: my-redis
+      host: localhost
       port: 6379
+      password: ENC(W58pRv93UJ7dWMw5s8Suosw8Nv0NAijMF3cqYG+mdDI5BGERPEDdgq00RriyaWmg)
     rest:
       base-path: /api
 

@@ -10,7 +10,7 @@ class JasyptConfigTest {
 
     @Test
     void stringEncryptor() {
-        String url = "";
+        String url = "P@ssw0rd";
         System.out.println(jasyptEncoding(url));
     }
 
