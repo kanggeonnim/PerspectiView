@@ -80,6 +80,11 @@ public class Product {
         this.title = title;
     }
 
+    //------작품의 이미지 url만 수정하는 메서드----//
+    public void updateProductImage(String imageUrl) {
+        this.image = imageUrl;
+    }
+
     //-------genre set에 추가하는 메서드------//
     public void addProductGenre(ProductGenre productGenre){
         productGenres.add(productGenre);
