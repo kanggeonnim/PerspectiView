@@ -30,7 +30,7 @@ spring:
             client-id: ENC(1B6M9jx922aR/BW+79Qc7DzKcqw0A1gmCgELay9fE40qhC5s5f+sFjT6fFzeOk+0Jq3ePiDeWT0QgqIvvmPp/YzdaSnu1SdC0CYE6EvEL0U=)
             client-secret: ENC(+vU7rcbgVhv5oBaaE6vJm0IZHEMIn+JEq6l5xwPVEbCM0L7x7AHf36G7n9PAZPN3wf7lKZcbljks33Fjd9kySR6injmKDOe31zFutkF6k04=)
             client-authentication-method: ENC(XqpkUuwSmD7b+N/1eadLjaZnGnvoo67sOmnVYuXz6cnVDkctYc1LbYrginLx7bPIKdUYb10ZPNLn9oQOfnfQQg==)
-            redirect-uri: ENC(0rzP60GsbuEFf3Occk6R0mSnYWTVYMmKW4ttCXxfM6abwzmP16Z8SoF/IVWmdQJg1rjEBZZ5xp+L2UF594rivCOgyr2cIiFDD33Abp3dMu8=)
+            redirect-uri: ENC(FYQ2UysA7N1P2i83zHaTEAkWSyA0YyLcZq3tfn1cHa/HCWDSSddHRlG7Dr5XmhaX98hmfLirBRk8lJ6ppmi2BdIUmwFFd5ABFEqo//SNdZzOoSb8YGwcZ7LCB4gol2DU)
             authorization-grant-type: ENC(C6CFq2RAOmE04CWKthR5kmxkqS1KCThTZImpFDqGztdVc/8NEPG1N/WuS1qjDBD2ipinkSb6FXKybqBzwy3f8Q==)
             client-name: kakao
             scope:
@@ -42,7 +42,16 @@ spring:
           google:
             client-id: ENC(RImpFhH40nuFYBcsnFopx7wxNUbvRidnh3VEj+snsQt53Lxe9jbqPGTwTt+yavMJdSuFuhM+vLIgHGxTAsXVn9Gf26Wrht1PoAPvR8OiigZGE/aOESRm5kjS8Ha2sZ1r2hCdNeBzKcrHjalgJbzHhQ==)
             client-secret: ENC(v96a4tJNlaF71/24oP3b3QGVSuHM2Vw8Qf9WZyJU6MU7gq6IHdiZhi3GWHvTOy/F+9frg+nKIOOxk/KDgkdzkUtb7gzjcWt1c3bcH2g8XAE=)
-            redirect-uri: ENC(13X1jvMogtALwwSFnS7OsvlQ6c/ML/JOQ+qWbHs6WgAB0BwAvi5IwU+Mr9hwZnLFx8PIfyeOrj2W6pB51/TNn6s4UCDtrg6K4PEVOHKOckM=)
+            redirect-uri: ENC(PdZ+SzwyiiaEsyt6M86ihulc0XoIc0ZEI2kxrpEHwVJUk0B4ppNJO9rTqeqDQ1YAx9gghKeLRNrz6kYYKmyHe8f/n3brvR0rtaMPuykq25q2sfvXc+lXZ+orhdTdnaGy)
             scope:
               - email
               - profile
+          naver:
+            client-id: ENC(X2d0kgKyo628L6cnZVmSQ/tXIZpwRuYCUdr3hxw3ZL93FNRkB9tWw/YFaUidbCBSDGbJHn7l9vlHFRLWxfH5gg==)
+            client-secret: ENC(dAzMvt4yfvwv6kBEo9lFw7eTmBw1dhOqBb8szCxY/0+bNLWVl8CediG/yz0nuYNS)
+            redirect-uri: ENC(/kOBlnjPu7N991jFymQjHJbH3aGQVL61QXWtuWa8RrQh3Np6asqeR6lMCEZrU5YJYlyLZLH5kkUXlzF7zEnfgbdJcf5CKRIAxwhIZIMjpZMtjy5AQt4EGRmML6hATOye)
+            authorization-grant-type: ENC(AghnHqomSAmKOsZ8Zdx3eeKtlUOJYjgGp6WB9zRAZIh/QEMop8BGWvAqD70e7bww2sGmljhv5dkQOzcHFJqgVQ==)
+            client-name: naver
+            scope:
+              - name
+              - email

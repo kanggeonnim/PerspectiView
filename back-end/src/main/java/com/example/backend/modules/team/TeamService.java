@@ -31,7 +31,7 @@ public class TeamService {
     }
 
     public Team updateTeam(Long teamId, Team team, User user) {
-        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+        Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new RuntimeException());
 
         if (!findTeam.ifManager(user)) {
             throw new RuntimeException(); // TODO 매니저만 수정가능
@@ -42,7 +42,7 @@ public class TeamService {
     }
 
     public void deleteTeam(Long teamId, User user) {
-        Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
+        Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new RuntimeException());
 
         if (!findTeam.ifManager(user) || findTeam.isPersonal()) {
             throw new RuntimeException(); // TODO 매니저만 수정가능, 개인 팀은 삭제불가
@@ -63,16 +63,16 @@ public class TeamService {
             findTeam.addEnrollment(enrollment); // TODO @OneToMany new Entity 등록 체크
 
         }
-        throw new RuntimeException(); // TODO 이미 존재하는 등록 요청
+
     }
 
     public void cancelEnrollment(Long teamId, User user) {
         Team findTeam = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException());
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(findTeam, user);
-
-        findTeam.removeEnrollment(enrollment);
-        enrollmentRepository.delete(enrollment);
-
+        if(enrollment != null){
+            findTeam.removeEnrollment(enrollment);
+            enrollmentRepository.delete(enrollment);
+        }
     }
 
     public Team getTeamToUpdate(User user, Long teamId) {
@@ -96,13 +96,15 @@ public class TeamService {
         }
     }
 
-    public void acceptEnrollment(Team team, Long enrollmentId) {
+    public void acceptEnrollment(Team team, Long enrollmentId, User user) {
+        team.ifManager(user);
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(() -> new RuntimeException()); // TODO
         team.addMember(enrollment.getUser()); // TODO check
         enrollmentRepository.delete(enrollment);
     }
 
-    public void deniedEnrollment(Long enrollmentId) {
+    public void deniedEnrollment(Team team, Long enrollmentId, User user) {
+        team.ifManager(user);
         Enrollment enrollment = enrollmentRepository.findById(enrollmentId).orElseThrow(() -> new RuntimeException()); // TODO
         enrollmentRepository.delete(enrollment);
     }

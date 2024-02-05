@@ -7,7 +7,6 @@ server:
       enabled: true
       force: true
 
-spring:
   h2:
     console:
       enabled: true
@@ -78,6 +77,7 @@ spring:
             scope:
               - email
               - profile
+
 s3:
   id: ENC(F4b/bu6uAj+//tCvkpaxpMHZ+a3X1DQuVej2wEXPnY/2ej6IKzHeFTi654rgC7vtFQDn1LCduY/adSUwdlmKag==)
   secret: ENC(1P3wOZJRMUMWCWleY17yLc03ej04dX/QLUbayaaaBOiHUlI2DRPGEZmqhv0/KoCvrzBywW2DUcYRiQ4ORtAjibK4C3fCwkfnl3lGdQsXT04=)
@@ -87,3 +87,8 @@ jasypt:
   password : ${JASYPT_PASSWORD}
   encryptor:
     bean: jasyptEncryptor
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html

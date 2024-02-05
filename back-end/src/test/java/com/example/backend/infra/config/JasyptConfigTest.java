@@ -10,7 +10,6 @@ class JasyptConfigTest {
 
     @Test
     void stringEncryptor() {
-
     }
 
     public String jasyptEncoding(String value) {
