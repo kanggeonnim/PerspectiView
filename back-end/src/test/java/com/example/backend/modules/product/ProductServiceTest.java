@@ -1,10 +1,10 @@
 package com.example.backend.modules.product;
 
-import com.example.backend.modules.account.User;
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.team.Team;
+import com.example.backend.modules.user.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.assertj.core.api.Assertions;

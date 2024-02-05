@@ -1,11 +1,9 @@
 package com.example.backend.modules.comment;
 
-import com.example.backend.modules.account.User;
-import com.example.backend.modules.story.Story;
+
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+
 
 import java.time.LocalDateTime;
 

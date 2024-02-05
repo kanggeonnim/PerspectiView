@@ -1,7 +1,7 @@
 package com.example.backend.modules.comment;
 
-import com.example.backend.modules.account.User;
 import com.example.backend.modules.story.Story;
+import com.example.backend.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
