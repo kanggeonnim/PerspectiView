@@ -20,7 +20,8 @@ import java.util.Iterator;
 public class UserController {
 
     private final UserService userService;
-    @GetMapping("/")
+
+    @GetMapping("")
     public ApiResult<UserResponseDto> getUser(@AuthenticationPrincipal PrincipalDetails principal) {
         User user = userService.getUser(principal.getUsername());
         return ApiResult.OK(UserResponseDto.of(user));
@@ -28,14 +29,14 @@ public class UserController {
 
 
     @DeleteMapping
-    public ApiResult<UserResponseDto> deleteUser(@AuthenticationPrincipal PrincipalDetails principal){
+    public ApiResult<UserResponseDto> deleteUser(@AuthenticationPrincipal PrincipalDetails principal) {
         userService.deleteUser(principal.getUsername());
         return ApiResult.OK(null);
     }
 
     @PatchMapping
     public ApiResult<UserResponseDto> updateUser(@AuthenticationPrincipal PrincipalDetails principal,
-                                                 @RequestBody @Valid UserRequestDto userRequestDto){
+                                                 @RequestBody @Valid UserRequestDto userRequestDto) {
         User user = userService.updateUser(principal.getUsername(), UserRequestDto.from(userRequestDto));
         return ApiResult.OK(UserResponseDto.of(user));
     }
