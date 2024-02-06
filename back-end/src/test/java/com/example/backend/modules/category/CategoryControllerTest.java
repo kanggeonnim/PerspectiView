@@ -43,7 +43,7 @@ public class CategoryControllerTest {
         //given
         String expectByName = "$['response'].[?(@.name == '%s')]";
         //when
-        mockMvc.perform(MockMvcRequestBuilders.get("/category/"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/category"))
         //then
                 .andExpect(MockMvcResultMatchers.jsonPath(expectByName,"webtoon").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath(expectByName,"novel").exists())

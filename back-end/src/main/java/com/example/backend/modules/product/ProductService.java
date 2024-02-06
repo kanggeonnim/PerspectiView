@@ -1,16 +1,18 @@
 package com.example.backend.modules.product;
 
-import com.example.backend.modules.account.User;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.productrelation.ProductRelation;
 import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -63,7 +65,7 @@ public class ProductService {
         for (Genre g : genres) {
             //이미 있는 장르만 고를거니깐 그거 골라 오기
             Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
-            System.out.println("추가할 장르 이름: "+genre.getGenreName());
+            System.out.println("추가할 장르 이름: " + genre.getGenreName());
 
             ProductGenre productGenre = productGenreRepository.save(new ProductGenre(findProduct, genre));
 
@@ -71,7 +73,7 @@ public class ProductService {
         }
 
         findProduct.updateProduct(product.getTitle(), product.getInfo(), product.getCategory());
-        if(product.getProductImageuRL()!=null){
+        if (product.getProductImageuRL() != null) {
             findProduct.updateProductImage(product.getProductImageuRL());
         }
         return findProduct;
@@ -81,7 +83,7 @@ public class ProductService {
      * 팀 작품 이름만 수정
      */
     @Transactional
-    public Product updateProductTitle(Long ProductId,Product product) {
+    public Product updateProductTitle(Long ProductId, Product product) {
 
         //작품 아이디로 찾아오기
         Product findProduct = productRepository.findById(ProductId).orElseThrow(() -> new RuntimeException());
@@ -122,7 +124,7 @@ public class ProductService {
     /**
      * 작품 인물 관계 조회
      */
-    public List<ProductRelation> findProductRelations(Long productId){
+    public List<ProductRelation> findProductRelations(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
         return product.getProductRelations().stream().toList();
 
@@ -131,8 +133,8 @@ public class ProductService {
     /**
      * 작품 플롯 전체 조회
      */
-    public List<Plot> findPlots(Long productId){
+    public List<Plot> findPlots(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
-       return product.getPlots().stream().toList();
+        return product.getPlots().stream().toList();
     }
 }

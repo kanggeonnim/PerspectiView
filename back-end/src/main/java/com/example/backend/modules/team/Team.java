@@ -1,7 +1,6 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.User;
-import jakarta.annotation.Nullable;
+import com.example.backend.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -18,7 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Team {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -50,25 +50,27 @@ public class Team {
     @OneToMany(mappedBy = "team")
     private List<Enrollment> enrollments = new ArrayList<>();
 
-    public void addManager(User user){
+    public void addManager(User user) {
         managers.add(user);
     }
 
-    public void addMember(User user){members.add(user);}
+    public void addMember(User user) {
+        members.add(user);
+    }
 
-    public void changeInfo(String info){
+    public void changeInfo(String info) {
         this.info = info;
     }
 
-    public boolean ifManager(User user){
+    public boolean ifManager(User user) {
         return managers.contains(user);
     }
 
-    public boolean ifMember(User user){
+    public boolean ifMember(User user) {
         return members.contains(user);
     }
 
-    public void addEnrollment(Enrollment enrollment){
+    public void addEnrollment(Enrollment enrollment) {
         this.enrollments.add(enrollment);
     }
 

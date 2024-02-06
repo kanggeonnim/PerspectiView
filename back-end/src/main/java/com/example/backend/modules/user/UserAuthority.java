@@ -1,4 +1,4 @@
-package com.example.backend.modules.account;
+package com.example.backend.modules.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
@@ -13,7 +13,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(of = "id")
 public class UserAuthority {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonBackReference

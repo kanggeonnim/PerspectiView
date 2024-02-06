@@ -1,12 +1,15 @@
 package com.example.backend.modules.product;
 
-import com.example.backend.modules.account.User;
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.category.CategoryService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
+import com.example.backend.modules.team.EnrollmentRepository;
 import com.example.backend.modules.team.Team;
+import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
+import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.Test;
@@ -51,9 +54,41 @@ public class ProductServiceTest {
     @PersistenceContext
     private EntityManager em;
 
-    @BeforeAll
-    public void setup() {
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    TeamRepository teamRepository;
+    @Autowired
+    EnrollmentRepository enrollmentRepository;
 
+    @BeforeEach
+    public void alldelete() {
+        userRepository.deleteAll();
+        teamRepository.deleteAll();
+    }
+
+    private Team makeTeam(User user) {
+        Team team = Team.builder().title("team1")
+                .info("team info")
+                .profileImageUrl("https://s3")
+                .personal(false)
+                .build();
+        return teamService.createTeam(team, user);
+    }
+
+
+    private User makeUser(String username) {
+        User user = User.builder().userNickname("nickname")
+                .userImageUrl("https://s3")
+                .username(username)
+                .email("kangkun@naver.com")
+                .provider("kakao")
+                .providerId("kakao_1234")
+                .userInfo("bio")
+                .build();
+
+        userRepository.save(user);
+        return user;
     }
 
     @Test
@@ -94,8 +129,8 @@ public class ProductServiceTest {
     @Test
     public void updateProduct() throws Exception {
         //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
         Category category2 = Category.builder().name("novel").build();
@@ -131,21 +166,22 @@ public class ProductServiceTest {
                 .build();
         List<Genre> updateGenres = new ArrayList<>();
         Optional<Genre> genre =genreRepository.findById(2L);
-//        System.out.println("실행전!! 바꿀 리스트에 장르 추가하자~~: "+genre.get().getGenreName());
         updateGenres.add(genre.get());
 
         //when
         Product result = productService.updateProduct(1L,updateProduct, updateGenres);
-        for (ProductGenre pg : result.getProductGenres()){
-            Optional<ProductGenre> productGenre = productGenreRepository.findById(pg.getId());
-        }
+
+        em.flush();
+        em.clear();
+
+        Product findResult = productService.findByProductId(user, team.getId(), result.getId());
 
         //then
-        assertEquals("작품의 이름이 다릅니다.", "작품3", result.getTitle());
-        assertEquals("작품의 설명이 다릅니다.", "eng plz", result.getInfo());
-        assertEquals("작품의 image url이 다릅니다.", "image", result.getProductImageuRL());
-        assertEquals("작품의 카테고리가 다릅니다.", "novel", result.getCategory().getName());
-//        assertEquals("작품의 장르가 1개 생성되어야",1,result.getProductGenres().size());
+        assertEquals("작품의 이름이 다릅니다.", "작품3", findResult.getTitle());
+        assertEquals("작품의 설명이 다릅니다.", "eng plz", findResult.getInfo());
+        assertEquals("작품의 image url이 다릅니다.", "image", findResult.getProductImageuRL());
+        assertEquals("작품의 카테고리가 다릅니다.", "novel", findResult.getCategory().getName());
+        assertEquals("작품의 장르가 1개 생성되어야",1,findResult.getProductGenres().size());
     }
 
     @Test
@@ -176,7 +212,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, genres);
 
         //updaet
         Product updaetProduct = Product.builder()
@@ -184,7 +220,7 @@ public class ProductServiceTest {
                 .build();
 
         //when
-        Product result = productService.updateProductTitle(1L, updaetProduct);
+        Product result = productService.updateProductTitle(givenProduct.getId(), updaetProduct);
 
         //then
         assertEquals("작품의 이름이 다릅니다.", "작품2", result.getTitle());
@@ -256,10 +292,10 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, genres);
 
         //when
-        Product result = productService.findByProductId(user, team.getId(), 1L);
+        Product result = productService.findByProductId(user, team.getId(), givenProduct.getId());
 
         //then
         assertEquals("제목이 작품1이어야합니다.","작품1", result.getTitle());
@@ -293,9 +329,9 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        Product givenProduct =productService.createTeamProduct(product, genres);
 
-        Product product1 = productService.findByProductId(user, team.getId(), 1L);
+        Product product1 = productService.findByProductId(user, team.getId(), givenProduct.getId());
         //when
         System.out.println("작품장르 길이: "+ product1.getProductGenres().size());
         List<Genre> result = productService.findGenreList(product1.getProductGenres());

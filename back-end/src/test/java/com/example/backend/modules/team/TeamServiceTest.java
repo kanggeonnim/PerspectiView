@@ -1,21 +1,23 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.User;
-import com.example.backend.modules.account.UserRepository;
-import org.jetbrains.annotations.NotNull;
+import com.example.backend.modules.user.User;
+import com.example.backend.modules.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 class TeamServiceTest {
 
     @Autowired
@@ -29,7 +31,7 @@ class TeamServiceTest {
     EnrollmentRepository enrollmentRepository;
 
     @BeforeEach
-    public void alldelete(){
+    public void alldelete() {
         userRepository.deleteAll();
         teamRepository.deleteAll();
     }
@@ -46,7 +48,7 @@ class TeamServiceTest {
 
     private User makeUser(String username) {
         User user = User.builder().userNickname("nickname")
-                .userImage("https://s3")
+                .userImageUrl("https://s3")
                 .username(username)
                 .email("kangkun@naver.com")
                 .provider("kakao")
@@ -60,7 +62,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("team 생성 test")
-    public void teamCreate(){
+    public void teamCreate() {
         User user = makeUser("nickname");
         makeTeam(user);
 
@@ -69,7 +71,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("team 수정 test")
-    public void teamUpdate(){
+    public void teamUpdate() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 
@@ -88,7 +90,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("enorllment 등록")
-    public void createEnrollment(){
+    public void createEnrollment() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 
@@ -100,7 +102,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("enorllment 취소")
-    public void cancelEnrollment(){
+    public void cancelEnrollment() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 
@@ -114,7 +116,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("enorllment 허가")
-    public void acceptEnrollment(){
+    public void acceptEnrollment() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 
@@ -131,7 +133,7 @@ class TeamServiceTest {
 
     @Test
     @DisplayName("enorllment 불허")
-    public void deniedEnrollment(){
+    public void deniedEnrollment() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 
@@ -145,9 +147,10 @@ class TeamServiceTest {
         Enrollment Afterenrollment = enrollmentRepository.findByTeamAndUser(team, otherUser);
         Assertions.assertNull(Afterenrollment);
     }
+
     @Test
     @DisplayName("enorllment 조회")
-    public void getEnrollment(){
+    public void getEnrollment() {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
 

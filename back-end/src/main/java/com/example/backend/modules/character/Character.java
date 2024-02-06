@@ -22,7 +22,7 @@ public class Character {
     private String characterName;
 
     @Column(nullable = true)
-    private String characterImage;
+    private String characterImageUrl;
 
     @Column(nullable = true)
     private String characterDetail;
@@ -58,7 +58,7 @@ public class Character {
 
     public void changeCharacter(Character character) {
         this.characterName = character.getCharacterName();
-        this.characterImage = character.getCharacterImage();
+        this.characterImageUrl = character.getCharacterImageUrl();
         this.characterDetail = character.getCharacterDetail();
         this.positionX = character.getPositionX();
         this.positionY = character.getPositionY();

@@ -1,6 +1,5 @@
-package com.example.backend.modules.account;
+package com.example.backend.modules.user;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,10 +16,10 @@ public class UserRequestDto {
 
     private String userInfo;
 
-    public static User from(UserRequestDto userRequestDto){
+    public static User from(UserRequestDto userRequestDto) {
         return User.builder()
                 .userNickname(userRequestDto.getNickname())
-                .userImage(userRequestDto.getImage())
+                .userImageUrl(userRequestDto.getImage())
                 .email(userRequestDto.getEmail())
                 .userPhone(userRequestDto.getUserPhone())
                 .userInfo(userRequestDto.getUserInfo())
