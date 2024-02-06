@@ -11,49 +11,15 @@ import FloatingEdge from "./FloatingEdge";
 import CustomEdge from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 
-import Sidebar from "./Sidebar";
-
 import "./style.css";
 import DownloadButton from "./DownloadButton";
 
 const initialNodes = [
-  {
-    id: "1",
-    type: "custom",
-    data: { label: "맨유" },
-    position: { x: 0, y: 0 },
-  },
-  {
-    id: "2",
-    type: "custom",
-    data: { label: "아스날" },
-    position: { x: 200, y: 0 },
-  },
-  {
-    id: "3",
-    type: "custom",
-    data: { label: "리버풀" },
-    position: { x: 0, y: 200 },
-  },
-  {
-    id: "4",
-    type: "custom",
-    data: { label: "브라이튼" },
-    position: { x: -200, y: -200 },
-  },
-  {
-    id: "5",
-    type: "label",
-    data: { label: "123" },
-    position: { x: 125, y: 15 },
-  },
+  
 ];
 
 const initialEdges = [
-  { id: "e1-2", source: "1", target: "2", sourceHandle: "d", targetHandle: "f" },
-  { id: "e2-1", source: "2", target: "1", sourceHandle: "e", targetHandle: "c" },
-  { id: "e1-3", source: "1", target: "3", sourceHandle: "b", targetHandle: "h" },
-  { id: "e1-4", source: "1", target: "4", sourceHandle: "e", targetHandle: "a" },
+ 
 ];
 
 let id = 0;
@@ -173,7 +139,8 @@ export default function DnDFlow() {
           <DownloadButton />
         </ReactFlow>
       </div>
-      <Sidebar />
+      
+      {/* <Sidebar /> */}
     </div>
   );
 }
