@@ -38,17 +38,21 @@ public class ProductRelation {
     private String targetHandle;
 
     @Builder
-    public ProductRelation(Long id, Product product, Character fromCharacter, Character toCharacter, String productRelationInfo) {
+    public ProductRelation(Long id, Product product, Character fromCharacter, Character toCharacter, String productRelationInfo, String sourceHandle, String targetHandle) {
         this.id = id;
         this.product = product;
         this.fromCharacter = fromCharacter;
         this.toCharacter = toCharacter;
         this.productRelationInfo = productRelationInfo;
+        this.sourceHandle = sourceHandle;
+        this.targetHandle = targetHandle;
     }
 
     public void updateProductRelation(ProductRelation productRelation) {
         this.fromCharacter = productRelation.fromCharacter;
         this.toCharacter = productRelation.toCharacter;
         this.productRelationInfo = productRelation.getProductRelationInfo();
+        this.sourceHandle = productRelation.sourceHandle;
+        this.targetHandle = productRelation.targetHandle;
     }
 }

@@ -39,6 +39,15 @@ public class ProductRelationService {
     }
 
     /**
+     * 단일 인물관계 조회
+     */
+    public ProductRelation findProductRelation(User user, Long teamId, Long productRelationId) {
+        ProductRelation productRelation = productRelationRepository.findById(productRelationId)
+                .orElseThrow(() -> new RuntimeException());
+        return productRelation;
+    }
+
+    /**
      * 인물관계 수정
      */
     @Transactional

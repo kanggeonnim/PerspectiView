@@ -34,7 +34,7 @@ public class ProductRelationController {
 
 
     @GetMapping
-    public ApiResult<List<ProductRelationResponseDto>> getProductRelations(@PathVariable("relationId") Long relationId, @PathVariable("teamId") Long teamId,
+    public ApiResult<List<ProductRelationResponseDto>> getProductRelations(@PathVariable("teamId") Long teamId,
                                                                            @PathVariable("productId") Long productId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
         List<ProductRelation> productRelations = productRelationService.findAllProductRelation(principalDetails.getUser(), teamId, productId);
         return ApiResult.OK(productRelations.stream().map(ProductRelationResponseDto::of)
@@ -48,5 +48,12 @@ public class ProductRelationController {
                                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
         productRelationService.deleteProductRelation(relationId);
         return ApiResult.OK(null);
+    }
+
+    @GetMapping("/{relationId}")
+    public ApiResult<ProductRelationResponseDto> getProductRelation(@PathVariable("relationId") Long relationId, @PathVariable("teamId") Long teamId,
+                                                                    @PathVariable("productId") Long productId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        ProductRelation productRelation = productRelationService.findProductRelation(principalDetails.getUser(), teamId, relationId);
+        return ApiResult.OK(ProductRelationResponseDto.of(productRelation));
     }
 }
