@@ -75,6 +75,7 @@ class CharacterServiceTest {
         //given
         Product product = Product.builder().title("title").info("info").category(null).build();
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
+        productRepository.save(product);
         characterRepository.save(character1);
         //when
         Optional<Character> result = characterRepository.findById(1L);
