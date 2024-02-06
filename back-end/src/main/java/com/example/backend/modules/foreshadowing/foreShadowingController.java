@@ -9,9 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/team/{teamId}/product/{productId}/foreShadowing")
+@RequestMapping("/team/{teamId}/product/{productId}/foreshadowingId")
 public class foreShadowingController {
     private final ForeShadowingService foreShadowingService;
     private final TeamService teamService;
@@ -27,7 +29,7 @@ public class foreShadowingController {
         return ApiResult.OK(ForeShadowingResponseDto.from(foreShadowing));
     }
 
-    @PatchMapping("/{foreShadowingId}")
+    @PatchMapping("/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
                                                  @PathVariable("teamId") Long teamId,
                                                  @PathVariable("productId") Long productId,
@@ -36,8 +38,8 @@ public class foreShadowingController {
         return ApiResult.OK(ForeShadowingResponseDto.from(foreShadowing));
     }
 
-    @DeleteMapping("/{foreShadowingId}")
-    public ApiResult<ForeShadowingResponseDto> deleteForeShadowing(@PathVariable("foreShadowingId") Long foreShadowingId,
+    @DeleteMapping("/{foreshadowingId}")
+    public ApiResult<ForeShadowingResponseDto> deleteForeShadowing(@PathVariable("foreshadowingId") Long foreShadowingId,
                                                  @PathVariable("teamId") Long teamId,
                                                  @PathVariable("productId") Long productId,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -45,5 +47,13 @@ public class foreShadowingController {
         return ApiResult.OK(null);
     }
 
+    @GetMapping
+    public ApiResult<List<ForeShadowingResponseDto>> findAllFshadow(@PathVariable("teamId") Long teamId,
+                                                                    @PathVariable("productId") Long productId,
+                                                                    @AuthenticationPrincipal PrincipalDetails principalDetails){
+        List<ForeShadowing> foreShadowings = foreShadowingService.findByProductId(principalDetails.getUser(),teamId,productId);
+
+        return ApiResult.OK(null);
+    }
 
 }
