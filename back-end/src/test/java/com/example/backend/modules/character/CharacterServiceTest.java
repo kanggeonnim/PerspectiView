@@ -78,7 +78,7 @@ class CharacterServiceTest {
         productRepository.save(product);
         characterRepository.save(character1);
         //when
-        Optional<Character> result = characterRepository.findById(1L);
+        Optional<Character> result = characterRepository.findById(product.getId());
 
         //then
         Assertions.assertThat(result.get().getCharacterName()).isEqualTo(character1.getCharacterName());
