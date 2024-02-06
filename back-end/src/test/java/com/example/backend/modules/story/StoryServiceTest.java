@@ -198,6 +198,11 @@ class StoryServiceTest {
                 .build();
         //when
         Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
+        em.flush();
+        em.clear();
+        List<Story> checkQuery = storyRepository.findByPlot(plot);
+        checkQuery.get(0).getPlot().getClass();
+        checkQuery.get(0).getPlot().getName();
 
         //then
         Assertions.assertEquals(updatedStory.getTitle(), newStory.getTitle());
