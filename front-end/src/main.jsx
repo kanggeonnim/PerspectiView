@@ -1,25 +1,24 @@
-import React from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import App from "./App.jsx";
 import "./index.css";
 import "reactflow/dist/style.css";
 import { ReactFlowProvider } from "reactflow";
 
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
-
+import React from "react";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import IndexPage from "./pages/auth/IndexPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
+import MyPage from "./pages/auth/MyPage.jsx";
 import ProductPage from "./pages/product/ProductPage.jsx";
 import CharTab from "./pages/product/components/character/CharTab.jsx";
-import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
-import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
-import MyPage from "./pages/auth/MyPage.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
+import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
+import { default as ForeshadowingTab } from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import ProductListCard from "./pages/workspace/components/ProductListCard.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const router = createBrowserRouter(
   [

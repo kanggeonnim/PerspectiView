@@ -14,6 +14,21 @@ import {
 import logo from "@/assets/Logo.svg";
 
 export default function LoginPage() {
+  const handleGoogleLogin = () => {
+    // const navigate = useNavigate();
+    // const width = 600,
+    //   height = 600; // 팝업 창의 크기 지정
+    // const left = (window.innerWidth - width) / 2;
+    // const top = (window.innerHeight - height) / 2;
+    // const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/google";
+    // // 팝업 창으로 Google OAuth2 로그인 페이지 열기
+    // window.open(
+    //   url,
+    //   "GoogleLogin",
+    //   `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
+    // );
+    // navigate("/workspace");
+  };
   return (
     <MainLayout variant="vertical">
       <div className="flex items-center justify-center w-full h-full">

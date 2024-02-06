@@ -1,65 +1,189 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ForeshadowingCard } from "@/pages/product/components/foreshadowing/ForeshadowingCard";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { useFshadow } from "@/store/useFshadow";
+import { PlusCircle } from "lucide-react";
+import { useState } from "react";
+import Column from "./Column";
 
 export default function ForeshadowingTab() {
+  //state는 {tasks:{각 복선 정보딕셔id,Name} ,columns:{각 컬럼 정보딕셔너리id,title,taksIds}, columnsOrder:[]}
+  const { fshadows, setFshadows } = useFshadow((state) => ({
+    fshadows: state.fshadows,
+    sesetFshadows: state.setFshadows,
+  }));
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  // TODO productId, fromStoryId,toStoryId
+  const createData = () => {
+    // const newData = {
+    //   productId: "1",
+    //   fshadowName: title,
+    //   fshadowContent: content,
+    // };
+    //post요청
+    // mutation.mutate(newData)
+    // setTriggerUpdate();
+  };
+
+  // const onDragEnd = (result) => {
+  //   const { destination, source, draggableId } = result;
+
+  //   if (!destination) {
+  //     return;
+  //   }
+
+  //   if (
+  //     destination.droppableId === source.droppableId &&
+  //     destination.index === source.index
+  //   ) {
+  //     return;
+  //   }
+
+  //   //컬럼 내의 이동
+  //   const start = state.columns[source.droppableId];
+  //   const finish = state.columns[destination.droppableId];
+
+  //   if (start === finish) {
+  //     const newTaskIds = Array.from(start.taskIds);
+  //     newTaskIds.splice(source.index, 1);
+  //     newTaskIds.splice(destination.index, 0, draggableId);
+
+  //     const newColumn = {
+  //       ...start,
+  //       taskIds: newTaskIds,
+  //     };
+
+  //     const newState = {
+  //       ...state,
+  //       columns: {
+  //         ...state.columns,
+  //         [newColumn.id]: newColumn,
+  //       },
+  //     };
+
+  //     setState(newState);
+  //     return;
+  //   }
+
+  //   // Moving from one list to another
+  //   const startTaskIds = Array.from(start.taskIds);
+  //   startTaskIds.splice(source.index, 1);
+  //   const newStart = {
+  //     ...start,
+  //     taskIds: startTaskIds,
+  //   };
+
+  //   const finishTaskIds = Array.from(finish.taskIds);
+  //   finishTaskIds.splice(destination.index, 0, draggableId);
+  //   const newFinish = {
+  //     ...finish,
+  //     taskIds: finishTaskIds,
+  //   };
+  //   const newState = {
+  //     ...state,
+  //     columns: {
+  //       ...state.columns,
+  //       [newStart.id]: newStart,
+  //       [newFinish.id]: newFinish,
+  //     },
+  //   };
+  //   setState(newState);
+  // };
+
+  const columns = {
+    "column-1": {
+      id: "column-1",
+      title: "미사용 복선",
+      fshadowsIds: [],
+    },
+    "column-2": {
+      id: "column-2",
+      title: "사용 중인 복선",
+      fshadowsIds: [],
+    },
+    "column-3": {
+      id: "column-3",
+      title: "회수 완료 복선",
+      fshadowsIds: [],
+    },
+  };
+
+  //컬럼 taskIds 채우기
+  Object.keys(fshadows).forEach((key) => {
+    const fshadow = fshadows[key];
+    columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
+  });
+
   return (
-    <Card className="w-full h-full p-3 mt-2 border rounded shadow-md">
-      <CardTitle className="m-4 text-2xl">복선 목록</CardTitle>
-      <CardContent className="box-border flex flex-row justify-around gap-4 px-12 h-5/6">
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">미 회수 복선</h3>
-            <Badge className="text-yellow-700 bg-yellow-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto">
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">사용 중인 복선</h3>
-            <Badge className="text-red-700 bg-red-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea
-            id="while"
-            className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto"
-          >
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">회수 된 복선</h3>
-            <Badge className="text-purple-700 bg-purple-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea
-            id="done"
-            className="flex flex-col items-center w-full h-56 m-2 overflow-y-auto"
-          >
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
-      </CardContent>
-    </Card>
+    <div className="">
+      <Card className="box-border h-full p-3">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-3xl">복선 목록</CardTitle>
+          <Dialog>
+            <DialogTrigger asChild>
+              <PlusCircle size={24} />
+            </DialogTrigger>
+            <DialogContent className="">
+              <DialogHeader>
+                <DialogTitle>복선생성하기</DialogTitle>
+              </DialogHeader>
+              <div className="flex flex-col items-center w-full gap-5">
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="title">복선 타이틀</Label>
+                  <Input
+                    id="title"
+                    value={title}
+                    placeholder="복선의 타이틀을 입력하세요"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="content">복선 내용</Label>
+                  <Textarea
+                    id="content"
+                    value={content}
+                    placeholder="복선에 대해 간략히 입력하세요"
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button type="submit" onClick={createData}>
+                  생성하기
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        </CardHeader>
+        <CardContent className="box-border flex flex-row justify-around gap-4 px-12 py-6 h-5/6">
+          {["column-1", "column-2", "column-3"].map((columnId) => {
+            const column = columns[columnId];
+            const colFshadows = column.fshadowsIds.map(
+              (fshadowsId) => fshadows[fshadowsId]
+            );
+            return (
+              <Column
+                key={column.id}
+                column={column}
+                colFshadows={colFshadows}
+              />
+            );
+          })}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

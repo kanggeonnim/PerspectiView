@@ -6,7 +6,7 @@ import {
   Plus,
   SendToBack,
 } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PlotList from "./PlotList";
@@ -216,9 +216,7 @@ function ProductSidebar() {
           <NavLink to="/settings/profile">
             <div className="flex-col items-start text-sm">
               <div className="m-1 text-xs text-left">작가명</div>
-              <div className="m-1 text-xs text-left break-all text-slate-700">
-                user@gmail.com
-              </div>
+              <div className="m-1 text-xs text-left break-all text-slate-700">user@gmail.com</div>
             </div>
           </NavLink>
         </div>
