@@ -4,6 +4,8 @@ import com.example.backend.modules.category.Category;
 import com.example.backend.modules.category.CategoryService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
+import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.team.EnrollmentRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
@@ -51,6 +53,12 @@ public class ProductServiceTest {
     @Autowired
     GenreRepository genreRepository;
 
+    @Autowired
+    PlotRepository plotRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
     @PersistenceContext
     private EntityManager em;
 
@@ -91,6 +99,26 @@ public class ProductServiceTest {
         return user;
     }
 
+    private Product createProduct(Team team) {
+        Product product = Product.builder()
+                .title("productTitle")
+                .productImageuRL("product.image")
+                .info("info")
+                .team(team)
+                .build();
+        return productRepository.save(product);
+    }
+
+    private Plot createPlot(Product product, String plotName) {
+        Plot plot = Plot.builder()
+                .name(plotName)
+                .color("red")
+                .product(product)
+                .build();
+
+        return plotRepository.save(plot);
+    }
+
     @Test
     public void createTeamProduct() throws Exception {
         //given
@@ -123,7 +151,7 @@ public class ProductServiceTest {
         assertEquals("작품의 설명이 다릅니다.", "작품에 대한 설명", result.getInfo());
         assertEquals("작품의 image url이 다릅니다.", "image_url", result.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "webtoon", result.getCategory().getName());
-        assertEquals("작품의 장르가 2개 생성되어야",2,result.getProductGenres().size());
+        assertEquals("작품의 장르가 2개 생성되어야", 2, result.getProductGenres().size());
     }
 
     @Test
@@ -165,11 +193,11 @@ public class ProductServiceTest {
                 .category(category2)
                 .build();
         List<Genre> updateGenres = new ArrayList<>();
-        Optional<Genre> genre =genreRepository.findById(2L);
+        Optional<Genre> genre = genreRepository.findById(2L);
         updateGenres.add(genre.get());
 
         //when
-        Product result = productService.updateProduct(1L,updateProduct, updateGenres);
+        Product result = productService.updateProduct(1L, updateProduct, updateGenres);
 
         em.flush();
         em.clear();
@@ -181,7 +209,7 @@ public class ProductServiceTest {
         assertEquals("작품의 설명이 다릅니다.", "eng plz", findResult.getInfo());
         assertEquals("작품의 image url이 다릅니다.", "image", findResult.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "novel", findResult.getCategory().getName());
-        assertEquals("작품의 장르가 1개 생성되어야",1,findResult.getProductGenres().size());
+        assertEquals("작품의 장르가 1개 생성되어야", 1, findResult.getProductGenres().size());
     }
 
     @Test
@@ -298,7 +326,7 @@ public class ProductServiceTest {
         Product result = productService.findByProductId(user, team.getId(), givenProduct.getId());
 
         //then
-        assertEquals("제목이 작품1이어야합니다.","작품1", result.getTitle());
+        assertEquals("제목이 작품1이어야합니다.", "작품1", result.getTitle());
     }
 
     @Test
@@ -329,15 +357,15 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct =productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, genres);
 
         Product product1 = productService.findByProductId(user, team.getId(), givenProduct.getId());
         //when
-        System.out.println("작품장르 길이: "+ product1.getProductGenres().size());
+        System.out.println("작품장르 길이: " + product1.getProductGenres().size());
         List<Genre> result = productService.findGenreList(product1.getProductGenres());
         //then
-        assertEquals("장르 이름이 SF이어야합니다.","SF", result.get(0).getGenreName());
-        assertEquals("장르 이름이 액션이어야합니다.","액션", result.get(1).getGenreName());
+        assertEquals("장르 이름이 SF이어야합니다.", "SF", result.get(0).getGenreName());
+        assertEquals("장르 이름이 액션이어야합니다.", "액션", result.get(1).getGenreName());
     }
 
     @Test
@@ -352,9 +380,24 @@ public class ProductServiceTest {
     @Test
     public void findPlots() throws Exception {
         //given
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
+
+        Product product = createProduct(team);
+        Plot plot1 = createPlot(product, "플롯1");
+        Plot plot2 = createPlot(product, "플롯2");
+
+        em.flush();
+        em.clear();
+
+        Product findProduct = productService.findByProductId(user, team.getId(), product.getId());
+
 
         //when
-
+        List<Plot> plots = productService.findPlots(findProduct.getId());
         //then
+        assertEquals(2, plots.size());
+        assertEquals("플롯1",plots.get(0).getName());
+        assertEquals("플롯2",plots.get(1).getName());
     }
 }
