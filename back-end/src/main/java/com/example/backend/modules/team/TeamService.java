@@ -32,7 +32,7 @@ public class TeamService {
     }
 
     public Team getTeam(Long id) {
-        return teamRepository.findById(id).orElseThrow(() -> new NotFoundException());
+        return teamRepository.findWithMemberAndManagerById(id).orElseThrow(() -> new NotFoundException());
     }
 
     public Team updateTeam(Long teamId, Team team, User user) {
