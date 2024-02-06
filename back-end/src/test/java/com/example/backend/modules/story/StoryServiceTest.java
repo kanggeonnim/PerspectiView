@@ -1,12 +1,19 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.product.Product;
+import com.example.backend.modules.product.ProductRelationRepository;
 import com.example.backend.modules.product.ProductRepository;
+import com.example.backend.modules.team.Team;
+import com.example.backend.modules.team.TeamRepository;
+import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
+import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +36,28 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @Transactional
 @Slf4j
-@TestMethodOrder(MethodOrderer.class)
 class StoryServiceTest {
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    TeamRepository teamRepository;
+
+    @Autowired
+    TeamService teamService;
+
+    @Autowired
+    ProductRelationRepository productRelationRepository;
 
     @Autowired
     StoryRepository storyRepository;
 
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    CharacterService characterService;
 
     @Autowired
     PlotRepository plotRepository;
@@ -53,6 +74,10 @@ class StoryServiceTest {
     @Autowired
     ForeShadowingRepository foreShadowingRepository;
 
+    private Team team;
+
+    private User user;
+
     private Product product;
 
     private Plot plot;
@@ -63,6 +88,10 @@ class StoryServiceTest {
 
     List<Character> characters;
 
+    private Character fromCharacter;
+
+    private Character toCharacter;
+
     private Story story;
 
     private Content content;
@@ -72,6 +101,24 @@ class StoryServiceTest {
 
     @BeforeEach
     public void setup() {
+        user = User.builder().userNickname("nickname")
+                .userImageUrl("https://s3")
+                .username("username")
+                .email("kangkun@naver.com")
+                .provider("kakao")
+                .providerId("kakao_1234")
+                .userInfo("bio")
+                .build();
+
+        userRepository.save(user);
+
+        team = Team.builder().title("team1")
+                .info("team info")
+                .profileImageUrl("https://s3")
+                .personal(false)
+                .build();
+        teamService.createTeam(team, user);
+
         product = Product.builder()
                 .title("productTitle")
                 .productImageuRL("image")
@@ -93,6 +140,7 @@ class StoryServiceTest {
 
         story = Story.builder()
                 .title("storyTitle")
+                .content(content)
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
@@ -102,8 +150,19 @@ class StoryServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-
         storyService.createStory(story, "", characters);
+
+        fromCharacter = Character.builder()
+                .product(product)
+                .characterName("fromCharacter")
+                .build();
+
+        toCharacter = Character.builder()
+                .product(product)
+                .characterName("toCharacter")
+                .build();
+        characterService.createCharacter(fromCharacter, product.getId(), team.getId(), user);
+        characterService.createCharacter(toCharacter, product.getId(), team.getId(), user);
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)
@@ -126,9 +185,9 @@ class StoryServiceTest {
     }
 
 
+
     @Test
     @DisplayName("스토리 상세 조회 서비스 테스트")
-    @Order(1)
     void 스토리상세조회() throws Exception {
         //given
         Long storyId = story.getId();
@@ -145,7 +204,6 @@ class StoryServiceTest {
      * todo 스토리 생성테스트 필요 (index변경 로직 완성 후)
      */
     @Test
-    @Order(2)
     void 스토리생성테스트() throws Exception {
         //given
         Story s = Story.builder()
@@ -183,7 +241,6 @@ class StoryServiceTest {
     }
 
     @Test
-    @Order(3)
     void 스토리수정테스트() throws Exception {
         //given
         Story newStory = Story.builder()
@@ -204,14 +261,55 @@ class StoryServiceTest {
     }
 
     @Test
-    @Order(4)
     void 스토리삭제테스트() throws Exception {
         //given
-
+        Story delStory = Story.builder()
+                .title("삭제테스트 story")
+                .positionX(1)
+                .positionY(1.0)
+                .plot(plot)
+                .storyForeShadowings(new HashSet<>())
+                .storyRelations(new HashSet<>())
+                .build();
+        storyService.createStory(delStory, "스토리 내용", characters);
         //when
-        storyService.deleteStory(story.getId());
+        storyService.deleteStory(delStory.getId());
         //then
         assertThrows(RuntimeException.class, () ->
-                storyService.findByStoryId(story.getId()));
+                storyService.findByStoryId(delStory.getId()));
+    }
+    
+    @Test
+    public void 스토리등장인물추가() throws Exception {
+        //given
+        List<Character> characters1 = new ArrayList<>();
+        characters1.add(toCharacter);
+        characters1.add(fromCharacter);
+        storyService.updateStory(story, characters1, foreShadowings);
+
+        //when
+        List<StoryRelation> storyRelations = storyService.findByStoryId(story.getId()).getStoryRelations();
+
+        //then
+        assertEquals(storyRelations.size(), 2);
+    }
+
+    @Test
+    public void 스토리등장인물삭제() throws Exception {
+        //given
+        List<Character> characters1 = new ArrayList<>();
+        characters1.add(toCharacter);
+        characters1.add(fromCharacter);
+        storyService.updateStory(story, characters1, foreShadowings);
+
+        List<Character> characters2 = new ArrayList<>();
+        characters2.add(toCharacter);
+        storyService.updateStory(story, characters2, foreShadowings);
+
+        //when
+        List<StoryRelation> storyRelations = storyService.findByStoryId(story.getId()).getStoryRelations();
+
+        //then
+        assertEquals(storyRelations.size(), 1);
     }
 }
