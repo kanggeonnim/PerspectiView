@@ -1,16 +1,8 @@
 import { MainLayout } from "@/layouts/MainLayout";
 import { GoogleButton } from "./components/button/GoogleButton";
 import { KakaoButton } from "./components/button/KakaoButton";
-import { Link, useNavigate } from "react-router-dom";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import logo from "@/assets/Logo.svg";
 
 export default function LoginPage() {
