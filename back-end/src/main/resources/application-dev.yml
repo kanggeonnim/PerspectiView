@@ -3,7 +3,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
   jwt:
     secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
     token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
@@ -12,7 +12,7 @@ spring:
 
   data:
     redis:
-      host: 6NY9qDnhj/FA1oPoOEWq/XKHgUfTshw4jqXLUkxRPfiADnn5oD172m9/4fQYXhSD
+      host: 172.17.0.1
       port: 6379
       password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
     rest:

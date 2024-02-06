@@ -17,9 +17,11 @@ public class StoryRelation {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "story_id")
     private Story story;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "charater_id")
     private Character character;
 
     @Builder

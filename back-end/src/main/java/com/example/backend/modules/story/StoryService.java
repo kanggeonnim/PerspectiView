@@ -78,7 +78,7 @@ public class StoryService {
         storyRelationRepository.deleteAll(story.getStoryRelations());
         storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
 
-        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -115,7 +115,7 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -127,6 +127,15 @@ public class StoryService {
         List<StoryRelation> storyRelations = story.getStoryRelations().stream()
                 .collect(Collectors.toList());
         return StoryResponseDto.from(story, characterList, foreShadowingList, storyRelations);
+    }
+
+    /**
+     * 스토리 y축
+     */
+    public Story updatePositionY(Story story){
+        Story findStory = storyRepository.findById(story.getId()).orElseThrow(()->new RuntimeException());
+        findStory.updatePositionY(story.getPositionY());
+        return findStory;
     }
 
 }

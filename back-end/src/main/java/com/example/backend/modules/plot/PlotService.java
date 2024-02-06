@@ -54,7 +54,7 @@ public class PlotService {
      */
     public List<Plot> findByProductId(User user, Long teamId, Long productId) {
         Product product = productService.findByProductId(user, teamId, productId);
-        return plotRepository.findByProduct(product);
+        return plotRepository.findWithStoryByProduct(product);
     }
 
     /**
