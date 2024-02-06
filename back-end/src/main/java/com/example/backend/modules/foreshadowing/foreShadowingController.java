@@ -6,10 +6,13 @@ import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -48,12 +51,15 @@ public class foreShadowingController {
     }
 
     @GetMapping
-    public ApiResult<List<ForeShadowingResponseDto>> findAllFshadow(@PathVariable("teamId") Long teamId,
+    public ApiResult<Map<Long,ForeShadowing>> findAllFshadow(@PathVariable("teamId") Long teamId,
                                                                     @PathVariable("productId") Long productId,
                                                                     @AuthenticationPrincipal PrincipalDetails principalDetails){
         List<ForeShadowing> foreShadowings = foreShadowingService.findByProductId(principalDetails.getUser(),teamId,productId);
-
-        return ApiResult.OK(null);
+        Map<Long, ForeShadowing> result = new HashMap<>();
+        for(ForeShadowing fs : foreShadowings){
+            result.put(fs.getId(),fs);
+        }
+        return ApiResult.OK(result);
     }
 
 }
