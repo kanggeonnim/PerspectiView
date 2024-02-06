@@ -1,42 +1,16 @@
-server:
-  port: 8081
-  servlet:
-    context-path: /api
-    encoding:
-      charset: UTF-8
-      enabled: true
-      force: true
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
-
-  data:
-    redis:
-      host: my-redis
-      port: 6379
-      password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
-    rest:
-      base-path: /api
-
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: ENC(c+l6vK2w3qVKeapUlbWXl2Wt72W7Dafiivq1UMJVzUzW4UwhZ5ttUUSWjiOZaX1w5oGa1gj9Y5X7dybA+x9PMiuTx5qil4ekHksfE/jC0PU=) # Database이름 ?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
-    username: ENC(zk88hi4Rokn+cB8QZeFwpFN+te4XtlP4BTiKt/wmutahj9cSxpQmTvVgXshy4+Dq)
-    password: ENC(0N74CJo3MREHiUXCqKxe1LeSZe+bquxb2gQRaGjfzEr3KEL6DhLrlgl3RntYMslu)
-
-  # spring data jpa 설정
+    url: jdbc:h2:mem:test
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
   jpa:
-    open-in-view: false
-    show-sql: true
     hibernate:
       ddl-auto: create-drop
     properties:
       hibernate:
-        format_sql: true
         show_sql: true
+        format_sql: true
   jwt:
     secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
     token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
@@ -78,18 +52,21 @@ spring:
             scope:
               - email
               - profile
+          naver:
+            client-id: ENC(nLSf4y/SsZVsQJyDaEAhgDWn2EcrQTKSuBTUcwD6eJaSxdkzaZewSV8nyQiCWUC8TiH3+iJZPT2Y/XGwjYAPCQ==)
+            client-secret: ENC(GzzqKKQ+9avO16JF02njfLMeK5KX/bIsFge+zVvdLHbo6hE1gzbv1/wFzEh1aR6l)
+            redirect-uri: ENC(0oaagjwWoQH8jMjstgAptz4cTkVav9lmE1qcVq5pzWRI3U3t2dxPJyMVA65Q3ObkLUrhSBLhnXyxQK+ld2zr8Y6Cn6djg2EaRd9kA92S6edYwYOc7p4x4oxOuno6Chl3)
+            authorization-grant-type: authorization_code
+            client-name: naver
+            scope:
+              - name
+              - email
 
-s3:
-  id: ENC(5A2l4Ng/ujv5uTPZXXnU9qQCsNoyX6CNoAfoShvUo2tIav96YNPMWORyNPrglCZL18/VJECVb9hG48bnMd5Nsg==)
-  secret: ENC(1Kmd5TyXZV5a/5HAE/80fWFAHq0FEnvyVn8dQCgW/PVxS8ChJWDSvxX95sezJs7FY7cZhqiElFNYJIR7HELSxedLk15MbtjYcILTFfeg1yc=)
-  url: ENC(0c4VyETpKlCWzWGXEM7azR1X8XtGiLVs1fwW2wvmNSmtRAmy9dByXY7akT03T4+EgxezJSI/QD9yZpEnSB3aOumOTI2dWzNkmnQkYc5kx7Vs3CM34Y22GCCHTAUwqgra)
-  bucket: ENC(8m0Ad0imlc3mjuzVpVGhMG9ffqzgD7625cYSI0+u4eJWlIjF+ZdxAmUzpKQ9ACCI)
+logging:
+  level:
+    org.hibernate.sql: debug
+
 jasypt:
-  password: ${JASYPT_PASSWORD}
+  password : ${JASYPT_PASSWORD}
   encryptor:
     bean: jasyptEncryptor
-springdoc:
-  api-docs:
-    path: /api-docs
-  swagger-ui:
-    path: /swagger-ui.html
