@@ -7,9 +7,15 @@ import {
 } from "@/components/ui/card"
 import Check from "@/assets/Icon.svg"
 import Book from "@/assets/OpenBook.svg"
+// import { useState } from "react"
 
 export function ForeshadowingCard({ className }) {
+
+  // const [cardActive, setCardActive] = useState('')
+    
+  
   return (
+    
     <Card className="box-border flex flex-col w-full p-2 my-2">
       <CardHeader>
         <CardTitle>복선 
