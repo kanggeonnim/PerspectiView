@@ -166,14 +166,11 @@ public class ProductServiceTest {
                 .build();
         List<Genre> updateGenres = new ArrayList<>();
         Optional<Genre> genre =genreRepository.findById(2L);
-//        System.out.println("실행전!! 바꿀 리스트에 장르 추가하자~~: "+genre.get().getGenreName());
         updateGenres.add(genre.get());
 
         //when
         Product result = productService.updateProduct(1L,updateProduct, updateGenres);
-//        for (ProductGenre pg : result.getProductGenres()){
-//            Optional<ProductGenre> productGenre = productGenreRepository.findById(pg.getId());
-//        }
+
         em.flush();
         em.clear();
 
