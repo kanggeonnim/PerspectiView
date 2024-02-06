@@ -34,7 +34,7 @@ public class ForeShadowing {
     @Column(nullable = false)
     private boolean fShadowClose;
 
-    @OneToMany(mappedBy = "")
+    @OneToMany(mappedBy = "foreShadowing")
     private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
 
     @Builder

@@ -35,14 +35,14 @@ public class Product {
     @Column(nullable = true)
     private String info;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private Set<ProductGenre> productGenres = new HashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private Set<ProductRelation> productRelations = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private List<Plot> plots = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

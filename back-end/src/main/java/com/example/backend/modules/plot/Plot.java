@@ -28,7 +28,6 @@ public class Plot {
     private Product product;
 
     @OneToMany(cascade = CascadeType.REMOVE)
-    @JoinColumn(name = "story_id")
     private List<Story> stories;
 
     @Builder

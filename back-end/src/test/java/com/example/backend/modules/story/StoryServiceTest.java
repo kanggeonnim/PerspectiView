@@ -172,7 +172,7 @@ class StoryServiceTest {
 
         System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: "+ storyRepository.findAll().size());
 
-        List<Story> stories = storyRepository.findByPlot(plot);
+        List<Story> stories = storyRepository.findWithPlotByPlot(plot);
         for(Story printstory :stories){
             System.out.println("플롯이 같은 스토리 정보 :"+printstory.getId() + " 좌표 : "+ printstory.getPositionX());
         }
@@ -199,6 +199,11 @@ class StoryServiceTest {
                 .build();
         //when
         Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
+        em.flush();
+        em.clear();
+        List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
+        checkQuery.get(0).getPlot().getClass();
+        checkQuery.get(0).getPlot().getName();
 
         //then
         Assertions.assertEquals(updatedStory.getTitle(), newStory.getTitle());

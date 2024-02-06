@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @EntityGraph(attributePaths = {"team"})
-    Optional<Product> findById(Long id);
+    Optional<Product> findWithTeamById(Long id);
 }

@@ -16,13 +16,13 @@ public class ProductRelationResponseDto {
     private Long productRelationId;
     private Character fromCharacter;
     private Character toCharacter;
-    private Product product;
     private String productRelationInfo;
+    private String sourceHandle;
+    private String targetHandle;
 
     public static ProductRelationResponseDto of(ProductRelation productRelation) {
         return ProductRelationResponseDto.builder()
                 .productRelationId(productRelation.getId())
-                .product(productRelation.getProduct())
                 .productRelationInfo(productRelation.getProductRelationInfo())
                 .fromCharacter(productRelation.getFromCharacter())
                 .toCharacter(productRelation.getToCharacter())

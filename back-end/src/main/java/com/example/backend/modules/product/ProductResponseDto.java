@@ -18,11 +18,10 @@ public class ProductResponseDto {
     private String productImageUrl;
     private Category category;
     private List<Genre> genres;
-    private List<ProductRelation> productRelations;
     private List<Plot> plots;
     //플롯 hashset - 스토리까지 todo entitygraph
 
-    public static ProductResponseDto of(Product product, List<Genre> genres, List<ProductRelation> productRelations, List<Plot> plots){
+    public static ProductResponseDto of(Product product, List<Genre> genres, List<Plot> plots){
         return ProductResponseDto.builder()
                 .productId(product.getId())
                 .productTitle(product.getTitle())
@@ -30,7 +29,6 @@ public class ProductResponseDto {
                 .productImageUrl(product.getProductImageuRL())
                 .category(product.getCategory())
                 .genres(genres)
-                .productRelations(productRelations)
                 .plots(plots)
                 .build();
     }
