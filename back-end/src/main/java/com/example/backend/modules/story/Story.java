@@ -74,4 +74,9 @@ public class Story {
     //-----storyForeShadowing에 추가-----//
     public void addStoryForeShadowing(StoryForeShadowing storyForeShadowing) {
         this.storyForeShadowings.add(storyForeShadowing);}
+
+    //-----y축 바꾸는 메서드-----//
+    public void updatePositionY(Double positionY){
+        this.positionY = positionY;
+    }
 }
