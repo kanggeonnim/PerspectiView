@@ -26,7 +26,7 @@ public class Product {
     private Long id;
 
     @Column(nullable = true)
-    private String image;
+    private String productImageuRL;
 
     @Column(nullable = false)
     private String title;
@@ -53,12 +53,12 @@ public class Product {
     private Team team;
 
     @Builder
-    public Product(String title, String info, Category category, Team team,String image) {
+    public Product(String title, String info, Category category, Team team,String productImageuRL) {
         this.title = title;
         this.info = info;
         this.category = category;
         this.team = team;
-        this.image = image;
+        this.productImageuRL = productImageuRL;
     }
 
     public void updateProduct(String title, String info, Category category) {
@@ -81,8 +81,8 @@ public class Product {
     }
 
     //------작품의 이미지 url만 수정하는 메서드----//
-    public void updateProductImage(String imageUrl) {
-        this.image = imageUrl;
+    public void updateProductImage(String productImageuRL) {
+        this.productImageuRL = productImageuRL;
     }
 
     //-------genre set에 추가하는 메서드------//

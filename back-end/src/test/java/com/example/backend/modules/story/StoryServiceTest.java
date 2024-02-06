@@ -7,6 +7,8 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.h2.util.ThreadDeadlockDetector;
 import org.junit.jupiter.api.*;
@@ -66,11 +68,14 @@ class StoryServiceTest {
 
     private Content content;
 
+    @PersistenceContext
+    EntityManager em;
+
     @BeforeEach
     public void setup() {
         product = Product.builder()
                 .title("productTitle")
-                .image("image")
+                .productImageuRL("image")
                 .info("info")
                 .build();
         productRepository.save(product);
@@ -144,11 +149,38 @@ class StoryServiceTest {
     @Order(2)
     void 스토리생성테스트() throws Exception {
         //given
+        Story s = Story.builder()
+                .title("생성테스트 story")
+                .positionX(1)
+                .positionY(1.0)
+                .plot(plot)
+                .storyForeShadowings(new HashSet<>())
+                .storyRelations(new HashSet<>())
+                .build();
+        String content = "내용이 들어감";
+
+        System.out.println("생성 테스트 전 스토리 전체 개수: "+ storyRepository.findAll().size());
+
 
         //when
+        Story result = storyService.createStory(s, content,characters);
+        em.flush();
+        em.clear();
+
+        StoryResponseDto story1=storyService.findByStoryId(story.getId());
+        StoryResponseDto story2=storyService.findByStoryId(s.getId());
+
+        System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: "+ storyRepository.findAll().size());
+
+        List<Story> stories = storyRepository.findByPlot(plot);
+        for(Story printstory :stories){
+            System.out.println("플롯이 같은 스토리 정보 :"+printstory.getId() + " 좌표 : "+ printstory.getPositionX());
+        }
 
         //then
-
+        assertEquals("생성테스트 story",result.getTitle(),"title이 다릅니다.");
+        assertEquals(1,story2.getPositionX(),"순서가 다릅니다.");
+        assertEquals(2,story1.getPositionX(),"순서가 업데이트가 안되네요;;");
     }
 
     @Test
