@@ -14,17 +14,18 @@ public class StoryResponseDto {
     private String storyTitle;
     private List<Character> characters;
     private List<ForeShadowing> foreShadowings;
+    private List<StoryRelation> storyRelations;
     private Content content;
     private int positionX;
     private Double positionY;
 
-    public static StoryResponseDto from(Story story, List<Character> characters, List<ForeShadowing> foreShadowings){
+    public static StoryResponseDto from(Story story, List<Character> characters, List<ForeShadowing> foreShadowings, List<StoryRelation>storyRelations){
         return StoryResponseDto.builder()
                 .storyId(story.getId())
                 .storyTitle(story.getTitle())
                 .characters(characters)
                 .foreShadowings(foreShadowings)
-                .foreShadowings(foreShadowings)
+                .storyRelations(storyRelations)
                 .content(story.getContent())
                 .positionX(story.getPositionX())
                 .positionY(story.getPositionY())
