@@ -10,8 +10,8 @@ import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import PlotList from "./PlotList";
-import logo from "@/assets/Logo.svg";
-import logo_icon from "@/assets/LogoIcon.svg";
+import logo from "@/assets/main_logo.svg";
+import logo_icon from "@/assets/main_logo_icon.svg";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   NavigationMenu,

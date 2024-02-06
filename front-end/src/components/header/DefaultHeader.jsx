@@ -9,7 +9,7 @@ import {
   DrawerHeader,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import logo from "@/assets/Logo.svg";
+import logo from "@/assets/main_logo.svg";
 import { Link } from "react-router-dom";
 
 function DefaultHeader(props) {

@@ -3,7 +3,7 @@ import { GoogleButton } from "./components/button/GoogleButton";
 import { KakaoButton } from "./components/button/KakaoButton";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import logo from "@/assets/Logo.svg";
+import logo from "@/assets/main_logo.svg";
 
 export default function LoginPage() {
   const handleGoogleLogin = () => {
