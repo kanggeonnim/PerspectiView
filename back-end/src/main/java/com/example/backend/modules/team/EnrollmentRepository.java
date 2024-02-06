@@ -1,6 +1,6 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.User;
+import com.example.backend.modules.user.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

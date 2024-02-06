@@ -1,16 +1,13 @@
 package com.example.backend.infra.config;
 
-import com.example.backend.modules.account.User;
+import com.example.backend.modules.user.User;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.test.context.support.TestExecutionEvent;
-import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,11 +29,11 @@ public class WithMockOAuth2AccountFactory implements
                 .providerId(account.providerId())
                 .build();
 
-        PrincipalDetails principalDetails = new PrincipalDetails(user ,attributes);
+        PrincipalDetails principalDetails = new PrincipalDetails(user, attributes);
 
         Authentication authentication = new UsernamePasswordAuthenticationToken(
-                principalDetails, 	// 나중에 컨트롤러에서 DI해서 쓸 때 사용하기 편함.
-                null, 				// 패스워드 null 처리
+                principalDetails,    // 나중에 컨트롤러에서 DI해서 쓸 때 사용하기 편함.
+                null,                // 패스워드 null 처리
                 principalDetails.getAuthorities());
         context.setAuthentication(authentication);
 

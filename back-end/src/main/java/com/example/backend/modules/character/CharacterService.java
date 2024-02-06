@@ -1,6 +1,6 @@
 package com.example.backend.modules.character;
 
-import com.example.backend.modules.account.User;
+import com.example.backend.modules.user.User;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.TeamService;

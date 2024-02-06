@@ -1,9 +1,11 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.User;
+
 import com.example.backend.modules.exception.BadRequestException;
 import com.example.backend.modules.exception.ForbiddenException;
 import com.example.backend.modules.exception.NotFoundException;
+import com.example.backend.modules.user.User;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

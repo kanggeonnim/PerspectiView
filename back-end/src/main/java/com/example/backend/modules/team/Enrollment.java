@@ -1,7 +1,6 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.account.Account;
-import com.example.backend.modules.account.User;
+import com.example.backend.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -15,7 +14,8 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(of = "id")
 @NoArgsConstructor
 public class Enrollment {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
