@@ -1,4 +1,3 @@
-import React from 'react';
 import { getStraightPath } from 'reactflow';
 
 function CustomEdge({id, fromX, fromY, toX, toY, connectionLineStyle }) {

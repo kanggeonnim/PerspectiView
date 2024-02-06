@@ -16,15 +16,52 @@ import Sidebar from "./Sidebar";
 import "./style.css";
 import DownloadButton from "./DownloadButton";
 
-const initialNodes = [];
+const initialNodes = [
+  {
+    id: "1",
+    type: "custom",
+    data: { label: "맨유" },
+    position: { x: 0, y: 0 },
+  },
+  {
+    id: "2",
+    type: "custom",
+    data: { label: "아스날" },
+    position: { x: 200, y: 0 },
+  },
+  {
+    id: "3",
+    type: "custom",
+    data: { label: "리버풀" },
+    position: { x: 0, y: 200 },
+  },
+  {
+    id: "4",
+    type: "custom",
+    data: { label: "브라이튼" },
+    position: { x: -200, y: -200 },
+  },
+  {
+    id: "5",
+    type: "label",
+    data: { label: "123" },
+    position: { x: 125, y: 15 },
+  },
+];
+
+const initialEdges = [
+  { id: "e1-2", source: "1", target: "2", sourceHandle: "d", targetHandle: "f" },
+  { id: "e2-1", source: "2", target: "1", sourceHandle: "e", targetHandle: "c" },
+  { id: "e1-3", source: "1", target: "3", sourceHandle: "b", targetHandle: "h" },
+  { id: "e1-4", source: "1", target: "4", sourceHandle: "e", targetHandle: "a" },
+];
 
 let id = 0;
 const getId = () => `${id++}`;
 const nodeTypes = {
-  custom : CustomNode,
-  label : LabelNode,
+  custom: CustomNode,
+  label: LabelNode,
 };
-const initialEdges = [];
 
 const edgeTypes = {
   floating: FloatingEdge,
@@ -34,7 +71,7 @@ const edgeTypes = {
 const defaultEdgeOptions = {
   style: { strokeWidth: 1, stroke: "black" },
   type: "straight",
-  
+
   markerEnd: {
     type: MarkerType.ArrowClosed,
     color: "black",
@@ -49,9 +86,9 @@ export default function DnDFlow() {
   const [labelInput, setLabelInput] = useState("");
 
   const onConnect = useCallback(
-  (params) => setEdges((eds) => addEdge(params, eds)),
-  [setEdges]
-);
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -84,7 +121,7 @@ export default function DnDFlow() {
               placeholder="Enter label"
               onChange={handleLabelInputChange}
               id={`${getId()}`}
-              defaultValue='인물관계 입력'
+              defaultValue="인물관계 입력"
             />
           ),
         },
@@ -107,36 +144,36 @@ export default function DnDFlow() {
     stroke: "black",
   };
 
-  const defaultViewport = { x: 0, y: 0, zoom: 1.2 };
+  const defaultViewport = { x: 300, y: 250, zoom: 0.9 };
 
   return (
     <div className="dndflow">
-        <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setReactFlowInstance}
-            onDrop={onDrop}
-            onDragOver={onDragOver}
-            connectionLineComponent={CustomEdge} 
-            snapToGrid
-            snapGrid={[8, 8]}
-            defaultViewport={defaultViewport}
-            elementsSelectable={true}
-            defaultEdgeOptions={defaultEdgeOptions}
-            connectionLineStyle={connectionLineStyle}
-            className="download-image"
-          >
-            <Controls />
-            <DownloadButton />
-          </ReactFlow>
-        </div>
-        <Sidebar />
+      <div className="reactflow-wrapper" ref={reactFlowWrapper}>
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          onInit={setReactFlowInstance}
+          onDrop={onDrop}
+          onDragOver={onDragOver}
+          connectionLineComponent={CustomEdge}
+          snapToGrid
+          snapGrid={[8, 8]}
+          defaultViewport={defaultViewport}
+          elementsSelectable={true}
+          defaultEdgeOptions={defaultEdgeOptions}
+          connectionLineStyle={connectionLineStyle}
+          className="download-image"
+        >
+          <Controls />
+          <DownloadButton />
+        </ReactFlow>
+      </div>
+      <Sidebar />
     </div>
   );
 }

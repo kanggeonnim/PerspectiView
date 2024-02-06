@@ -15,9 +15,9 @@ export default function CustomNode({ data, isConnectable }) {
   );
   // 축소시 표시되는 노드
 
-  const zoomSelector = (s) => s.transform[2] >= 1.2;
+  // const zoomSelector = (s) => s.transform[2] >= 1;
   // 줌으로 인식하는 기준
-  const showContent = useStore(zoomSelector);
+  // const showContent = useStore(zoomSelector);
 
   let id = 0;
   const getId = () => `dndnode_${id++}`;
@@ -28,7 +28,7 @@ export default function CustomNode({ data, isConnectable }) {
         id="this"
         className="flex items-center justify-center !w-28 !h-28 bg-transparent border-2 rounded-full"
         >
-      {showContent ? 
+      {/* {showContent ?  */}
         <div className="flex items-center justify-center w-20 h-20">
           <div className="w=max h-max flex flex-col items-center">
             <input
@@ -37,7 +37,7 @@ export default function CustomNode({ data, isConnectable }) {
               placeholder="Enter label"
               onChange={handleLabelInputChange}
               id={`input ${getId()}`}
-              defaultValue={"인물 정보 입력"}
+              defaultValue={data.label}
             />
           </div>
 
@@ -100,9 +100,9 @@ export default function CustomNode({ data, isConnectable }) {
             />
           </div>
         </div>
-        :
-        <Placeholder />
-        }
+        {/* : */}
+        {/* <Placeholder /> */}
+        {/* } */}
       </div>
     </>
   );

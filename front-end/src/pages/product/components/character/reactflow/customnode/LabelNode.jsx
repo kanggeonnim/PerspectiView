@@ -13,7 +13,7 @@ export default function LabelNode({ data, isConnectable, selected }) {
         minWidth={30}
         minHeight={15}
       />
-      <div style={{ padding: 10 }}>{data.label}</div>
+      <div className="p-2 text-sm">{data.label}</div>
     </>
   );
 }
