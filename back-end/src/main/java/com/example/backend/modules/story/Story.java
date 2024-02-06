@@ -23,17 +23,16 @@ public class Story {
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "plot_id")
     private Plot plot;
 
     @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Content content;
 
-    @OneToMany
-    @JoinColumn(name = "story_relation_id")
+    @OneToMany(mappedBy = "story")
     private Set<StoryRelation> storyRelations = new HashSet<>();
 
-    @OneToMany
-    @JoinColumn(name = "story_foreshadowing_id")
+    @OneToMany(mappedBy = "story")
     private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
 
     //index번호
