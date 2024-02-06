@@ -1,6 +1,4 @@
 import { Card } from "@/components/ui/card";
-import samiza from "@/assets/samiza.jpg"
-import badge1 from "@/assets/badge1.svg"
 
 export default function CharDetailCard () {
 

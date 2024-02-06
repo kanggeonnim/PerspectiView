@@ -24,8 +24,14 @@ const initialEdges = [
 
 let id = 0;
 const getId = () => `${id++}`;
+
+// let urlIdx = 0;
+// const getUrlIdx = () => `${urlIdx++}`;
+// let nameIdx = 0;
+// const getNameIdx = () => `${nameIdx++}`;
+
 const nodeTypes = {
-  custom: CustomNode,
+  custom : CustomNode,
   label: LabelNode,
 };
 
@@ -44,12 +50,19 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnDFlow() {
+export default function DnDFlow({users,idx}) {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
+
+  const user = users
+  const index = idx
+  // 삼항 연산자 사용
+  // console.log(user[idx-1].name)
+  console.log(user[index])
+  console.log(idx)
 
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
@@ -58,19 +71,18 @@ export default function DnDFlow() {
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
   }, []);
 
+ 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
+      
       const type = event.dataTransfer.getData("application/reactflow");
 
       if (typeof type === "undefined" || !type) {
         return;
       }
-
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -79,8 +91,14 @@ export default function DnDFlow() {
         id: getId(),
         type,
         position,
-        data: {
+        data: { 
+          image: {
+            // url: user.users[document.getElementsByClassName(event.target.id)[0].id].url
+            url: user[idx-1]
+          },
+          name : user[idx-1],
           label: (
+            <>
             <input
               className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28"
               type="text"
@@ -89,6 +107,7 @@ export default function DnDFlow() {
               id={`${getId()}`}
               defaultValue="인물관계"
             />
+            </>
           ),
         },
         className:
@@ -135,12 +154,11 @@ export default function DnDFlow() {
           connectionLineStyle={connectionLineStyle}
           className="download-image"
         >
+          
           <Controls />
           <DownloadButton />
         </ReactFlow>
       </div>
-      
-      {/* <Sidebar /> */}
     </div>
   );
 }

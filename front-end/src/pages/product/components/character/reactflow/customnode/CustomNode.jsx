@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Handle, Position} from "reactflow";
 
 
-export default function CustomNode({ isConnectable }) {
+export default function CustomNode({ data, isConnectable }) {
   const [labelInput, setLabelInput] = useState("");
   const handleLabelInputChange = (event) => {
     setLabelInput(event.target.value);
@@ -14,14 +14,14 @@ export default function CustomNode({ isConnectable }) {
     <>
       <div className="flex items-center justify-center bg-transparent rounded-full">
         <div className="flex flex-col items-center justify-center w-28 h-28">
-          <img src="" className="!w-28 !h-28 rounded-full" alt="" />
+          <img src={data.image.url} className="w-max h-max rounded-full" alt="character image" />
           <div className="w=max h-max flex flex-col items-center">
             <input
               className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28 z-10"
               type="text"
               placeholder="Enter label"
               onChange={handleLabelInputChange}
-              defaultValue='321'
+              defaultValue={data.name}
             />
           </div>
           <div className="flex justify-center">
