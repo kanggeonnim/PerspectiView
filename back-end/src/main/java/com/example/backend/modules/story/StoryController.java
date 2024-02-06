@@ -39,5 +39,12 @@ public class StoryController {
         return ApiResult.OK(storyService.findByStoryId(storyId));
     }
 
+    @PostMapping("/{storyId}/vertical")
+    public ApiResult<StoryResponseDto> updatePositionY(@PathVariable("storyId")Long storyId,
+                                                       @RequestBody StoryRequestDto storyRequestDto){
+        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto));
+        StoryResponseDto storyResponseDto =storyService.findByStoryId(storyId);
+        return ApiResult.OK(storyResponseDto);
+    }
 
 }
