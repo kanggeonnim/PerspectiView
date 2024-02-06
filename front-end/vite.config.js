@@ -6,21 +6,6 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   server: {
-    proxy: {
-      '/api': {
-        target: 'https://i10b310.p.ssafy.io',
-        changeOrigin: true, // 호스트 헤더를 target URL로 변경
-        secure: false, // https 사용시 SSL 검증을 끄는 옵션
-        rewrite: (path) => path.replace(/^\/api/, '') // '/api'로 시작하는 경로를 타겟 URL에 맞게 재작성
-      },
-    }
-  },
-  resolve: {
-    alias: {
-      "@": path.resolve(__dirname, "./src"),
-    },
-  },
-  server: {
     // Proxy 설정
     proxy: {
       // 경로가 "/api" 로 시작하는 요청을 대상으로 proxy 설정
@@ -36,6 +21,11 @@ export default defineConfig({
         // WebSocket 프로토콜 사용
         ws: true,
       },
+    },
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
     },
   },
 });

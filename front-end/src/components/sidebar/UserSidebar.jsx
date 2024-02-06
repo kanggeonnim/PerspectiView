@@ -1,5 +1,5 @@
 import { ArrowLeftToLine, ArrowRightToLine, User, Users } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";

@@ -64,9 +64,11 @@ export default function LoginPage() {
               <GoogleButton />
             </div>
 
-            <div className="space-y-1">
-              <KakaoButton />
-            </div>
+            <Link to={`/workspace`}>
+              <div className="space-y-1">
+                <KakaoButton />
+              </div>
+            </Link>
           </CardContent>
         </Card>
       </div>
