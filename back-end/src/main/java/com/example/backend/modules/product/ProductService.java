@@ -1,12 +1,11 @@
 package com.example.backend.modules.product;
 
-import com.example.backend.modules.account.User;
-import com.example.backend.modules.account.UserService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
