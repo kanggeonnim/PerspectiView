@@ -1,6 +1,7 @@
-package com.example.backend.modules.product;
+package com.example.backend.modules.productrelation;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.product.Product;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -29,13 +30,25 @@ public class ProductRelation {
 
     @Column(nullable = false)
     private String productRelationInfo;
-    //TODO 작품인물관계선 좌표
+
+    @Column(nullable = true)
+    private String sourceHandle;
+
+    @Column(nullable = true)
+    private String targetHandle;
 
     @Builder
-    public ProductRelation(Product product, Character fromCharacter, Character toCharacter, String productRelationInfo) {
+    public ProductRelation(Long id, Product product, Character fromCharacter, Character toCharacter, String productRelationInfo) {
+        this.id = id;
         this.product = product;
         this.fromCharacter = fromCharacter;
         this.toCharacter = toCharacter;
         this.productRelationInfo = productRelationInfo;
+    }
+
+    public void updateProductRelation(ProductRelation productRelation) {
+        this.fromCharacter = productRelation.fromCharacter;
+        this.toCharacter = productRelation.toCharacter;
+        this.productRelationInfo = productRelation.getProductRelationInfo();
     }
 }

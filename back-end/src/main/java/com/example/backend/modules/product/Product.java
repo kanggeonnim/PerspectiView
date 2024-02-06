@@ -2,6 +2,7 @@ package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.productrelation.ProductRelation;
 import com.example.backend.modules.team.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
