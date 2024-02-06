@@ -166,8 +166,8 @@ class StoryServiceTest {
         em.flush();
         em.clear();
 
-        StoryResponseDto story1=storyService.findByStoryId(1L);
-        StoryResponseDto story2=storyService.findByStoryId(2L);
+        StoryResponseDto story1=storyService.findByStoryId(story.getId());
+        StoryResponseDto story2=storyService.findByStoryId(s.getId());
 
         System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: "+ storyRepository.findAll().size());
 
