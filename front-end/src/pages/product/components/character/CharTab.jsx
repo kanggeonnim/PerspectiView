@@ -4,7 +4,6 @@ import CharInfo from "./CharInfo";
 
 export default function CharTab() {
   return (
-    // TODO: 인물 tab contents 크기 수정
     <div className="flex items-center justify-center w-full h-full p-2 mt-2 border rounded shadow-md">
       <Card className="box-border w-full h-full">
         <div className="box-border flex flex-row h-full p-3">

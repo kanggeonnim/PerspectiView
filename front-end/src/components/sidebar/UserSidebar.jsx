@@ -29,6 +29,14 @@ const teams = Array.from({ length: 10 }, (_, index) => ({
 }));
 
 function UserSidebar() {
+  // API 호출 시 사용
+  // const { teamData, getTeamIsSuccess } = useTeamQueryModule();
+
+  // // 데이터 로딩 중일 때
+  // if (!getTeamIsSuccess) {
+  //   return <div>Loading...</div>;
+  // }
+
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -107,6 +115,16 @@ function UserSidebar() {
                           <TeamCreate />
                         </div>
                       </SelectLabel>
+
+                      {/* api 호출 시 */}
+                      {/* <ul>
+                        {teamData.map((team, index) => (
+                          <li key={index}>
+                            {team.title}
+                            {team.info}
+                          </li>
+                        ))}
+                      </ul> */}
 
                       {teams.map((team) => (
                         <SelectItem key={team.teamId} value={team} className="block w-40 truncate">
