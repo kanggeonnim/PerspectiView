@@ -10,17 +10,25 @@ class JasyptConfigTest {
 
     @Test
     void stringEncryptor() {
-        String url = "P@ssw0rd";
-        System.out.println(jasyptEncoding(url));
     }
 
-    public String jasyptEncoding(String value) {
-        String key = "something";
+
+    public void jasyptEncoding(String value) {
+        String key = "1";
         StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
         pbeEnc.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
         pbeEnc.setPassword(key);
         pbeEnc.setIvGenerator(new RandomIvGenerator());
-        return pbeEnc.encrypt(value);
+        System.out.println(pbeEnc.encrypt(value));
+    }
+
+    public String jasyptDecoding(String value) {
+        String key = "1";
+        StandardPBEStringEncryptor pbeEnc = new StandardPBEStringEncryptor();
+        pbeEnc.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
+        pbeEnc.setPassword(key);
+        pbeEnc.setIvGenerator(new RandomIvGenerator());
+        return pbeEnc.decrypt(value);
     }
 
 }
