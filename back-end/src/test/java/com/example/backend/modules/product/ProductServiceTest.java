@@ -94,8 +94,8 @@ public class ProductServiceTest {
     @Test
     public void createTeamProduct() throws Exception {
         //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
 
@@ -187,8 +187,8 @@ public class ProductServiceTest {
     @Test
     public void updateProductTitle() throws Exception {
         //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
         Category category2 = Category.builder().name("novel").build();
@@ -229,8 +229,8 @@ public class ProductServiceTest {
     @Test
     public void deleteProduct() throws Exception {
         //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
         Category category2 = Category.builder().name("novel").build();
@@ -267,8 +267,8 @@ public class ProductServiceTest {
     @Test
     public void findByProductId() throws Exception {
         //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
         Category category2 = Category.builder().name("novel").build();
@@ -304,8 +304,8 @@ public class ProductServiceTest {
     @Test
     public void findGenreList() throws Exception {
 //given
-        User user = new User();
-        Team team = new Team();
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
 
         Category category1 = Category.builder().name("webtoon").build();
         Category category2 = Category.builder().name("novel").build();
