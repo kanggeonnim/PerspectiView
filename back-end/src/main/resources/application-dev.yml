@@ -12,7 +12,7 @@ spring:
 
   data:
     redis:
-      host: 6NY9qDnhj/FA1oPoOEWq/XKHgUfTshw4jqXLUkxRPfiADnn5oD172m9/4fQYXhSD
+      host: 172.17.0.1
       port: 6379
       password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
     rest:
