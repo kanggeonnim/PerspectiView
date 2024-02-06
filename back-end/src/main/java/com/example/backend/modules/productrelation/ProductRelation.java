@@ -30,7 +30,12 @@ public class ProductRelation {
 
     @Column(nullable = false)
     private String productRelationInfo;
-    //TODO 작품인물관계선 좌표
+
+    @Column(nullable = true)
+    private String sourceHandle;
+
+    @Column(nullable = true)
+    private String targetHandle;
 
     @Builder
     public ProductRelation(Long id, Product product, Character fromCharacter, Character toCharacter, String productRelationInfo) {

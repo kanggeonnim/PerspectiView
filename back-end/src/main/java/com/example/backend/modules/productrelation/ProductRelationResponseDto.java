@@ -19,7 +19,7 @@ public class ProductRelationResponseDto {
     private Product product;
     private String productRelationInfo;
 
-    public static ProductRelationResponseDto of(ProductRelation productRelation){
+    public static ProductRelationResponseDto of(ProductRelation productRelation) {
         return ProductRelationResponseDto.builder()
                 .productRelationId(productRelation.getId())
                 .product(productRelation.getProduct())
