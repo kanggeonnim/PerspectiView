@@ -11,7 +11,6 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
 import { Pencil, Trash2 } from "lucide-react";
@@ -76,10 +75,9 @@ export default function Comment() {
   };
 
   return (
-    <div>
-      <ScrollArea className="border border-red-500 rounded-md h-96">
-        <div className="p-4">
-          {/* <h4 className="mb-4 text-sm font-medium leading-none">Comments</h4> */}
+    <div className="h-full">
+      <ScrollArea className="rounded-md h-3/4">
+        <div className="px-4">
           {comments.map((comment) => (
             <Card className="w-full mt-8" key={comment.id}>
               <CardHeader>
@@ -101,16 +99,16 @@ export default function Comment() {
                   </div>
                   <div className="flex items-center gap-2 ">
                     {editingId === comment.id ? null : (
-                      <div onClick={() => handleEditButton(comment)}>
+                      <button onClick={() => handleEditButton(comment)}>
                         <Pencil size={20} strokeWidth={1.5} />
-                      </div>
+                      </button>
                     )}
                     {/* 삭제기능 */}
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
-                        <div>
+                        <button>
                           <Trash2 size={20} strokeWidth={1.5} />
-                        </div>
+                        </button>
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -138,7 +136,7 @@ export default function Comment() {
                       onChange={(e) => setEditText(e.target.value)}
                       className="w-full"
                     />
-                    <div className="flex gap-3 my-3">
+                    <div className="flex gap-3 mt-3">
                       <Button onClick={() => setEditingId(null)}>취소</Button>
                       <Button onClick={handleEditSave}>등록</Button>
                     </div>
@@ -151,13 +149,19 @@ export default function Comment() {
           ))}
         </div>
       </ScrollArea>
-      <form onSubmit={handleSubmit} className="flex my-3">
-        <Input
-          placeholder="댓글을 남겨주세요"
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col w-full gap-3 p-3 h-1/4"
+      >
+        <Textarea
+          placeholder="댓글을 입력하세요."
           value={comment}
           onChange={handleInputChange}
+          className="w-full h-full"
         />
-        <Button type="submit">등록</Button>
+        <Button type="submit" className="self-end w-24">
+          등록
+        </Button>
       </form>
     </div>
   );

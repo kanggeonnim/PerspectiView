@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
 import {
   Navigate,
@@ -7,20 +8,22 @@ import {
 import App from "./App.jsx";
 import "./index.css";
 
+import React from "react";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import IndexPage from "./pages/auth/IndexPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
 import MyPage from "./pages/auth/MyPage.jsx";
+import AuthHandler from "./pages/auth/components/AuthHandler.jsx";
 import ProductPage from "./pages/product/ProductPage.jsx";
 import CharTab from "./pages/product/components/character/CharTab.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
-import DragAndDrop from "./pages/product/components/foreshadowing/DragAndDrop.jsx";
-import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
+import { default as ForeshadowingTab } from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import TeamWorkspaceBody from "./pages/workspace/components/TeamWorkspaceBody.jsx";
 import WorkListCard from "./pages/workspace/components/WorkListCard.jsx";
 
+const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,10 +32,10 @@ const router = createBrowserRouter([
 
     children: [
       // 임시 추가(sooji)
-      {
-        path: "product/:productId/foreshadowing",
-        element: <DragAndDrop />,
-      },
+      // {
+      //   path: "product/:productId/foreshadowing1",
+      //   element: <DragAndDrop />,
+      // },
       {
         path: "",
         element: <IndexPage />,
@@ -40,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "login",
         element: <LoginPage />,
+      },
+      {
+        path: "oauth",
+        element: <AuthHandler />,
       },
       {
         path: "settings/profile",
@@ -90,7 +97,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  // <React.StrictMode>
-  <RouterProvider router={router} />
-  // </React.StrictMode>
+  <React.StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  </React.StrictMode>
 );

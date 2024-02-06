@@ -1,54 +1,27 @@
+import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Droppable } from "react-beautiful-dnd";
-import styled from "styled-components";
-import Task from "./Task";
+import { ForeshadowingCard } from "./ForeshadowingCard";
 
-const Container = styled.div`
-  margin: 8px;
-  border: 1px solid lightgrey;
-  border-radius: 2px;
-  width: 220px;
-  display: flex;
-  flex-direction: column;
-`;
-const Title = styled.h3`
-  padding: 8px;
-`;
-
-const TaskList = styled.div`
-  padding: 8px;
-  flex-grow: 1;
-  min-height: 100px;
-  //TODO 작동안하는 것 고치기
-  background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
-`;
-
-export default function Column({ column, tasks }) {
+export default function Column({ column, colFshadows }) {
   return (
-    <Container>
-      <Title>{column.title}</Title>
-      <Droppable droppableId={column.id}>
-        {(provided, snapshot) => (
-          //innerRef가 아닌 ref (styledcomponent관련??)
-          <ScrollArea className="h-72">
-            <TaskList
-              ref={provided.innerRef}
-              {...provided.droppableProps}
-              $isDraggingOver={snapshot.isDraggingOver}
-            >
-              {tasks.map((task, index) => (
-                <Task
-                  key={task.fshadowId}
-                  column={column}
-                  task={task}
-                  index={index}
-                />
-              ))}
-              {provided.placeholder}
-            </TaskList>
-          </ScrollArea>
-        )}
-      </Droppable>
-    </Container>
+    <div className="flex flex-col items-center w-1/3">
+      <div className="box-border flex justify-start w-full gap-3 px-4">
+        <h3 className="text-xl font-semibold">{column.title}</h3>
+        <Badge className="text-yellow-700 bg-yellow-300 rounded-full">
+          {column.fshadowsIds.length}
+        </Badge>
+      </div>
+      <ScrollArea className="flex flex-col items-center w-full m-2 overflow-y-auto h-72">
+        <div className="p-2 min-h-24">
+          {colFshadows.map((colFshadow, index) => (
+            <ForeshadowingCard
+              key={colFshadow.fshadowId}
+              colFshadow={colFshadow}
+              index={index}
+            />
+          ))}
+        </div>
+      </ScrollArea>
+    </div>
   );
 }

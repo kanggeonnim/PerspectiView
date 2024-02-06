@@ -2,6 +2,7 @@ import { Card } from "@/components/ui/card";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MessageCircleMore } from "lucide-react";
+import ForeshadowingTab from "../../foreshadowing/ForeshadowingTab";
 import Comment from "./Comment";
 
 export default function RefContents() {
@@ -33,7 +34,7 @@ export default function RefContents() {
 
       {/* 복선 목록 */}
       <TabsContent value="foreshadowing" className="h-full">
-        <Card className="h-full "></Card>
+        <ForeshadowingTab />
       </TabsContent>
 
       {/* 의견 */}
