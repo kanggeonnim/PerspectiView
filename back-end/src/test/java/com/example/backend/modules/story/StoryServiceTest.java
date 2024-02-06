@@ -8,6 +8,7 @@ import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.h2.util.ThreadDeadlockDetector;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,5 +182,20 @@ class StoryServiceTest {
         //then
         assertThrows(RuntimeException.class, () ->
                 storyService.findByStoryId(story.getId()));
+    }
+
+    @Test
+    @Order(5)
+    public void 스토리Y축변경() throws Exception{
+        //given
+        Story newStory = Story.builder()
+                .id(story.getId())
+                .positionY(3.0)
+                .build();
+        //when
+        storyService.updatePositionY(newStory);
+        StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
+        //then
+        assertEquals(newStory.getPositionY(),findStory.getPositionY(),"위치가 변해야합니다.");
     }
 }
