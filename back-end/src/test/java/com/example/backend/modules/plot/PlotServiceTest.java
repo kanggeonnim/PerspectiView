@@ -152,15 +152,14 @@ public class PlotServiceTest {
         Plot plot = createPlot(product);
 
         //given
-        List<Product> products = productRepository.findAll();
-        for (Product p : products) {
-            System.out.println(p.getTitle());
-        }
-        Product findProduct = productService.findByProductId(user, 1L, product.getId());
+//        List<Product> products = productRepository.findAll();
+//        for (Product p : products) {
+//            System.out.println(p.getTitle());
+//        }
 
         //when
-        plotService.createPlot(user, 1L, 1L, plot);
-        List<Plot> result = plotService.findByProductId(user, 1L, product.getId());
+        plotService.createPlot(user, team.getId(), product.getId(), plot);
+        List<Plot> result = plotService.findByProductId(user, team.getId(), product.getId());
         //then
         assertEquals("plot 이름이 다릅니다. ", "plotname", result.get(0).getName());
         assertEquals("plot color가 다릅니다. ", "red", result.get(0).getColor());
@@ -183,8 +182,8 @@ public class PlotServiceTest {
         Product findProduct = productService.findByProductId(user, 1L, product.getId());
 
         //when
-        plotService.createPlot(user, 1L, 1L, plot);
-        List<Plot> result = plotService.findByProductId(user, 1L, product.getId());
+        plotService.createPlot(user, team.getId(), product.getId(), plot);
+        List<Plot> result = plotService.findByProductId(user, team.getId(), product.getId());
         //then
         assertEquals("plot 이름이 다릅니다. ", "plotname", result.get(0).getName());
         assertEquals("plot color가 다릅니다. ", "red", result.get(0).getColor());
@@ -204,19 +203,19 @@ public class PlotServiceTest {
         for (Product p : products) {
             System.out.println(p.getTitle());
         }
-        Product findProduct = productService.findByProductId(user, 1L, 1L);
+        Product findProduct = productService.findByProductId(user, team.getId(), product.getId());
 
         Plot updatePlot = Plot.builder()
-                .id(1L)
+                .id(plot.getId())
                 .name("플롯이름")
                 .color("레드")
                 .product(product)
                 .build();
 
         //when
-        plotService.createPlot(user, 1L, 1L, plot);
+        plotService.createPlot(user, team.getId(), product.getId(), plot);
 
-        Plot result = plotService.updatePlot(user, 1L, findProduct.getId(), updatePlot);
+        Plot result = plotService.updatePlot(user, team.getId(), findProduct.getId(), updatePlot);
 
         //then
         assertEquals("plot 이름이 다릅니다. ", "플롯이름", result.getName());
@@ -239,11 +238,11 @@ public class PlotServiceTest {
         Product findProduct = productService.findByProductId(user, 1L, product.getId());
 
         //when
-        plotService.createPlot(user, 1L, 1L, plot);
+        plotService.createPlot(user, team.getId(), product.getId(), plot);
 
         System.out.println("plot 개수: " + plotRepository.findAll());
 
-        plotService.deletePlot(user, 1L, 1L, plot.getId());
+        plotService.deletePlot(user, team.getId(), product.getId(), plot.getId());
 
         //then
         System.out.println("plot 개수: " + plotRepository.findAll());
