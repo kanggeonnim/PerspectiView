@@ -124,7 +124,9 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.from(story, characterList, foreShadowingList);
+        List<StoryRelation> storyRelations = story.getStoryRelations().stream()
+                .collect(Collectors.toList());
+        return StoryResponseDto.from(story, characterList, foreShadowingList, storyRelations);
     }
 
 }
