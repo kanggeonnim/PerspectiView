@@ -84,10 +84,10 @@ export default function DnDFlow() {
             <input
               className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28"
               type="text"
-              placeholder="Enter label"
+              placeholder="label"
               onChange={handleLabelInputChange}
               id={`${getId()}`}
-              defaultValue="인물관계 입력"
+              defaultValue="인물관계"
             />
           ),
         },

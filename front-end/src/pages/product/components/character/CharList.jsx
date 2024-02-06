@@ -24,6 +24,7 @@ function Char({ user }) {
     <div className="flex justify-center">
       <div
         className="dndnode"
+        id={``}
         onDragStart={(event) => onDragStart(event, "custom")}
         draggable
       >
@@ -103,7 +104,7 @@ export default function CharList({ users }) {
           </AlertDialogContent>
         </AlertDialog>
       ))}
-    <div className="flex justify-center">
+    <div className="flex justify-center border-2 p-3">
       <div className="dndnode input" onDragStart={(event) => onDragStart(event, 'label')} draggable>
         인물 관계 추가
       </div>
