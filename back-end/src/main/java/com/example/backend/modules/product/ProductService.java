@@ -52,7 +52,7 @@ public class ProductService {
     public Product updateProduct(Long productId, Product product, List<Genre> genres) {
 
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
 
         //원래 있던 장르작품 삭제하고
         for (ProductGenre pg : findProduct.getProductGenres()) {
@@ -86,7 +86,7 @@ public class ProductService {
     public Product updateProductTitle(Long ProductId, Product product) {
 
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findById(ProductId).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findWithTeamById(ProductId).orElseThrow(() -> new RuntimeException());
 
         findProduct.updateProductTitle(product.getTitle());
         return findProduct;
@@ -104,7 +104,7 @@ public class ProductService {
      * 팀 작품 아이디로 하나 조회
      */
     public Product findByProductId(User user, Long teamId, Long productId) {//TODO EntityGraph
-        Product findProduct = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
 
         return findProduct;
     }
@@ -125,7 +125,7 @@ public class ProductService {
      * 작품 인물 관계 조회
      */
     public List<ProductRelation> findProductRelations(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
+        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
         return product.getProductRelations().stream().toList();
 
     }
@@ -134,7 +134,7 @@ public class ProductService {
      * 작품 플롯 전체 조회
      */
     public List<Plot> findPlots(Long productId) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
+        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
         return product.getPlots().stream().toList();
     }
 }
