@@ -127,4 +127,13 @@ public class StoryService {
         return StoryResponseDto.from(story, characterList, foreShadowingList);
     }
 
+    /**
+     * 스토리 y축
+     */
+    public Story updatePositionY(Story story){
+        Story findStory = storyRepository.findById(story.getId()).orElseThrow(()->new RuntimeException());
+        findStory.updatePositionY(story.getPositionY());
+        return findStory;
+    }
+
 }
