@@ -194,31 +194,27 @@ function ProductSidebar() {
           </div>
 
           {/* user profile */}
-          <div className="mx-2 my-2">
-            <div className="flex items-center justify-between">
-              <div className="px-1 mx-1">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </div>
+          <Link to="/settings/profile">
+            <div className="mx-2 my-2">
+              <div className="flex items-center justify-between">
+                <div className="px-1 mx-1">
+                  <Avatar>
+                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </div>
 
-              <div
-                className={
-                  isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
-                }
-              >
-                <div className="mx-1 text-xs ">작가명</div>
-                <div className="mx-1 text-xs break-all text-zinc-600">user@gmail.com</div>
+                <div
+                  className={
+                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
+                  }
+                >
+                  <div className="mx-1 text-xs ">작가명</div>
+                  <div className="mx-1 text-xs break-all text-zinc-600">user@gmail.com</div>
+                </div>
               </div>
             </div>
-          </div>
-          <NavLink to="/settings/profile">
-            <div className="flex-col items-start text-sm">
-              <div className="m-1 text-xs text-left">작가명</div>
-              <div className="m-1 text-xs text-left break-all text-slate-700">user@gmail.com</div>
-            </div>
-          </NavLink>
+          </Link>
         </div>
       </div>
     </div>
