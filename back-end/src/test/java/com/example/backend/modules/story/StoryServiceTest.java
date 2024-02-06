@@ -69,7 +69,7 @@ class StoryServiceTest {
     public void setup() {
         product = Product.builder()
                 .title("productTitle")
-                .image("image")
+                .productImageuRL("image")
                 .info("info")
                 .build();
         productRepository.save(product);
