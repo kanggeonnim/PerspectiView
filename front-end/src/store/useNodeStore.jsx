@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { applyNodeChanges, applyEdgeChanges } from "reactflow";
 import { create } from "zustand";
 
@@ -51,7 +50,7 @@ const useNodeStore = create((set, get) => ({
 
   addEdge(data) {
     console.log(data);
-    const id = nanoid(6);
+    const id = get().edges.length + "";
     const sourceColor = get().nodes[data.source].data.color;
     const targetColor = get().nodes[data.target].data.color;
 

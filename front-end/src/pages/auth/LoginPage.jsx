@@ -41,7 +41,7 @@ export default function LoginPage() {
             <div
               className="space-y-1"
               onClick={() => {
-                const url = "https://i10b310.p.ssafy.io/api/login/oauth2/code/google";
+                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/google";
                 window.open(url);
                 const token = new URL(url).searchParams.get("accessToken");
                 const refreshToken = new URL(url).searchParams.get("refreshToken");
@@ -55,12 +55,28 @@ export default function LoginPage() {
             >
               <GoogleButton />
             </div>
+            <div
+              className="space-y-1"
+              onClick={() => {
+                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/kakao";
+                window.open(url);
+                const token = new URL(url).searchParams.get("accessToken");
+                const refreshToken = new URL(url).searchParams.get("refreshToken");
 
-            <Link to={`/workspace`}>
+                console.log(token);
+                if (token) {
+                  localStorage.setItem("token", token);
+                  localStorage.setItem("refreshToken", refreshToken);
+                }
+              }}
+            >
+              <KakaoButton />
+            </div>
+            {/* <Link to={`/workspace`}>
               <div className="space-y-1">
                 <KakaoButton />
               </div>
-            </Link>
+            </Link> */}
           </CardContent>
         </Card>
       </div>
