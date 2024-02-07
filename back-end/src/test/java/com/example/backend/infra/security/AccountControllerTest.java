@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class AccountControllerTest {
 
     @Autowired
@@ -27,7 +27,7 @@ public class AccountControllerTest {
     @Test
     public void index_anonymous() throws Exception {
         mockMvc.perform(get("/")
-                .with(anonymous()))
+                        .with(anonymous()))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -35,7 +35,7 @@ public class AccountControllerTest {
     @Test
     public void index_user() throws Exception {
         mockMvc.perform(get("/")
-                .with(user("jake").roles("USER")))
+                        .with(user("jake").roles("USER")))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -43,7 +43,7 @@ public class AccountControllerTest {
     @Test
     public void admin_user() throws Exception {
         mockMvc.perform(get("/admin")
-                .with(user("jake").roles("USER")))
+                        .with(user("jake").roles("USER")))
                 .andDo(print())
                 .andExpect(status().isForbidden());
     }
@@ -51,7 +51,7 @@ public class AccountControllerTest {
     @Test
     public void admin_admin() throws Exception {
         mockMvc.perform(get("/admin")
-                .with(user("admin").roles("ADMIN")))
+                        .with(user("admin").roles("ADMIN")))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
