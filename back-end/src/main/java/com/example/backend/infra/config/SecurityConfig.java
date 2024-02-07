@@ -18,6 +18,7 @@ import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
@@ -64,9 +65,11 @@ public class SecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeRequests(authorize ->
 						// accessDecisionManager
-						authorize.accessDecisionManager(accessDecisionManager())
+//						authorize.accessDecisionManager(accessDecisionManager())
+						authorize
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
+								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
 						// hasRole('ROLE_USER')")
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
