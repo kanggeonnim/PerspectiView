@@ -42,7 +42,7 @@ public class Team {
     private boolean personal;
 
     @ManyToMany
-    private Set<User> managers = new HashSet<>();
+    private List<User> managers = new ArrayList<>();
 
     @ManyToMany
     private Set<User> members = new HashSet<>();
