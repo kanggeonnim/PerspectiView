@@ -27,11 +27,11 @@ public class Plot {
     @ManyToOne(fetch = FetchType.LAZY)
     private Product product;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "plot",cascade = CascadeType.REMOVE)
     private List<Story> stories;
 
     @Builder
-    public Plot(Long id, String name, String color,Product product){
+    public Plot(Long id, String name, String color, Product product) {
         this.id = id;
         this.name = name;
         this.color = color;
@@ -39,7 +39,7 @@ public class Plot {
     }
 
     //-----수정 메서드-----//
-    public void updatePlot(String name, String color){
+    public void updatePlot(String name, String color) {
         this.name = name;
         this.color = color;
     }
