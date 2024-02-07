@@ -75,8 +75,10 @@ public class StoryService {
     @Transactional
     public Story updateStory(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
-        storyRelationRepository.deleteAll(story.getStoryRelations());
-        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
+        Story oldStory = storyRepository.findById(story.getId()).orElseThrow(RuntimeException::new);
+
+        storyRelationRepository.deleteAll(oldStory.getStoryRelations());
+        storyForeShadowingRepository.deleteAll(oldStory.getStoryForeShadowings());
 
         Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
 
