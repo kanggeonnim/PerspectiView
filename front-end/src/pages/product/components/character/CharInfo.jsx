@@ -1,22 +1,18 @@
-import { useState } from "react";
-import useDrag from "@/store/useDrag";
-
-
-export default function Char({ user, onIdxChange }) {
-  // const [idx, setIdx] = useState("")
-  const onDragStart = (event, nodeType) => {
+export default function CharInfo({ user, onIdxChange }) {
+  const onDragStart = (event, nodeType, id) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
-    // setIdx(event.target.id)
     onIdxChange(event.target.id)
+
   };
-  // console.log(idx)
+  
+
 
   return (
     <div className="flex justify-center">
       <div
         className={`dndnode${user.id}`}
-        onDragStart={(event) => onDragStart(event, "custom")}
+        onDragStart={(event) => onDragStart(event, "custom", event.target.id)}
         draggable
         id={user.id}
       >

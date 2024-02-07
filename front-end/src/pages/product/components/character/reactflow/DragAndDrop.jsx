@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import ReactFlow, {
   addEdge,
   useNodesState,
@@ -42,7 +42,7 @@ const edgeTypes = {
 
 const defaultEdgeOptions = {
   style: { strokeWidth: 1, stroke: "black" },
-  type: "straight",
+  type: "custom",
 
   markerEnd: {
     type: MarkerType.ArrowClosed,
@@ -50,22 +50,17 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnDFlow({users,idx}) {
+
+
+export default function DnD({users, idx}) {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
 
-  const user = users
-  const index = idx
-  // 삼항 연산자 사용
-  // console.log(user[idx-1].name)
-  console.log(user[index])
-  console.log(idx)
-
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) => setEdges((eds) => addEdge(params, eds)),  
     [setEdges]
   );
 
@@ -79,24 +74,29 @@ export default function DnDFlow({users,idx}) {
       event.preventDefault();
       
       const type = event.dataTransfer.getData("application/reactflow");
-
+      // const tgt = event.target.id
+      // const index = idx
+      // console.log(index)
       if (typeof type === "undefined" || !type) {
         return;
       }
+      const index = idx - 1
+      // console.log(users[index].url)
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
+      
       const newNode = {
         id: getId(),
         type,
         position,
         data: { 
+          name : users[index].name,
           image: {
             // url: user.users[document.getElementsByClassName(event.target.id)[0].id].url
-            url: user[idx-1]
+            url: users[index].url
           },
-          name : user[idx-1],
           label: (
             <>
             <input
@@ -117,7 +117,7 @@ export default function DnDFlow({users,idx}) {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, labelInput]
+    [reactFlowInstance, labelInput, idx]
   );
 
   const handleLabelInputChange = (event) => {
@@ -162,3 +162,5 @@ export default function DnDFlow({users,idx}) {
     </div>
   );
 }
+
+

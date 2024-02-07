@@ -1,5 +1,5 @@
 import React from 'react';
-import { getStraightPath, EdgeLabelRenderer, BaseEdge, EdgeText } from 'reactflow';
+import { getStraightPath, EdgeLabelRenderer, BaseEdge } from 'reactflow';
  
 function FloatingEdge({id, fromX, fromY, toX, toY, sourcePosition, targetPosition, connectionLineStyle  }) {
   const [edgePath, labelX, labelY] = getStraightPath({
@@ -16,7 +16,7 @@ function FloatingEdge({id, fromX, fromY, toX, toY, sourcePosition, targetPositio
     <>
       <BaseEdge id={id} path={edgePath} />
       <EdgeLabelRenderer>
-        <div
+        <input
           style={{
             position: 'absolute',
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
@@ -26,10 +26,10 @@ function FloatingEdge({id, fromX, fromY, toX, toY, sourcePosition, targetPositio
             fontSize: 12,
             fontWeight: 700,
           }}
+          defaultValue={1232}
           className="nodrag nopan"
-        >
-          12312
-        </div>
+        />
+          
       </EdgeLabelRenderer>
     </>
   );

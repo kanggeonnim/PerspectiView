@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -9,21 +10,25 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { CardTitle } from "@/components/ui/card";
 import Char from "./CharInfo";
+import CharInfo from "./CharInfo";
+import LabelAdd from "./reactflow/LabelAdd";
 
 
 export default function CharList({ users, onIdxChange }) {
   
   const onIdxContain = (idx) => {
     onIdxChange(idx)
+    // console.log(idx)
   }
-  
-  
+  // 
+
+
   return (
     <div className="flex flex-wrap gap-2">
       {users.map((user) => (
-        <AlertDialog>
+        <AlertDialog key={user.id}>
           <AlertDialogTrigger>
-            <Char user={user} onIdxChange={(idx) => onIdxContain(idx) } />
+            <CharInfo user={user} onIdxChange={(idx) => onIdxContain(idx) }/>
           </AlertDialogTrigger>
           <AlertDialogContent className="flex flex-col w-2/3 max-w-2/3 h-2/3 ">
             <CardTitle className="text-2xl box-border">
@@ -78,11 +83,7 @@ export default function CharList({ users, onIdxChange }) {
           </AlertDialogContent>
         </AlertDialog>
       ))}
-    <div className="flex justify-center border-2 p-3 rounded-full">
-      <div className="dndnode input flex items-center" onDragStart={(event) => onDragStart(event, 'label')} draggable>
-        인물 관계 추가
-      </div>
-    </div>
+      <LabelAdd />
     </div>
   );
 }
