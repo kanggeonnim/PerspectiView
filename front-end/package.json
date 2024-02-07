@@ -35,7 +35,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "cmdk": "^0.2.0",
-    "dotenv": "^16.4.1",
     "html-to-image": "^1.11.11",
     "lucide-react": "^0.314.0",
     "nanoid": "^5.0.5",
