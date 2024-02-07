@@ -1,6 +1,5 @@
 package com.example.backend.modules.foreshadowing;
 
-import com.example.backend.modules.story.Story;
 import com.example.backend.modules.story.StoryForeShadowing;
 import com.example.backend.modules.story.StoryForeShadowingRepository;
 import com.example.backend.modules.user.User;
@@ -101,7 +100,7 @@ public class ForeShadowingService {
      */
     public List<FshadowStoryIdDto> findStories(ForeShadowing foreShadowing) {
         //복선으로 중간 테이블 리스트 받아오기
-        List<StoryForeShadowing> sfs = storyForeShadowingRepository.findByForeShadowing(foreShadowing);
+        List<StoryForeShadowing> sfs = storyForeShadowingRepository.findWithStoryByForeShadowing(foreShadowing);
         List<FshadowStoryIdDto> storyids = new ArrayList<>();
         //중간테이블로 스토리 정보 얻기
         for (StoryForeShadowing sf : sfs) {
