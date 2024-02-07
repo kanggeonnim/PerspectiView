@@ -65,6 +65,10 @@ public class User {
         authorities.add(userAuthority);
     }
 
+    public void addImageUrl(String url) {
+        this.userImageUrl = url;
+    }
+
     public void changeUser(User user) {
         this.userImageUrl = user.getUserImageUrl();
         this.userNickname = user.getUserNickname();
