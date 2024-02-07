@@ -8,7 +8,7 @@ import ReactFlow, {
 } from "reactflow";
 import CustomNode from "./customnode/CustomNode";
 import FloatingEdge from "./FloatingEdge";
-import CustomEdge from "./CustomConnectionLine";
+import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 
 import "./style.css";
@@ -37,11 +37,11 @@ const nodeTypes = {
 
 const edgeTypes = {
   floating: FloatingEdge,
-  custom: CustomEdge,
+  custom: CustomConnectionLine,
 };
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 1, stroke: "black" },
+  style: { strokeWidth: 2, stroke: "black" },
   type: "custom",
 
   markerEnd: {
@@ -49,6 +49,14 @@ const defaultEdgeOptions = {
     color: "black",
   },
 };
+
+const addEndMarker = (edge) => ({
+  ...edge,
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: "black",
+  },
+});
 
 
 
@@ -74,14 +82,11 @@ export default function DnD({users, idx}) {
       event.preventDefault();
       
       const type = event.dataTransfer.getData("application/reactflow");
-      // const tgt = event.target.id
-      // const index = idx
-      // console.log(index)
+
       if (typeof type === "undefined" || !type) {
         return;
       }
       const index = idx - 1
-      // console.log(users[index].url)
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
@@ -92,11 +97,11 @@ export default function DnD({users, idx}) {
         type,
         position,
         data: { 
-          name : users[index].name,
           image: {
             // url: user.users[document.getElementsByClassName(event.target.id)[0].id].url
             url: users[index].url
           },
+          name : users[index].name,
           label: (
             <>
             <input
@@ -125,11 +130,11 @@ export default function DnD({users, idx}) {
   };
 
   const connectionLineStyle = {
-    strokeWidth: 1,
+    strokeWidth: 2,
     stroke: "black",
   };
 
-  const defaultViewport = { x: 300, y: 250, zoom: 0.9 };
+  const defaultViewport = { x: 0, y: 0 , zoom: 0.9 };
 
   return (
     <div className="dndflow">
@@ -145,7 +150,7 @@ export default function DnD({users, idx}) {
           onInit={setReactFlowInstance}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          connectionLineComponent={CustomEdge}
+          connectionLineComponent={CustomConnectionLine}
           snapToGrid
           snapGrid={[8, 8]}
           defaultViewport={defaultViewport}

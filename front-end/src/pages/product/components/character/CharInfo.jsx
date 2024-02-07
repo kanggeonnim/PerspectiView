@@ -1,3 +1,4 @@
+
 export default function CharInfo({ user, onIdxChange }) {
   const onDragStart = (event, nodeType, id) => {
     event.dataTransfer.setData("application/reactflow", nodeType);
