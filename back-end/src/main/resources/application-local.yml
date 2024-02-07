@@ -10,6 +10,11 @@ spring:
     password:
     driver-class-name: org.h2.Driver
 
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
+
   jwt:
     secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
     token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
