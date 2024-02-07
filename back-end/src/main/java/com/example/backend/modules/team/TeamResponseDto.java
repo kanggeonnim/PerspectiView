@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 @Data
@@ -19,14 +20,15 @@ public class TeamResponseDto {
     private String profileImageUrl;
 
     public static TeamResponseDto of(Team team) {
-        List<User> managers = team.getManagers();
-        List<User> members = team.getMembers();
+
         List<UserResponseDto> users = new ArrayList<>();
-        for(User user : managers){
-            users.add(UserResponseDto.of(user));
+        Iterator<User> iterator = team.getManagers().iterator();
+        while(iterator.hasNext()){
+            users.add(UserResponseDto.of(iterator.next()));
         }
-        for(User user : members){
-            users.add(UserResponseDto.of(user));
+        iterator = team.getMembers().iterator();
+        while(iterator.hasNext()){
+            users.add(UserResponseDto.of(iterator.next()));
         }
 
         return TeamResponseDto.builder()
