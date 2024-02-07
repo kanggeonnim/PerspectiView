@@ -16,7 +16,7 @@ public class TeamResponseDto {
                 .title(team.getTitle())
                 .info(team.getInfo())
                 .personal(team.isPersonal())
-                .profileImageUrl(team.getProfileImageUrl())
+                .profileImageUrl(team.getTeamImageUrl())
                 .build();
     }
 }

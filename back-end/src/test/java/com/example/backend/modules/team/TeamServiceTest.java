@@ -39,7 +39,7 @@ class TeamServiceTest {
     private Team makeTeam(User user) {
         Team team = Team.builder().title("team1")
                 .info("team info")
-                .profileImageUrl("https://s3")
+                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         return teamService.createTeam(team, user);
@@ -78,7 +78,7 @@ class TeamServiceTest {
         String changeInfo = "change info";
         Team newTeam = Team.builder().title("team1")
                 .info(changeInfo)
-                .profileImageUrl("https://s3")
+                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         teamService.updateTeam(team.getId(), newTeam, user);

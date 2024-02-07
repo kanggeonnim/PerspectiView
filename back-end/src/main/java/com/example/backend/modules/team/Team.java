@@ -28,14 +28,14 @@ public class Team {
     private String info;
 
     @Column(nullable = true)
-    private String profileImageUrl;
+    private String teamImageUrl;
 
     @Builder
-    public Team(String title, String info, Boolean personal, String profileImageUrl) {
+    public Team(String title, String info, Boolean personal, String teamImageUrl) {
         this.title = title;
         this.info = info;
         this.personal = personal;
-        this.profileImageUrl = profileImageUrl;
+        this.teamImageUrl = teamImageUrl;
     }
 
     @Column(nullable = false)
@@ -68,6 +68,10 @@ public class Team {
 
     public boolean ifMember(User user) {
         return members.contains(user);
+    }
+
+    public void addImageUrl(String url){
+        this.teamImageUrl = url;
     }
 
     public void addEnrollment(Enrollment enrollment) {
