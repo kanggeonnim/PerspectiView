@@ -68,10 +68,10 @@ public class SecurityConfig {
 						authorize.accessDecisionManager(accessDecisionManager())
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
-						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
-						// hasRole('ROLE_USER')")
-						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
-						// hasRole('ROLE_USER')")
+//						 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
+//						 hasRole('ROLE_USER')")
+//						 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
+//						 hasRole('ROLE_USER')")
 						.requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 										.requestMatchers("/genre/**").permitAll()
 										.requestMatchers("/category/**").permitAll()
