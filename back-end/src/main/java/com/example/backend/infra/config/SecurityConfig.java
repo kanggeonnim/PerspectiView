@@ -99,7 +99,8 @@ public class SecurityConfig {
 
 
 		configuration.addExposedHeader("Authorization");
-		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+//		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
 //		configuration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
