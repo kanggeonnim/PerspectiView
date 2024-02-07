@@ -63,7 +63,8 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         }
 
         Optional<User> optionalUser =
-                userRepository.findByUsername(oAuth2UserInfo.getName());
+                userRepository.findWithAuthoritiesByUsername(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId());
+
         if (optionalUser.isEmpty()) {
             String providerId = oAuth2UserInfo.getProviderId();
             // 신규 회원가입
