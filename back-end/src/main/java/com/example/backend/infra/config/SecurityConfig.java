@@ -58,9 +58,9 @@ public class SecurityConfig {
 				.csrf(AbstractHttpConfigurer::disable)
 				.httpBasic(AbstractHttpConfigurer::disable)
 				.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
-				.headers((headers)->
-						headers.contentTypeOptions(contentTypeOptionsConfig ->
-								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
+//				.headers((headers)->
+//						headers.contentTypeOptions(contentTypeOptionsConfig ->
+//								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
 				.formLogin(AbstractHttpConfigurer::disable) // form 로그인 비활성화
 				.sessionManagement(sessionManagement->sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
