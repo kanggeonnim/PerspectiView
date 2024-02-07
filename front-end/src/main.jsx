@@ -19,6 +19,7 @@ import { default as ForeshadowingTab } from "./pages/product/components/foreshad
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import ProductListCard from "./pages/workspace/components/ProductListCard.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
+import { CookiesProvider } from "react-cookie";
 
 const router = createBrowserRouter(
   [
@@ -94,8 +95,10 @@ const router = createBrowserRouter(
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <CookiesProvider>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </CookiesProvider>
   </React.StrictMode>
 );

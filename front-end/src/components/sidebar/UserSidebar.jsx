@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 const teams = Array.from({ length: 10 }, (_, index) => ({
   teamId: index,
@@ -30,9 +31,10 @@ const teams = Array.from({ length: 10 }, (_, index) => ({
 
 function UserSidebar() {
   // API 호출 시 사용
-  // const { teamData, getTeamIsSuccess } = useTeamQueryModule();
+  const { teamData, getTeamIsSuccess } = useTeamQueryModule();
+  console.log("getTeam", getTeamIsSuccess, teamData);
 
-  // // 데이터 로딩 중일 때
+  // 데이터 로딩 중일 때
   // if (!getTeamIsSuccess) {
   //   return <div>Loading...</div>;
   // }

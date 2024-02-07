@@ -7,21 +7,6 @@ import logo from "@/assets/main_logo.svg";
 import { NaverButton } from "./components/button/NaverButton";
 
 export default function LoginPage() {
-  const handleGoogleLogin = () => {
-    // const navigate = useNavigate();
-    // const width = 600,
-    //   height = 600; // 팝업 창의 크기 지정
-    // const left = (window.innerWidth - width) / 2;
-    // const top = (window.innerHeight - height) / 2;
-    // const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/google";
-    // // 팝업 창으로 Google OAuth2 로그인 페이지 열기
-    // window.open(
-    //   url,
-    //   "GoogleLogin",
-    //   `toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=yes, copyhistory=no, width=${width}, height=${height}, top=${top}, left=${left}`
-    // );
-    // navigate("/workspace");
-  };
   return (
     <MainLayout variant="vertical">
       <div className="flex items-center justify-center w-full h-full">
@@ -39,62 +24,15 @@ export default function LoginPage() {
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-4 mb-2 space-y-2">
-            <div
-              className="space-y-1"
-              onClick={() => {
-                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/google";
-                window.open(url);
-                const token = new URL(url).searchParams.get("accessToken");
-                const refreshToken = new URL(url).searchParams.get("refreshToken");
-
-                console.log(token);
-                if (token) {
-                  localStorage.setItem("token", token);
-                  localStorage.setItem("refreshToken", refreshToken);
-                }
-              }}
-            >
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/google">
               <GoogleButton />
-            </div>
-            <div
-              className="space-y-1 "
-              onClick={() => {
-                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/kakao";
-                window.open(url);
-                const token = new URL(url).searchParams.get("accessToken");
-                const refreshToken = new URL(url).searchParams.get("refreshToken");
-
-                console.log(token);
-                if (token) {
-                  localStorage.setItem("token", token);
-                  localStorage.setItem("refreshToken", refreshToken);
-                }
-              }}
-            >
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/kakao">
               <KakaoButton />
-            </div>
-            <div
-              className="space-y-1"
-              onClick={() => {
-                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/naver";
-                window.open(url);
-                const token = new URL(url).searchParams.get("accessToken");
-                const refreshToken = new URL(url).searchParams.get("refreshToken");
-
-                console.log(token);
-                if (token) {
-                  localStorage.setItem("token", token);
-                  localStorage.setItem("refreshToken", refreshToken);
-                }
-              }}
-            >
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/naver">
               <NaverButton />
-            </div>
-            {/* <Link to={`/workspace`}>
-              <div className="space-y-1">
-                <KakaoButton />
-              </div>
-            </Link> */}
+            </Link>
           </CardContent>
         </Card>
       </div>

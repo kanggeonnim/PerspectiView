@@ -1,7 +1,12 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
+import useUserQueryModule from "@/hook/useUserQueryModule";
+// import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
+import { useAuthStore } from "@/store/useAuthStore";
+import axios from "axios";
 import { useEffect, useState } from "react";
-import { Outlet } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 // 내 작품 목록 데이터
 const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
@@ -54,15 +59,34 @@ const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
 }));
 
 export default function WorkspacePage() {
+  const navigate = useNavigate();
+
+  // const setUser = useAuthStore((state) => state.setUser);
+  const { getUser, getUserIsSuccess } = useUserQueryModule();
+  console.log("getUser", getUserIsSuccess, getUser);
+
+  const [searchParams] = useSearchParams();
+  const [cookies, setCookie] = useCookies(["refresh token"]); // 쿠키 훅
+
+  const ACCESS_TOKEN = searchParams.get("accessToken");
+  const REFRESH_TOKEN = searchParams.get("refreshToken");
+
+  useEffect(() => {
+    console.log(ACCESS_TOKEN);
+    if (ACCESS_TOKEN) {
+      navigate("/workspace");
+      sessionStorage.setItem("token", ACCESS_TOKEN);
+      // setUser();
+      setCookie("refresh token", REFRESH_TOKEN); // 쿠키에 토큰 저장
+    }
+    console.log(cookies);
+  }, [ACCESS_TOKEN, REFRESH_TOKEN]);
+
   // const [workspaceName, setWorkspaceName] = useState();
 
   // const getWorkspaceName = (name) => {
   //   setWorkspaceName(name);
   // };
-
-  useEffect(() => {
-    console.log("render page");
-  });
   return (
     <MainLayout variant="horizontal">
       <UserSidebar />
