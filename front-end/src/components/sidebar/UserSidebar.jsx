@@ -34,7 +34,7 @@ function UserSidebar() {
 
   // // 데이터 로딩 중일 때
   // if (!getTeamIsSuccess) {
-  //   return <div>Loading...</div>;
+  // return <Progress value={progress} className="w-[60%]" />;
   // }
 
   const [isCollapsed, setIsCollapsed] = useState(false);

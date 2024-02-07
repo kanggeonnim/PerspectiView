@@ -1,26 +1,51 @@
-import { nanoid } from "nanoid";
 import { applyNodeChanges, applyEdgeChanges } from "reactflow";
 import { create } from "zustand";
-
+const colors = [
+  "#E2E2E2",
+  "#ff75c3",
+  "#ffa647",
+  "#ffe83f",
+  "#9fff5b",
+  "#70e2ff",
+  "#cd93ff",
+  "#09203f",
+  "#D1180B",
+];
 const useNodeStore = create((set, get) => ({
   nodes: [
     {
-      id: "0",
+      id: "1",
       type: "story",
       data: { title: "story", color: "#ff75c3" },
       position: { x: 0, y: 0 },
     },
-    {
-      id: "1",
-      type: "story",
-      data: { title: "story", color: "#ffa647" },
-      position: { x: 200, y: 0 },
-    },
+    // {
+    //   id: "2",
+    //   type: "story",
+    //   data: { title: "story", color: "#ffa647" },
+    //   position: { x: 200, y: 0 },
+    // },
   ],
-  edges: [],
+  edges: [
+    // {
+    //   id: "1",
+    //   style: {
+    // // stroke: "#334155",
+    //  // strokeWidth: 3,
+    //     sourceColor: "#ff75c3",
+    //     targetColor: "#ffa647",
+    //   },
+    //   type: "story",
+    //   source: "1",
+    //   sourceHandle: null,
+    //   target: "2",
+    //   targetHandle: null,
+    // },
+  ],
 
   onNodesChange: (changes) => {
     if (changes[0].type === "position" && changes[0].dragging) {
+      // y축만 이동하도록 설정
       set({
         nodes: applyNodeChanges(
           [
@@ -46,41 +71,65 @@ const useNodeStore = create((set, get) => ({
     set({
       edges: applyEdgeChanges(changes, get().edges),
     });
-    console.log(get().edges);
   },
 
-  addEdge(data) {
-    console.log(data);
-    const id = nanoid(6);
-    const sourceColor = get().nodes[data.source].data.color;
-    const targetColor = get().nodes[data.target].data.color;
+  addStory(addIndex) {
+    console.log(addIndex);
+    const lastNode = get().nodes[addIndex - 1];
+    const newNodeId = String(Number(lastNode.id) + 1);
 
-    const edge = { id, ...data, style: { ...data.style, sourceColor, targetColor } };
-    set({ edges: [edge, ...get().edges] });
-    console.log("edges", get().edges);
-  },
-
-  addStory() {
-    const id = get().nodes.length + "";
     const type = "story";
     const data = {
       title: "storyyyy",
-      color: "#9fff5b", // plotColor
+      color: colors[Math.floor(Math.random() * 9)], // 받아온 plotColor 넣어주기
     };
-    const position = { x: Number(id) * 200, y: 0 };
 
-    console.log({ id, type, data, position });
-    set({ nodes: [...get().nodes, { id, type, data, position, width: 128, height: 160 }] });
-    console.log(get().nodes);
+    const position = { x: Number(lastNode.id) * 200, y: 0 };
 
-    // addSTory()
-    // const id = nanoid(6);
-    // const sourceColor = get().nodes[data.source].data.color;
-    // const targetColor = get().nodes[data.target].data.color;
+    set({
+      nodes: [
+        ...get().nodes,
 
-    // const edge = { id, ...data, style: { ...data.style, sourceColor, targetColor } };
-    // set({ edges: [edge, ...get().edges] });
-    // console.log("edges", get().edges);
+        {
+          id: newNodeId,
+          type,
+          data,
+          position,
+          positionAbsolute: position,
+          width: 128,
+          height: 160,
+          selected: false,
+          dragging: false,
+        },
+      ],
+    });
+    console.log("nodes", get().nodes);
+
+    /*
+     *
+     *
+     * 가장 마지막 node와 연결하는 edge 자동으로 생성
+     */
+    const lastEdge = get().edges.slice(-1)[0];
+    const newEdgeId = lastEdge === undefined ? "1" : String(Number(lastEdge.id) + 1);
+
+    const sourceColor = lastNode.data.color;
+    const targetColor = data.color;
+    const newEdge = {
+      id: newEdgeId,
+      style: {
+        sourceColor: sourceColor,
+        targetColor: targetColor,
+      },
+      type: "story",
+      source: lastNode.id,
+      sourceHandle: null,
+      target: newNodeId,
+      targetHandle: null,
+    };
+
+    set({ edges: [...get().edges, newEdge] });
+    console.log("edges", get().edges);
   },
 }));
 
