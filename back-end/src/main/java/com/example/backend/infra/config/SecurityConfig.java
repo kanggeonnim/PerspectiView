@@ -88,7 +88,7 @@ public class SecurityConfig {
 								.successHandler(jwtSuccessHandler)
 								.failureHandler(myAuthenticationFailureHandler))
 				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-				.addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class);
+//				.addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class);
 
 
 		return http.build();
