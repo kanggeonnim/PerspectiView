@@ -41,10 +41,10 @@ public class Team {
     @Column(nullable = false)
     private boolean personal;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private Set<User> managers = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany
     private Set<User> members = new HashSet<>();
 
     @OneToMany(mappedBy = "team")
