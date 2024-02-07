@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration // IoC 빈(bean)을 등록
@@ -94,8 +95,8 @@ public class SecurityConfig {
 		CorsConfiguration configuration = new CorsConfiguration();
 //		configuration.addAllowedOrigin("http://localhost:5173");
 
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
 
-		configuration.addAllowedOrigin("*");
 
 		configuration.addExposedHeader("Authorization");
 		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
