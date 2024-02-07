@@ -41,13 +41,13 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
                         objectMapper.writeValueAsString(principalDetails.getUser().getAuthorities())
                 );
 
-        response.sendRedirect(UriComponentsBuilder.fromUriString("http://192.168.31.77:5173/app/login")
+        response.sendRedirect(UriComponentsBuilder.fromUriString("https://i10b310.p.ssafy.io/app/workspace")
                 .queryParam("accessToken", token.getAccessToken())
                 .queryParam("refreshToken", token.getRefreshToken())
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString());
-        
+
         // body를 통해 access token과 refresh token 전달
 //        String result = objectMapper.writeValueAsString(ApiResult.OK(TokenResponseDto.from(token)));
 //        response.getWriter().write(result);
