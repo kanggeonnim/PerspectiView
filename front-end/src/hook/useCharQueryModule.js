@@ -7,7 +7,7 @@ const useCharQueryModule = () => {
   const { data: charData, isSuccess: getCharIsSuccess} = useQuery ({
     queryKey: ["char"],
     queryFn: async () => {
-      const response = await api.get("/api/char")
+      const response = await api.get("/api/char/:id/")
       console.log(response)
       return response.data.response;
     }
