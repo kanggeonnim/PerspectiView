@@ -1,6 +1,7 @@
 package com.example.backend.modules.team;
 
 
+import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.exception.BadRequestException;
 import com.example.backend.modules.exception.ForbiddenException;
 import com.example.backend.modules.exception.NotFoundException;
@@ -20,9 +21,9 @@ public class TeamService {
     private final TeamRepository teamRepository;
     private final EnrollmentRepository enrollmentRepository;
 
+
     public Team createTeam(Team team, User user) {
         Team newTeam = teamRepository.save(team);
-        ;
         newTeam.addManager(user);
         return newTeam;
     }

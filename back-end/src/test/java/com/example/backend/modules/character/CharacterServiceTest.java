@@ -126,7 +126,7 @@ class CharacterServiceTest {
 
         team = Team.builder().title("team1")
                 .info("team info")
-                .profileImageUrl("https://s3")
+                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         teamService.createTeam(team, user);

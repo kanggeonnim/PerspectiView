@@ -13,7 +13,6 @@ public class TeamRequestDto {
 
     @NotNull
     private boolean personal;
-
     //TODO Multipart Image
 
     public static Team from(TeamRequestDto teamRequestDto){

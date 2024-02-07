@@ -3,7 +3,7 @@ spring:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
   jwt:
     secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
     token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
