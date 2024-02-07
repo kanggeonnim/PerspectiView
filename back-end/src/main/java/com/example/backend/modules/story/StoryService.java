@@ -126,7 +126,7 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.of(story, characterList, foreShadowingList);
+        return StoryResponseDto.from(story, characterList, foreShadowingList);
     }
     
 
