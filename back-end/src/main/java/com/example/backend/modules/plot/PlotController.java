@@ -10,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +24,7 @@ public class PlotController {
 
     /**
      * 작품으로 플롯 조회
+     *
      * @param teamId
      * @param productId
      * @param principalDetails
@@ -39,13 +38,13 @@ public class PlotController {
         //plot List 정렬
         plots.sort(Comparator.comparing(Plot::getId));
         //story정렬
-        for(Plot p:plots){
-            if(p!=null){
+        for (Plot p : plots) {
+            if (p != null) {
                 p.getStories().sort(Comparator.comparing(Story::getPositionX));
             }
         }
         return ApiResult.OK(plots.stream()
-                .map(PlotResponseDto::from)
+                .map(PlotResponseDto::of)
                 .collect(Collectors.toList()));
     }
 
@@ -54,8 +53,8 @@ public class PlotController {
                                                  @PathVariable("teamId") Long teamId,
                                                  @PathVariable("productId") Long productId,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Plot plot = plotService.createPlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.of(plotRequestDto));
-        return ApiResult.OK(PlotResponseDto.from(plot));
+        Plot plot = plotService.createPlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.from(plotRequestDto));
+        return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
     @PatchMapping("/{plotId}")
@@ -63,8 +62,8 @@ public class PlotController {
                                                  @PathVariable("teamId") Long teamId,
                                                  @PathVariable("productId") Long productId,
                                                  @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Plot plot = plotService.updatePlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.of(plotRequestDto));
-        return ApiResult.OK(PlotResponseDto.from(plot));
+        Plot plot = plotService.updatePlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.from(plotRequestDto));
+        return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
     @DeleteMapping("/{plotId}")
