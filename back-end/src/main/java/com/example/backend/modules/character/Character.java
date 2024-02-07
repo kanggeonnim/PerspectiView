@@ -65,6 +65,10 @@ public class Character {
         this.positionY = character.getPositionY();
     }
 
+    public void addImageUrl(String url) {
+        this.characterImageUrl = url;
+    }
+
     public void addKeyword(CharacterKeyword characterKeyword) {
         this.characterKeywords.add(characterKeyword);
     }
