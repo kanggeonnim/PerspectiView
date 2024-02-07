@@ -1,14 +1,14 @@
 package com.example.backend.modules.auth.oauth.provider;
 
-import com.example.backend.modules.auth.oauth.provider.OAuth2UserInfo;
-import lombok.AllArgsConstructor;
-
 import java.util.Map;
 
-@AllArgsConstructor
 public class NaverUserInfo implements OAuth2UserInfo {
 
     private Map<String, Object> attributes;
+
+    public NaverUserInfo(Map<String, Object> attributes) {
+        this.attributes = (Map<String, Object>) attributes.get("response");
+    }
 
     @Override
     public String getProviderId() {
