@@ -6,11 +6,13 @@ import com.example.backend.modules.story.StoryRepository;
 import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CommentService {
     private final CommentRepository commentRepository;
     private final StoryRepository storyRepository;
@@ -18,6 +20,7 @@ public class CommentService {
     /**
      * 댓글 생성
      */
+    @Transactional
     public Comment createComment(User user, Long storyId, Comment comment){
         //story 정보
         Story story = storyRepository.findById(storyId).orElseThrow(()-> new RuntimeException());
@@ -45,6 +48,7 @@ public class CommentService {
     /**
      * 댓글 수정
      */
+    @Transactional
     public Comment updateComment(Long commentId, Comment comment){
         Comment updateComment = commentRepository.findById(commentId).orElseThrow(()->new RuntimeException());
         updateComment.updateComment(comment.getCommentContent());
@@ -54,6 +58,7 @@ public class CommentService {
     /**
      * 댓글 삭제
      */
+    @Transactional
     public void deleteComment(Long commentId){
         commentRepository.deleteById(commentId);
     }
