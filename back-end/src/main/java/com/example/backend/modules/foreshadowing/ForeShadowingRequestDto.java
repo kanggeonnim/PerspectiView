@@ -14,7 +14,7 @@ public class ForeShadowingRequestDto {
 
     private boolean close;
 
-    public static ForeShadowing of(ForeShadowingRequestDto foreShadowingRequestDto){
+    public static ForeShadowing from(ForeShadowingRequestDto foreShadowingRequestDto) {
         return ForeShadowing.builder()
                 .fShadowName(foreShadowingRequestDto.getName())
                 .fShadowContent(foreShadowingRequestDto.getContent())

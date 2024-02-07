@@ -12,6 +12,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @ActiveProfiles("test")
 public class KeywordControllerTest {
     @Autowired
@@ -28,10 +30,10 @@ public class KeywordControllerTest {
     private KeywordService keywordService;
 
     @Test
-    public void 키워드생성() throws Exception{
+    public void 키워드생성() throws Exception {
         //given
         Map<String, String> input = new HashMap<>();
-        input.put("name","cold");
+        input.put("name", "cold");
 
         ObjectMapper objectMapper = new ObjectMapper();
 
@@ -43,14 +45,14 @@ public class KeywordControllerTest {
                         .content(objectMapper.writeValueAsString(input))
                 )
 
-        //then
+                //then
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    public void 키워드전체조회() throws Exception{
+    public void 키워드전체조회() throws Exception {
         //given
-        Keyword keyword1 =Keyword.builder().name("cold").build();
+        Keyword keyword1 = Keyword.builder().name("cold").build();
         Keyword keyword2 = Keyword.builder().name("Scientist").build();
 
         keywordService.createKeyword(keyword1);
@@ -58,32 +60,32 @@ public class KeywordControllerTest {
 
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/keyword/"))
-        //then
+                //then
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    public void 키워드아이디조회() throws Exception{
+    public void 키워드아이디조회() throws Exception {
         //given
-        Keyword keyword1 =Keyword.builder().name("cold").build();
+        Keyword keyword1 = Keyword.builder().name("cold").build();
         keywordService.createKeyword(keyword1);
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/keyword/1"))
-        //then
+                //then
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
-    public void 키워드이름조회() throws Exception{
+    public void 키워드이름조회() throws Exception {
         //given
-        Keyword keyword1 =Keyword.builder().name("cold").build();
-        Keyword keyword2 =Keyword.builder().name("old").build();
+        Keyword keyword1 = Keyword.builder().name("cold").build();
+        Keyword keyword2 = Keyword.builder().name("old").build();
 
         keywordService.createKeyword(keyword1);
         keywordService.createKeyword(keyword2);
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/keyword/name/ol"))
-        //then
+                //then
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 

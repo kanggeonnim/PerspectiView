@@ -13,6 +13,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@Table(name = "characters")
 public class Character {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,6 +63,10 @@ public class Character {
         this.characterDetail = character.getCharacterDetail();
         this.positionX = character.getPositionX();
         this.positionY = character.getPositionY();
+    }
+
+    public void addImageUrl(String url) {
+        this.characterImageUrl = url;
     }
 
     public void addKeyword(CharacterKeyword characterKeyword) {

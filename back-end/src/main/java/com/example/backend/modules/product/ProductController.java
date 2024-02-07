@@ -5,6 +5,7 @@ import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.productrelation.ProductRelation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,7 +29,7 @@ public class ProductController {
         String ProductImageUrl = String.valueOf(s3Uploader.upload(productRequestDto.getMultipartFile()));
         Product product = productService.createTeamProduct(productRequestDto.from(productRequestDto, ProductImageUrl),productRequestDto.getGenres());
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
-        return ApiResult.OK(ProductResponseDto.of(product,genres, null, null));
+        return ApiResult.OK(ProductResponseDto.of(product,genres, null));
     }
 
     @GetMapping("/{productId}")
@@ -36,9 +37,9 @@ public class ProductController {
                                                     @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Product product = productService.findByProductId(principalDetails.getUser(), teamId, productId);
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
-        List<ProductRelation> productRelations = productService.findProductRelations(productId);
+//        List<ProductRelation> productRelations = productService.findProductRelations(productId);
         List<Plot> plots = productService.findPlots(productId);
-        return ApiResult.OK(ProductResponseDto.of(product, genres, productRelations, plots));
+        return ApiResult.OK(ProductResponseDto.of(product, genres, plots));
     }
 
     @PatchMapping("/{productId}")
@@ -53,9 +54,9 @@ public class ProductController {
 //        productRequestDto.setProductId(productId);
         Product product = productService.updateProduct(productId, productRequestDto.from(productRequestDto,ProductImageUrl),productRequestDto.getGenres());
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
-        List<ProductRelation> productRelations = productService.findProductRelations(productId);
+//        List<ProductRelation> productRelations = productService.findProductRelations(productId);
         List<Plot> plots = productService.findPlots(productId);
-        return ApiResult.OK(ProductResponseDto.of(product,genres, productRelations, plots));
+        return ApiResult.OK(ProductResponseDto.of(product,genres, plots));
     }
 
     @PatchMapping("/title/{productId}")
@@ -65,7 +66,7 @@ public class ProductController {
                                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
 //        productRequestDto.setProductId(productId);
         Product product = productService.updateProductTitle(productId , productRequestDto.from(productRequestDto,null));
-        return ApiResult.OK(ProductResponseDto.of(product,null, null, null));
+        return ApiResult.OK(ProductResponseDto.of(product,null, null));
     }
 
     @DeleteMapping("/{productId}")

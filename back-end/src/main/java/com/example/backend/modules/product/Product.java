@@ -2,6 +2,7 @@ package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
 import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.productrelation.ProductRelation;
 import com.example.backend.modules.team.Team;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -34,14 +35,14 @@ public class Product {
     @Column(nullable = true)
     private String info;
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private Set<ProductGenre> productGenres = new HashSet<>();
 
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private Set<ProductRelation> productRelations = new HashSet<>();
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "product")
+    @OneToMany(mappedBy = "product",cascade = CascadeType.REMOVE)
     private List<Plot> plots = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

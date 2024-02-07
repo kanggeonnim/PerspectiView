@@ -21,6 +21,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration // IoC 빈(bean)을 등록
@@ -33,19 +34,20 @@ public class SecurityConfig {
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
 	private final TeamCheckVoter teamCheckVoter;
+	private final ProductCheckVoter productCheckVoter;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
 		return new BCryptPasswordEncoder();
 	}
 
-
 	@Bean
 	public AccessDecisionManager accessDecisionManager() {
 		List<AccessDecisionVoter<?>> decisionVoters = new ArrayList<>();
 		decisionVoters.add(new WebExpressionVoter());
 		// voter 목록에 teamCheckVoter 추가
-		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(productCheckVoter);
 		// 모든 voter 승인 시 허가
 		return new UnanimousBased(decisionVoters);
 	}
@@ -67,10 +69,10 @@ public class SecurityConfig {
 						authorize.accessDecisionManager(accessDecisionManager())
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
-						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
-						// hasRole('ROLE_USER')")
-						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
-						// hasRole('ROLE_USER')")
+//						 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
+//						 hasRole('ROLE_USER')")
+//						 .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
+//						 hasRole('ROLE_USER')")
 						.requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
 										.requestMatchers("/genre/**").permitAll()
 										.requestMatchers("/category/**").permitAll()
@@ -91,10 +93,15 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("http://localhost:5173");
+//		configuration.addAllowedOrigin("http://localhost:5173");
+
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+
+
 		configuration.addExposedHeader("Authorization");
-		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
-		configuration.setAllowCredentials(true);
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+//		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+//		configuration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);

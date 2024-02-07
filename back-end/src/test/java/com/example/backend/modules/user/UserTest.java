@@ -7,26 +7,25 @@ import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.mock.mockito.MockBeans;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = UserController.class)
-@MockBeans({
-        @MockBean(UserService.class),
-        @MockBean(PrincipalOauth2UserService.class),
-        @MockBean(UserRepository.class),
-        @MockBean(JwtUtil.class),
-        @MockBean(JwtAuthorizationFilter.class)
-})
+
+@SpringBootTest
+@AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Transactional
 class UserTest {
     @Autowired
     private MockMvc mockMvc;

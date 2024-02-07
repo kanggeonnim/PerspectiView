@@ -6,8 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,6 +52,7 @@ public class StoryService {
 
     /**
      * story content 생성
+     *
      * @param content
      * @return
      */
@@ -67,6 +66,7 @@ public class StoryService {
 
     /**
      * 스토리 수정
+     *
      * @param story
      * @param characters
      * @param foreShadowings
@@ -80,7 +80,7 @@ public class StoryService {
         storyRelationRepository.deleteAll(oldStory.getStoryRelations());
         storyForeShadowingRepository.deleteAll(oldStory.getStoryForeShadowings());
 
-        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -94,9 +94,9 @@ public class StoryService {
                 .map(fs -> StoryForeShadowing.builder().story(findStory).foreShadowing(fs).build())
                 .map(storyForeShadowingRepository::save)
                 .collect(Collectors.toSet());
-        
+
         //Content를 가져와서 수정
-        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(()->new RuntimeException());
+        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new RuntimeException());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
@@ -104,6 +104,7 @@ public class StoryService {
 
     /**
      * 스토리 삭제
+     *
      * @param storyId
      */
     @Transactional
@@ -113,11 +114,12 @@ public class StoryService {
 
     /**
      * 스토리 아이디로 조회
+     *
      * @param storyId
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -126,7 +128,17 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.from(story, characterList, foreShadowingList);
+        return StoryResponseDto.of(story, characterList, foreShadowingList);
+    }
+    
+
+    /**
+     * 스토리 y축
+     */
+    public Story updatePositionY(Story story) {
+        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
+        findStory.updatePositionY(story.getPositionY());
+        return findStory;
     }
 
 }

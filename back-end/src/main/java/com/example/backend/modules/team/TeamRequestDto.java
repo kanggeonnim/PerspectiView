@@ -13,6 +13,7 @@ public class TeamRequestDto {
 
     @NotNull
     private boolean personal;
+    //TODO Multipart Image
 
     public static Team from(TeamRequestDto teamRequestDto){
         return Team.builder().title(teamRequestDto.getTitle())

@@ -1,17 +1,19 @@
 package com.example.backend.modules.team;
 
+import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,18 +23,26 @@ import java.util.stream.Collectors;
 @Tag(name = "team", description = "Team 도메인 컨트롤러")
 public class TeamController {
     private final TeamService teamService;
+    private final S3Uploader s3Uploader;
     @Operation(
             responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
             @ApiResponse(responseCode = "401", description = "please login"),
             @ApiResponse(responseCode = "403", description = "not manager")
             }
     )
-    @PostMapping
-    public ApiResult<TeamResponseDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
+                                                            @RequestPart(required = false) MultipartFile uploadImage,
+                                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+        Team team = TeamRequestDto.from(teamRequestDto);
 
-        Team team = teamService.createTeam(TeamRequestDto.from(teamRequestDto), principalDetails.getUser());
-        return ApiResult.OK(TeamResponseDto.of(team));
+        if(uploadImage != null){
+            String url = s3Uploader.upload(uploadImage).orElseThrow(() -> new IllegalArgumentException());
+            team.addImageUrl(url);
+        }
+
+        Team newTeam = teamService.createTeam(team, principalDetails.getUser());
+        return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
     }
 
     @GetMapping
@@ -44,9 +54,9 @@ public class TeamController {
 
 
     @GetMapping("/{teamId}")
-    public ApiResult<TeamResponseDto> getTeam(@PathVariable Long teamId){
+    public ApiResult<TeamResponseWithMembersDto> getTeam(@PathVariable Long teamId){
         Team team = teamService.getTeam(teamId);
-        return ApiResult.OK(TeamResponseDto.of(team));
+        return ApiResult.OK(TeamResponseWithMembersDto.of(team));
     }
 
     @Operation(
@@ -56,11 +66,11 @@ public class TeamController {
             }
     )
     @PatchMapping("/{teamId}")
-    public ApiResult<TeamResponseDto> updateTeam(@PathVariable Long teamId,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                 @RequestBody @Valid TeamRequestDto teamRequestDto){
+    public ApiResult<TeamResponseWithMembersDto> updateTeam(@PathVariable Long teamId,
+                                                            @AuthenticationPrincipal PrincipalDetails principalDetails,
+                                                            @RequestBody @Valid TeamRequestDto teamRequestDto){
         Team team = teamService.updateTeam(teamId, TeamRequestDto.from(teamRequestDto), principalDetails.getUser());
-        return ApiResult.OK(TeamResponseDto.of(team));
+        return ApiResult.OK(TeamResponseWithMembersDto.of(team));
     }
 
     @Operation(

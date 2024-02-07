@@ -10,6 +10,7 @@ class JasyptConfigTest {
 
     @Test
     void stringEncryptor() {
+
     }
 
 

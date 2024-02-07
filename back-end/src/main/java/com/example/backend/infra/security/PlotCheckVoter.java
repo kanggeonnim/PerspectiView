@@ -1,6 +1,8 @@
 package com.example.backend.infra.security;
 
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.plot.PlotService;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.Team;
@@ -18,6 +20,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -25,17 +28,20 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
 @Component
-public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> {
+public class PlotCheckVoter implements AccessDecisionVoter<FilterInvocation> {
     private final RequestMatcher requiresAuthorizationRequestMatcher;
     private final Function<String, Long> teamIdExtractor;
     private final Function<String, Long> productIdExtractor;
+    private final Function<String, Long> plotIdExtractor;
 
     private final TeamService teamService;
     private final ProductService productService;
+    private final PlotService plotService;
+
 
     @Autowired
-    public ProductCheckVoter(TeamService teamService, ProductService productService) {
-        final String regex = "^/api/team/(\\d+)/product/(\\d+).*$";
+    public PlotCheckVoter(TeamService teamService, ProductService productService, PlotService plotService) {
+        final String regex = "^/api/team/(\\d+)/product/(\\d+)/plot/(\\d+).*$";
         final Pattern pattern = Pattern.compile(regex);
         RequestMatcher requiresAuthorizationRequestMatcher = new RegexRequestMatcher(pattern.pattern(), null);
 
@@ -51,9 +57,16 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
             return productId;
         };
 
+        plotIdExtractor = (String url)->{
+            Matcher matcher = pattern.matcher(url);
+            Long plotId = matcher.matches() ? toLong(matcher.group(3), -1) : -1;
+            return plotId;
+        };
+
         this.requiresAuthorizationRequestMatcher = requiresAuthorizationRequestMatcher;
         this.teamService = teamService;
         this.productService = productService;
+        this.plotService = plotService;
     }
 
     @Override
@@ -96,6 +109,9 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
             }
         }
 
+        Long targetPlotId = obtainPlotId(request);
+        List<Plot> plots = plotService.findByProductId(principal.getUser(), team.getId(), targetProductId);
+
         // 매니저가 아니면 예외
         if(!team.ifManager(principal.getUser())) return ACCESS_DENIED;
 
@@ -108,6 +124,10 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
     private Long obtainProductId(HttpServletRequest request) {
         return productIdExtractor.apply(request.getRequestURI());
+    }
+
+    private Long obtainPlotId(HttpServletRequest request) {
+        return plotIdExtractor.apply(request.getRequestURI());
     }
 
     private boolean requiresAuthorization(HttpServletRequest request) {

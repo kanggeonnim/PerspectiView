@@ -26,7 +26,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @Column(nullable = true)
@@ -63,6 +63,10 @@ public class User {
 
     public void addAuthority(UserAuthority userAuthority) {
         authorities.add(userAuthority);
+    }
+
+    public void addImageUrl(String url) {
+        this.userImageUrl = url;
     }
 
     public void changeUser(User user) {

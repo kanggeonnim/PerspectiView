@@ -1,7 +1,6 @@
-package com.example.backend.modules.story;
+package com.example.backend.modules.productrelation;
 
 import com.example.backend.modules.character.Character;
-import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
@@ -9,7 +8,7 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductRepository;
-import com.example.backend.modules.productrelation.ProductRelationRepository;
+import com.example.backend.modules.story.*;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
@@ -18,19 +17,19 @@ import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
-import org.h2.util.ThreadDeadlockDetector;
-import org.junit.jupiter.api.*;
-import org.mockito.Mock;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -39,8 +38,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ActiveProfiles("test")
 @Transactional
 @Slf4j
-class StoryServiceTest {
-
+class ProductRelationServiceTest {
     @Autowired
     UserRepository userRepository;
 
@@ -52,6 +50,9 @@ class StoryServiceTest {
 
     @Autowired
     ProductRelationRepository productRelationRepository;
+
+    @Autowired
+    ProductRelationService productRelationService;
 
     @Autowired
     StoryRepository storyRepository;
@@ -143,7 +144,6 @@ class StoryServiceTest {
 
         story = Story.builder()
                 .title("storyTitle")
-                .content(content)
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
@@ -189,149 +189,98 @@ class StoryServiceTest {
 
 
     @Test
-    @DisplayName("스토리 상세 조회 서비스 테스트")
-    void 스토리상세조회() throws Exception {
+    void 인물관계생성() throws Exception {
         //given
-        Long storyId = story.getId();
-
-        //when
-        StoryResponseDto findStory = storyService.findByStoryId(storyId);
-
-        //then
-        Assertions.assertEquals(findStory.getStoryTitle(), story.getTitle());
-    }
-
-    /**
-     * todo 스토리 생성테스트 필요 (index변경 로직 완성 후)
-     */
-    @Test
-    void 스토리생성테스트() throws Exception {
-        //given
-        Story s = Story.builder()
-                .title("생성테스트 story")
-                .positionX(1)
-                .positionY(1.0)
-                .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
                 .build();
-        String content = "내용이 들어감";
-
-        System.out.println("생성 테스트 전 스토리 전체 개수: " + storyRepository.findAll().size());
-
 
         //when
-        Story result = storyService.createStory(s, content, characters);
-        em.flush();
-        em.clear();
-
-        StoryResponseDto story1 = storyService.findByStoryId(story.getId());
-        StoryResponseDto story2 = storyService.findByStoryId(s.getId());
-
-        System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: " + storyRepository.findAll().size());
-
-        List<Story> stories = storyRepository.findWithPlotByPlot(plot);
-        for (Story printstory : stories) {
-            System.out.println("플롯이 같은 스토리 정보 :" + printstory.getId() + " 좌표 : " + printstory.getPositionX());
-        }
+        productRelationService.createProductRelation(productRelation);
 
         //then
-        assertEquals("생성테스트 story", result.getTitle(), "title이 다릅니다.");
-        assertEquals(1, story2.getPositionX(), "순서가 다릅니다.");
-        assertEquals(2, story1.getPositionX(), "순서가 업데이트가 안되네요;;");
+        assertEquals(productRelationRepository.count(), 1);
+
     }
 
     @Test
-    void 스토리수정테스트() throws Exception {
+    void 단일인물관계조회() throws Exception {
         //given
-        Story newStory = Story.builder()
-                .id(story.getId())
-                .title("changedStoryTitle")
-                .positionX(1)
-                .content(content)
-                .positionY(1.0)
-                .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
                 .build();
+        productRelationService.createProductRelation(productRelation);
+
         //when
-        Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
-        em.flush();
-        em.clear();
-        List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
-        checkQuery.get(0).getPlot().getClass();
-        checkQuery.get(0).getPlot().getName();
+        ProductRelation findProductRelation = productRelationService.findProductRelation(user, team.getId(), productRelation.getId());
 
         //then
-        Assertions.assertEquals(updatedStory.getTitle(), newStory.getTitle());
+        assertEquals(findProductRelation.getProductRelationInfo(), productRelation.getProductRelationInfo());
     }
 
     @Test
-    void 스토리삭제테스트() throws Exception {
+    void 전체인물관계조회() throws Exception {
         //given
-        Story delStory = Story.builder()
-                .title("삭제테스트 story")
-                .positionX(1)
-                .positionY(1.0)
-                .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
                 .build();
-        storyService.createStory(delStory, "스토리 내용", characters);
+        productRelationService.createProductRelation(productRelation);
         //when
-        storyService.deleteStory(delStory.getId());
+
+        List<ProductRelation> productRelations = productRelationService.findAllProductRelation(user, team.getId(), product.getId());
+
         //then
-        assertThrows(RuntimeException.class, () ->
-                storyService.findByStoryId(delStory.getId()));
+        assertEquals(productRelations.size(), 1);
     }
 
     @Test
-    public void 스토리등장인물추가() throws Exception {
+    void 인물관계수정() throws Exception {
         //given
-        List<Character> characters1 = new ArrayList<>();
-        characters1.add(toCharacter);
-        characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
+        productRelationService.createProductRelation(productRelation);
 
-        //when
-        int result = storyService.findByStoryId(story.getId()).getCharacters().size();
-
-        //then
-        assertEquals(result, 2);
-    }
-
-    @Test
-    public void 스토리등장인물삭제() throws Exception {
-        //given
-        List<Character> characters1 = new ArrayList<>();
-        characters1.add(toCharacter);
-        characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
-
-        List<Character> characters2 = new ArrayList<>();
-        characters2.add(toCharacter);
-        storyService.updateStory(story, characters2, foreShadowings);
-
-        //when
-        int result = storyService.findByStoryId(story.getId()).getCharacters().size();
-
-
-        //then
-        assertEquals(result, 1);
-    }
-
-    @Test
-    @Order(5)
-    public void 스토리Y축변경() throws Exception {
-        //given
-        Story newStory = Story.builder()
-                .id(story.getId())
-                .positionY(3.0)
+        ProductRelation beforeUpdate = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("updateinfo")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
                 .build();
         //when
-        storyService.updatePositionY(newStory);
-        StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
+        ProductRelation afterUpdate = productRelationService.updateProductRelation(productRelation.getId(), beforeUpdate);
+
         //then
-        assertEquals(newStory.getPositionY(), findStory.getPositionY(), "위치가 변해야합니다.");
+        assertEquals(afterUpdate.getProductRelationInfo(), beforeUpdate.getProductRelationInfo());
+    }
+
+    @Test
+    void 인물관계삭제() throws Exception {
+        //given
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
+        productRelationService.createProductRelation(productRelation);
+
+        //when
+        productRelationService.deleteProductRelation(productRelation.getId());
+
+        //then
+        assertEquals(productRelationService.findAllProductRelation(user, team.getId(), product.getId()).size(), 0);
     }
 }

@@ -25,14 +25,14 @@ spring:
     url: ENC(c+l6vK2w3qVKeapUlbWXl2Wt72W7Dafiivq1UMJVzUzW4UwhZ5ttUUSWjiOZaX1w5oGa1gj9Y5X7dybA+x9PMiuTx5qil4ekHksfE/jC0PU=) # Database이름 ?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     #    mysql에 생성한 사용자 계정 정보를 써야 합니다.
     username: ENC(zk88hi4Rokn+cB8QZeFwpFN+te4XtlP4BTiKt/wmutahj9cSxpQmTvVgXshy4+Dq)
-    password: ENC(0N74CJo3MREHiUXCqKxe1LeSZe+bquxb2gQRaGjfzEr3KEL6DhLrlgl3RntYMslu)
+    password: ENC(SDmDVzpclQ0csbYgu1uuEd6oo/JGhN+7h4d1yeZv1WLMlhqepP6teDQX0CfBlzkV)
 
   # spring data jpa 설정
   jpa:
     open-in-view: false
     show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
     properties:
       hibernate:
         format_sql: true

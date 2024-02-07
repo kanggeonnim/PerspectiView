@@ -1,10 +1,22 @@
 package com.example.backend.modules.character;
 
+import com.example.backend.modules.foreshadowing.ForeShadowing;
+import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
+import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.plot.PlotRepository;
+import com.example.backend.modules.productrelation.ProductRelationRepository;
+import com.example.backend.modules.productrelation.ProductRelationService;
+import com.example.backend.modules.story.*;
+import com.example.backend.modules.team.TeamService;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
+import com.example.backend.modules.user.UserRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +28,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,33 +41,164 @@ import static org.mockito.Mockito.verify;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
+@Slf4j
 class CharacterServiceTest {
 
     @Autowired
-    private MockMvc mvc;
+    UserRepository userRepository;
 
     @Autowired
-    private CharacterRepository characterRepository;
+    TeamRepository teamRepository;
 
     @Autowired
-    private TeamRepository teamRepository;
+    TeamService teamService;
 
     @Autowired
-    private CharacterService characterService;
+    ProductRelationRepository productRelationRepository;
 
     @Autowired
-    private ProductRepository productRepository;
+    ProductRelationService productRelationService;
+
+    @Autowired
+    StoryRepository storyRepository;
+
+    @Autowired
+    CharacterRepository characterRepository;
+
+    @Autowired
+    ProductRepository productRepository;
+
+    @Autowired
+    CharacterService characterService;
+
+    @Autowired
+    PlotRepository plotRepository;
+
+    @Autowired
+    ContentRepository contentRepository;
+
+    @Autowired
+    StoryService storyService;
+
+    @Autowired
+    StoryForeShadowingRepository storyForeShadowingRepository;
+
+    @Autowired
+    ForeShadowingRepository foreShadowingRepository;
+
+    private Team team;
+
+    private User user;
+
+    private Product product;
+
+    private Plot plot;
+
+    private ForeShadowing foreShadowing;
+
+    private List<ForeShadowing> foreShadowings;
+
+    List<Character> characters;
+
+    private Character fromCharacter;
+
+    private Character toCharacter;
+
+    private Story story;
+
+    private Content content;
+
+    @PersistenceContext
+    EntityManager em;
 
     @BeforeEach
     public void setup() {
+        user = User.builder().userNickname("nickname")
+                .userImageUrl("https://s3")
+                .username("username")
+                .email("kangkun@naver.com")
+                .provider("kakao")
+                .providerId("kakao_1234")
+                .userInfo("bio")
+                .build();
 
+        userRepository.save(user);
+
+        team = Team.builder().title("team1")
+                .info("team info")
+                .teamImageUrl("https://s3")
+                .personal(false)
+                .build();
+        teamService.createTeam(team, user);
+
+        product = Product.builder()
+                .title("productTitle")
+                .productImageuRL("image")
+                .info("info")
+                .build();
+        productRepository.save(product);
+
+        plot = Plot.builder()
+                .name("name")
+                .color("red")
+                .product(product)
+                .build();
+        plotRepository.save(plot);
+
+        content = Content.builder()
+                .content("SibalContents: StartContents")
+                .build();
+        contentRepository.save(content);
+
+        story = Story.builder()
+                .title("storyTitle")
+                .positionX(1)
+                .positionY(1.0)
+                .plot(plot)
+                .storyForeShadowings(new HashSet<>())
+                .storyRelations(new HashSet<>())
+                .build();
+
+        characters = new ArrayList<>();
+        foreShadowings = new ArrayList<>();
+        storyService.createStory(story, "", characters);
+
+        fromCharacter = Character.builder()
+                .product(product)
+                .characterName("fromCharacter")
+                .build();
+
+        toCharacter = Character.builder()
+                .product(product)
+                .characterName("toCharacter")
+                .build();
+        characterService.createCharacter(fromCharacter, product.getId(), team.getId(), user);
+        characterService.createCharacter(toCharacter, product.getId(), team.getId(), user);
+
+        foreShadowing = ForeShadowing.builder()
+                .product(product)
+                .fShadowClose(false)
+                .fShadowName("fShadowName")
+                .fShadowContent("fShadowContent")
+                .build();
+        foreShadowingRepository.save(foreShadowing);
+
+        StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
+                .story(story)
+                .foreShadowing(foreShadowing)
+                .build();
+        storyForeShadowingRepository.save(storyForeShadowing);
+
+        log.info(storyForeShadowing.getStory().getTitle());
+        log.info(String.valueOf(storyForeShadowing.getStory().getPositionX()));
+
+        story.addStoryForeShadowing(storyForeShadowing);
     }
 
     @Test
     @DisplayName("전체 등장인물 조회 서비스 테스트")
     void 전체인물조회() throws Exception {
         //given
-        Product product = Product.builder().title("title").info("info").category(null).build();
         productRepository.save(product);
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         Character character2 = Character.builder().characterName("포비").product(product).build();
@@ -63,21 +208,20 @@ class CharacterServiceTest {
         characterRepository.save(character2);
         characterRepository.save(character3);
         //when
-        List<Character> result = characterRepository.findAllByProduct(product);
+        List<Character> result = characterService.getCharacters(product.getId(), team.getId(), user);
 
         //then
-        Assertions.assertThat(result.size()).isEqualTo(3);
+        Assertions.assertThat(result.size()).isEqualTo(5);
     }
 
     @Test
     @DisplayName("단일 등장인물 조회 서비스 테스트")
     void 단일인물조회() throws Exception {
         //given
-        Product product = Product.builder().title("title").info("info").category(null).build();
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         characterRepository.save(character1);
         //when
-        Optional<Character> result = characterRepository.findById(1L);
+        Optional<Character> result = characterRepository.findById(character1.getId());
 
         //then
         Assertions.assertThat(result.get().getCharacterName()).isEqualTo(character1.getCharacterName());
@@ -87,16 +231,9 @@ class CharacterServiceTest {
     @DisplayName("등장인물 생성 서비스 테스트")
     void 등장인물생성() {
         // given
-        Product product = Product.builder().title("title").info("info").category(null).build();
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
-        User user = User.builder().userNickname("nickname").email("email").build();
-        Team team = Team.builder().title("title").info("info").personal(false).build();
-        team.addManager(user);
-        teamRepository.save(team);
-
-        Long productId = 1L;
         // when
-        Character result = characterService.createCharacter(character1, productId, team.getId(), user);
+        Character result = characterService.createCharacter(character1, product.getId(), team.getId(), user);
 
         // then
         Assertions.assertThat(result.getCharacterName()).isEqualTo(character1.getCharacterName());
@@ -106,22 +243,16 @@ class CharacterServiceTest {
     @DisplayName("등장인물 삭제 서비스 테스트")
     void 등장인물삭제() {
         // given
-        Product product = Product.builder().title("title").info("info").category(null).build();
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
-        User user = User.builder().userNickname("nickname").email("email").build();
-        Team team = Team.builder().title("title").info("info").personal(false).build();
-        team.addManager(user);
-        teamRepository.save(team);
-        Long productId = 1L;
-        characterService.createCharacter(character1, productId, team.getId(), user);
+        characterService.createCharacter(character1, product.getId(), team.getId(), user);
 
 
         // when
 
-        characterService.deleteCharacter(character1.getId(), productId, team.getId(), user);
+        characterService.deleteCharacter(character1.getId(), product.getId(), team.getId(), user);
         // then
         assertThrows(RuntimeException.class, () -> {
-            characterService.getCharacter(character1.getId(), productId, team.getId(), user);
+            characterService.getCharacter(character1.getId(), product.getId(), team.getId(), user);
         });
     }
 }
