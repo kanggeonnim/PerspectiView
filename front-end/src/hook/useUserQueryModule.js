@@ -2,8 +2,9 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const token = sessionStorage.getItem("token");
 const useUserQueryModule = () => {
+  const token = sessionStorage.getItem("token");
+  console.log("token", token);
   const { data: getUser, isSuccess: getUserIsSuccess } = useQuery({
     queryKey: ["login"],
     queryFn: async () => {
@@ -16,10 +17,8 @@ const useUserQueryModule = () => {
         },
         // withCredentials: true,
       });
-      console.log(token);
       console.log(response);
       return response.data.response;
-      // return response.data.response;
     },
   });
   return { getUser, getUserIsSuccess };

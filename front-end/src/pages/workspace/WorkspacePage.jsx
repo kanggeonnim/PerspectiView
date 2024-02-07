@@ -7,6 +7,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // 내 작품 목록 데이터
 const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
@@ -62,8 +63,8 @@ export default function WorkspacePage() {
   const navigate = useNavigate();
 
   // const setUser = useAuthStore((state) => state.setUser);
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log("getUser", getUserIsSuccess, getUser);
+  // const { getUser, getUserIsSuccess } = useUserQueryModule();
+  // console.log("getUser", getUserIsSuccess, getUser);
 
   const [searchParams] = useSearchParams();
   const [cookies, setCookie] = useCookies(["refresh token"]); // 쿠키 훅
@@ -76,6 +77,18 @@ export default function WorkspacePage() {
     if (ACCESS_TOKEN) {
       navigate("/workspace");
       sessionStorage.setItem("token", ACCESS_TOKEN);
+      async () => {
+        const response = await axios.get(`${VITE_BASE_URL}/api/user`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${ACCESS_TOKEN}`,
+            "Access-Control-Allow-Origin": "http://localhost:5173",
+            "Access-Control-Allow-Credentials": true,
+          },
+          // withCredentials: true,
+        });
+        console.log("user", response);
+      };
       // setUser();
       setCookie("refresh token", REFRESH_TOKEN); // 쿠키에 토큰 저장
     }
