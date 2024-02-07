@@ -55,6 +55,13 @@
     --progress-foreground: #4c75c2;
     --unused-foreground: #518b68;
     --completed-foreground: #5a5a58;
+
+    --google: #f5f5f5;
+    --google-accent: #d5d5d5;
+    --kakao: #fee500;
+    --kakao-accent: #fed800;
+    --naver: #03c75a;
+    --naver-accent: #00b752;
   }
 
   /* .dark {

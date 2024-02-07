@@ -32,6 +32,9 @@ export const theme = {
     },
     colors: {
       border: "var(--border)",
+      google: { DEFAULT: "var(--google)", accent: "var(--google-accent)" },
+      kakao: { DEFAULT: "var(--kakao)", accent: "var(--kakao-accent)" },
+      naver: { DEFAULT: "var(--naver)", accent: "var(--naver-accent)" },
       input: "var(--input)",
       ring: "var(--ring)",
       background: "var(--background)",

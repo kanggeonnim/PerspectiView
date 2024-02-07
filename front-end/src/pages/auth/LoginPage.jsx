@@ -4,6 +4,7 @@ import { KakaoButton } from "./components/button/KakaoButton";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import logo from "@/assets/main_logo.svg";
+import { NaverButton } from "./components/button/NaverButton";
 
 export default function LoginPage() {
   const handleGoogleLogin = () => {
@@ -56,7 +57,7 @@ export default function LoginPage() {
               <GoogleButton />
             </div>
             <div
-              className="space-y-1"
+              className="space-y-1 "
               onClick={() => {
                 const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/kakao";
                 window.open(url);
@@ -71,6 +72,23 @@ export default function LoginPage() {
               }}
             >
               <KakaoButton />
+            </div>
+            <div
+              className="space-y-1"
+              onClick={() => {
+                const url = "https://i10b310.p.ssafy.io/api/oauth2/authorization/naver";
+                window.open(url);
+                const token = new URL(url).searchParams.get("accessToken");
+                const refreshToken = new URL(url).searchParams.get("refreshToken");
+
+                console.log(token);
+                if (token) {
+                  localStorage.setItem("token", token);
+                  localStorage.setItem("refreshToken", refreshToken);
+                }
+              }}
+            >
+              <NaverButton />
             </div>
             {/* <Link to={`/workspace`}>
               <div className="space-y-1">
