@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { CardTitle } from "@/components/ui/card";
-import Char from "./CharInfo";
 import CharInfo from "./CharInfo";
 import LabelAdd from "./reactflow/LabelAdd";
 
