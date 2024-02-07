@@ -26,6 +26,8 @@ const edgeTypes = {
 
 // This makes the node origin to be in the center of a node
 const nodeOrigin = [0.5, 0.5];
+const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
+const snapGrid = [20, 20];
 
 export default function FlowCard() {
   // whenever you use multiple values, you should use shallow for making sure that the component only re-renders when one of the values change
@@ -40,6 +42,10 @@ export default function FlowCard() {
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}
       nodeOrigin={nodeOrigin}
+      snapToGrid={true}
+      snapGrid={snapGrid}
+      defaultViewport={defaultViewport}
+      attributionPosition="top-right"
       connectionLineType={ConnectionLineType.Straight}
       fitView
     >

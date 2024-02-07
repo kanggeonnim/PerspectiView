@@ -126,6 +126,7 @@ const useNodeStore = create((set, get) => ({
       sourceHandle: null,
       target: newNodeId,
       targetHandle: null,
+      animated: true,
     };
 
     set({ edges: [...get().edges, newEdge] });
