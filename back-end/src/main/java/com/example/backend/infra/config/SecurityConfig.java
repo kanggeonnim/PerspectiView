@@ -58,7 +58,8 @@ public class SecurityConfig {
 		http
 				.csrf(AbstractHttpConfigurer::disable)
 				.httpBasic(AbstractHttpConfigurer::disable)
-				.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+//				.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
+				.cors(AbstractHttpConfigurer::disable)
 //				.headers((headers)->
 //						headers.contentTypeOptions(contentTypeOptionsConfig ->
 //								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
@@ -96,15 +97,15 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-//		configuration.addAllowedOrigin("http://localhost:5173");
+		configuration.addAllowedOrigin("http://localhost:5173");
 
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+//		configuration.setAllowedOrigins(Arrays.asList("*"));
 
-
+		configuration.addAllowedHeader("*");
 		configuration.addExposedHeader("Authorization");
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
 //		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
-//		configuration.setAllowCredentials(true);
+		configuration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
