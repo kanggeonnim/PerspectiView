@@ -45,7 +45,7 @@ public class Team {
     private List<User> managers = new ArrayList<>();
 
     @ManyToMany
-    private Set<User> members = new HashSet<>();
+    private List<User> members = new ArrayList<>();
 
     @OneToMany(mappedBy = "team")
     private List<Enrollment> enrollments = new ArrayList<>();
