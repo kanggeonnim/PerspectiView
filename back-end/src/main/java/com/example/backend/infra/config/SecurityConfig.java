@@ -87,7 +87,7 @@ public class SecurityConfig {
 								.userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig.userService(principalOauth2UserService))
 								.successHandler(jwtSuccessHandler)
 								.failureHandler(myAuthenticationFailureHandler))
-				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 //				.addFilterBefore(jwtExceptionFilter, JwtAuthorizationFilter.class);
 
 
