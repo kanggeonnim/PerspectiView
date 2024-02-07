@@ -6,7 +6,6 @@ import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import net.minidev.json.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,8 +27,8 @@ public class foreShadowingController {
                                                                    @PathVariable("teamId") Long teamId,
                                                                    @PathVariable("productId") Long productId,
                                                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(principalDetails.getUser(), teamId, productId, foreShadowingRequestDto.of(foreShadowingRequestDto));
-        return ApiResult.OK(ForeShadowingResponseDto.from(foreShadowing));
+        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(principalDetails.getUser(), teamId, productId, foreShadowingRequestDto.from(foreShadowingRequestDto));
+        return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing));
     }
 
     @PatchMapping("/{foreshadowingId}")
@@ -37,8 +36,8 @@ public class foreShadowingController {
                                                                    @PathVariable("teamId") Long teamId,
                                                                    @PathVariable("productId") Long productId,
                                                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing(principalDetails.getUser(), teamId, productId, ForeShadowingRequestDto.of(foreShadowingRequestDto));
-        return ApiResult.OK(ForeShadowingResponseDto.from(foreShadowing));
+        ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing(principalDetails.getUser(), teamId, productId, ForeShadowingRequestDto.from(foreShadowingRequestDto));
+        return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing));
     }
 
     @DeleteMapping("/{foreshadowingId}")

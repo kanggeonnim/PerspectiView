@@ -1,6 +1,7 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
@@ -29,6 +30,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -186,7 +188,6 @@ class StoryServiceTest {
     }
 
 
-
     @Test
     @DisplayName("스토리 상세 조회 서비스 테스트")
     void 스토리상세조회() throws Exception {
@@ -195,7 +196,6 @@ class StoryServiceTest {
 
         //when
         StoryResponseDto findStory = storyService.findByStoryId(storyId);
-        log.info(Arrays.toString(findStory.getForeShadowings().toArray(new ForeShadowing[0])));
 
         //then
         Assertions.assertEquals(findStory.getStoryTitle(), story.getTitle());
@@ -217,28 +217,28 @@ class StoryServiceTest {
                 .build();
         String content = "내용이 들어감";
 
-        System.out.println("생성 테스트 전 스토리 전체 개수: "+ storyRepository.findAll().size());
+        System.out.println("생성 테스트 전 스토리 전체 개수: " + storyRepository.findAll().size());
 
 
         //when
-        Story result = storyService.createStory(s, content,characters);
+        Story result = storyService.createStory(s, content, characters);
         em.flush();
         em.clear();
 
-        StoryResponseDto story1=storyService.findByStoryId(story.getId());
-        StoryResponseDto story2=storyService.findByStoryId(s.getId());
+        StoryResponseDto story1 = storyService.findByStoryId(story.getId());
+        StoryResponseDto story2 = storyService.findByStoryId(s.getId());
 
-        System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: "+ storyRepository.findAll().size());
+        System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: " + storyRepository.findAll().size());
 
         List<Story> stories = storyRepository.findWithPlotByPlot(plot);
-        for(Story printstory :stories){
-            System.out.println("플롯이 같은 스토리 정보 :"+printstory.getId() + " 좌표 : "+ printstory.getPositionX());
+        for (Story printstory : stories) {
+            System.out.println("플롯이 같은 스토리 정보 :" + printstory.getId() + " 좌표 : " + printstory.getPositionX());
         }
 
         //then
-        assertEquals("생성테스트 story",result.getTitle(),"title이 다릅니다.");
-        assertEquals(1,story2.getPositionX(),"순서가 다릅니다.");
-        assertEquals(2,story1.getPositionX(),"순서가 업데이트가 안되네요;;");
+        assertEquals("생성테스트 story", result.getTitle(), "title이 다릅니다.");
+        assertEquals(1, story2.getPositionX(), "순서가 다릅니다.");
+        assertEquals(2, story1.getPositionX(), "순서가 업데이트가 안되네요;;");
     }
 
     @Test
@@ -284,7 +284,7 @@ class StoryServiceTest {
         assertThrows(RuntimeException.class, () ->
                 storyService.findByStoryId(delStory.getId()));
     }
-    
+
     @Test
     public void 스토리등장인물추가() throws Exception {
         //given
@@ -294,10 +294,10 @@ class StoryServiceTest {
         storyService.updateStory(story, characters1, foreShadowings);
 
         //when
-        List<StoryRelation> storyRelations = storyService.findByStoryId(story.getId()).getStoryRelations();
+        int result = storyService.findByStoryId(story.getId()).getCharacters().size();
 
         //then
-        assertEquals(storyRelations.size(), 2);
+        assertEquals(result, 2);
     }
 
     @Test
@@ -313,15 +313,16 @@ class StoryServiceTest {
         storyService.updateStory(story, characters2, foreShadowings);
 
         //when
-        List<StoryRelation> storyRelations = storyService.findByStoryId(story.getId()).getStoryRelations();
+        int result = storyService.findByStoryId(story.getId()).getCharacters().size();
+
 
         //then
-        assertEquals(storyRelations.size(), 1);
+        assertEquals(result, 1);
     }
 
     @Test
     @Order(5)
-    public void 스토리Y축변경() throws Exception{
+    public void 스토리Y축변경() throws Exception {
         //given
         Story newStory = Story.builder()
                 .id(story.getId())
@@ -331,6 +332,6 @@ class StoryServiceTest {
         storyService.updatePositionY(newStory);
         StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
         //then
-        assertEquals(newStory.getPositionY(),findStory.getPositionY(),"위치가 변해야합니다.");
+        assertEquals(newStory.getPositionY(), findStory.getPositionY(), "위치가 변해야합니다.");
     }
 }
