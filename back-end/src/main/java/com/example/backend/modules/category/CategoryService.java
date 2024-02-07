@@ -1,5 +1,6 @@
 package com.example.backend.modules.category;
 
+import com.example.backend.modules.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,7 +25,7 @@ public class CategoryService {
     /**
      * 카테고리 아이디로 조회
      */
-    public Optional<Category> findById(Long id) throws RuntimeException{
-        return categoryRepository.findById(id); //TODO 검색 결과가 없을 시 에러처리
+    public Category findById(Long id) throws RuntimeException{
+        return categoryRepository.findById(id).orElseThrow(()-> new NotFoundException());
     }
 }

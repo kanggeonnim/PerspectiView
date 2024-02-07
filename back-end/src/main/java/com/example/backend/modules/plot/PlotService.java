@@ -1,5 +1,6 @@
 package com.example.backend.modules.plot;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.user.User;
@@ -24,7 +25,7 @@ public class PlotService {
      * 권한 확인
      */
     public boolean canChange(Long teamId, Long productId, Plot plot) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException());
+        Product product = productRepository.findById(productId).orElseThrow(() -> new NotFoundException());
         //팀의 작품인지 확인
         List<Plot> findPlot = plotRepository.findByProduct(product);
 
@@ -68,7 +69,7 @@ public class PlotService {
             throw new RuntimeException();
         }
 
-        Plot findPlot = plotRepository.findById(plot.getId()).orElseThrow(() -> new RuntimeException());
+        Plot findPlot = plotRepository.findById(plot.getId()).orElseThrow(() -> new NotFoundException());
         findPlot.updatePlot(plot.getName(), plot.getColor());
         return findPlot;
     }
@@ -78,7 +79,7 @@ public class PlotService {
      */
     @Transactional
     public void deletePlot(User user, Long teamId, Long productId, Long plotId) {
-        Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new RuntimeException());
+        Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
         if (!plot.getProduct().getId().equals(productId)) {
             throw new RuntimeException();
         }

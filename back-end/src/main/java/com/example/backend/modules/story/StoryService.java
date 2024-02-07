@@ -1,6 +1,7 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,7 @@ public class StoryService {
         storyRelationRepository.deleteAll(story.getStoryRelations());
         storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
 
-        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new NotFoundException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -94,7 +95,7 @@ public class StoryService {
                 .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
-        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new RuntimeException());
+        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new NotFoundException());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
@@ -117,7 +118,7 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -134,7 +135,7 @@ public class StoryService {
      * 스토리 y축
      */
     public Story updatePositionY(Story story) {
-        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new NotFoundException());
         findStory.updatePositionY(story.getPositionY());
         return findStory;
     }

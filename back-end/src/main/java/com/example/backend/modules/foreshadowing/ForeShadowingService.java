@@ -1,5 +1,6 @@
 package com.example.backend.modules.foreshadowing;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.story.StoryForeShadowing;
 import com.example.backend.modules.story.StoryForeShadowingRepository;
 import com.example.backend.modules.user.User;
@@ -73,7 +74,7 @@ public class ForeShadowingService {
             throw new RuntimeException();
         }
 
-        ForeShadowing findForeShadowing = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(() -> new RuntimeException());
+        ForeShadowing findForeShadowing = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(() -> new NotFoundException());
         findForeShadowing.updateForeShadowing(findForeShadowing.getFShadowName(), findForeShadowing.getFShadowContent(), findForeShadowing.getFShadowClose());
         return foreShadowing;
     }
@@ -88,7 +89,7 @@ public class ForeShadowingService {
      */
     @Transactional
     public void deleteForeShadowing(User user, Long teamId, Long productId, Long fShadowingId) {
-        ForeShadowing foreShadowing = foreShadowingRepository.findById(fShadowingId).orElseThrow(() -> new RuntimeException());
+        ForeShadowing foreShadowing = foreShadowingRepository.findById(fShadowingId).orElseThrow(() -> new NotFoundException());
         if (!foreShadowing.getProduct().getId().equals(productId)) {
             throw new RuntimeException();
         }

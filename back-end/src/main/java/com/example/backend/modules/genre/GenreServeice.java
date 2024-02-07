@@ -1,5 +1,6 @@
 package com.example.backend.modules.genre;
 
+import com.example.backend.modules.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,7 +52,7 @@ public class GenreServeice {
      * @return
      */
     public Genre updateGenre(Long genreId, Genre genre) {
-        Genre findGenre = genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException());
+        Genre findGenre = genreRepository.findById(genreId).orElseThrow(() -> new NotFoundException());
 
         findGenre.changeGenreName(genre.getGenreName());
         return findGenre;
@@ -63,7 +64,7 @@ public class GenreServeice {
      * @param genreId 삭제할 장르의 아이디
      */
     public void deleteGenre(Long genreId) {
-        Genre findGenre = genreRepository.findById(genreId).orElseThrow(() -> new RuntimeException());
+        Genre findGenre = genreRepository.findById(genreId).orElseThrow(() -> new NotFoundException());
 
         genreRepository.delete(findGenre);
     }

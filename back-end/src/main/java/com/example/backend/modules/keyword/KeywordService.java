@@ -1,5 +1,6 @@
 package com.example.backend.modules.keyword;
 
+import com.example.backend.modules.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,8 +25,8 @@ public class KeywordService {
     /**
      * Keyword 아이디 조회
      */
-    public Optional<Keyword> findById(Long id){
-        return  keywordRepository.findById(id);
+    public Keyword findById(Long id){
+        return  keywordRepository.findById(id).orElseThrow(()->new NotFoundException());
     }
 
     /**

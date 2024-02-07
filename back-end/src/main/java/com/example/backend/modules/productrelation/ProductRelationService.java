@@ -1,5 +1,6 @@
 package com.example.backend.modules.productrelation;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.user.User;
@@ -43,7 +44,7 @@ public class ProductRelationService {
      */
     public ProductRelation findProductRelation(User user, Long teamId, Long productRelationId) {
         ProductRelation productRelation = productRelationRepository.findById(productRelationId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NotFoundException());
         return productRelation;
     }
 
@@ -53,7 +54,7 @@ public class ProductRelationService {
     @Transactional
     public ProductRelation updateProductRelation(Long productRelationId, ProductRelation productRelation) {
         ProductRelation findProductRelation = productRelationRepository.findById(productRelationId)
-                .orElseThrow(() -> new RuntimeException());
+                .orElseThrow(() -> new NotFoundException());
         findProductRelation.updateProductRelation(productRelation);
         return findProductRelation;
     }
