@@ -33,19 +33,20 @@ public class SecurityConfig {
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
 	private final TeamCheckVoter teamCheckVoter;
+	private final ProductCheckVoter productCheckVoter;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
 		return new BCryptPasswordEncoder();
 	}
 
-
 	@Bean
 	public AccessDecisionManager accessDecisionManager() {
 		List<AccessDecisionVoter<?>> decisionVoters = new ArrayList<>();
 		decisionVoters.add(new WebExpressionVoter());
 		// voter 목록에 teamCheckVoter 추가
-		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(productCheckVoter);
 		// 모든 voter 승인 시 허가
 		return new UnanimousBased(decisionVoters);
 	}

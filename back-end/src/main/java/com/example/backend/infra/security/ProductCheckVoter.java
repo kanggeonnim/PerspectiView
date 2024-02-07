@@ -1,6 +1,7 @@
 package com.example.backend.infra.security;
 
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
@@ -34,7 +35,6 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
     @Autowired
     public ProductCheckVoter(TeamService teamService, ProductService productService) {
-//        final String regex = "^/api/team/(\\d+)/post/.*$";
         final String regex = "^/api/team/(\\d+)/product/(\\d+).*$";
         final Pattern pattern = Pattern.compile(regex);
         RequestMatcher requiresAuthorizationRequestMatcher = new RegexRequestMatcher(pattern.pattern(), null);
@@ -79,14 +79,15 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         }
 
 
-
-        // 접근 유저가 팀의 매니저인지 체크
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTeamId(request);
-
         Team team = teamService.getTeam(targetTeamId);
 
+        Long targetProductId = obtainProductId(request);
+        Product product = productService.findByProductId(principal.getUser(), team.getId(), targetProductId);
 
+        // 해당 팀의 작품이 아니면 예외
+        if(!product.getTeam().equals(team)) return ACCESS_DENIED;
 
         // GET 요청 시 팀 멤버면 통과
         if(request.getMethod().equals(HttpMethod.GET)){
