@@ -14,9 +14,9 @@ spring:
 
   data:
     redis:
-      host: localhost
+      host: my-redis
       port: 6379
-      password:
+      password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
     rest:
       base-path: /api
 
