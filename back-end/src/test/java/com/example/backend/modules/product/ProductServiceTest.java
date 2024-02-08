@@ -1,6 +1,7 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
+import com.example.backend.modules.category.CategoryRepository;
 import com.example.backend.modules.category.CategoryService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
@@ -49,6 +50,9 @@ public class ProductServiceTest {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     GenreRepository genreRepository;
@@ -152,6 +156,40 @@ public class ProductServiceTest {
         assertEquals("작품의 image url이 다릅니다.", "image_url", result.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "webtoon", result.getCategory().getName());
         assertEquals("작품의 장르가 2개 생성되어야", 2, result.getProductGenres().size());
+    }
+
+    @Test
+    public void 작품리스트() throws Exception {
+        //given
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
+
+        Category category = Category.builder().name("webtoon").build();
+        Category newCategory = categoryRepository.save(category);
+
+        Genre genre1 = Genre.builder().genreName("SF").build();
+        Genre genre2 = Genre.builder().genreName("액션").build();
+        em.persist(genre1);
+        em.persist(genre2);
+
+        Product product = Product.builder()
+                .team(team)
+                .title("작품1")
+                .info("작품에 대한 설명")
+                .productImageuRL("image_url")
+                .category(newCategory)
+                .build();
+        List<Genre> genres = new ArrayList<>();
+        genres.add(genre1);
+        genres.add(genre2);
+
+        productService.createTeamProduct(product, genres);
+
+        //when
+        List<Product> findProducts = productService.productList(team.getId());
+        //then
+        assertEquals("작품1", findProducts.get(0).getTitle());
+        System.out.println("productgenre가져오는지 테스트" + findProducts.get(0).getProductGenres());
     }
 
     @Test
@@ -397,7 +435,7 @@ public class ProductServiceTest {
         List<Plot> plots = productService.findPlots(findProduct.getId());
         //then
         assertEquals(2, plots.size());
-        assertEquals("플롯1",plots.get(0).getName());
-        assertEquals("플롯2",plots.get(1).getName());
+        assertEquals("플롯1", plots.get(0).getName());
+        assertEquals("플롯2", plots.get(1).getName());
     }
 }
