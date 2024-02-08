@@ -30,7 +30,7 @@ public class CharacterService {
      */
     @Transactional
     public Character createCharacter(Character character, Long productId, Long teamId, User user) {
-        teamService.checkIfManager(user, teamService.getTeam(teamId));
+        teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         return characterRepository.save(character);
     }
@@ -46,7 +46,7 @@ public class CharacterService {
      */
     public List<Character> getCharacters(Long productId, Long teamId, User user) {
         Product product = productService.findByProductId(user, teamId, productId);
-        teamService.checkIfMember(user, teamService.getTeam(teamId));
+        teamService.checkIfMember(user, teamService.getTeam(teamId, user));
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
         return characterRepository.findAllByProduct(product);
@@ -62,7 +62,7 @@ public class CharacterService {
      * @return 등장인물
      */
     public Character getCharacter(Long charterId, Long productId, Long teamId, User user) {
-        teamService.checkIfMember(user, teamService.getTeam(teamId));
+        teamService.checkIfMember(user, teamService.getTeam(teamId, user));
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
 
@@ -81,7 +81,7 @@ public class CharacterService {
      */
     @Transactional
     public Character updateCharacter(Character character, Long characterId, Long productId, Long teamId, User user) {
-        teamService.checkIfManager(user, teamService.getTeam(teamId));
+        teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         Character newCharacter = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
         newCharacter.changeCharacter(character);
@@ -99,7 +99,7 @@ public class CharacterService {
      */
     @Transactional
     public void deleteCharacter(Long charterId, Long productId, Long teamId, User user) {
-        teamService.checkIfManager(user, teamService.getTeam(teamId));
+        teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         Character findChar = characterRepository.findById(charterId).orElseThrow(() -> new NotFoundException());
 

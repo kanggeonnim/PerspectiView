@@ -83,7 +83,7 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTeamId(request);
-        Team team = teamService.getTeam(targetTeamId);
+        Team team = teamService.getTeam(targetTeamId,principal.getUser());
 
         Long targetProductId = obtainProductId(request);
         Product product = productService.findByProductId(principal.getUser(), team.getId(), targetProductId);

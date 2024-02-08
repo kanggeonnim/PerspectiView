@@ -4,7 +4,6 @@ import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.ConfigAttribute;
@@ -73,7 +72,7 @@ public class TeamCheckVoter implements AccessDecisionVoter<FilterInvocation> {
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTargetId(request);
 
-        Team team = teamService.getTeam(targetTeamId);
+        Team team = teamService.getTeam(targetTeamId, principal.getUser());
 
         // 매니저가 아니면 예외
         if(!team.ifManager(principal.getUser())) return ACCESS_DENIED;

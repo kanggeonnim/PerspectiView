@@ -65,8 +65,10 @@ public class TeamController {
 
 
     @GetMapping("/{teamId}")
-    public ApiResult<TeamResponseWithMembersAndProductsDto> getTeam(@PathVariable Long teamId){
-        Team team = teamService.getTeam(teamId);
+    public ApiResult<TeamResponseWithMembersAndProductsDto> getTeam(@PathVariable Long teamId,
+                                                                    @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        Team team = teamService.getTeam(teamId, principalDetails.getUser());
         return ApiResult.OK(TeamResponseWithMembersAndProductsDto.of(team));
     }
 
