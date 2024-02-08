@@ -27,7 +27,7 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (JwtException e) {
-            String error = objectMapper.writeValueAsString(ApiResult.ERROR("권한이 필요합니다.", HttpStatus.NON_AUTHORITATIVE_INFORMATION));
+            String error = objectMapper.writeValueAsString(ApiResult.ERROR(e.getMessage(), HttpStatus.NON_AUTHORITATIVE_INFORMATION));
             response.getWriter().write(error);
         }
     }
