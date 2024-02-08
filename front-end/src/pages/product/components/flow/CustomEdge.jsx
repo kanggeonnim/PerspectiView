@@ -10,11 +10,9 @@ export default function CustomEdge({
   targetY,
   sourcePosition,
   targetPosition,
-  sourceColor,
-  targetColor,
   style,
 }) {
-  const { setEdges } = useReactFlow();
+  const { setEdges, setNodes, addNodes } = useReactFlow();
   const [edgePath, labelX, labelY] = getBezierPath({
     sourceX,
     sourceY,
@@ -23,12 +21,13 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
-
+  console.log(id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition);
   const onEdgeClick = (event) => {
     event.stopPropagation();
-    setEdges((edges) => edges.filter((edge) => edge.id !== id));
+    console.log(event);
+    // setNodes((nodes) => nodes.filter((node) => node.id !== id));
+    // setEdges((edges) => edges.filter((edge) => edge.id !== id));
   };
-  console.log(sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition, style);
   return (
     <>
       <BaseEdge id={id} path={edgePath} />
