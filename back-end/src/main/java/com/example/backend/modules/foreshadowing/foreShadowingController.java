@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/team/{teamId}/product/{productId}/foreshadowingId")
+@RequestMapping("/team/{teamId}/product/{productId}/foreshadowing")
 public class foreShadowingController {
     private final ForeShadowingService foreShadowingService;
     private final TeamService teamService;
