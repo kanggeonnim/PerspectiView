@@ -5,6 +5,7 @@ import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.productrelation.ProductRelation;
+import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
@@ -79,6 +80,17 @@ public class ProductService {
         }
         return findProduct;
     }
+
+    /**
+     * todo 팀에 있는 작품 전체 조회
+     */
+    public List<Product> productList(Long teamId){
+        return productRepository.findByTeamId(teamId);
+    }
+
+    /**
+     * todo 팀에 있는 작품 이름으로 검색
+     */
 
     /**
      * 팀 작품 이름만 수정
