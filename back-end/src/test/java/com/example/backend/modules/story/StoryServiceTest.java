@@ -226,10 +226,6 @@ class StoryServiceTest {
         em.clear();
 
         StoryResponseDto story1 = storyService.findByStoryId(story.getId());
-        storyService.findOnlyStoryByStoryId(story.getId());
-        storyService.findOnlyStoryByStoryId(story.getId());
-        storyService.findOnlyStoryByStoryId(story.getId());
-        storyService.findOnlyStoryByStoryId(story.getId());
         StoryResponseDto story2 = storyService.findByStoryId(s.getId());
 
         System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: " + storyRepository.findAll().size());
