@@ -28,8 +28,8 @@ public class CategoryController {
 
     @GetMapping("/{categoryId}")
     public ApiResult<CategoryResponseDto> findById(@PathVariable("categoryId") Long id) {
-        Optional<Category> category = categoryService.findById(id);
-        return ApiResult.OK(CategoryResponseDto.of(category.get()));
+        Category category = categoryService.findById(id);
+        return ApiResult.OK(CategoryResponseDto.of(category));
     }
 
 }
