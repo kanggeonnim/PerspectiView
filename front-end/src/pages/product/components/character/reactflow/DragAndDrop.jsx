@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import ReactFlow, {
   addEdge,
   useNodesState,
@@ -8,7 +8,7 @@ import ReactFlow, {
 } from "reactflow";
 import CustomNode from "./customnode/CustomNode";
 import FloatingEdge from "./FloatingEdge";
-import CustomEdge from "./CustomConnectionLine";
+import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 
 import "./style.css";
@@ -24,19 +24,25 @@ const initialEdges = [
 
 let id = 0;
 const getId = () => `${id++}`;
+
+// let urlIdx = 0;
+// const getUrlIdx = () => `${urlIdx++}`;
+// let nameIdx = 0;
+// const getNameIdx = () => `${nameIdx++}`;
+
 const nodeTypes = {
-  custom: CustomNode,
+  custom : CustomNode,
   label: LabelNode,
 };
 
 const edgeTypes = {
   floating: FloatingEdge,
-  custom: CustomEdge,
+  custom: CustomConnectionLine,
 };
 
 const defaultEdgeOptions = {
-  style: { strokeWidth: 1, stroke: "black" },
-  type: "straight",
+  style: { strokeWidth: 2, stroke: "black" },
+  type: "custom",
 
   markerEnd: {
     type: MarkerType.ArrowClosed,
@@ -44,7 +50,17 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnDFlow() {
+const addEndMarker = (edge) => ({
+  ...edge,
+  markerEnd: {
+    type: MarkerType.ArrowClosed,
+    color: "black",
+  },
+});
+
+
+
+export default function DnD({users, idx}) {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -52,35 +68,42 @@ export default function DnDFlow() {
   const [labelInput, setLabelInput] = useState("");
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
+    (params) => setEdges((eds) => addEdge(params, eds)),  
     [setEdges]
   );
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
-    event.dataTransfer.dropEffect = "move";
   }, []);
 
+ 
   const onDrop = useCallback(
     (event) => {
       event.preventDefault();
-
+      
       const type = event.dataTransfer.getData("application/reactflow");
 
       if (typeof type === "undefined" || !type) {
         return;
       }
-
+      const index = idx - 1
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
+      
       const newNode = {
         id: getId(),
         type,
         position,
-        data: {
+        data: { 
+          image: {
+            // url: user.users[document.getElementsByClassName(event.target.id)[0].id].url
+            url: users[index].url
+          },
+          name : users[index].name,
           label: (
+            <>
             <input
               className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28"
               type="text"
@@ -89,6 +112,7 @@ export default function DnDFlow() {
               id={`${getId()}`}
               defaultValue="인물관계"
             />
+            </>
           ),
         },
         className:
@@ -98,7 +122,7 @@ export default function DnDFlow() {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, labelInput]
+    [reactFlowInstance, labelInput, idx]
   );
 
   const handleLabelInputChange = (event) => {
@@ -106,11 +130,11 @@ export default function DnDFlow() {
   };
 
   const connectionLineStyle = {
-    strokeWidth: 1,
+    strokeWidth: 2,
     stroke: "black",
   };
 
-  const defaultViewport = { x: 300, y: 250, zoom: 0.9 };
+  const defaultViewport = { x: 0, y: 0 , zoom: 0.9 };
 
   return (
     <div className="dndflow">
@@ -126,7 +150,7 @@ export default function DnDFlow() {
           onInit={setReactFlowInstance}
           onDrop={onDrop}
           onDragOver={onDragOver}
-          connectionLineComponent={CustomEdge}
+          connectionLineComponent={CustomConnectionLine}
           snapToGrid
           snapGrid={[8, 8]}
           defaultViewport={defaultViewport}
@@ -135,12 +159,13 @@ export default function DnDFlow() {
           connectionLineStyle={connectionLineStyle}
           className="download-image"
         >
+          
           <Controls />
-          <DownloadButton />
+          {/* <DownloadButton /> */}
         </ReactFlow>
       </div>
-      
-      {/* <Sidebar /> */}
     </div>
   );
 }
+
+

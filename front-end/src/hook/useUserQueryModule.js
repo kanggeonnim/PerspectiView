@@ -6,6 +6,7 @@ const useUserQueryModule = () => {
     queryKey: ["login"],
     queryFn: async () => {
       const response = await privateApi.get(`/api/user`);
+
       console.log(response);
       return response.data.response;
     },

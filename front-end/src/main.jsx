@@ -69,7 +69,7 @@ const router = createBrowserRouter(
             },
             {
               path: "character",
-              element: <CharTab />,
+              element: <CharTab onId />,
             },
             {
               path: "foreshadowing",

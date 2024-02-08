@@ -74,7 +74,7 @@ export default function WorkspacePage() {
       console.log(accessToken, getCookie("token"));
       // setUser();
     }
-  }, [accessToken, refreshToken]);
+  }, []);
 
   // const [workspaceName, setWorkspaceName] = useState();
 
