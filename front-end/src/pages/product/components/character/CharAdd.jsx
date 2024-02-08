@@ -49,6 +49,7 @@ export default function CharAdd({name, description, onChange, onCreate }) {
                 <div className="box-border w-1/5 mr-3 text-xl">특징</div>
                 <div className="box-border w-4/5 h-1/2">
                   {/* <CharTag /> */}
+                  
                   <CharTagAdd />
                 </div>
               </div>
