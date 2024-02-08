@@ -11,6 +11,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @EntityGraph(attributePaths = {"team"})
     Optional<Product> findWithTeamById(Long id);
 
+    @EntityGraph(attributePaths = {"productGenres","category"})
+    Optional<Product> findWithGenreCategoryById(Long id);
 
+    @EntityGraph(attributePaths = "category")
     List<Product> findByTeamId(Long teamId);
 }
