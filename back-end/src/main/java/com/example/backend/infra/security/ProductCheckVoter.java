@@ -6,6 +6,7 @@ import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionVoter;
@@ -25,6 +26,7 @@ import java.util.regex.Pattern;
 import static org.apache.commons.lang3.math.NumberUtils.toLong;
 
 @Component
+@Slf4j
 public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> {
     private final RequestMatcher requiresAuthorizationRequestMatcher;
     private final Function<String, Long> teamIdExtractor;
@@ -85,6 +87,11 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
         Long targetProductId = obtainProductId(request);
         Product product = productService.findByProductId(principal.getUser(), team.getId(), targetProductId);
+
+        log.info("=====================");
+        log.info("product voter ");
+        log.info("=====================");
+        log.info("teamId : {} , productItd : {}", team.getId(), product.getId());
 
         // 해당 팀의 작품이 아니면 예외
         if(!product.getTeam().equals(team)) return ACCESS_DENIED;
