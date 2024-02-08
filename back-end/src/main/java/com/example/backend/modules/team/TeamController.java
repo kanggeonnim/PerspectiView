@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,17 +47,22 @@ public class TeamController {
     }
 
     @GetMapping
-    public ApiResult<List<TeamResponseDto>> getTeams(){
-        List<Team> teams = teamService.getTeams();
-        return ApiResult.OK(teams.stream().map(TeamResponseDto::of)
+    public ApiResult<List<TeamResponseDto>> getTeams(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        List<Team> myTeams = new ArrayList<>();
+        myTeams.add(teamService.getMyTeam(principalDetails.getUser()));
+
+        List<Team> teams = teamService.getTeams(principalDetails.getUser());
+        myTeams.addAll(teams);
+
+        return ApiResult.OK(myTeams.stream().map(TeamResponseDto::of)
                 .collect(Collectors.toList()));
     }
 
 
     @GetMapping("/{teamId}")
-    public ApiResult<TeamResponseWithMembersDto> getTeam(@PathVariable Long teamId){
+    public ApiResult<TeamResponseWithMembersAndProductsDto> getTeam(@PathVariable Long teamId){
         Team team = teamService.getTeam(teamId);
-        return ApiResult.OK(TeamResponseWithMembersDto.of(team));
+        return ApiResult.OK(TeamResponseWithMembersAndProductsDto.of(team));
     }
 
     @Operation(

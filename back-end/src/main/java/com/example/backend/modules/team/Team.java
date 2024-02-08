@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -17,6 +18,16 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@NamedEntityGraph(
+        name = "Team.withProductAndManagersAndMembers",
+        attributeNodes = {
+                @NamedAttributeNode(value = "managers"),
+                @NamedAttributeNode(value = "members"),
+                @NamedAttributeNode(value = "products", subgraph = "products")
+        },
+        subgraphs = @NamedSubgraph(name = "products", attributeNodes = @NamedAttributeNode("category"))
+
+)
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

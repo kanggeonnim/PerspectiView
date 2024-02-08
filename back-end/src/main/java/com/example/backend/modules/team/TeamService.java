@@ -1,17 +1,19 @@
 package com.example.backend.modules.team;
 
 
-import com.example.backend.infra.s3.S3Uploader;
+import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.exception.BadRequestException;
 import com.example.backend.modules.exception.ForbiddenException;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.user.User;
 
+import com.example.backend.modules.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +22,7 @@ import java.util.List;
 public class TeamService {
     private final TeamRepository teamRepository;
     private final EnrollmentRepository enrollmentRepository;
-
+    private final UserRepository userRepository;
 
     public Team createTeam(Team team, User user) {
         Team newTeam = teamRepository.save(team);
@@ -28,12 +30,20 @@ public class TeamService {
         return newTeam;
     }
 
-    public List<Team> getTeams() {
-        return teamRepository.findAll();
+    // 본인 팀
+    public Team getMyTeam(User user){
+        User me = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new NotFoundException());
+        return teamRepository.findWithProductByManagersContainingAndPersonal(me, true).get(0);
+    }
+
+    // 본인이 속한 팀
+    public List<Team> getTeams(User user) {
+        User me = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new NotFoundException());
+        return teamRepository.findByManagersContainingAndPersonal(user, false);
     }
 
     public Team getTeam(Long id) {
-        return teamRepository.findWithMemberAndManagerById(id).orElseThrow(() -> new NotFoundException());
+        return teamRepository.findWithMemberAndManagerAndProductById(id).orElseThrow(() -> new NotFoundException());
     }
 
     public Team updateTeam(Long teamId, Team team, User user) {
