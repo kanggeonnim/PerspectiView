@@ -34,7 +34,9 @@ export default function RefContents() {
 
       {/* 복선 목록 */}
       <TabsContent value="foreshadowing" className="h-full">
-        <TestPage teamId={7} productId={1} />
+        {/* <TestPage teamId={7} productId={1} /> */}
+        <TestPage />
+        {/* <ForeshadowingTab /> */}
         {/* <ForeshadowingTab /> */}
       </TabsContent>
 

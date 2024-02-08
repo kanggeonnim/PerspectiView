@@ -16,37 +16,20 @@ const useFshadowQueryModule = (teamId, productId) => {
               "Content-Type": `application/json;charset=UTF-8`,
               Accept: "application/json",
               // 'Authorization' 헤더에 'Bearer 토큰값'을 설정
-              Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTAxNjk2MzYyNjU1NTIyMzgyNDg1Iiwicm9sZSI6IltdIiwiaWF0IjoxNzA3MzA4MjQ2LCJleHAiOjE3MDczMDkxNDZ9.qvXxFoeuCMDrNZUgQ6iEjJTDDQ3cAp4J74Q8FHwP6x4`,
+              Authorization: `Bearer 20eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6IltdIiwiaWF0IjoxNzA3MzUzNTg1LCJleHAiOjE3MDczNTQ0ODV9.x4PWmC97pjz6Cp8Jl20JFNbw5jiiWFstJqcEcgsZ_J0`,
               // "Access-Control-Allow-Origin": "",
               // "Access-Control-Allow-Credentials": "true",
             },
             // withCredentials: true,
           }
         );
-        console.log(response);
+        console.log("여기", response.data);
       } catch (error) {
         console.error(error);
       }
-
-      // return response.data.response;
     },
-    // queryFn: async () => {
-    //   const response = await api.get(
-    //     `/api/team/${teamId}/product/${productId}/foreshadowing`
-    //   );
-    //   console.log(response);
-    //   return response.data.response;
-    // },
   });
 
-  // const { mutate: deleteBoardMutation } = useMutation(
-  //   (team_id) => api.delete(`/api/team/${team_id}`),
-  //   {
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries("board_list");
-  //     },
-  //   }
-  // );
   return { fshadowData, getFshadowIsSuccess };
 };
 
