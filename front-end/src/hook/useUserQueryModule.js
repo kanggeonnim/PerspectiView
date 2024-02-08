@@ -1,17 +1,39 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import { privateApi } from "@/util/api";
-import { useQuery } from "@tanstack/react-query";
+import { getCookie, setCookie } from "@/util/cookie";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 const useUserQueryModule = () => {
-  const { data: getUser, isSuccess: getUserIsSuccess } = useQuery({
-    queryKey: ["login"],
-    queryFn: async () => {
-      const response = await privateApi.get(`/api/user`);
+  const setUser = useAuthStore((state) => state.setUser);
 
-      console.log(response);
+  const { login, error, isError } = useMutation({
+    mutationFn: async () => {
+      const accessToken = await getCookie("accessToken");
+
+      console.log(accessToken);
+      const response = await privateApi.get(`/api/user`);
       return response.data.response;
     },
+    onSuccess: async () => {
+      console.log("success");
+      // const token = getCookie("accessToken");
+      // setUser(user);
+    },
   });
-  return { getUser, getUserIsSuccess };
+  return { login, error, isError };
+  // const { data: getUser, isSuccess: getUserIsSuccess } = useQuery({
+  //   queryKey: ["login"],
+  //   queryFn: async () => {
+  //     const response = await privateApi.get(`/api/user`);
+  //     return response.data.response;
+  //   },
+  //   isSuccess: async() => {
+  //     console.log("success");
+  //     // const user = await
+  //     // setUser(user);
+  //   },
+  // });
+  // return { getUser, getUserIsSuccess };
 };
 
 export default useUserQueryModule;

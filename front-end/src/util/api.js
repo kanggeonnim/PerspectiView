@@ -110,10 +110,10 @@ privateApi.interceptors.response.use(
         } catch (error) {
           if (axios.isAxiosError(error)) {
             if (error.response?.status === 404 || error.response?.status === 422) {
-              alert(LOGIN.MESSAGE.EXPIRED);
-              window.location.replace("/sign-in");
+              console.log("LOGIN.MESSAGE.EXPIRED");
+              window.location.replace("/login");
             } else {
-              alert(LOGIN.MESSAGE.ETC);
+              console.log("LOGIN.MESSAGE.ETC");
             }
           }
         }
