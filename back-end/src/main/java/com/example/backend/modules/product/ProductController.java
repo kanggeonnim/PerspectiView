@@ -55,6 +55,15 @@ public class ProductController {
                 plots.stream().map(PlotResponseDto::of).collect(Collectors.toList())));
     }
 
+    @GetMapping
+    public ApiResult<List<ProductResponseOnlyDto>> getProductList(@PathVariable("teamId") Long teamId){
+        //teamId로 productList받기
+        List<Product> products = productService.productList(teamId);
+        return ApiResult.OK(products.stream().map(ProductResponseOnlyDto::of).collect(Collectors.toList()));
+    }
+    
+    //todo 팀에 있는 작품 이름으로 검색
+
     @PatchMapping("/{productId}")
     public ApiResult<ProductResponseDto> updateTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
