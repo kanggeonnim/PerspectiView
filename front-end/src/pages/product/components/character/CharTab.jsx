@@ -30,19 +30,20 @@ export default function CharTab() {
   // const REFRESH_TOKEN = searchParams.get("refreshToken");
 
   useEffect(() => {
+    async () => {
     navigate("/product/1/character");
-    const response = axios.get(`${VITE_BASE_URL}/api/team`, {
+    const response = await axios.get(`${VITE_BASE_URL}/api/team`, {
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUwOTY3LCJleHAiOjE3MDczNTE4Njd9.uIJ8Xej6vskQ5bE08nKA6iQuDrJbOOBceFriG3J5avE`,
+        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUzMTU0LCJleHAiOjE3MDczNTQwNTR9.BBG4me-sgIfBKJH3bSp_uhiIVbGGiYCx8OUbzON3ze8`,
         "Access-Control-Allow-Origin": "http://localhost:5173",
         "Access-Control-Expose-Headers" : "Authorization",
         "Access-Control-Allow-Credentials": true,
       },
       withCredentials: true,
     });
-    console.log("user", response);
-    
+    console.log(response);
+  }
     
   }, []);
 
