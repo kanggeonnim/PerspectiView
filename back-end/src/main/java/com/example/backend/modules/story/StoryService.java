@@ -3,6 +3,9 @@ package com.example.backend.modules.story;
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,11 +75,14 @@ public class StoryService {
      * @param foreShadowings
      * @return
      */
+    @CachePut(value = "Story", key = "#result.id", cacheManager = "testCacheManager")
     @Transactional
     public Story updateStory(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
-        storyRelationRepository.deleteAll(story.getStoryRelations());
-        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
+        Story oldStory = storyRepository.findById(story.getId()).orElseThrow(RuntimeException::new);
+
+        storyRelationRepository.deleteAll(oldStory.getStoryRelations());
+        storyForeShadowingRepository.deleteAll(oldStory.getStoryForeShadowings());
 
         Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
 
@@ -106,6 +112,7 @@ public class StoryService {
      * @param storyId
      */
     @Transactional
+    @CacheEvict(value = "Story", key = "#storyId", cacheManager = "testCacheManager")
     public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
     }
@@ -116,6 +123,7 @@ public class StoryService {
      * @param storyId
      * @return
      */
+//    @Cacheable(value = "Story", key = "#storyId", cacheManager = "testCacheManager")
     public StoryResponseDto findByStoryId(Long storyId) {
         Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
         List<Character> characterList = story.getStoryRelations().stream()
@@ -128,11 +136,18 @@ public class StoryService {
 
         return StoryResponseDto.of(story, characterList, foreShadowingList);
     }
+
+    @Cacheable(value = "Story", key = "#storyId", cacheManager = "testCacheManager")
+    public Story findOnlyStoryByStoryId(Long storyId) {
+        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
+        return story;
+    }
     
 
     /**
      * 스토리 y축
      */
+    @CachePut(value = "Story", key = "#result.id", cacheManager = "testCacheManager")
     public Story updatePositionY(Story story) {
         Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
         findStory.updatePositionY(story.getPositionY());
