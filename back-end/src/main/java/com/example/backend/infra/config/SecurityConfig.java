@@ -34,6 +34,7 @@ public class SecurityConfig {
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
 	private final TeamCheckVoter teamCheckVoter;
+	private final ProductCheckVoter productCheckVoter;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
@@ -46,7 +47,8 @@ public class SecurityConfig {
 		List<AccessDecisionVoter<?>> decisionVoters = new ArrayList<>();
 		decisionVoters.add(new WebExpressionVoter());
 		// voter 목록에 teamCheckVoter 추가
-		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(teamCheckVoter);
+		decisionVoters.add(productCheckVoter);
 		// 모든 voter 승인 시 허가
 		return new UnanimousBased(decisionVoters);
 	}
@@ -65,8 +67,8 @@ public class SecurityConfig {
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeRequests(authorize ->
 						// accessDecisionManager
-//						authorize.accessDecisionManager(accessDecisionManager())
-						authorize
+						authorize.accessDecisionManager(accessDecisionManager())
+//						authorize
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
 								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
