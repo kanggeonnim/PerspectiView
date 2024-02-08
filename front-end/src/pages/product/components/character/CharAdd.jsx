@@ -21,7 +21,7 @@ export default function CharAdd({name, description, onChange, onCreate }) {
       <AlertDialogTrigger asChild>
         <Plus className="mt-4 mr-8" size={20} color="#52525b" />
       </AlertDialogTrigger>
-      <AlertDialogContent className="flex flex-col w-2/3 max-w-2/3 h-2/3 ">
+      <AlertDialogContent className="flex flex-col w-2/3 max-w-2/3 h-3/4 ">
         <CardTitle className="text-2xl box-border">
           <div>인물 추가</div>
         </CardTitle>
@@ -46,7 +46,7 @@ export default function CharAdd({name, description, onChange, onCreate }) {
               </div>
               <div className="flex flex-row w-full m-2 h-1/4">
                 <div className="box-border w-1/5 mr-3 text-xl">특징</div>
-                <div className="box-border w-4/5">
+                <div className="box-border w-4/5 h-1/2">
                   <CharTag />
                 </div>
               </div>

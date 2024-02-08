@@ -1,9 +1,16 @@
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 import { Card } from "@/components/ui/card";
 import DnD from "./reactflow/DragAndDrop";
 import CharList from "./CharList";
 import CharAdd from "./CharAdd";
 import useCharStore from "@/store/useCharStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
+
+
 // zustand 完
 
 export default function CharTab() {
@@ -16,8 +23,33 @@ export default function CharTab() {
     setSelectedIdx,
     onCreate
   } = useCharStore();
+  const navigate = useNavigate();
+  // const [searchParams] = useSearchParams();
+  // const [cookies, setCookie] = useCookies(["refresh token"]);
+  // const ACCESS_TOKEN = searchParams.get("accessToken");
+  // const REFRESH_TOKEN = searchParams.get("refreshToken");
+
+  useEffect(() => {
+    navigate("/product/1/character");
+    const response = axios.get(`${VITE_BASE_URL}/api/team`, {
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUwOTY3LCJleHAiOjE3MDczNTE4Njd9.uIJ8Xej6vskQ5bE08nKA6iQuDrJbOOBceFriG3J5avE`,
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+        "Access-Control-Expose-Headers" : "Authorization",
+        "Access-Control-Allow-Credentials": true,
+      },
+      withCredentials: true,
+    });
+    console.log("user", response);
+    
+    
+  }, []);
+
+
   
-  
+
+
   const find = ({teamId}) => {
     const {charData, getCharIsSuccess} = useCharQueryModule(teamId);
   }

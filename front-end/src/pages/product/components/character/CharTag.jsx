@@ -70,8 +70,8 @@ export default function CharTag() {
   useEffect(showDropDownList, [inputValue]);
 
   return (
-    <div className="">
-      <div className={`flex-row flex border ${isHaveInputValue ? 'rounded-t-lg' : 'rounded-lg'} focus-within:shadow-lg z-3`}>
+    <div className="h-max">
+      <div className={`flex-row flex border ${isHaveInputValue ? 'rounded-t-lg' : 'rounded-lg'} focus-within:shadow-lg z-30`}>
         <input
           type='text'
           value={inputValue}
