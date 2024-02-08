@@ -62,4 +62,9 @@ public class ForeShadowing {
     public void deleteStoryFshadow(StoryForeShadowing storyForeShadowing){
         this.storyForeShadowings.remove(storyForeShadowing);
     }
+
+    public void updateFshadowClose(Long CloseStoryId){
+        this.fShadowClose = CloseStoryId;
+    }
+
 }
