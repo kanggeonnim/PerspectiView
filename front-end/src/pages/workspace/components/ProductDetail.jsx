@@ -7,6 +7,7 @@ import { PlusCircleIcon } from "lucide-react";
 export default function ProductDetail(){
   // TODO usestate를 통한 분기 적용
 
+  con
   return (
     <Card className="flex flex-row w-2/3 h-2/3">
       <CardContent className="box-border flex flex-col w-1/3 h-full p-3 m-3 border-r">

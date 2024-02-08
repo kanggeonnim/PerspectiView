@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 
+
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
   productId: index + 1,
@@ -85,7 +86,7 @@ function ProductListCard() {
 
   return (
     // don't set width,height here(effect on teamworkspace)
-    <div className="flex flex-col items-center justify-between h-full min-h-full mx-2 ">
+    <div className="flex flex-col items-center justify-between w-full h-full min-h-full mx-2 ">
       <Card className="flex flex-col justify-between w-full h-full border rounded shadow-md">
         {/* CardHeader  */}
         <CardHeader>
@@ -106,7 +107,7 @@ function ProductListCard() {
           </div>
         </CardHeader>
         <CardContent className="flex flex-col h-full">
-          <div className="flex flex-col items-center justify-between h-full ">
+          <div className="flex flex-col justify-between h-full ">
             {/* 데이터 렌더링 */}
             <ProductList
               products={teamProductInfoData.slice(
@@ -115,7 +116,7 @@ function ProductListCard() {
               )}
             />
 
-            <div className="">
+            <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}
               <Pagination className="">
                 <PaginationContent>

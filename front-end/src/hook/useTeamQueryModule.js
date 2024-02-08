@@ -7,12 +7,14 @@ const useTeamQueryModule = () => {
     queryKey: ["team"],
     queryFn: async () => {
       const response = await publicApi.get(`/api/team`);
-      console.log(response);
+      // console.log(response);
       return response.data.response;
     },
   });
 
   return { teamData, getTeamIsSuccess };
 };
+
+
 
 export default useTeamQueryModule;
