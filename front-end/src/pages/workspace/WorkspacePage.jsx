@@ -1,13 +1,10 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
 import useUserQueryModule from "@/hook/useUserQueryModule";
-// import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
-import { useAuthStore } from "@/store/useAuthStore";
+import { getCookie, setCookie } from "@/util/cookie";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useCookies } from "react-cookie";
+import { useEffect } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 // 내 작품 목록 데이터
 const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
@@ -61,39 +58,23 @@ const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
 
 export default function WorkspacePage() {
   const navigate = useNavigate();
-
-  // const setUser = useAuthStore((state) => state.setUser);
-  // const { getUser, getUserIsSuccess } = useUserQueryModule();
-  // console.log("getUser", getUserIsSuccess, getUser);
-
   const [searchParams] = useSearchParams();
-  const [cookies, setCookie] = useCookies(["refresh token"]); // 쿠키 훅
 
-  const ACCESS_TOKEN = searchParams.get("accessToken");
-  const REFRESH_TOKEN = searchParams.get("refreshToken");
+  const accessToken = searchParams.get("accessToken");
+  const refreshToken = searchParams.get("refreshToken");
+
+  const { getUser, getUserIsSuccess } = useUserQueryModule();
+  console.log("getUser", getUserIsSuccess, getUser);
 
   useEffect(() => {
-    console.log(ACCESS_TOKEN);
-    if (ACCESS_TOKEN) {
+    if (accessToken) {
       navigate("/workspace");
-      sessionStorage.setItem("token", ACCESS_TOKEN);
-      async () => {
-        const response = await axios.get(`${VITE_BASE_URL}/api/user`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${ACCESS_TOKEN}`,
-            "Access-Control-Allow-Origin": "http://localhost:5173",
-            "Access-Control-Allow-Credentials": true,
-          },
-          // withCredentials: true,
-        });
-        console.log("user", response);
-      };
+      setCookie("token", accessToken);
+      setCookie("refreshToken", refreshToken); // 쿠키에 토큰 저장
+      console.log(accessToken, getCookie("token"));
       // setUser();
-      setCookie("refresh token", REFRESH_TOKEN); // 쿠키에 토큰 저장
     }
-    console.log(cookies);
-  }, [ACCESS_TOKEN, REFRESH_TOKEN]);
+  }, [accessToken, refreshToken]);
 
   // const [workspaceName, setWorkspaceName] = useState();
 

@@ -83,10 +83,6 @@ function ProductListCard() {
     return paginationButtons;
   };
 
-  useEffect(() => {
-    console.log("render card");
-  });
-
   return (
     // don't set width,height here(effect on teamworkspace)
     <div className="flex flex-col items-center justify-between h-full min-h-full mx-2 ">
