@@ -59,8 +59,8 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
 
         response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:5173/app/workspace")
 //        response.sendRedirect(UriComponentsBuilder.fromUriString("https://i10b310.p.ssafy.io/app/workspace")
-//                .queryParam("accessToken", token.getAccessToken())
-//                .queryParam("refreshToken", token.getRefreshToken())
+                .queryParam("accessToken", token.getAccessToken())
+                .queryParam("refreshToken", token.getRefreshToken())
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString());
