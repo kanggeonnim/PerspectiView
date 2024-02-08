@@ -21,7 +21,7 @@ public class PlotResponseDto {
                 .plotName(plot.getName())
                 .plotColor(plot.getColor())
                 .storyList(plot.getStories().stream()
-                        .map(story -> StoryResponseDto.from(story, null, null))
+                        .map(story -> StoryResponseDto.of(story, null, null))
                         .collect(Collectors.toList()))
                 .build();
     }

@@ -1,11 +1,9 @@
 package com.example.backend.modules.foreshadowing;
 
-import com.example.backend.modules.story.Story;
 import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.Map;
 
 @Data
 @Builder
@@ -16,7 +14,7 @@ public class ForeShadowingResponseDto {
     List<FshadowStoryIdDto> storyIdList;
     Long fshadowClose;
 
-    public static ForeShadowingResponseDto from(ForeShadowing foreShadowing,List<FshadowStoryIdDto> storyIdList){
+    public static ForeShadowingResponseDto of(ForeShadowing foreShadowing, List<FshadowStoryIdDto> storyIdList){
         return ForeShadowingResponseDto.builder()
                 .fShadowId(foreShadowing.getId())
                 .fshadowName(foreShadowing.getFShadowName())
