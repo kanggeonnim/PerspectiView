@@ -1,6 +1,7 @@
 package com.example.backend.modules.productrelation;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.product.Product;
 import lombok.Builder;
 import lombok.Data;
@@ -9,8 +10,8 @@ import lombok.Data;
 @Builder
 public class ProductRelationRequestDto {
     private Long productRelationId;
-    private Character fromCharacter;
-    private Character toCharacter;
+    private CharacterRequestDto fromCharacter;
+    private CharacterRequestDto toCharacter;
     private String productRelationInfo;
     private String sourceHandle;
     private String targetHandle;
@@ -22,8 +23,8 @@ public class ProductRelationRequestDto {
                 .targetHandle(productRelationRequestDto.getTargetHandle())
                 .id(productRelationRequestDto.getProductRelationId())
                 .productRelationInfo(productRelationRequestDto.getProductRelationInfo())
-                .fromCharacter(productRelationRequestDto.getFromCharacter())
-                .toCharacter(productRelationRequestDto.getToCharacter())
+                .fromCharacter(CharacterRequestDto.from(productRelationRequestDto.getFromCharacter()))
+                .toCharacter(CharacterRequestDto.from(productRelationRequestDto.getToCharacter()))
                 .build();
     }
 
