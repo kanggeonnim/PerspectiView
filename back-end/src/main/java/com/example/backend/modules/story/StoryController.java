@@ -33,7 +33,7 @@ public class StoryController {
         Story story = storyService.updateStory(
                 StoryRequestDto.of(storyRequestDto),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
-                storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::of).collect(Collectors.toList()));
+                storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
 
         StoryResponseDto storyResponseDto = storyService.findByStoryId(story.getId());
         return ApiResult.OK(storyResponseDto);
