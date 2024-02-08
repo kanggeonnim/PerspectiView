@@ -1,11 +1,13 @@
 package com.example.backend.modules.team;
 
+import com.example.backend.modules.product.Product;
 import com.example.backend.modules.user.User;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +18,16 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
+@NamedEntityGraph(
+        name = "Team.withProductAndManagersAndMembers",
+        attributeNodes = {
+                @NamedAttributeNode(value = "managers"),
+                @NamedAttributeNode(value = "members"),
+                @NamedAttributeNode(value = "products", subgraph = "products")
+        },
+        subgraphs = @NamedSubgraph(name = "products", attributeNodes = @NamedAttributeNode("category"))
+
+)
 public class Team {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +41,9 @@ public class Team {
 
     @Column(nullable = true)
     private String teamImageUrl;
+
+    @OneToMany(mappedBy = "team")
+    private List<Product> products;
 
     @Builder
     public Team(String title, String info, Boolean personal, String teamImageUrl) {
