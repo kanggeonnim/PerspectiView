@@ -1,5 +1,6 @@
 package com.example.backend.modules.character;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
@@ -65,7 +66,7 @@ public class CharacterService {
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
 
-        return characterRepository.findById(charterId).orElseThrow(() -> new RuntimeException());
+        return characterRepository.findById(charterId).orElseThrow(() -> new NotFoundException());
     }
 
     /**
@@ -82,7 +83,7 @@ public class CharacterService {
     public Character updateCharacter(Character character, Long characterId, Long productId, Long teamId, User user) {
         teamService.checkIfManager(user, teamService.getTeam(teamId));
 
-        Character newCharacter = characterRepository.findById(characterId).orElseThrow(() -> new RuntimeException());
+        Character newCharacter = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
         newCharacter.changeCharacter(character);
 
         return newCharacter;
@@ -100,7 +101,7 @@ public class CharacterService {
     public void deleteCharacter(Long charterId, Long productId, Long teamId, User user) {
         teamService.checkIfManager(user, teamService.getTeam(teamId));
 
-        Character findChar = characterRepository.findById(charterId).orElseThrow(() -> new RuntimeException());
+        Character findChar = characterRepository.findById(charterId).orElseThrow(() -> new NotFoundException());
 
         characterRepository.delete(findChar);
     }

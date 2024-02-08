@@ -169,7 +169,7 @@ class ProductRelationServiceTest {
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)
-                .fShadowClose(false)
+                .fShadowClose(null)
                 .fShadowName("fShadowName")
                 .fShadowContent("fShadowContent")
                 .build();

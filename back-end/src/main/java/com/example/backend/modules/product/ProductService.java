@@ -1,5 +1,6 @@
 package com.example.backend.modules.product;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
@@ -32,12 +33,12 @@ public class ProductService {
      * 팀 작품 생성
      */
     @Transactional
-    public Product createTeamProduct(Product product, List<Genre> genres) { //TODO EntityGraph
+    public Product createTeamProduct(Product product, List<Genre> genres) {
 
         //중간 테이블 저장
         //장르 + 작품에 대한 값이 있어야함
         for (Genre g : genres) {
-            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
+            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new NotFoundException());
             product.addProductGenre(productGenreRepository.save(new ProductGenre(product, genre)));
         }
 
@@ -52,7 +53,7 @@ public class ProductService {
     public Product updateProduct(Long productId, Product product, List<Genre> genres) {
 
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
 
         //원래 있던 장르작품 삭제하고
         for (ProductGenre pg : findProduct.getProductGenres()) {
@@ -64,7 +65,7 @@ public class ProductService {
         //다시 만들어서 add
         for (Genre g : genres) {
             //이미 있는 장르만 고를거니깐 그거 골라 오기
-            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new RuntimeException());
+            Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new NotFoundException());
             System.out.println("추가할 장르 이름: " + genre.getGenreName());
 
             ProductGenre productGenre = productGenreRepository.save(new ProductGenre(findProduct, genre));
@@ -86,7 +87,7 @@ public class ProductService {
     public Product updateProductTitle(Long ProductId, Product product) {
 
         //작품 아이디로 찾아오기
-        Product findProduct = productRepository.findWithTeamById(ProductId).orElseThrow(() -> new RuntimeException());
+        Product findProduct = productRepository.findWithTeamById(ProductId).orElseThrow(() -> new NotFoundException());
 
         findProduct.updateProductTitle(product.getTitle());
         return findProduct;
@@ -103,8 +104,8 @@ public class ProductService {
     /**
      * 팀 작품 아이디로 하나 조회
      */
-    public Product findByProductId(User user, Long teamId, Long productId) {//TODO EntityGraph
-        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
+    public Product findByProductId(User user, Long teamId, Long productId) {
+        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
 
         return findProduct;
     }
@@ -115,7 +116,7 @@ public class ProductService {
     public List<Genre> findGenreList(Set<ProductGenre> productGenres) {
         List<Genre> genres = new ArrayList<>();
         for (ProductGenre pg : productGenres) {
-            Genre genre = genreRepository.findById(pg.getGenre().getId()).orElseThrow(() -> new RuntimeException());
+            Genre genre = genreRepository.findById(pg.getGenre().getId()).orElseThrow(() -> new NotFoundException());
             genres.add(genre);
         }
         return genres;
@@ -125,7 +126,7 @@ public class ProductService {
      * 작품 인물 관계 조회
      */
     public List<ProductRelation> findProductRelations(Long productId) {
-        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
+        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
         return product.getProductRelations().stream().toList();
 
     }
@@ -134,7 +135,7 @@ public class ProductService {
      * 작품 플롯 전체 조회
      */
     public List<Plot> findPlots(Long productId) {
-        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new RuntimeException());
+        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
         return product.getPlots().stream().toList();
     }
 }

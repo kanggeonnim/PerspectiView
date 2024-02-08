@@ -31,22 +31,23 @@ public class ForeShadowing {
     @Column(nullable = true)
     private String fShadowContent;
 
-    @Column(nullable = false)
-    private boolean fShadowClose;
+    @Column(nullable = true)
+    private Long fShadowClose;
 
     @OneToMany(mappedBy = "foreShadowing")
-    private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
+    private List<StoryForeShadowing> storyForeShadowings = new ArrayList<>();
 
     @Builder
-    public ForeShadowing(Long id, String fShadowName, String fShadowContent, boolean fShadowClose, Product product) {
+    public ForeShadowing(Long id, String fShadowName, String fShadowContent, Long fShadowClose, Product product,List<StoryForeShadowing> storyForeShadowings) {
         this.id = id;
         this.fShadowName = fShadowName;
         this.fShadowContent = fShadowContent;
         this.fShadowClose = fShadowClose;
         this.product = product;
+        this.storyForeShadowings =storyForeShadowings;
     }
 
-    public void updateForeShadowing(String fShadowName, String fShadowContent, boolean fShadowClose){
+    public void updateForeShadowing(String fShadowName, String fShadowContent, Long fShadowClose){
         this.fShadowName = fShadowName;
         this.fShadowContent = fShadowContent;
         this.fShadowClose = fShadowClose;
@@ -61,4 +62,9 @@ public class ForeShadowing {
     public void deleteStoryFshadow(StoryForeShadowing storyForeShadowing){
         this.storyForeShadowings.remove(storyForeShadowing);
     }
+
+    public void updateFshadowClose(Long CloseStoryId){
+        this.fShadowClose = CloseStoryId;
+    }
+
 }

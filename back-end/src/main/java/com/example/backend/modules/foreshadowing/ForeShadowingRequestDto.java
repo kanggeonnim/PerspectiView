@@ -12,13 +12,13 @@ public class ForeShadowingRequestDto {
 
     private String content;
 
-    private boolean close;
+    private Long close;
 
-    public static ForeShadowing from(ForeShadowingRequestDto foreShadowingRequestDto) {
+    public static ForeShadowing of(ForeShadowingRequestDto foreShadowingRequestDto){
         return ForeShadowing.builder()
                 .fShadowName(foreShadowingRequestDto.getName())
                 .fShadowContent(foreShadowingRequestDto.getContent())
-                .fShadowClose(foreShadowingRequestDto.isClose())
+                .fShadowClose(foreShadowingRequestDto.getClose())
                 .build();
     }
 

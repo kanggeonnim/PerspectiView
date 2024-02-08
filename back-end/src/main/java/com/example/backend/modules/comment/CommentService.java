@@ -1,6 +1,7 @@
 package com.example.backend.modules.comment;
 
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.story.Story;
 import com.example.backend.modules.story.StoryRepository;
 import com.example.backend.modules.user.User;
@@ -23,7 +24,7 @@ public class CommentService {
     @Transactional
     public Comment createComment(User user, Long storyId, Comment comment){
         //story 정보
-        Story story = storyRepository.findById(storyId).orElseThrow(()-> new RuntimeException());
+        Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
 
         Comment createComment = Comment.builder()
                 .commentContent(comment.getCommentContent())
@@ -41,7 +42,7 @@ public class CommentService {
      * 댓글 스토리로 조회
      */
     public List<Comment> findByStory(Long storyId){
-        Story story = storyRepository.findById(storyId).orElseThrow(()->new RuntimeException());
+        Story story = storyRepository.findById(storyId).orElseThrow(()->new NotFoundException());
         return commentRepository.findByStory(story);
     }
 
@@ -50,7 +51,7 @@ public class CommentService {
      */
     @Transactional
     public Comment updateComment(Long commentId, Comment comment){
-        Comment updateComment = commentRepository.findById(commentId).orElseThrow(()->new RuntimeException());
+        Comment updateComment = commentRepository.findById(commentId).orElseThrow(()->new NotFoundException());
         updateComment.updateComment(comment.getCommentContent());
         return updateComment;
     }
@@ -60,7 +61,8 @@ public class CommentService {
      */
     @Transactional
     public void deleteComment(Long commentId){
-        commentRepository.deleteById(commentId);
+        Comment comment = commentRepository.findById(commentId).orElseThrow(()->new NotFoundException());
+        commentRepository.deleteById(comment.getId());
     }
 
 }

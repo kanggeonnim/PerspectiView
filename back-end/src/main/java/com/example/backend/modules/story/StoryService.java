@@ -1,7 +1,10 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
+import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
+import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +21,7 @@ public class StoryService {
     private final ContentRepository contentRepository;
     private final StoryRelationRepository storyRelationRepository;
     private final StoryForeShadowingRepository storyForeShadowingRepository;
+    private final ForeShadowingRepository foreShadowingRepository;
 
     /**
      * 스토리 생성
@@ -78,7 +82,7 @@ public class StoryService {
         storyRelationRepository.deleteAll(story.getStoryRelations());
         storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
 
-        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new NotFoundException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -94,7 +98,7 @@ public class StoryService {
                 .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
-        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new RuntimeException());
+        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new NotFoundException());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
@@ -117,7 +121,7 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -126,17 +130,54 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.of(story, characterList, foreShadowingList);
+        return StoryResponseDto.from(story, characterList, foreShadowingList);
     }
-    
+
 
     /**
      * 스토리 y축
      */
     public Story updatePositionY(Story story) {
-        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new NotFoundException());
         findStory.updatePositionY(story.getPositionY());
         return findStory;
+    }
+
+
+    /**
+     * 복선 스토리에 추가
+     */
+    public StoryForeShadowing createStoryFshadow(ForeShadowing foreShadowing, Story story) {
+        ForeShadowing fshadow = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(()->new NotFoundException());
+
+        StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
+                .foreShadowing(foreShadowing)
+                .story(story).build());
+
+
+        foreShadowing.addStoryFshadow(storyForeShadowing);
+
+        return storyForeShadowing;
+    }
+
+
+    /**
+     * 복선 스토리에서 삭제
+     */
+    public void deleteStoryFshadow(StoryForeShadowing storyForeShadowing) {
+        //복선리스트에서 복선스토리 삭제
+        StoryForeShadowing sfs = storyForeShadowingRepository.findById(storyForeShadowing.getId()).orElseThrow(()->new NotFoundException());
+        storyForeShadowingRepository.delete(sfs);
+    }
+
+    /**
+     * 복선 회수
+     */
+    public ForeShadowing updateFshadowClose(Long fshadowId, Long closeStoryId){
+        ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(()->new NotFoundException());
+        foreShadowing.updateFshadowClose(closeStoryId);
+
+        return foreShadowing;
     }
 
 }

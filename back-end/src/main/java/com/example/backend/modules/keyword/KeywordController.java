@@ -22,8 +22,8 @@ public class KeywordController {
 
     @GetMapping("/{keywordId}")
     public ApiResult<KeywordResponseDto> keywordFindById(@PathVariable("keywordId") Long id) {
-        Optional<Keyword> keyword = keywordService.findById(id);
-        return ApiResult.OK(KeywordResponseDto.of(keyword.get()));
+        Keyword keyword = keywordService.findById(id);
+        return ApiResult.OK(KeywordResponseDto.of(keyword));
     }
 
     @GetMapping("/name/{keywordName}")
