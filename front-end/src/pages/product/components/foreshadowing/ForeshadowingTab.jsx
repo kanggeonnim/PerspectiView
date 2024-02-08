@@ -13,15 +13,48 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { useFshadow } from "@/store/useFshadow";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Column from "./Column";
 
 export default function ForeshadowingTab() {
   //state는 {tasks:{각 복선 정보딕셔id,Name} ,columns:{각 컬럼 정보딕셔너리id,title,taksIds}, columnsOrder:[]}
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
-    sesetFshadows: state.setFshadows,
+    setFshadows: state.setFshadows,
   }));
+
+  //TODO API콜
+  useEffect(() => {
+    // 상태 변경이 실제로 필요한지 검사하기 위한 변수
+    console.log("복선 상태 변경");
+    let isUpdateNeeded = false;
+
+    const updatedFshadows = Object.keys(fshadows).reduce((acc, key) => {
+      const fshadow = fshadows[key];
+      let newColumnId = fshadow.columnId;
+
+      if (fshadow.storyIdList.length === 0) {
+        newColumnId = "column-1";
+      } else if (fshadow.fshadowClose) {
+        newColumnId = "column-3";
+      } else {
+        newColumnId = "column-2";
+      }
+
+      if (newColumnId !== fshadow.columnId) {
+        isUpdateNeeded = true; // 업데이트가 필요한 경우 표시
+        acc[key] = { ...fshadow, columnId: newColumnId };
+      } else {
+        acc[key] = fshadow;
+      }
+
+      return acc;
+    }, {});
+
+    if (isUpdateNeeded) {
+      setFshadows(updatedFshadows);
+    }
+  }, [fshadows, setFshadows]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -103,6 +136,7 @@ export default function ForeshadowingTab() {
   //   setState(newState);
   // };
 
+  //이렇게 안해도 될 듯?? but 변경하려면 시간 걸리니까 일단 두자
   const columns = {
     "column-1": {
       id: "column-1",
@@ -126,6 +160,7 @@ export default function ForeshadowingTab() {
     const fshadow = fshadows[key];
     columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
   });
+  console.log("각 컬럼에 복선id넣기 다시 실행됨");
 
   return (
     <div className="">

@@ -16,10 +16,6 @@ export default defineConfig({
         changeOrigin: true,
         // 요청 경로에서 '/api' 제거
         rewrite: (path) => path.replace(/^\/api/, ""),
-        // SSL 인증서 검증 무시
-        secure: false,
-        // WebSocket 프로토콜 사용
-        ws: true,
       },
     },
   },

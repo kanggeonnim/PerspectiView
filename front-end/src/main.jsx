@@ -1,10 +1,14 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
+import { ReactFlowProvider } from "reactflow";
+import "reactflow/dist/style.css";
 import App from "./App.jsx";
 import "./index.css";
-import "reactflow/dist/style.css";
-import { ReactFlowProvider } from "reactflow";
 
 import React from "react";
 import ErrorPage from "./pages/ErrorPage.jsx";
@@ -93,9 +97,9 @@ const router = createBrowserRouter(
 );
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </React.StrictMode>
+  // <React.StrictMode>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>
+  // </React.StrictMode>
 );
