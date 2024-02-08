@@ -1,19 +1,9 @@
 import { SearchIcon } from "lucide-react";
 import { useEffect } from "react";
 import { create } from "zustand";
+import useCharTagStore from "@/store/useCharTagStore";
 
 const wordArr = ["락커", "힙합", "ENTJ", "골초", "락밴드","골무" , "골계", "골격"];
-
-const useStore = create((set) => ({
-  inputValue: "",
-  setInputValue: (value) => set({ inputValue: value }),
-  isHaveInputValue: false,
-  setIsHaveInputValue: (value) => set({ isHaveInputValue: value }),
-  dropDownList: wordArr,
-  setDropDownList: (list) => set({ dropDownList: list }),
-  dropDownItemIndex: -1,
-  setDropDownItemIndex: (index) => set({ dropDownItemIndex: index }),
-}));
 
 export default function CharTag() {
   const {
@@ -25,7 +15,7 @@ export default function CharTag() {
     setDropDownList,
     dropDownItemIndex,
     setDropDownItemIndex,
-  } = useStore();
+  } = useCharTagStore();
 
   const showDropDownList = () => {
     if (inputValue === "") {
