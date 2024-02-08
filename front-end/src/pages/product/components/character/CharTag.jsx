@@ -1,9 +1,9 @@
-import { SearchIcon } from "lucide-react";
 import { useEffect } from "react";
-import { create } from "zustand";
 import useCharTagStore from "@/store/useCharTagStore";
 
-const wordArr = ["락커", "힙합", "ENTJ", "골초", "락밴드","골무" , "골계", "골격"];
+const wordArr = ["락커", "힙합", "ENTJ", "골초", "락밴드","골무" , "골계", "골격", "골골골골골골골골"];
+// FIXME 특징 받아올 DB로 대체 
+
 
 export default function CharTag() {
   const {
@@ -60,8 +60,8 @@ export default function CharTag() {
   useEffect(showDropDownList, [inputValue]);
 
   return (
-    <div className="h-max">
-      <div className={`flex-row flex border ${isHaveInputValue ? 'rounded-t-lg' : 'rounded-lg'} focus-within:shadow-lg z-30`}>
+    <div className="w-max h-max">
+      <div className={`flex-row flex border w-max ${isHaveInputValue ? 'rounded-t-lg' : 'rounded-lg'} focus-within:shadow-lg z-30`}>
         <input
           type='text'
           value={inputValue}
@@ -72,9 +72,9 @@ export default function CharTag() {
         <div className="cursor-pointer mr-2" onClick={() => setInputValue('')}>&times;</div>
       </div>
       {isHaveInputValue && (
-        <ul className="block mx-auto bg-white border border-t-0 rounded-b-lg shadow-lg z-10">
+        <ul className="w-max block mx-auto bg-white border border-t-0 rounded-b-lg shadow-lg z-10 absolute">
           {dropDownList.length === 0 && (
-            <li className="">해당하는 단어가 없습니다</li>
+            <li className="w-m">해당하는 단어가 없습니다</li>
           )}
           {dropDownList.map((dropDownItem, dropDownIndex) => {
             return (
@@ -82,7 +82,7 @@ export default function CharTag() {
                 key={dropDownIndex}
                 onClick={() => clickDropDownItem(dropDownItem)}
                 onMouseOver={() => setDropDownItemIndex(dropDownIndex)}
-                className={`p-2 ${dropDownItemIndex === dropDownIndex ? 'bg-gray-200 z-auto' : ''}`}
+                className={`p-2 w-max ${dropDownItemIndex === dropDownIndex ? 'bg-gray-200' : ''}`}
               >
                 {dropDownItem}
               </li>
