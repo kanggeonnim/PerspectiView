@@ -66,7 +66,7 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
         response.setHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
         response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
-        response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:8081/api")
+        response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:5173/app/workspace")
 //        response.sendRedirect(UriComponentsBuilder.fromUriString("https://i10b310.p.ssafy.io/app/workspace")
 //                .queryParam("accessToken", token.getAccessToken())
 //                .queryParam("refreshToken", token.getRefreshToken())
