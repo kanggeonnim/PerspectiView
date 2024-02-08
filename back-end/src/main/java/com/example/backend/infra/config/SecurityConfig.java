@@ -75,8 +75,8 @@ public class SecurityConfig {
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
 						// hasRole('ROLE_USER')")
 						.requestMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
-										.requestMatchers("/genre/**").permitAll()
-										.requestMatchers("/category/**").permitAll()
+						.requestMatchers("/genre/**").permitAll()
+						.requestMatchers("/category/**").permitAll()
 						.anyRequest().permitAll())
 				.oauth2Login(oauth->
 						oauth
@@ -95,6 +95,7 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.addAllowedOrigin("http://localhost:5173");
+		configuration.addAllowedHeader("*");
 		configuration.addExposedHeader("Authorization");
 		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
 		configuration.setAllowCredentials(true);
