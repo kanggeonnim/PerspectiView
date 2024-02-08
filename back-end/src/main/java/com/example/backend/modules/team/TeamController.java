@@ -58,6 +58,11 @@ public class TeamController {
                 .collect(Collectors.toList()));
     }
 
+    @GetMapping("/my")
+    public ApiResult<TeamResponseDto> getMyTeam(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        return ApiResult.OK(TeamResponseDto.of(teamService.getMyTeam(principalDetails.getUser())));
+    }
+
 
     @GetMapping("/{teamId}")
     public ApiResult<TeamResponseWithMembersAndProductsDto> getTeam(@PathVariable Long teamId){
