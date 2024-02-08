@@ -4,6 +4,7 @@ import com.example.backend.modules.category.Category;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRequestDto;
 import com.example.backend.modules.team.Team;
+import com.example.backend.modules.team.TeamRequestDto;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,6 @@ public class ProductRequestDto {
     private String productInfo;
     private Category category;
     private List<GenreRequestDto> genres;
-    private Team team;
 
     public static Product from(ProductRequestDto productRequestDto){
         return Product.builder()
