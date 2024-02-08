@@ -55,16 +55,7 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
                 .sameSite("None")  // sameSite
                 .build();
 
-        ResponseCookie refreshCookie = ResponseCookie.from("refreshToken", URLEncoder.encode(token.getRefreshToken(), "UTF-8"))
-                .httpOnly(true)
-                .secure(true)
-                .path("/")      // path
-                .maxAge(Duration.ofDays(1))
-                .sameSite("None")  // sameSite
-                .build();
-
         response.setHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
-        response.setHeader(HttpHeaders.SET_COOKIE, refreshCookie.toString());
 
         response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:5173/app/workspace")
 //        response.sendRedirect(UriComponentsBuilder.fromUriString("https://i10b310.p.ssafy.io/app/workspace")
