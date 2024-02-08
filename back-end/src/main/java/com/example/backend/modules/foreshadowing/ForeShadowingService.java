@@ -113,17 +113,4 @@ public class ForeShadowingService {
         return storyids;
     }
 
-    /**
-     * 복선 스토리에 추가
-     */
-
-
-    /**
-     * 복선 스토리에서 삭제
-     */
-
-    /**
-     * 복선 회수
-     */
-
 }
