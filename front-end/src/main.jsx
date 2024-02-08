@@ -1,10 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
 import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ReactFlowProvider } from "reactflow";
+import "reactflow/dist/style.css";
 import App from "./App.jsx";
 import "./index.css";
-import "reactflow/dist/style.css";
-import { ReactFlowProvider } from "reactflow";
 
 import React from "react";
 import ErrorPage from "./pages/ErrorPage.jsx";
@@ -60,7 +60,7 @@ const router = createBrowserRouter(
           ],
         },
         {
-          path: "product/:productId",
+          path: "team/:teamId/product/:productId",
           element: <ProductPage />,
           children: [
             {

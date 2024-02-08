@@ -1,4 +1,4 @@
-// api.js
+// api.js(지금 필요 없음)
 import axios from "axios";
 import { getCookie, setCookie } from "./cookie";
 
