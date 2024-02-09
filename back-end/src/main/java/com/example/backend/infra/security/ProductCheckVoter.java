@@ -104,9 +104,11 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         log.info("teamId : {} , productItd : {}", team.getId(), product.getId());
 
         // 해당 팀의 작품이 아니면 예외
+        log.info("해당 팀의 작품이 아니면 예외");
         if(!product.getTeam().equals(team)) return ACCESS_DENIED;
 
-        // GET 요청 시 팀 멤버면 통과
+        //
+        log.info("GET 요청 시 팀 멤버면 통과");
         if(request.getMethod().equals(HttpMethod.GET)){
             if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())){
                 return ACCESS_GRANTED;
@@ -114,6 +116,7 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         }
 
         // 매니저가 아니면 예외
+        log.info("매니저가 아니면 예외");
         if(!team.ifManager(principal.getUser())) return ACCESS_DENIED;
 
         return ACCESS_GRANTED;

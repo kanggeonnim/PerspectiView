@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -33,8 +34,9 @@ public class SecurityConfig {
 	private final MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
-	private final TeamCheckVoter teamCheckVoter;
+
 	private final ProductCheckVoter productCheckVoter;
+	private final AuthenticationEntryPoint authEntryPoint;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
@@ -62,6 +64,7 @@ public class SecurityConfig {
 				.headers((headers)->
 						headers.contentTypeOptions(contentTypeOptionsConfig ->
 								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
+				.exceptionHandling((except) -> except.authenticationEntryPoint(authEntryPoint))
 				.formLogin(AbstractHttpConfigurer::disable) // form 로그인 비활성화
 				.sessionManagement(sessionManagement->sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
