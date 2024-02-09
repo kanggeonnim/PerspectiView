@@ -16,12 +16,9 @@ import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -240,7 +236,7 @@ public class ProductServiceTest {
         em.flush();
         em.clear();
 
-        Product findResult = productService.findByProductId(user, team.getId(), result.getId());
+        Product findResult = productService.findByProductId(result.getId());
 
         //then
         assertEquals("작품의 이름이 다릅니다.", "작품3", findResult.getTitle());
@@ -361,7 +357,7 @@ public class ProductServiceTest {
         Product givenProduct = productService.createTeamProduct(product, genres);
 
         //when
-        Product result = productService.findByProductId(user, team.getId(), givenProduct.getId());
+        Product result = productService.findByProductId(givenProduct.getId());
 
         //then
         assertEquals("제목이 작품1이어야합니다.", "작품1", result.getTitle());
@@ -397,7 +393,7 @@ public class ProductServiceTest {
 
         Product givenProduct = productService.createTeamProduct(product, genres);
 
-        Product product1 = productService.findByProductId(user, team.getId(), givenProduct.getId());
+        Product product1 = productService.findByProductId(givenProduct.getId());
         //when
         System.out.println("작품장르 길이: " + product1.getProductGenres().size());
         List<Genre> result = productService.findGenreList(product1.getProductGenres());
@@ -428,7 +424,7 @@ public class ProductServiceTest {
         em.flush();
         em.clear();
 
-        Product findProduct = productService.findByProductId(user, team.getId(), product.getId());
+        Product findProduct = productService.findByProductId(product.getId());
 
 
         //when

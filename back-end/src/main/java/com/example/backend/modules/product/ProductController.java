@@ -2,16 +2,13 @@ package com.example.backend.modules.product;
 
 import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
-import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRequestDto;
 import com.example.backend.modules.genre.GenreResponseDto;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotResponseDto;
-import com.example.backend.modules.productrelation.ProductRelation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -44,9 +41,8 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public ApiResult<ProductResponseDto> getProduct(@PathVariable("productId") Long productId, @PathVariable("teamId") Long teamId,
-                                                    @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Product product = productService.findByProductId(principalDetails.getUser(), teamId, productId);
+    public ApiResult<ProductResponseDto> getProduct(@PathVariable("productId") Long productId) {
+        Product product = productService.findByProductId(productId);
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
 //        List<ProductRelation> productRelations = productService.findProductRelations(productId);
         List<Plot> plots = productService.findPlots(productId);
@@ -84,17 +80,13 @@ public class ProductController {
 
     @PatchMapping("/title/{productId}")
     public ApiResult<ProductResponseDto> updateTeamProjectTitle(@RequestBody @Valid ProductRequestDto productRequestDto,
-                                                                @PathVariable("productId") Long productId,
-                                                                @PathVariable("teamId") Long teamId,
-                                                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
+                                                                @PathVariable("productId") Long productId) {
         Product product = productService.updateProductTitle(productId , productRequestDto.from(productRequestDto));
         return ApiResult.OK(ProductResponseDto.of(product,null, null));
     }
 
     @DeleteMapping("/{productId}")
-    public ApiResult<ProductResponseDto> deleteTeamProject(@PathVariable("productId") Long productId,
-                                                           @PathVariable("teamId") Long teamId,
-                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    public ApiResult<ProductResponseDto> deleteTeamProject(@PathVariable("productId") Long productId) {
         productService.deleteProduct(productId);
         return ApiResult.OK(null);
     }

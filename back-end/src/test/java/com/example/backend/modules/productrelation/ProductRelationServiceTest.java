@@ -164,8 +164,8 @@ class ProductRelationServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
-        characterService.createCharacter(fromCharacter, product.getId(), team.getId(), user);
-        characterService.createCharacter(toCharacter, product.getId(), team.getId(), user);
+        characterService.createCharacter(fromCharacter, product.getId(),user);
+        characterService.createCharacter(toCharacter, product.getId(),user);
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)
@@ -218,7 +218,7 @@ class ProductRelationServiceTest {
         productRelationService.createProductRelation(productRelation);
 
         //when
-        ProductRelation findProductRelation = productRelationService.findProductRelation(user, team.getId(), productRelation.getId());
+        ProductRelation findProductRelation = productRelationService.findProductRelation(productRelation.getId());
 
         //then
         assertEquals(findProductRelation.getProductRelationInfo(), productRelation.getProductRelationInfo());
@@ -236,7 +236,7 @@ class ProductRelationServiceTest {
         productRelationService.createProductRelation(productRelation);
         //when
 
-        List<ProductRelation> productRelations = productRelationService.findAllProductRelation(user, team.getId(), product.getId());
+        List<ProductRelation> productRelations = productRelationService.findAllProductRelation(product.getId());
 
         //then
         assertEquals(productRelations.size(), 1);
@@ -281,6 +281,6 @@ class ProductRelationServiceTest {
         productRelationService.deleteProductRelation(productRelation.getId());
 
         //then
-        assertEquals(productRelationService.findAllProductRelation(user, team.getId(), product.getId()).size(), 0);
+        assertEquals(productRelationService.findAllProductRelation(product.getId()).size(), 0);
     }
 }

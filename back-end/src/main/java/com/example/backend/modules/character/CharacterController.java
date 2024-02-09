@@ -29,22 +29,22 @@ public class CharacterController {
     }
 
     @GetMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> getCharacter(@PathVariable Long productId, @PathVariable Long teamId,
+    public ApiResult<CharacterResponseDto> getCharacter(@PathVariable Long productId,
                                                         @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long characterId) {
-        Character character = characterService.getCharacter(characterId, productId, teamId, principalDetails.getUser());
+        Character character = characterService.getCharacter(characterId, productId, principalDetails.getUser());
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 
     @DeleteMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> deleteCharacter(@PathVariable Long productId, @PathVariable Long teamId,
+    public ApiResult<CharacterResponseDto> deleteCharacter(@PathVariable Long productId,
                                                            @AuthenticationPrincipal PrincipalDetails principalDetails,
                                                            @PathVariable Long characterId) {
-        characterService.deleteCharacter(characterId, productId, teamId, principalDetails.getUser());
+        characterService.deleteCharacter(characterId, productId, principalDetails.getUser());
         return ApiResult.OK(null);
     }
 
     @PatchMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> updateCharacter(@PathVariable Long productId, @PathVariable Long teamId, @AuthenticationPrincipal PrincipalDetails principalDetails,
+    public ApiResult<CharacterResponseDto> updateCharacter(@PathVariable Long productId, @AuthenticationPrincipal PrincipalDetails principalDetails,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                            @PathVariable Long characterId, @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
 
@@ -54,12 +54,12 @@ public class CharacterController {
             String url = s3Uploader.upload(uploadImage).orElseThrow(() -> new IllegalArgumentException());
             reqCharacter.addImageUrl(url);
         }
-        Character character = characterService.updateCharacter(reqCharacter, characterId, productId, teamId, principalDetails.getUser());
+        Character character = characterService.updateCharacter(reqCharacter, characterId, productId,  principalDetails.getUser());
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 
     @PostMapping
-    public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId, @PathVariable Long teamId,
+    public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                            @RequestBody @Valid CharacterRequestDto characterRequestDto,
                                                            @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
@@ -71,7 +71,7 @@ public class CharacterController {
             reqCharacter.addImageUrl(url);
         }
 
-        Character character = characterService.createCharacter(reqCharacter, productId, teamId, principalDetails.getUser());
+        Character character = characterService.createCharacter(reqCharacter, productId, principalDetails.getUser());
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 }
