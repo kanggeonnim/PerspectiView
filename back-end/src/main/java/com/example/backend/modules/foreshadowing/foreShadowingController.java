@@ -20,7 +20,7 @@ public class foreShadowingController {
     private final ForeShadowingService foreShadowingService;
 
 
-    @PostMapping("/")
+    @PostMapping
     public ApiResult<ForeShadowingResponseDto> createForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
                                                                    @PathVariable("productId") Long productId) {
         ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(productId, foreShadowingRequestDto.from(foreShadowingRequestDto));
