@@ -137,7 +137,7 @@ class ForeShadowingServiceTest {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
         //when
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(product.getId(), foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing);
 
         //then
         assertEquals(createdFS.getFShadowName(), foreShadowing.getFShadowName());
@@ -154,7 +154,7 @@ class ForeShadowingServiceTest {
                 .build();
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(product.getId(), foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing);
 
         ForeShadowing updateFS = ForeShadowing.builder()
                 .id(foreShadowing.getId())
@@ -165,7 +165,7 @@ class ForeShadowingServiceTest {
                 .build();
 
         //when
-        ForeShadowing atferUpdate = foreShadowingService.updateForeShadowing(product.getId(), updateFS);
+        ForeShadowing atferUpdate = foreShadowingService.updateForeShadowing(updateFS);
 
         //then
         assertEquals(atferUpdate.getFShadowName(), updateFS.getFShadowName());
@@ -183,10 +183,10 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        foreShadowingService.createForeShadowing(product.getId(), foreShadowing);
+        foreShadowingService.createForeShadowing(foreShadowing);
 
         //when
-        foreShadowingService.deleteForeShadowing(product.getId(), foreShadowing.getId());
+        foreShadowingService.deleteForeShadowing(foreShadowing.getId());
 
         //then
         List<ForeShadowing> foreShadowingList = foreShadowingService.findByProductId(product.getId());
@@ -206,7 +206,7 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing fs = foreShadowingService.createForeShadowing(product.getId(), setForeShadowing);
+        ForeShadowing fs = foreShadowingService.createForeShadowing( setForeShadowing);
 
         Story story = storySetting();
         //story 생성 후 그 중간 테이블 1개 생성
