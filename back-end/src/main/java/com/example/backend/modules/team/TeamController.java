@@ -31,16 +31,11 @@ public class TeamController {
             @ApiResponse(responseCode = "403", description = "not manager")
             }
     )
-    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping
     public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
-                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
         Team team = TeamRequestDto.from(teamRequestDto);
 
-        if(uploadImage != null){
-            String url = s3Uploader.upload(uploadImage).orElseThrow(() -> new IllegalArgumentException());
-            team.addImageUrl(url);
-        }
 
         Team newTeam = teamService.createTeam(team, principalDetails.getUser());
         return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
