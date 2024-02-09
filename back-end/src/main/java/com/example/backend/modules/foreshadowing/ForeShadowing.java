@@ -71,4 +71,7 @@ public class ForeShadowing {
         this.fShadowClose = CloseStoryId;
     }
 
+    public void updateProduct(Product product) {
+        this.product = product;
+    }
 }
