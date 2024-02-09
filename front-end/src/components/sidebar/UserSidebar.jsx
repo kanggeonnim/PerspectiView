@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
-import { Progress } from "@ark-ui/react";
 
 function UserSidebar() {
   // API 호출 시 사용
@@ -125,17 +124,12 @@ function UserSidebar() {
                       </SelectLabel>
 
                       {/* api 호출 시 */}
-<<<<<<< Updated upstream
                       {teams?.map((team, index) => (
-                        <SelectItem key={index} value={team} className="block w-full truncate">
-=======
-                      {teamData?.map((team, index) => (
                         <SelectItem
                           key={index}
                           value={team}
                           className="block w-full truncate"
                         >
->>>>>>> Stashed changes
                           {team.title}
                         </SelectItem>
                       ))}
