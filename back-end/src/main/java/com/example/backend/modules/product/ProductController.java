@@ -72,7 +72,7 @@ public class ProductController {
     //todo 팀에 있는 작품 이름으로 검색
 
     @PatchMapping("/{productId}")
-    public ApiResult<ProductResponseDto> updateTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
+    public ApiResult<ProductResponseOnlyDto> updateTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                            @PathVariable("productId") Long productId) throws IOException {
 
@@ -81,12 +81,9 @@ public class ProductController {
             String url = s3Uploader.upload(uploadImage).orElseThrow(()->new IllegalArgumentException());
             product.updateProductImage(url);
         }
-//        productService.updateProduct(productId, productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
-        List<Genre> genres = productService.findGenreList(product.getProductGenres());
-        List<Plot> plots = productService.findPlots(productId);
-        return ApiResult.OK(ProductResponseDto.of(product,
-                genres.stream().map(GenreResponseDto::of).collect(Collectors.toList()),
-                plots.stream().map(PlotResponseDto::of).collect(Collectors.toList())));
+        productService.updateProduct(productId, productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
+//        List<Genre> genres = productService.findGenreList(product.getProductGenres());
+        return ApiResult.OK(ProductResponseOnlyDto.of(product));
     }
 
     @PatchMapping("/title/{productId}")
