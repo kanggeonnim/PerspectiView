@@ -3,35 +3,32 @@ import { devtools } from "zustand/middleware";
 
 const useProductAddStore = create(devtools((set) => ({
   inputs: {
-    productTitle: "empty",
-    productInfo: "1",
-    url: "",
+    name: "",
+    description: "",
+    url: ""
   },
   products: [
     {
       id: 1,
-      productTitle: "작품",
-      productInfo: "작품입니다.",
-      url: "https://img6.yna.co.kr/etc/inner/KR/2021/06/12/AKR20210612027700009_02_i_P4.jpg"
+      name: "작품",
+      url: "https://img6.yna.co.kr/etc/inner/KR/2021/06/12/AKR20210612027700009_02_i_P4.jpg",
+      description: "작품입니다.",
     },
     
   ],
-  selectedIdx: '',
-  setInputs: (inp) => set((state) => ({ inputs: inp })),
+  setInputs: (newInputs) => set((state) => ({ inputs: newInputs })),
   setProducts: (newProd) => set((state) => ({ products: newProd })),
-  setSelectedIdx: (newIndex) => set((state) => ({ selectedIdx: newIndex })),
   onCreate: () => {
     set((state) => {
       const product = {
         id: state.products.length + 1,
-        tag: [],
-        productTitle: state.inputs.productTitle,
-        productInfo: state.inputs.productInfo,
+        name: state.inputs.name,
+        description: state.inputs.description,
         url: state.inputs.url
       };
       return {
         products: [...state.products, product],
-        inputs: { productTitle: "", productInfo: "", url: "" }
+        inputs: { name: "", description : "", url: "" }
       };
     });
   }

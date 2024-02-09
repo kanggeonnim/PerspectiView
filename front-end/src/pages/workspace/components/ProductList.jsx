@@ -16,7 +16,6 @@ function CreateProduct() {
     setInputs,
     products,
     setProducts,
-    setSelectedIdx,
     onCreate
   } = useProductAddStore();
 
@@ -29,29 +28,15 @@ function CreateProduct() {
   return (
     <div className="flex flex-col items-center">
       <WorkList 
-      title={inputs.productTitle}
-      info={inputs.productInfo}
+      products={products}
+      title={inputs.name}
+      info={inputs.description}
       onChange={onChange}
       onCreate={onCreate}
         />
     </div>
   );
 }
-// const useTest  = () => {
-//   const { data: productData, isSuccess: getProductIsSuccess } = useQuery({
-//     queryKey: ["product"],
-//     queryFn: async () => {
-//       const response = await privateApi.post(`/api/team/3/product`, 
-      
-
-//       );
-//       console.log(response);
-//       return response.data.response;
-//     },
-//   });
-
-//   return { productData, getProductIsSuccess };
-// };
 
 
 function Product({ productImg, productName }) {
@@ -75,10 +60,9 @@ export default function ProductList({ productsdata }) {
     setInputs,
     products,
     setProducts,
-    setSelectedIdx,
     onCreate
   } = useProductAddStore();
-
+  console.log(products)
   return (
     <div className="flex flex-wrap h-full ">
       <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
@@ -99,15 +83,15 @@ export default function ProductList({ productsdata }) {
         </div>
       ))}
       {/* FIXME 아래는 POST가 안되서 임시로 만듬, POST 확인시 삭제 */}
-      {products.map((prod) => (
+      {products.map((prod, index) => (
         <div
           className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
-          key={prod.productId}
+          key={index}
         >
-          <Link to={`/product/${prod.productId}`} key={prod.productId}>
+          <Link to={`/product/${prod.id}`} key={prod.id}>
             <Product
               productImg={prod.url}
-              productName={prod.productTitle}
+              productName={prod.name}
             />
           </Link>
         </div>

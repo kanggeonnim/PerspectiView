@@ -15,7 +15,7 @@ import CharTagAdd from "./CharTagAdd";
 
 
 
-export default function CharAdd({name, description, onChange, onCreate }) {
+export default function CharAdd({name, description,url, onChange, onCreate }) {
   
   return (
     <AlertDialog>

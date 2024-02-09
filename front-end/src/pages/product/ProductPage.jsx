@@ -3,10 +3,13 @@ import ProductSidebar from "@/components/sidebar/ProductSidebar";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useLocation } from "react-router-dom";
+import useProductAddStore from "@/store/useProductAddStore";
 
 export default function ProductPage() {
   const { pathname } = useLocation();
   console.log(pathname);
+  const { products } = useProductAddStore();
+  console.log( products)
   return (
     <MainLayout variant="horizontal">
       <ProductSidebar />
