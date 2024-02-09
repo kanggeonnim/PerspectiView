@@ -47,7 +47,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
     mutationFn: async () => {
       console.log(teamId, productId, plotId);
       const response = await privateApi.delete(
-        `/team/${teamId}/product/${productId}/plot/${plotId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}`
       );
       console.log(response);
       return response.data.response;
