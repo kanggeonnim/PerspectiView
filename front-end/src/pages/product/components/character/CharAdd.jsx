@@ -41,7 +41,7 @@ export default function CharAdd({name, description,url, onChange, onCreate }) {
                     name="name"
                     className="border"
                     onChange={onChange}
-                    // value={name}
+                    value={name}
                   />
                 </div>
               </div>
@@ -61,7 +61,7 @@ export default function CharAdd({name, description,url, onChange, onCreate }) {
                     className="w-4/5 h-full border z-30"
                     name="description"
                     onChange={onChange}
-                    // value={description}
+                    value={description}
                   />
                 </div>
               </div>

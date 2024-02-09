@@ -11,7 +11,8 @@ import ProductList from "./ProductList";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-// import useProductQueryModule from "@/hook/useProductQueryModule";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
@@ -43,19 +44,27 @@ function ProductListCard() {
   const itemsPerPage = 9;
   // const totalItems = teamProductInfoData.length;
   // const totalPages = Math.ceil(totalItems / itemsPerPage);
-  // const { productData, getProductIsSuccess } = useProductQueryModule("3");
+  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
+  const [teamNo, setTeamNo] = useState("");
+  useEffect(() => {
+    if (teamData) {
+      console.log("team?", getProductIsSuccess, teamData);
+      setTeamNo(() => teamData[0].id);
+    }
+  });
+  const { productData, getProductIsSuccess } = useProductQueryModule(teamNo);
   const [totalItems, setTotalItems] = useState("0");
   const [totalPages, setTotalPages] = useState("1");
   const [productInfo, setProductInfo] = useState([]);
 
-  // useEffect(() => {
-  //   if (productData) {
-  //     setTotalItems(() => productData.length);
-  //     setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
-  //     console.log("getproduct", getProductIsSuccess, productData);
-  //     setProductInfo(() => productData);
-  //   }
-  // });
+  useEffect(() => {
+    if (productData) {
+      setTotalItems(() => productData.length);
+      setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
+      console.log("getproduct", getProductIsSuccess, productData);
+      setProductInfo(() => productData);
+    }
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -133,6 +142,7 @@ function ProductListCard() {
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
+              teamNo={teamNo}
             />
             <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}

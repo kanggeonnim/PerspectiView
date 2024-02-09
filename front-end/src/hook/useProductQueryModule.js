@@ -15,8 +15,24 @@ const useProductQueryModule = (teamId) => {
   });
 
   const { mutate: createProduct } = useMutation({
-    mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product`, newData);
+    mutationFn: async () => {
+      const response = await privateApi.post(`/team/${teamId}/product`, 
+      {   
+        "productTitle": "create Testa",
+        "productInfo": "string!",
+        "category": {
+          "id": 1,
+          "name": "웹소설"
+        },
+        "genres": [
+          {
+            "id":2,
+            "name": "액션"
+          }
+        ]
+      ,
+      "uploadImage": "https://img6.yna.co.kr/etc/inner/KR/2021/06/12/AKR20210612027700009_02_i_P4.jpg"
+    });
       console.log(response);
       return response.data.response;
     },
