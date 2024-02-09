@@ -31,7 +31,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
   const { mutate: updatePlot } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
-        `/team/${teamId}/product/${productId}/plot/${plotId}`,
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}`,
         updatedData
       );
       console.log(response);
