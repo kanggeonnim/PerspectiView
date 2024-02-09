@@ -14,7 +14,7 @@ const useProductQueryModule = (teamId) => {
   });
   const { mutate: createProduct } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product`, newData);
+      const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
       console.log(response);
       return response.data.response;
     },
