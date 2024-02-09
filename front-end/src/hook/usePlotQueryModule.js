@@ -5,7 +5,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
   const queryClient = useQueryClient();
 
   const { data: plotList, isSuccess: getPlotListIsSuccess } = useQuery({
-    queryKey: ["plotList", teamId, productId],
+    queryKey: ["plotList"],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/plot`);
       console.log(response);
@@ -35,12 +35,13 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      // queryClient.invalidateQueries({ queryKey: ["plotList"] });
+      queryClient.invalidateQueries({ queryKey: ["plotList"] });
     },
   });
 
   const { mutate: deletePlot } = useMutation({
     mutationFn: async () => {
+      console.log(teamId, productId, plotId);
       const response = await privateApi.delete(
         `/team/${teamId}/product/${productId}/plot/${plotId}`
       );

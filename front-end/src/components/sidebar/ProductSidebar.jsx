@@ -35,30 +35,31 @@ import { Button } from "../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
 
-const plotDummy = Array.from({ length: 10 }, (_, index) => ({
-  plotId: index + 1,
-  plotName: `발단 ${index + 1}`,
-  plotColorId: "2",
-}));
+// const plotDummy = Array.from({ length: 10 }, (_, index) => ({
+//   plotId: index + 1,
+//   plotName: `발단 ${index + 1}`,
+//   plotColorId: "2",
+// }));
 
-const storyDummy = Array.from({ length: 10 }, (_, index) => ({
-  storyId: index + 1,
-  plotId: index + 1,
-  storyTitle: `주인공 등장 ${index + 1}`,
-  storyContent: "화이트 드래곤이 울부짖었다 크아아앙",
-  characList: [
-    {
-      id: "juingong21",
-    },
-    {
-      id: "whitedragon",
-    },
-  ],
-  position_x: 0,
-  position_y: 10,
-}));
+// const storyDummy = Array.from({ length: 10 }, (_, index) => ({
+//   storyId: index + 1,
+//   plotId: index + 1,
+//   storyTitle: `주인공 등장 ${index + 1}`,
+//   storyContent: "화이트 드래곤이 울부짖었다 크아아앙",
+//   characList: [
+//     {
+//       id: "juingong21",
+//     },
+//     {
+//       id: "whitedragon",
+//     },
+//   ],
+//   position_x: 0,
+//   position_y: 10,
+// }));
 
 // TODO: 플롯 추가/수정/삭제 이벤트
+
 function ProductSidebar() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
@@ -71,13 +72,10 @@ function ProductSidebar() {
   );
   const { user } = useAuthStore();
 
-  const { plotList, getPlotListIsSuccess, createPlot, updatePlot } = usePlotQueryModule(
-    teamId,
-    productId
-  );
+  const { plotList, getPlotListIsSuccess, createPlot } = usePlotQueryModule(teamId, productId);
   console.log(plotList);
 
-  const toggleAddPlot = (event) => {
+  const toggleAddPlot = () => {
     setAddPlot(!addPlot);
   };
   const toggleSidebar = () => {
@@ -177,7 +175,7 @@ function ProductSidebar() {
                           key={index}
                           plotId={plot.plotId}
                           plotName={plot.plotName}
-                          stories={storyDummy}
+                          stories={plot.storyList}
                         />
                       ))}
                     </SelectContent>
@@ -244,8 +242,6 @@ function ProductSidebar() {
                         </div>
                       )}
                       <AccordionContent className="ml-2">
-                        <div className=""></div>
-
                         <ScrollArea className="min-w-full h-60">
                           {plotList.map((plot, index) => (
                             <Plot

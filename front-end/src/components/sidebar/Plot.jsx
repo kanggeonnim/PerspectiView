@@ -7,9 +7,13 @@ import {
 import { GradientPicker } from "./GradientPicker";
 import { XCircle } from "lucide-react";
 import { useState } from "react";
+import usePlotQueryModule from "@/hook/usePlotQueryModule";
+import { useParams } from "react-router-dom";
 
 export default function Plot({ plotId, plotName, stories, plotColor, setPlotColor }) {
   const [isHovered, setIsHovered] = useState(false);
+  const { teamId, productId } = useParams();
+  const { deletePlot } = usePlotQueryModule(teamId, productId, plotId);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -36,7 +40,7 @@ export default function Plot({ plotId, plotName, stories, plotColor, setPlotColo
                   size={15}
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log(plotId);
+                    deletePlot();
                   }}
                 />
               ) : (

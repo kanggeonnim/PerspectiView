@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
+import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { Paintbrush } from "lucide-react";
 
 export function GradientPicker({ plotColor, setPlotColor, type }) {
@@ -15,7 +16,7 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
     "#09203f",
     "#D1180B",
   ];
-
+  // const { updatePlot } = usePlotQueryModule(teamId, productId, plotId);
   return (
     <Popover>
       <PopoverTrigger onClick={(e) => e.stopPropagation()} asChild>
@@ -40,7 +41,7 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
                 className="w-6 h-6 rounded-md cursor-pointer active:scale-105 m-0.5"
                 onClick={(e) => {
                   e.stopPropagation();
-                  type === "add" ? setPlotColor(s) : console.log("update api call", s);
+                  type === "add" ? setPlotColor(s) : console.log("update api call");
                 }}
               />
             ))}
