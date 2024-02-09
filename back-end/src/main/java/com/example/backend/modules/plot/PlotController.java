@@ -54,9 +54,8 @@ public class PlotController {
 
     @PatchMapping("/{plotId}")
     public ApiResult<PlotResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
-                                                 @PathVariable("productId") Long productId,
                                                  @PathVariable("plotId") Long plotId) {
-        Plot plot = plotService.updatePlot(productId, PlotRequestDto.from(plotRequestDto));
+        Plot plot = plotService.updatePlot(plotId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
