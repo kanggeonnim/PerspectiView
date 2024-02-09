@@ -9,6 +9,7 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("team/{teamId}/product")
+@Slf4j
 public class ProductController {
 
     private final ProductService productService;
@@ -27,14 +29,22 @@ public class ProductController {
     @PostMapping
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
                                                           @RequestPart(required = false) MultipartFile uploadImage) throws IOException {
+
         Product product = ProductRequestDto.from(productRequestDto);
+        log.info("product : {}" , productRequestDto);
 
         if(uploadImage!=null){
             String url = s3Uploader.upload(uploadImage).orElseThrow(()->new IllegalArgumentException());
             product.updateProductImage(url);
         }
+        log.info("=========createTeamController==========");
         Product newProduct =  productService.createTeamProduct(productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
+        log.info("=========createTeamController==========");
         List<Genre> genres = productService.findGenreList(newProduct.getProductGenres());
+        log.info("=========createTeamController==========");
+        log.info("result : {}", ApiResult.OK(ProductResponseDto.of(newProduct,
+                genres.stream().map(GenreResponseDto::of).collect(Collectors.toList()),
+                null)));
         return ApiResult.OK(ProductResponseDto.of(newProduct,
                 genres.stream().map(GenreResponseDto::of).collect(Collectors.toList()),
                 null));
@@ -70,7 +80,7 @@ public class ProductController {
             String url = s3Uploader.upload(uploadImage).orElseThrow(()->new IllegalArgumentException());
             product.updateProductImage(url);
         }
-        productService.updateProduct(productId, productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
+//        productService.updateProduct(productId, productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
         List<Genre> genres = productService.findGenreList(product.getProductGenres());
         List<Plot> plots = productService.findPlots(productId);
         return ApiResult.OK(ProductResponseDto.of(product,
