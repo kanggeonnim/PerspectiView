@@ -62,11 +62,18 @@ public class StoryController {
 
     @PatchMapping("/{storyId}/fsStatus")
     public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
-                                                               @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
-        ForeShadowing result =  storyService.createStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
+                                                                @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
+        ForeShadowing result = storyService.createStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
-
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+        String columnId = "column-1";
+        if (storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-1";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-2";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() != null) {
+            columnId = "column-3";
+        }
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
     }
 
     @DeleteMapping("/{storyId}/fsStatus/{foreshadowingId}")
@@ -75,18 +82,33 @@ public class StoryController {
 
         ForeShadowing result = storyService.deleteStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
-
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+        String columnId = "column-1";
+        if (storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-1";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-2";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() != null) {
+            columnId = "column-3";
+        }
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds,columnId));
     }
 
     @DeleteMapping("/{storyId}/fsClose/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> closeForeShadowing(@PathVariable("storyId") Long storyId,
-                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
+                                                                  @PathVariable("foreshadowingId") Long foreshadowingId) {
 
         ForeShadowing result = storyService.updateFshadowClose(foreshadowingId, storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
 
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+        String columnId = "column-1";
+        if (storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-1";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-2";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() != null) {
+            columnId = "column-3";
+        }
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds,columnId));
     }
 
     @PatchMapping("/{storyId}/fsClose/{foreshadowingId}")
@@ -95,7 +117,14 @@ public class StoryController {
 
         ForeShadowing result = storyService.deleteFshadowClose(foreshadowingId, storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
-
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+        String columnId = "column-1";
+        if (storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-1";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() == null) {
+            columnId = "column-2";
+        } else if (!storyIds.isEmpty() && result.getFShadowClose() != null) {
+            columnId = "column-3";
+        }
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds,columnId));
     }
 }

@@ -29,7 +29,8 @@ public class StoryResponseDto {
                 .foreShadowings(foreShadowings.stream().map(foreShadowing ->
                         ForeShadowingResponseDto.of(
                                 foreShadowing,
-                                null
+                                null,
+                                "null?"
                         )).collect(Collectors.toList()))
                 .content(story.getContent())
                 .positionX(story.getPositionX())
