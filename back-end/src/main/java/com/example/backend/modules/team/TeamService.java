@@ -51,6 +51,10 @@ public class TeamService {
         throw new ForbiddenException("not in team");
     }
 
+    public List<Team> searchTeams(String keyword){
+        return teamRepository.findByTitleContains(keyword);
+    }
+
     public Team updateTeam(Long teamId, Team team, User user) {
         Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new NotFoundException());
 

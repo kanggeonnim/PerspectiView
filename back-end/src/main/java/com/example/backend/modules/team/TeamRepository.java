@@ -15,6 +15,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @EntityGraph(attributePaths = "managers")
     Optional<Team> findWithManagerById(Long id);
 
+    List<Team> findByTitleContains(String title);
     List<Team> findByManagersContainingAndPersonal(User user, boolean personal);
 
     @EntityGraph(attributePaths = "products")

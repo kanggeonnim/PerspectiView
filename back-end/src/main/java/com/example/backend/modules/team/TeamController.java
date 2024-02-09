@@ -45,6 +45,10 @@ public class TeamController {
         Team newTeam = teamService.createTeam(team, principalDetails.getUser());
         return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
     }
+    @GetMapping("/search")
+    public ApiResult<List<TeamResponseDto>> searchTeam(@RequestParam(required = false) String keyword){
+        return ApiResult.OK(teamService.searchTeams(keyword).stream().map(TeamResponseDto::of).collect(Collectors.toList()))
+    }
 
     @GetMapping
     public ApiResult<List<TeamResponseDto>> getTeams(@AuthenticationPrincipal PrincipalDetails principalDetails){
