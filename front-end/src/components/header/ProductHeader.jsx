@@ -60,7 +60,7 @@ const categoryListData = [
 const productSample = {
   productId: "1",
   productname: "싸피 생활",
-  categoryId: "1",
+  categoryId: "5",
   genreList: ["3", "4"],
   productInfo:
     "허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?",
@@ -150,7 +150,7 @@ export default function ProductHeader() {
                 작품명
               </div>
 
-              <div className="w-full">{productInfo.productTitle}</div>
+              <div className="w-full">{productSample.productname}</div>
             </div>
 
             <div className="flex items-center justify-between ">
@@ -190,8 +190,7 @@ export default function ProductHeader() {
 
               <div className="w-full ">
                 <ReadMore>
-                  {/* {productInfo.productInfo} */}
-                  test
+                  {productSample.productInfo}
                 </ReadMore>
               </div>
             </div>
