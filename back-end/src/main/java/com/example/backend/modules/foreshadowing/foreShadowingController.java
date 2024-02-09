@@ -6,6 +6,7 @@ import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/team/{teamId}/product/{productId}/foreshadowing")
+@Slf4j
 public class foreShadowingController {
     private final ForeShadowingService foreShadowingService;
 
@@ -23,7 +25,8 @@ public class foreShadowingController {
     @PostMapping
     public ApiResult<ForeShadowingResponseDto> createForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
                                                                    @PathVariable("productId") Long productId) {
-        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(productId, foreShadowingRequestDto.from(foreShadowingRequestDto));
+        log.info("========== create foreShadowing ============ ");
+        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(foreShadowingRequestDto.from(foreShadowingRequestDto));
         List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
         return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing, storyids, columnId));
@@ -32,7 +35,7 @@ public class foreShadowingController {
     @PatchMapping("/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
                                                                    @PathVariable("productId") Long productId) {
-        ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing(productId, ForeShadowingRequestDto.from(foreShadowingRequestDto));
+        ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing( ForeShadowingRequestDto.from(foreShadowingRequestDto));
         List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
         if(storyids.isEmpty()&&foreShadowing.getFShadowClose()==null){
@@ -48,7 +51,7 @@ public class foreShadowingController {
     @DeleteMapping("/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> deleteForeShadowing(@PathVariable("foreshadowingId") Long foreShadowingId,
                                                                    @PathVariable("productId") Long productId) {
-        foreShadowingService.deleteForeShadowing(productId, foreShadowingId);
+        foreShadowingService.deleteForeShadowing(foreShadowingId);
         return ApiResult.OK(null);
     }
 
