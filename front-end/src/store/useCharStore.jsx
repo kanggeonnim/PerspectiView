@@ -1,6 +1,7 @@
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
-const useCharStore = create((set) => ({
+const useCharStore = create(devtools((set) => ({
   inputs: {
     name: "",
     description: "",
@@ -62,6 +63,6 @@ const useCharStore = create((set) => ({
       };
     });
   }
-}));
+})));
 
 export default useCharStore;

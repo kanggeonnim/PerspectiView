@@ -11,6 +11,8 @@ import ProductList from "./ProductList";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+
 
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
@@ -40,9 +42,22 @@ const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
   const itemsPerPage = 9;
+  // const totalItems = teamProductInfoData.length;
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const { productData, getProductIsSuccess} = useProductQueryModule('3');
+  const [totalItems, setTotalItems] = useState('0')
+  const [totalPages, setTotalPages] = useState('1');
+  const [productInfo, setProductInfo] = useState([]);
+  useEffect(()=> {
+    if(productData){
+      setTotalItems(() => productData.length)
+      setTotalPages(() => Math.ceil(totalItems / itemsPerPage))
+      console.log("getproduct", getProductIsSuccess, productData)
+      setProductInfo(() => productData)
+    }
+  })
 
-  const totalItems = teamProductInfoData.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
@@ -85,7 +100,7 @@ function ProductListCard() {
 
   return (
     // don't set width,height here(effect on teamworkspace)
-    <div className="flex flex-col items-center justify-between h-full min-h-full mx-2 ">
+    <div className="flex flex-col items-center justify-between w-full h-full min-h-full mx-2 ">
       <Card className="flex flex-col justify-between w-full h-full border rounded shadow-md">
         {/* CardHeader  */}
         <CardHeader>
@@ -106,16 +121,21 @@ function ProductListCard() {
           </div>
         </CardHeader>
         <CardContent className="flex flex-col h-full">
-          <div className="flex flex-col items-center justify-between h-full ">
+          <div className="flex flex-col justify-between h-full ">
             {/* 데이터 렌더링 */}
-            <ProductList
+            {/* <ProductList
               products={teamProductInfoData.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
+            /> */}
+            <ProductList
+              products={productInfo.slice(
+                (currentPage - 1) * itemsPerPage,
+                Math.min(currentPage * itemsPerPage, totalItems)
+              )}
             />
-
-            <div className="">
+            <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}
               <Pagination className="">
                 <PaginationContent>
@@ -135,10 +155,10 @@ function ProductListCard() {
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
-              {/* <p className="m-2">
+              <p className="m-2">
                 Displaying items {(currentPage - 1) * itemsPerPage + 1} to{" "}
                 {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
-              </p> */}
+              </p>
             </div>
           </div>
         </CardContent>

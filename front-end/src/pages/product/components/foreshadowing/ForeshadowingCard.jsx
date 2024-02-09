@@ -18,9 +18,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const toggleStoryIdInFshadow = () => {
     console.log("사용중");
     // 해당 복선의 storyIdList에 현재 storyId가 있는지 확인(boolean)
-    const exists = colFshadow.storyIdList.some(
-      (story) => story.storyId === storyId
-    );
+    const exists = colFshadow.storyIdList.some((story) => story.storyId === storyId);
 
     // true이면 현재 storyId제거, false이면 storyId 추가
     const newStoryIdList = exists
@@ -75,15 +73,11 @@ export function ForeshadowingCard({ colFshadow, index }) {
       <CardContent className="flex flex-col gap-4">
         <div className="flex p-1 space-y-1">
           <img src={book_icon} className="mr-2" />
-          <p className="text-sm font-medium leading-none ">
-            {colFshadow.fshadowContent}
-          </p>
+          <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">
-            언급된 스토리:
-          </p>
+          <p className="mr-3 text-sm font-medium leading-none">언급된 스토리:</p>
           <div className="flex ">
             {colFshadow.storyIdList.map((storyOb, index) => (
               <div key={index} className="mr-3">

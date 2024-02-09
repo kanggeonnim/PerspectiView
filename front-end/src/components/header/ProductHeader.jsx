@@ -1,6 +1,11 @@
 import ContentText from "@/components/ReadMore";
+import { useState, useEffect } from "react";
 import { Badge } from "../ui/badge";
 import ReadMore from "@/components/ReadMore";
+import useProductStore from "@/store/useProductStore";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+
+
 
 const genreListData = [
   {
@@ -52,10 +57,10 @@ const categoryListData = [
   },
 ];
 
-const productData = {
+const productSample = {
   productId: "1",
   productname: "싸피 생활",
-  categoryId: "1",
+  categoryId: "5",
   genreList: ["3", "4"],
   productInfo:
     "허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?허리가 망가진다는 싸피 한 번 시작해봤습니다. 두근두근 열심히 해볼까?",
@@ -120,6 +125,17 @@ const getCategoryName = (categoryId) => {
 };
 
 export default function ProductHeader() {
+
+  const { productData, getProductIsSuccess} = useProductQueryModule('3');
+  const [productInfo, setProductInfo] = useState([]);
+  useEffect(()=> {
+    if(productData){
+      // console.log("getproduct", getProductIsSuccess, productData)
+      setProductInfo(() => productData)
+    }
+  })
+
+  console.log("getInfo", productInfo)
   return (
     <>
       <header className="w-full border rounded shadow-md">
@@ -134,7 +150,7 @@ export default function ProductHeader() {
                 작품명
               </div>
 
-              <div className="w-full">{productData.productname}</div>
+              <div className="w-full">{productSample.productname}</div>
             </div>
 
             <div className="flex items-center justify-between ">
@@ -144,7 +160,7 @@ export default function ProductHeader() {
                   장르
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
-                  {productData.genreList.map((genreId, key) => (
+                  {productSample.genreList.map((genreId, key) => (
                     <Badge key={key} variant="destructive" radius="full">
                       {getGenreName(genreId)}
                     </Badge>
@@ -159,7 +175,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   <Badge className="text-stone-100 bg-badge" radius="full">
-                    {getCategoryName(productData.categoryId)}
+                    {getCategoryName(productSample.categoryId)}
                   </Badge>
                 </div>
               </div>
@@ -173,7 +189,9 @@ export default function ProductHeader() {
               </div>
 
               <div className="w-full ">
-                <ReadMore>{productData.productInfo}</ReadMore>
+                <ReadMore>
+                  {productSample.productInfo}
+                </ReadMore>
               </div>
             </div>
           </div>

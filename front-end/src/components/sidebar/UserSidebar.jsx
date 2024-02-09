@@ -119,19 +119,14 @@ function UserSidebar() {
                       </SelectLabel>
 
                       {/* api 호출 시 */}
-                      {/* <ul>
-                        {teamData.map((team, index) => (
-                          <li key={index}>
-                            {team.title}
-                            {team.info}
-                          </li>
-                        ))}
-                      </ul> */}
-
-                      {teams.map((team) => (
-                        <SelectItem key={team.teamId} value={team} className="block w-40 truncate">
-                          {team.teamName}
+                      {teamData?.map((team, index) => (
+                        <SelectItem key={index} value={team} className="block w-40 truncate">
+                          {team.title}
                         </SelectItem>
+                        // <li key={index}>
+                        //   {team.title}
+                        //   {/* {team.info} */}
+                        // </li>
                       ))}
                     </SelectGroup>
                   </SelectContent>
@@ -167,7 +162,7 @@ function UserSidebar() {
               <div className="flex items-center justify-between">
                 <div className="px-1 mx-1">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                    <AvatarImage src="https://github.com/shadcn.png" alt="user_image" />
                     <AvatarFallback>CN</AvatarFallback>
                   </Avatar>
                 </div>

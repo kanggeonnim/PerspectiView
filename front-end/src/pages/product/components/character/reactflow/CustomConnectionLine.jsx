@@ -47,6 +47,7 @@ export default function CustomEdge({
           className="z-30 w-16 text-center bg-transparent text-sm"
           defaultValue="관계"
         />
+        
       </EdgeLabelRenderer>
     </>
   );
