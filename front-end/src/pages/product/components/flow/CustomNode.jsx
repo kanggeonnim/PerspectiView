@@ -6,6 +6,7 @@ import { MinusCircle, MoreHorizontal } from "lucide-react";
 import { Handle, Position, useStore } from "reactflow";
 import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 // TODO: 플롯으로 스토리 조회 API 호출 시 charaList에 id, 이름, 이미지 와야 됨
 const characListData = [
@@ -23,6 +24,8 @@ const characListData = [
 const zoomSelector = (s) => s.transform[2] >= 1.5;
 
 const CustomNode = memo(function CustomNode({ id, data }) {
+  const navigate = useNavigate();
+  const { teamId, productId } = useParams();
   const showContent = useStore(zoomSelector);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -33,12 +36,18 @@ const CustomNode = memo(function CustomNode({ id, data }) {
   const handleMouseLeave = () => {
     setIsHovered(false);
   };
+
+  const onNodeClick = () => {
+    console.log(id, teamId, productId);
+    navigate(`/team/${teamId}/product/${productId}/story/${id}`);
+  };
   return (
     <>
       <div
         className="flex items-center justify-center w-32 h-40 p-4 border rounded"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
+        onClick={() => onNodeClick()}
         style={{
           borderColor: `${data.color}`,
         }}

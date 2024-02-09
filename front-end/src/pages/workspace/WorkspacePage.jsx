@@ -71,7 +71,6 @@ export default function WorkspacePage() {
   const { login } = useUserQueryModule();
   // console.log("getUser", getUserIsSuccess, getUser);
 
-  alert(document.cookie);
   // console.log(getCookie("accessToken"));
   console.log(accessToken, refreshToken);
   useEffect(() => {

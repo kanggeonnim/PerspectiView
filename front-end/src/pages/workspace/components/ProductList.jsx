@@ -25,6 +25,7 @@ function Product({ productImg, productName }) {
 }
 
 export default function ProductList({ products }) {
+  const teamId = 1;
   return (
     <div className="flex flex-wrap h-full ">
       <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
@@ -33,7 +34,7 @@ export default function ProductList({ products }) {
 
       {products.map((product) => (
         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" key={product.productId}>
-          <Link to={`/product/${product.productId}`} key={product.productId}>
+          <Link to={`/team/${teamId}/product/${product.productId}`} key={product.productId}>
             <Product productImg={product.productImg} productName={product.productName} />
           </Link>
         </div>
