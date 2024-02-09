@@ -30,7 +30,7 @@ public class PlotController {
      */
     @GetMapping
     public ApiResult<List<PlotResponseWithStoriesDto>> findByProduct(@PathVariable("productId") Long productId) {
-        List<Plot> plots = plotService.findByProductId( productId);
+        List<Plot> plots = plotService.findByProductId(productId);
         //plot List 정렬
         plots.sort(Comparator.comparing(Plot::getId));
         //story정렬
