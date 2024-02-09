@@ -83,14 +83,14 @@ function UserSidebar() {
 
                   <div
                     className={
-                      isCollapsed ? "hidden" : " mx-3 text-sm font-bold text-left text-slate-700"
+                      isCollapsed ? "hidden" : " mx-auto text-sm font-bold text-left text-slate-700"
                     }
                   >
                     나의 워크스페이스
                   </div>
                 </NavigationMenuLink>
               </NavigationMenuItem>
-              <NavigationMenuItem>
+              <NavigationMenuItem className="w-full">
                 <Select
                   onValueChange={(team) => {
                     console.log("team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
@@ -101,13 +101,10 @@ function UserSidebar() {
                   }}
                   className="block truncate w-44"
                 >
-                  <SelectTrigger className={isCollapsed ? "" : "font-bold truncate w-44 "}>
+                  <SelectTrigger className={isCollapsed ? "" : "font-bold truncate w-full "}>
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
-                      <SelectValue
-                        className="font-bold truncate w-34"
-                        placeholder="팀 워크스페이스"
-                      >
+                      <SelectValue className="font-bold truncatew-34" placeholder="팀 워크스페이스">
                         {selectedTeam}
                       </SelectValue>
                     )}
