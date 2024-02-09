@@ -7,20 +7,19 @@ import lombok.Data;
 @Data
 @Builder
 public class ForeShadowingRequestDto {
-    private Long id;
+    //    private Long id;
     @NotNull
-    private String name;
+    private String fShadowName;
 
-    private String content;
+    private String fshadowContent;
 
-    private Long close;
 
     public static ForeShadowing from(ForeShadowingRequestDto foreShadowingRequestDto){
         return ForeShadowing.builder()
-                .id(foreShadowingRequestDto.getId())
-                .fShadowName(foreShadowingRequestDto.getName())
-                .fShadowContent(foreShadowingRequestDto.getContent())
-                .fShadowClose(foreShadowingRequestDto.getClose())
+//                .id(foreShadowingRequestDto.getId())
+                .fShadowName(foreShadowingRequestDto.getFShadowName())
+                .fShadowContent(foreShadowingRequestDto.getFshadowContent())
+//                .fShadowClose(foreShadowingRequestDto.getClose())
                 .build();
     }
 
