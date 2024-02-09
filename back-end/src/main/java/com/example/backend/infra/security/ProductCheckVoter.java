@@ -90,6 +90,11 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         Team team = teamService.getTeam(targetTeamId,principal.getUser());
 
         Long targetProductId = obtainProductId(request);
+        if(targetProductId == -1L){
+            if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())) {
+                return ACCESS_GRANTED;
+            }
+        }
         Product product = productRepository.findWithTeamById(targetProductId).orElseThrow(()-> new NotFoundException());
 
         log.info("=====================");

@@ -47,7 +47,7 @@ public class TeamController {
     }
     @GetMapping("/search")
     public ApiResult<List<TeamResponseDto>> searchTeam(@RequestParam(required = false) String keyword){
-        return ApiResult.OK(teamService.searchTeams(keyword).stream().map(TeamResponseDto::of).collect(Collectors.toList()))
+        return ApiResult.OK(teamService.searchTeams(keyword).stream().map(TeamResponseDto::of).collect(Collectors.toList()));
     }
 
     @GetMapping
