@@ -7,6 +7,7 @@ import com.example.backend.modules.story.Story;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,24 +18,19 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/team/{teamId}/product/{productId}/plot")
+@Slf4j
 public class PlotController {
     private final PlotService plotService;
-    private final TeamService teamService;
-    private final ProductService productService;
 
     /**
      * 작품으로 플롯 조회
      *
-     * @param teamId
      * @param productId
-     * @param principalDetails
      * @return
      */
     @GetMapping
-    public ApiResult<List<PlotResponseDto>> findByProduct(@PathVariable("teamId") Long teamId,
-                                                          @PathVariable("productId") Long productId,
-                                                          @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Plot> plots = plotService.findByProductId(principalDetails.getUser(), teamId, productId);
+    public ApiResult<List<PlotResponseDto>> findByProduct(@PathVariable("productId") Long productId) {
+        List<Plot> plots = plotService.findByProductId( productId);
         //plot List 정렬
         plots.sort(Comparator.comparing(Plot::getId));
         //story정렬
@@ -50,28 +46,23 @@ public class PlotController {
 
     @PostMapping
     public ApiResult<PlotResponseDto> createPlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
-                                                 @PathVariable("teamId") Long teamId,
-                                                 @PathVariable("productId") Long productId,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Plot plot = plotService.createPlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.from(plotRequestDto));
+                                                 @PathVariable("productId") Long productId) {
+        log.info("== plot create controller===");
+        Plot plot = plotService.createPlot(productId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
     @PatchMapping("/{plotId}")
     public ApiResult<PlotResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
-                                                 @PathVariable("teamId") Long teamId,
-                                                 @PathVariable("productId") Long productId,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        Plot plot = plotService.updatePlot(principalDetails.getUser(), teamId, productId, PlotRequestDto.from(plotRequestDto));
+                                                 @PathVariable("productId") Long productId) {
+        Plot plot = plotService.updatePlot(productId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
     @DeleteMapping("/{plotId}")
     public ApiResult<PlotResponseDto> deletePlot(@PathVariable("plotId") Long plotId,
-                                                 @PathVariable("teamId") Long teamId,
-                                                 @PathVariable("productId") Long productId,
-                                                 @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        plotService.deletePlot(principalDetails.getUser(), teamId, productId, plotId);
+                                                 @PathVariable("productId") Long productId) {
+        plotService.deletePlot(productId, plotId);
         return ApiResult.OK(null);
     }
 

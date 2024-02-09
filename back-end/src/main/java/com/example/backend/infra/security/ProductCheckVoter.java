@@ -1,7 +1,9 @@
 package com.example.backend.infra.security;
 
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.product.Product;
+import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
@@ -33,11 +35,11 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
     private final Function<String, Long> productIdExtractor;
 
     private final TeamService teamService;
-    private final ProductService productService;
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductCheckVoter(TeamService teamService, ProductService productService) {
-        final String regex = "^/api/team/(\\d+)/product/(\\d+).*$";
+    public ProductCheckVoter(TeamService teamService, ProductRepository productRepository) {
+        final String regex = "^/team/(\\d+)/product/?(\\d+)?(/.*)?$";
         final Pattern pattern = Pattern.compile(regex);
         RequestMatcher requiresAuthorizationRequestMatcher = new RegexRequestMatcher(pattern.pattern(), null);
 
@@ -55,7 +57,7 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
         this.requiresAuthorizationRequestMatcher = requiresAuthorizationRequestMatcher;
         this.teamService = teamService;
-        this.productService = productService;
+        this.productRepository = productRepository;
     }
 
     @Override
@@ -71,22 +73,29 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
     @Override
     public int vote(Authentication authentication, FilterInvocation filter, Collection<ConfigAttribute> attributes) {
         HttpServletRequest request = filter.getRequest();
+        log.info("==========product voter in===============");
 
         // Target URL 아니면 통과
         if(!requiresAuthorization(request))return ACCESS_GRANTED;
 
+        log.info("auth filte set authencitaiton");
         // Authorization Filter set Authenticate 클래스 체크
         if (!UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
             return ACCESS_ABSTAIN;
         }
 
-
+        log.info("after set authentication");
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTeamId(request);
         Team team = teamService.getTeam(targetTeamId,principal.getUser());
 
         Long targetProductId = obtainProductId(request);
-        Product product = productService.findByProductId(principal.getUser(), team.getId(), targetProductId);
+        if(targetProductId == -1L){
+            if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())) {
+                return ACCESS_GRANTED;
+            }
+        }
+        Product product = productRepository.findWithTeamById(targetProductId).orElseThrow(()-> new NotFoundException());
 
         log.info("=====================");
         log.info("product voter ");
@@ -110,14 +119,17 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
     }
 
     private Long obtainTeamId(HttpServletRequest request) {
-        return teamIdExtractor.apply(request.getRequestURI());
+        return teamIdExtractor.apply(request.getServletPath());
     }
 
     private Long obtainProductId(HttpServletRequest request) {
-        return productIdExtractor.apply(request.getRequestURI());
+        return productIdExtractor.apply(request.getServletPath());
     }
 
     private boolean requiresAuthorization(HttpServletRequest request) {
-        return requiresAuthorizationRequestMatcher.matches(request);
+        log.info("url : {}" , request.getRequestURI());
+        boolean matches = requiresAuthorizationRequestMatcher.matches(request);
+
+        return matches;
     }
 }

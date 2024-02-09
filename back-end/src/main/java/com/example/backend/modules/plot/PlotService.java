@@ -39,22 +39,19 @@ public class PlotService {
      * 플롯 생성
      */
     @Transactional
-    public Plot createPlot(User user, Long teamId, Long productId, Plot plot) {
+    public Plot createPlot(Long productId, Plot plot) {
 
-        Product product = productService.findByProductId(user, teamId, productId);
-
-        if (!product.equals(plot.getProduct())) {
-            throw new RuntimeException();
-        }
-
-        return plotRepository.save(plot);
+        Product product = productService.findByProductId(productId);
+        Plot creaetPlot = plotRepository.save(plot);
+        creaetPlot.setProduct(product);
+        return creaetPlot;
     }
 
     /**
      * 작품으로 플롯 조회
      */
-    public List<Plot> findByProductId(User user, Long teamId, Long productId) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public List<Plot> findByProductId(Long productId) {
+        Product product = productService.findByProductId(productId);
         return plotRepository.findWithStoryByProduct(product);
     }
 
@@ -62,8 +59,8 @@ public class PlotService {
      * 플롯 수정
      */
     @Transactional
-    public Plot updatePlot(User user, Long teamId, Long productId, Plot plot) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public Plot updatePlot(Long productId, Plot plot) {
+        Product product = productService.findByProductId(productId);
 
         if (!product.equals(plot.getProduct())) {
             throw new RuntimeException();
@@ -78,7 +75,7 @@ public class PlotService {
      * 플롯 삭제
      */
     @Transactional
-    public void deletePlot(User user, Long teamId, Long productId, Long plotId) {
+    public void deletePlot(Long productId, Long plotId) {
         Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
         if (!plot.getProduct().getId().equals(productId)) {
             throw new RuntimeException();

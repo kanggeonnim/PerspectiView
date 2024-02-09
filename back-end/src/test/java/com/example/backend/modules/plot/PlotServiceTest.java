@@ -1,13 +1,13 @@
 package com.example.backend.modules.plot;
 
-import com.example.backend.modules.category.Category;
-import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
-import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.product.ProductService;
-import com.example.backend.modules.story.*;
+import com.example.backend.modules.story.ContentRepository;
+import com.example.backend.modules.story.StoryForeShadowingRepository;
+import com.example.backend.modules.story.StoryRepository;
+import com.example.backend.modules.story.StoryService;
 import com.example.backend.modules.team.EnrollmentRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
@@ -18,23 +18,17 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @Slf4j
 @RunWith(SpringRunner.class)
@@ -158,8 +152,8 @@ public class PlotServiceTest {
 //        }
 
         //when
-        plotService.createPlot(user, team.getId(), product.getId(), plot);
-        List<Plot> result = plotService.findByProductId(user, team.getId(), product.getId());
+        plotService.createPlot(product.getId(), plot);
+        List<Plot> result = plotService.findByProductId(product.getId());
         //then
         assertEquals("plot 이름이 다릅니다. ", "plotname", result.get(0).getName());
         assertEquals("plot color가 다릅니다. ", "red", result.get(0).getColor());
@@ -179,11 +173,11 @@ public class PlotServiceTest {
         for (Product p : products) {
             System.out.println(p.getTitle());
         }
-        Product findProduct = productService.findByProductId(user, 1L, product.getId());
+        Product findProduct = productService.findByProductId(product.getId());
 
         //when
-        plotService.createPlot(user, team.getId(), product.getId(), plot);
-        List<Plot> result = plotService.findByProductId(user, team.getId(), product.getId());
+        plotService.createPlot( product.getId(), plot);
+        List<Plot> result = plotService.findByProductId(product.getId());
         //then
         assertEquals("plot 이름이 다릅니다. ", "plotname", result.get(0).getName());
         assertEquals("plot color가 다릅니다. ", "red", result.get(0).getColor());
@@ -203,7 +197,7 @@ public class PlotServiceTest {
         for (Product p : products) {
             System.out.println(p.getTitle());
         }
-        Product findProduct = productService.findByProductId(user, team.getId(), product.getId());
+        Product findProduct = productService.findByProductId(product.getId());
 
         Plot updatePlot = Plot.builder()
                 .id(plot.getId())
@@ -213,9 +207,9 @@ public class PlotServiceTest {
                 .build();
 
         //when
-        plotService.createPlot(user, team.getId(), product.getId(), plot);
+        plotService.createPlot(product.getId(), plot);
 
-        Plot result = plotService.updatePlot(user, team.getId(), findProduct.getId(), updatePlot);
+        Plot result = plotService.updatePlot(findProduct.getId(), updatePlot);
 
         //then
         assertEquals("plot 이름이 다릅니다. ", "플롯이름", result.getName());
@@ -235,14 +229,14 @@ public class PlotServiceTest {
         for (Product p : products) {
             System.out.println(p.getTitle());
         }
-        Product findProduct = productService.findByProductId(user, 1L, product.getId());
+        Product findProduct = productService.findByProductId(product.getId());
 
         //when
-        plotService.createPlot(user, team.getId(), product.getId(), plot);
+        plotService.createPlot(product.getId(), plot);
 
         System.out.println("plot 개수: " + plotRepository.findAll());
 
-        plotService.deletePlot(user, team.getId(), product.getId(), plot.getId());
+        plotService.deletePlot(product.getId(), plot.getId());
 
         //then
         System.out.println("plot 개수: " + plotRepository.findAll());

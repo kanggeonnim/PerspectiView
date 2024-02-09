@@ -23,13 +23,12 @@ public class CharacterService {
      * 등장인물 생성
      *
      * @param character 등장인물
-     * @param productId 작품
      * @param teamId    팀 아이디
      * @param user      유저
      * @return 등장인물
      */
     @Transactional
-    public Character createCharacter(Character character, Long productId, Long teamId, User user) {
+    public Character createCharacter(Character character, Long teamId, User user) {
         teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         return characterRepository.save(character);
@@ -45,7 +44,7 @@ public class CharacterService {
      * @return 등장인물 리스트
      */
     public List<Character> getCharacters(Long productId, Long teamId, User user) {
-        Product product = productService.findByProductId(user, teamId, productId);
+        Product product = productService.findByProductId(productId);
         teamService.checkIfMember(user, teamService.getTeam(teamId, user));
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
@@ -56,12 +55,11 @@ public class CharacterService {
      * 단일 등장인물 조회
      *
      * @param charterId 등장인물 아이디
-     * @param productId 작품 아이디
      * @param teamId    팀 아이디
      * @param user      유저
      * @return 등장인물
      */
-    public Character getCharacter(Long charterId, Long productId, Long teamId, User user) {
+    public Character getCharacter(Long charterId, Long teamId, User user) {
         teamService.checkIfMember(user, teamService.getTeam(teamId, user));
 
         // 해당 작품에 포함된 인물인지도 검사해야함.
@@ -80,7 +78,7 @@ public class CharacterService {
      * @return 등장인물
      */
     @Transactional
-    public Character updateCharacter(Character character, Long characterId, Long productId, Long teamId, User user) {
+    public Character updateCharacter(Character character, Long characterId,Long teamId, User user) {
         teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         Character newCharacter = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
@@ -98,7 +96,7 @@ public class CharacterService {
      * @param user      유저
      */
     @Transactional
-    public void deleteCharacter(Long charterId, Long productId, Long teamId, User user) {
+    public void deleteCharacter(Long charterId, Long teamId, User user) {
         teamService.checkIfManager(user, teamService.getTeam(teamId, user));
 
         Character findChar = characterRepository.findById(charterId).orElseThrow(() -> new NotFoundException());

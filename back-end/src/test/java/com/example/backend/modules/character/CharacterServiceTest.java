@@ -172,8 +172,8 @@ class CharacterServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
-        characterService.createCharacter(fromCharacter, product.getId(), team.getId(), user);
-        characterService.createCharacter(toCharacter, product.getId(), team.getId(), user);
+        characterService.createCharacter(fromCharacter, team.getId(), user);
+        characterService.createCharacter(toCharacter, team.getId(), user);
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)
@@ -233,7 +233,7 @@ class CharacterServiceTest {
         // given
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         // when
-        Character result = characterService.createCharacter(character1, product.getId(), team.getId(), user);
+        Character result = characterService.createCharacter(character1, team.getId(), user);
 
         // then
         Assertions.assertThat(result.getCharacterName()).isEqualTo(character1.getCharacterName());
@@ -244,15 +244,15 @@ class CharacterServiceTest {
     void 등장인물삭제() {
         // given
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
-        characterService.createCharacter(character1, product.getId(), team.getId(), user);
+        characterService.createCharacter(character1, team.getId(), user);
 
 
         // when
 
-        characterService.deleteCharacter(character1.getId(), product.getId(), team.getId(), user);
+        characterService.deleteCharacter(character1.getId(), team.getId(),  user);
         // then
         assertThrows(RuntimeException.class, () -> {
-            characterService.getCharacter(character1.getId(), product.getId(), team.getId(), user);
+            characterService.getCharacter(character1.getId(), product.getId(), user);
         });
     }
 }

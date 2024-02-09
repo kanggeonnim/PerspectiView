@@ -3,10 +3,7 @@ package com.example.backend.modules.plot;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.story.Story;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -25,6 +22,7 @@ public class Plot {
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
     private Product product;
 
     @OneToMany(mappedBy = "plot",cascade = CascadeType.REMOVE)
@@ -43,5 +41,6 @@ public class Plot {
         this.name = name;
         this.color = color;
     }
+
 
 }

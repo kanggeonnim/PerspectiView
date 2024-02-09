@@ -116,8 +116,8 @@ public class ProductService {
     /**
      * 팀 작품 아이디로 하나 조회
      */
-    public Product findByProductId(User user, Long teamId, Long productId) {
-        Product findProduct = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
+    public Product findByProductId(Long productId) {
+        Product findProduct = productRepository.findWithGenreCategoryById(productId).orElseThrow(() -> new NotFoundException());
 
         return findProduct;
     }

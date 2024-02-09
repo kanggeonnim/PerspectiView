@@ -32,8 +32,8 @@ public class ForeShadowingService {
      * @return
      */
     @Transactional
-    public ForeShadowing createForeShadowing(User user, Long teamId, Long productId, ForeShadowing foreShadowing) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public ForeShadowing createForeShadowing(Long productId, ForeShadowing foreShadowing) {
+        Product product = productService.findByProductId(productId);
 
         if (!product.equals(foreShadowing.getProduct())) {
             throw new RuntimeException();
@@ -51,8 +51,8 @@ public class ForeShadowingService {
      * @param productId
      * @return
      */
-    public List<ForeShadowing> findByProductId(User user, Long teamId, Long productId) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public List<ForeShadowing> findByProductId(Long productId) {
+        Product product = productService.findByProductId(productId);
         return foreShadowingRepository.findByProduct(product);
     }
 
@@ -67,8 +67,8 @@ public class ForeShadowingService {
      * @return
      */
     @Transactional
-    public ForeShadowing updateForeShadowing(User user, Long teamId, Long productId, ForeShadowing foreShadowing) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public ForeShadowing updateForeShadowing(Long productId, ForeShadowing foreShadowing) {
+        Product product = productService.findByProductId(productId);
 
         if (!product.equals(foreShadowing.getProduct())) {
             throw new RuntimeException();
@@ -88,7 +88,7 @@ public class ForeShadowingService {
      * @param fShadowingId
      */
     @Transactional
-    public void deleteForeShadowing(User user, Long teamId, Long productId, Long fShadowingId) {
+    public void deleteForeShadowing(Long productId, Long fShadowingId) {
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fShadowingId).orElseThrow(() -> new NotFoundException());
         if (!foreShadowing.getProduct().getId().equals(productId)) {
             throw new RuntimeException();
