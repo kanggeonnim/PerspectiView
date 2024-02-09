@@ -90,6 +90,7 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         Team team = teamService.getTeam(targetTeamId,principal.getUser());
 
         Long targetProductId = obtainProductId(request);
+        log.info("targetProductId : {}", targetProductId);
         if(targetProductId == -1L){
             if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())) {
                 return ACCESS_GRANTED;
