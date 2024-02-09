@@ -65,7 +65,7 @@ public class SecurityConfig {
 				.headers((headers)->
 						headers.contentTypeOptions(contentTypeOptionsConfig ->
 								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
-				.exceptionHandling((except) -> except.authenticationEntryPoint(authEntryPoint))
+//				.exceptionHandling((except) -> except.authenticationEntryPoint(authEntryPoint))
 				.formLogin(AbstractHttpConfigurer::disable) // form 로그인 비활성화
 				.sessionManagement(sessionManagement->sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
