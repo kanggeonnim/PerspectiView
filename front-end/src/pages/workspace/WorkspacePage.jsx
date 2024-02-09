@@ -1,60 +1,60 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
-import useUserQueryModule from "@/hook/useUserQueryModule";
+import useProductQueryModule from "@/hook/useProductQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { getCookie, setCookie } from "@/util/cookie";
-import axios from "axios";
 import { useEffect } from "react";
 import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import useProductStore from "@/store/useProductStore";
 
 // 내 작품 목록 데이터
-const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
-  productId: index + 1,
-  productImg: `https://picsum.photos/${((index % 15) + 1) * 100}/300`,
-  productName: `나의 싸피 생활 ${index + 1}`,
-  // category: {
-  //   categoryId: "1",
-  //   categoryName: "웹툰",
-  // },
-  // genreList: [
-  //   {
-  //     genreId: "1",
-  //     genreName: "SF",
-  //   },
-  //   {
-  //     genreId: "2",
-  //     genreName: "액션",
-  //   },
-  //   {
-  //     genreId: "3",
-  //     genreName: "드라마",
-  //   },
-  // ],
-}));
+// const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
+//   productId: index + 1,
+//   productImg: `https://picsum.photos/${((index % 15) + 1) * 100}/300`,
+//   productName: `나의 싸피 생활 ${index + 1}`,
+//   // category: {
+//   //   categoryId: "1",
+//   //   categoryName: "웹툰",
+//   // },
+//   // genreList: [
+//   //   {
+//   //     genreId: "1",
+//   //     genreName: "SF",
+//   //   },
+//   //   {
+//   //     genreId: "2",
+//   //     genreName: "액션",
+//   //   },
+//   //   {
+//   //     genreId: "3",
+//   //     genreName: "드라마",
+//   //   },
+//   // ],
+// }));
 
 // 속한 팀 작품 목록 데이터
-const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
-  productId: index + 1,
-  productImg: `https://picsum.photos/${((index % 15) + 1) * 100}/300`,
-  productName: `팀 싸피 생활 ${index + 1}`,
-  // category: {
-  //   categoryId: "1",
-  //   categoryName: "웹툰",
-  // },
-  // genreList: [
-  //   {
-  //     genreId: "1",
-  //     genreName: "SF",
-  //   },
-  //   {
-  //     genreId: "2",
-  //     genreName: "액션",
-  //   },
-  //   {
-  //     genreId: "3",
-  //     genreName: "드라마",
-  //   },
-  // ],
-}));
+// const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
+//   productId: index + 1,
+//   productImg: `https://picsum.photos/${((index % 15) + 1) * 100}/300`,
+//   productName: `팀 싸피 생활 ${index + 1}`,
+//   // category: {
+//   //   categoryId: "1",
+//   //   categoryName: "웹툰",
+//   // },
+//   // genreList: [
+//   //   {
+//   //     genreId: "1",
+//   //     genreName: "SF",
+//   //   },
+//   //   {
+//   //     genreId: "2",
+//   //     genreName: "액션",
+//   //   },
+//   //   {
+//   //     genreId: "3",
+//   //     genreName: "드라마",
+//   //   },
+//   // ],
+// }));
 
 export default function WorkspacePage() {
   const navigate = useNavigate();
@@ -62,9 +62,14 @@ export default function WorkspacePage() {
 
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");
+  // const { productData, getProductIsSuccess} = useProductQueryModule('3');
 
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log("getUser", getUserIsSuccess, getUser);
+  // useEffect(()=> {
+  //   if(productData){
+  //     console.log("getproduct", getProductIsSuccess, productData[0].category)
+
+  //   }
+  // })
 
   useEffect(() => {
     if (accessToken) {
@@ -75,6 +80,16 @@ export default function WorkspacePage() {
       // setUser();
     }
   }, []);
+    // const productCall = ({ productData, itemsPerPage }) => {
+    //   const { setProductData } = useProductStore();
+    
+    //   useEffect(() => {
+    //     if (productData) {
+    //       setProductData(productData, itemsPerPage);
+    //       console.log("getproduct", getProductIsSuccess, productData);
+    //     }
+    //   }, [productData, itemsPerPage]);}
+
 
   // const [workspaceName, setWorkspaceName] = useState();
 

@@ -60,7 +60,9 @@ const router = createBrowserRouter(
           ],
         },
         {
-          path: "team/:teamId/product/:productId",
+          // path: "team/:teamId/product/:productId",
+          // FIXME 라우터 수정 
+          path: "product/:productId",
           element: <ProductPage />,
           children: [
             {

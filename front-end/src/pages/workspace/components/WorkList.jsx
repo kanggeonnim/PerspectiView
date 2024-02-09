@@ -19,17 +19,6 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-
-
-const works = [
-  { id: 1, url: "https://picsum.photos/200/300", title: "mywork" },
-  { id: 2, url: "https://picsum.photos/200/300", title: "mywork" },
-  { id: 3, url: "https://picsum.photos/200/300", title: "mywork" },
-  { id: 4, url: "https://picsum.photos/200/300", title: "mywork" },
-  { id: 5, url: "https://picsum.photos/200/300", title: "mywork" },
-];
 
 function CreateWork() {
   return (

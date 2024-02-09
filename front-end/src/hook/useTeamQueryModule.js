@@ -1,13 +1,13 @@
-import axios from "axios";
+import { privateApi } from "@/util/api";
 import { useQuery } from "@tanstack/react-query";
-import { publicApi } from "@/util/api";
+const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const useTeamQueryModule = () => {
+const useTeamQueryModule = (teamId) => {
   const { data: teamData, isSuccess: getTeamIsSuccess } = useQuery({
-    queryKey: ["team"],
+    queryKey: ["team", teamId],
     queryFn: async () => {
-      const response = await publicApi.get(`/api/team`);
-      // console.log(response);
+      const response = await privateApi.get(`/api/team/${teamId}`);
+      console.log(response);
       return response.data.response;
     },
   });

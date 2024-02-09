@@ -57,6 +57,19 @@ export default function ProductList({ products }) {
         <CreateProduct />
       </div>
 
+      {products.map((product) => (
+        <div
+          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+          key={product.productId}
+        >
+          <Link to={`/product/${product.productId}`} key={product.productId}>
+            <Product
+              productImg={product.productImageUrl}
+              productName={product.productTitle}
+            />
+          </Link>
+        </div>
+      ))}
       {/* {products.map((product) => (
         <div
           className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"

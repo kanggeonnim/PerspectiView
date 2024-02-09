@@ -86,7 +86,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
           </div>
         </div>
         <div className="flex items-center p-1 space-y-1">
-          <img src={Check} className="mr-2" />
+          <img src="" className="mr-2" />
           <p className="mr-3 text-sm font-medium leading-none">회수 스토리:</p>
           <div className="flex ">{colFshadow.fshadowClose}</div>
         </div>
