@@ -29,7 +29,7 @@ public class PlotController {
      * @return
      */
     @GetMapping
-    public ApiResult<List<PlotResponseDto>> findByProduct(@PathVariable("productId") Long productId) {
+    public ApiResult<List<PlotResponseWithStoriesDto>> findByProduct(@PathVariable("productId") Long productId) {
         List<Plot> plots = plotService.findByProductId( productId);
         //plot List 정렬
         plots.sort(Comparator.comparing(Plot::getId));
@@ -40,7 +40,7 @@ public class PlotController {
             }
         }
         return ApiResult.OK(plots.stream()
-                .map(PlotResponseDto::of)
+                .map(PlotResponseWithStoriesDto::of)
                 .collect(Collectors.toList()));
     }
 
@@ -54,7 +54,8 @@ public class PlotController {
 
     @PatchMapping("/{plotId}")
     public ApiResult<PlotResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
-                                                 @PathVariable("productId") Long productId) {
+                                                 @PathVariable("productId") Long productId,
+                                                 @PathVariable("plotId") Long plotId) {
         Plot plot = plotService.updatePlot(productId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotResponseDto.of(plot));
     }
