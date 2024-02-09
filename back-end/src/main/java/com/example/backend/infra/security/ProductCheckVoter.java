@@ -76,12 +76,13 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         // Target URL 아니면 통과
         if(!requiresAuthorization(request))return ACCESS_GRANTED;
 
+        log.info("auth filte set authencitaiton");
         // Authorization Filter set Authenticate 클래스 체크
         if (!UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
             return ACCESS_ABSTAIN;
         }
 
-
+        log.info("after set authentication");
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTeamId(request);
         Team team = teamService.getTeam(targetTeamId,principal.getUser());
