@@ -24,23 +24,15 @@ import {
 } from "@/components/ui/select";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
-
-const teams = Array.from({ length: 10 }, (_, index) => ({
-  teamId: index,
-  teamName: `Team ${index + 1}!!!!!!!!!!!!!!!!!!!!!!!!!`,
-}));
+import { Progress } from "@ark-ui/react";
 
 function UserSidebar() {
   // API 호출 시 사용
-  const { teamData, getTeamIsSuccess } = useTeamQueryModule();
-  console.log("getTeam", getTeamIsSuccess, teamData);
+  const { teams, getTeamsIsSuccess } = useTeamQueryModule();
+  console.log("getTeam", getTeamsIsSuccess, teams);
 
   const { user } = useAuthStore();
-
-  // 데이터 로딩 중일 때
-  // if (!getTeamIsSuccess) {
-  // return <Progress value={progress} className="w-[60%]" />;
-  // }
+  console.log("usersidebaar", user);
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
@@ -55,7 +47,6 @@ function UserSidebar() {
   // useEffect(() => {
   //   console.log();
   // }, []);
-
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
       {/* 사용 자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
@@ -97,7 +88,7 @@ function UserSidebar() {
                     setSelectedTeam(
                       team.title.length > 10 ? team.title.slice(0, 10) + "..." : team.title
                     );
-                    navigate(`/workspace/team/${team.teamId}`);
+                    navigate(`/workspace/team/${team.id}`);
                   }}
                   className="block truncate w-44"
                 >
@@ -119,14 +110,10 @@ function UserSidebar() {
                       </SelectLabel>
 
                       {/* api 호출 시 */}
-                      {teamData?.map((team, index) => (
+                      {teams?.map((team, index) => (
                         <SelectItem key={index} value={team} className="block w-full truncate">
                           {team.title}
                         </SelectItem>
-                        // <li key={index}>
-                        //   {team.title}
-                        //   {/* {team.info} */}
-                        // </li>
                       ))}
                     </SelectGroup>
                   </SelectContent>

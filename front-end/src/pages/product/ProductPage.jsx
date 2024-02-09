@@ -1,12 +1,16 @@
 import ProductHeader from "@/components/header/ProductHeader";
 import ProductSidebar from "@/components/sidebar/ProductSidebar";
+import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useLocation } from "react-router-dom";
 
 export default function ProductPage() {
-  const { pathname } = useLocation();
-  console.log(pathname);
+  const { getUser, getUserIsSuccess } = useUserQueryModule();
+
+  if (!getUserIsSuccess) {
+    return <div>Loading...</div>;
+  }
   return (
     <MainLayout variant="horizontal">
       <ProductSidebar />

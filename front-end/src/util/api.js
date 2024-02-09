@@ -73,7 +73,11 @@ export const privateApi = axios.create({
   baseURL: VITE_BASE_URL,
   headers: {
     Authorization: getCookie("token"),
+    "Access-Control-Allow-Origin": "http://localhost:5173",
+    "Access-Control-Allow-Credentials": true,
+    "Content-Type": "application/json",
   },
+  withCredentials: true,
 });
 // 리프레시토큰 요청 api
 // function postRefreshToken() {

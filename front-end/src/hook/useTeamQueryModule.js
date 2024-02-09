@@ -3,8 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
 
 const useTeamQueryModule = () => {
-  const { data: teamData, isSuccess: getTeamIsSuccess } = useQuery({
-    queryKey: ["team"],
+  const { data: teams, isSuccess: getTeamsIsSuccess } = useQuery({
+    queryKey: ["teams"],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team`);
       console.log(response);
@@ -12,7 +12,7 @@ const useTeamQueryModule = () => {
     },
   });
 
-  return { teamData, getTeamIsSuccess };
+  return { teams, getTeamsIsSuccess };
 };
 
 export default useTeamQueryModule;

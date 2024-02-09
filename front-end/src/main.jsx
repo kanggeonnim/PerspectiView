@@ -1,17 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import App from "./App.jsx";
 import "./index.css";
 
-import React from "react";
-import { CookiesProvider } from "react-cookie";
 import ErrorPage from "./pages/ErrorPage.jsx";
 import IndexPage from "./pages/auth/IndexPage.jsx";
 import LoginPage from "./pages/auth/LoginPage.jsx";
@@ -64,9 +58,7 @@ const router = createBrowserRouter(
           ],
         },
         {
-          // path: "team/:teamId/product/:productId",
-          // FIXME 라우터 수정 
-          path: "product/:productId",
+          path: "team/:teamId/product/:productId",
           element: <ProductPage />,
           children: [
             {
@@ -101,10 +93,8 @@ const router = createBrowserRouter(
 const queryClient = new QueryClient();
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-  <CookiesProvider>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  </CookiesProvider>
+  <QueryClientProvider client={queryClient}>
+    <RouterProvider router={router} />
+  </QueryClientProvider>
   // </React.StrictMode>
 );

@@ -13,7 +13,7 @@ export default function LoginPage() {
         <Card className="w-1/3 drop-shadow-2xl">
           <CardHeader className="items-center mb-3">
             <CardTitle>
-              <Link to={`/`}>
+              <Link to={`/`} >
                 <div className="my-6 mr-3">
                   <img className="w-auto h-20" src={logo} alt="logo" />
                 </div>

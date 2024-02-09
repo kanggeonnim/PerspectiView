@@ -2,10 +2,8 @@ import ContentText from "@/components/ReadMore";
 import { useState, useEffect } from "react";
 import { Badge } from "../ui/badge";
 import ReadMore from "@/components/ReadMore";
-import useProductStore from "@/store/useProductStore";
-import useProductQueryModule from "@/hook/useProductQueryModule";
-
-
+// import useProductStore from "@/store/useProductStore";
+// import useProductQueryModule from "@/hook/useProductQueryModule";
 
 const genreListData = [
   {
@@ -125,17 +123,16 @@ const getCategoryName = (categoryId) => {
 };
 
 export default function ProductHeader() {
-
-  const { productData, getProductIsSuccess} = useProductQueryModule('3');
+  // const { productData, getProductIsSuccess } = useProductQueryModule("3");
   const [productInfo, setProductInfo] = useState([]);
-  useEffect(()=> {
-    if(productData){
-      // console.log("getproduct", getProductIsSuccess, productData)
-      setProductInfo(() => productData)
-    }
-  })
+  // useEffect(() => {
+  //   if (productData) {
+  //     // console.log("getproduct", getProductIsSuccess, productData)
+  //     setProductInfo(() => productData);
+  //   }
+  // });
 
-  console.log("getInfo", productInfo)
+  console.log("getInfo", productInfo);
   return (
     <>
       <header className="w-full border rounded shadow-md">
@@ -189,9 +186,7 @@ export default function ProductHeader() {
               </div>
 
               <div className="w-full ">
-                <ReadMore>
-                  {productSample.productInfo}
-                </ReadMore>
+                <ReadMore>{productSample.productInfo}</ReadMore>
               </div>
             </div>
           </div>

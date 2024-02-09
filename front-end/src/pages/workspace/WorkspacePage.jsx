@@ -1,15 +1,16 @@
 import UserSidebar from "@/components/sidebar/UserSidebar";
-import useProductQueryModule from "@/hook/useProductQueryModule";
+// import useProductQueryModule from "@/hook/useProductQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { useAuthStore } from "@/store/useAuthStore";
 import { getCookie, setCookie } from "@/util/cookie";
 import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import useProductStore from "@/store/useProductStore";
 import useUserQueryModule from "@/hook/useUserQueryModule";
 import clsx from "clsx";
+import { Button } from "@/components/ui/button";
 
 // 내 작품 목록 데이터
 // const myProductInfoData = Array.from({ length: 120 }, (_, index) => ({
@@ -67,21 +68,17 @@ export default function WorkspacePage() {
 
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");
+
   const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log("getUser", getUserIsSuccess, getUser);
 
   useEffect(() => {
     if (accessToken) {
+      console.log("render");
       navigate("/workspace");
       setCookie("token", accessToken);
       setCookie("refreshToken", refreshToken); // 쿠키에 토큰 저장
-      console.log(accessToken, getCookie("token"));
-      // setUser();
     }
   }, [accessToken, refreshToken]);
-
-  // setCookie("token", accessToken);
-  // setCookie("refreshToken", refreshToken);
 
   // const { productData, getProductIsSuccess} = useProductQueryModule('3');
 
@@ -102,11 +99,10 @@ export default function WorkspacePage() {
   //     }
   //   }, [productData, itemsPerPage]);}
 
-  // const [workspaceName, setWorkspaceName] = useState();
+  if (!getUserIsSuccess) {
+    return <div>Loading...</div>;
+  }
 
-  // const getWorkspaceName = (name) => {
-  //   setWorkspaceName(name);
-  // };
   return (
     <MainLayout variant="horizontal">
       <UserSidebar />

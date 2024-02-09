@@ -11,8 +11,7 @@ import ProductList from "./ProductList";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import useProductQueryModule from "@/hook/useProductQueryModule";
-
+// import useProductQueryModule from "@/hook/useProductQueryModule";
 
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
@@ -44,20 +43,20 @@ function ProductListCard() {
   const itemsPerPage = 9;
   // const totalItems = teamProductInfoData.length;
   // const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const { productData, getProductIsSuccess} = useProductQueryModule('3');
-  const [totalItems, setTotalItems] = useState('0')
-  const [totalPages, setTotalPages] = useState('1');
+  // const { productData, getProductIsSuccess } = useProductQueryModule("3");
+  const [totalItems, setTotalItems] = useState("0");
+  const [totalPages, setTotalPages] = useState("1");
   const [productInfo, setProductInfo] = useState([]);
-  useEffect(()=> {
-    if(productData){
-      setTotalItems(() => productData.length)
-      setTotalPages(() => Math.ceil(totalItems / itemsPerPage))
-      console.log("getproduct", getProductIsSuccess, productData)
-      setProductInfo(() => productData)
-    }
-  })
 
-  
+  // useEffect(() => {
+  //   if (productData) {
+  //     setTotalItems(() => productData.length);
+  //     setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
+  //     console.log("getproduct", getProductIsSuccess, productData);
+  //     setProductInfo(() => productData);
+  //   }
+  // });
+
   const [currentPage, setCurrentPage] = useState(1);
 
   const handlePageChange = (page) => {
