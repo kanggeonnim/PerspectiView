@@ -150,7 +150,7 @@ public class ProductService {
      * 작품 플롯 전체 조회
      */
     public List<Plot> findPlots(Long productId) {
-        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
+        Product product = productRepository.findWithPlotById(productId);
         return product.getPlots().stream().toList();
     }
 }
