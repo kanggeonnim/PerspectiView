@@ -26,7 +26,7 @@ public class foreShadowingController {
     public ApiResult<ForeShadowingResponseDto> createForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
                                                                    @PathVariable("productId") Long productId) {
         log.info("========== create foreShadowing ============ ");
-        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(foreShadowingRequestDto.from(foreShadowingRequestDto));
+        ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(foreShadowingRequestDto.from(foreShadowingRequestDto),productId);
         List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
         return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing, storyids, columnId));
