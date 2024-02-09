@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,18 +38,16 @@ public class Team {
     @Column(nullable = true)
     private String info;
 
-    @Column(nullable = true)
-    private String teamImageUrl;
 
     @OneToMany(mappedBy = "team")
     private List<Product> products;
 
     @Builder
-    public Team(String title, String info, Boolean personal, String teamImageUrl) {
+    public Team(String title, String info, Boolean personal, List<User> user) {
         this.title = title;
         this.info = info;
         this.personal = personal;
-        this.teamImageUrl = teamImageUrl;
+        members.addAll(user);
     }
 
     @Column(nullable = false)
@@ -85,9 +82,6 @@ public class Team {
         return members.contains(user);
     }
 
-    public void addImageUrl(String url){
-        this.teamImageUrl = url;
-    }
 
     public void addEnrollment(Enrollment enrollment) {
         this.enrollments.add(enrollment);

@@ -1,6 +1,5 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,10 +7,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,7 +21,7 @@ import java.util.stream.Collectors;
 @Tag(name = "team", description = "Team 도메인 컨트롤러")
 public class TeamController {
     private final TeamService teamService;
-    private final S3Uploader s3Uploader;
+
     @Operation(
             responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
             @ApiResponse(responseCode = "401", description = "please login"),
@@ -32,9 +29,9 @@ public class TeamController {
             }
     )
     @PostMapping
-    public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestDto teamRequestDto,
+    public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestWithUsersDto teamRequestDto,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
-        Team team = TeamRequestDto.from(teamRequestDto);
+        Team team = TeamRequestWithUsersDto.from(teamRequestDto);
 
 
         Team newTeam = teamService.createTeam(team, principalDetails.getUser());
