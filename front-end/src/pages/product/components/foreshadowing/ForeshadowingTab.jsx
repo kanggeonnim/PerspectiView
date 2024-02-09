@@ -85,12 +85,12 @@ export default function ForeshadowingTab() {
 
   // TODO productId, fromStoryId,toStoryId
   const createData = () => {
-    // const newData = {
-    //   productId: "1",
-    //   fshadowName: title,
-    //   fshadowContent: content,
-    // };
-    //post요청
+    const newData = {
+      fshadowName: title,
+      fshadowContent: content,
+    };
+    console.log("create");
+    // post요청
     // mutation.mutate(newData)
     // setTriggerUpdate();
   };

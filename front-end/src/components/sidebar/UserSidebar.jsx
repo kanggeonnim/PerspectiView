@@ -1,10 +1,10 @@
-import { ArrowLeftToLine, ArrowRightToLine, User, Users } from "lucide-react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import TeamCreate from "@/pages/workspace/components/TeamCreate";
-import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import logo from "@/assets/main_logo.svg";
 import logo_icon from "@/assets/main_logo_icon.svg";
+import TeamCreate from "@/pages/workspace/components/TeamCreate";
+import { ArrowLeftToLine, ArrowRightToLine, User, Users } from "lucide-react";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 import {
   NavigationMenu,
@@ -55,7 +55,11 @@ function UserSidebar() {
           {/* 로고 */}
           <Link to={`/`}>
             <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
-              <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
+              <img
+                className="h-8 "
+                src={isCollapsed ? logo_icon : logo}
+                alt="logo"
+              />
             </div>
           </Link>
           {/* 워크스페이스 nav */}
@@ -74,7 +78,9 @@ function UserSidebar() {
 
                   <div
                     className={
-                      isCollapsed ? "hidden" : " mx-auto text-sm font-bold text-left text-slate-700"
+                      isCollapsed
+                        ? "hidden"
+                        : " mx-auto text-sm font-bold text-left text-slate-700"
                     }
                   >
                     나의 워크스페이스
@@ -84,18 +90,27 @@ function UserSidebar() {
               <NavigationMenuItem className="w-full">
                 <Select
                   onValueChange={(team) => {
-                    console.log("team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
+                    console.log(
+                      "team_여기서 전역으로 관리하는 workspace 이름 바꾸기"
+                    );
                     setSelectedTeam(
-                      team.title.length > 10 ? team.title.slice(0, 10) + "..." : team.title
+                      team.title.length > 10
+                        ? team.title.slice(0, 10) + "..."
+                        : team.title
                     );
                     navigate(`/workspace/team/${team.id}`);
                   }}
                   className="block truncate w-44"
                 >
-                  <SelectTrigger className={isCollapsed ? "" : "font-bold truncate w-full "}>
+                  <SelectTrigger
+                    className={isCollapsed ? "" : "font-bold truncate w-full "}
+                  >
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
-                      <SelectValue className="font-bold truncatew-34" placeholder="팀 워크스페이스">
+                      <SelectValue
+                        className="font-bold truncatew-34"
+                        placeholder="팀 워크스페이스"
+                      >
                         {selectedTeam}
                       </SelectValue>
                     )}
@@ -110,8 +125,17 @@ function UserSidebar() {
                       </SelectLabel>
 
                       {/* api 호출 시 */}
+<<<<<<< Updated upstream
                       {teams?.map((team, index) => (
                         <SelectItem key={index} value={team} className="block w-full truncate">
+=======
+                      {teamData?.map((team, index) => (
+                        <SelectItem
+                          key={index}
+                          value={team}
+                          className="block w-full truncate"
+                        >
+>>>>>>> Stashed changes
                           {team.title}
                         </SelectItem>
                       ))}
@@ -126,7 +150,10 @@ function UserSidebar() {
         <div className="flex flex-col justify-end w-full ">
           {/* collapse */}
           <div className="mx-5 my-2">
-            <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
+            <div
+              className="flex items-center justify-start w-full px-1 "
+              onClick={toggleSidebar}
+            >
               {isCollapsed ? (
                 <ArrowRightToLine size={20} className="text-primary" />
               ) : (
@@ -135,7 +162,9 @@ function UserSidebar() {
 
               <div
                 className={
-                  isCollapsed ? "hidden" : "mx-3 text-xs font-bold text-left text-slate-700"
+                  isCollapsed
+                    ? "hidden"
+                    : "mx-3 text-xs font-bold text-left text-slate-700"
                 }
               >
                 닫기
@@ -156,11 +185,17 @@ function UserSidebar() {
 
                 <div
                   className={
-                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
+                    isCollapsed
+                      ? "hidden"
+                      : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
-                  <div className="mx-1 text-xs break-words">{user.userNickname.split("_")[1]}</div>
-                  <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
+                  <div className="mx-1 text-xs break-words">
+                    {user.userNickname.split("_")[1]}
+                  </div>
+                  <div className="mx-1 text-xs break-all text-zinc-600">
+                    {user.email}
+                  </div>
                 </div>
               </div>
             </div>

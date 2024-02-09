@@ -26,4 +26,29 @@ const useFshadowQueryModule = (teamId, productId) => {
   return { fshadowData, getFshadowIsSuccess };
 };
 
+// export default useFshadowQueryModule;
+
+//복선 post요청 & useFshadow에 반영
+const useFshadowPostQueryModule = (teamId, productId) => {
+  // const queryClient = useQueryClient();
+  // const { fshadows, setFshadows } = useFshadow();
+  const { data: fshadowData, isSuccess: getFshadowIsSuccess } = useQuery({
+    queryKey: ["foreshadowing", teamId, productId],
+    queryFn: async () => {
+      const response = await privateApi.post(
+        `/api/team/${teamId}/product/${productId}/foreshadowing`
+      );
+      return response.data.response;
+    },
+  });
+  // useEffect(() => {
+  //   if (getFshadowIsSuccess) {
+  //     setFshadows(fshadowData);
+  //   }
+  // }, [getFshadowIsSuccess, fshadowData, setFshadows]);
+
+  return { fshadowData, getFshadowIsSuccess };
+};
+
 export default useFshadowQueryModule;
+useFshadowPostQueryModule;
