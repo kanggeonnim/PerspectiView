@@ -59,14 +59,8 @@ public class PlotService {
      * 플롯 수정
      */
     @Transactional
-    public Plot updatePlot(Long productId, Plot plot) {
-        Product product = productService.findByProductId(productId);
-
-        if (!product.equals(plot.getProduct())) {
-            throw new RuntimeException();
-        }
-
-        Plot findPlot = plotRepository.findById(plot.getId()).orElseThrow(() -> new NotFoundException());
+    public Plot updatePlot(Long plotId, Plot plot) {
+        Plot findPlot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
         findPlot.updatePlot(plot.getName(), plot.getColor());
         return findPlot;
     }
