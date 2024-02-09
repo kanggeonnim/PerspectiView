@@ -107,7 +107,7 @@ function RadioSelect() {
 
 
 
-function WorkList() {
+function WorkList({title, info, onChange, onCreate }) {
   return (
       <AlertDialog className="w-full h-full">
         <div>
@@ -133,7 +133,8 @@ function WorkList() {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">작품명</div>
                 <div className="box-border w-5/6">
-                  <input type="text" className="border" />
+                  <input type="text" name="title" className="border" onChange={onChange}
+                     />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
@@ -151,13 +152,13 @@ function WorkList() {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">설명</div>
                 <div className="box-border w-5/6">
-                  <Textarea className="w-4/5" />
+                  <input name="info" onChange={onChange} className="w-4/5 border" />
                 </div>
               </div>
             </div>
             <AlertDialogFooter>
               <AlertDialogCancel>취소하기</AlertDialogCancel>
-              <AlertDialogAction>생성하기</AlertDialogAction>
+              <AlertDialogAction onClick={onCreate}>생성하기</AlertDialogAction>
               {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
             </AlertDialogFooter>
           </div>

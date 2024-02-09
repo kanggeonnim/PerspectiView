@@ -1,20 +1,11 @@
 import { create} from 'zustand';
 import { devtools } from "zustand/middleware";
 
-const useProductStore = create(devtools((set) => ({
-  totalItems: 0,
-  totalPages: 1,
-  productInfo: [],
-  setProductData: (productData, itemsPerPage) => {
-    const totalItems = productData.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    set({ totalItems, totalPages, productInfo: productData });
-  },
-  
+const useProductAddStore = create(devtools((set) => ({
   inputs: {
     productTitle: "empty",
     productInfo: "1",
-    url: ""
+    url: "",
   },
   products: [
     {
@@ -26,9 +17,9 @@ const useProductStore = create(devtools((set) => ({
     
   ],
   selectedIdx: '',
-  setInputs: (newInputs) => set((state) => ({ inputs: newInputs })),
-  setProducts: (newProducts) => set((state) => ({ products: newProducts })),
-  setSelectedIdx: (newIdx) => set((state) => ({ selectedIdx: newIdx })),
+  setInputs: (inp) => set((state) => ({ inputs: inp })),
+  setProducts: (newProd) => set((state) => ({ products: newProd })),
+  setSelectedIdx: (newIndex) => set((state) => ({ selectedIdx: newIndex })),
   onCreate: () => {
     set((state) => {
       const product = {
@@ -40,11 +31,11 @@ const useProductStore = create(devtools((set) => ({
       };
       return {
         products: [...state.products, product],
-        inputs: { productTitle: "empty", productInfo: "", url: "" }
+        inputs: { productTitle: "", productInfo: "", url: "" }
       };
     });
   }
 
 })));
 
-export default useProductStore;
+export default useProductAddStore;

@@ -130,7 +130,7 @@ function ProductListCard() {
               )}
             /> */}
             <ProductList
-              products={productInfo.slice(
+              productsdata={productInfo.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
@@ -155,10 +155,10 @@ function ProductListCard() {
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
-              <p className="m-2">
+              {/* <p className="m-2">
                 Displaying items {(currentPage - 1) * itemsPerPage + 1} to{" "}
                 {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems}
-              </p>
+              </p> */}
             </div>
           </div>
         </CardContent>
