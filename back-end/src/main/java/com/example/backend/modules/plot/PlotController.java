@@ -53,10 +53,10 @@ public class PlotController {
     }
 
     @PatchMapping("/{plotId}")
-    public ApiResult<PlotResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
+    public ApiResult<PlotPreviewResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
                                                  @PathVariable("plotId") Long plotId) {
         Plot plot = plotService.updatePlot(plotId, PlotRequestDto.from(plotRequestDto));
-        return ApiResult.OK(PlotResponseDto.of(plot));
+        return ApiResult.OK(PlotPreviewResponseDto.of(plot));
     }
 
     @DeleteMapping("/{plotId}")
