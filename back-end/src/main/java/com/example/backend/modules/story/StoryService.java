@@ -147,8 +147,10 @@ public class StoryService {
     /**
      * 복선 스토리에 추가
      */
-    public StoryForeShadowing createStoryFshadow(ForeShadowing foreShadowing, Story story) {
+    public ForeShadowing createStoryFshadow(ForeShadowing foreShadowing, Long storyId) {
         ForeShadowing fshadow = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(()->new NotFoundException());
+
+        Story story = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
 
         StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
                 .foreShadowing(foreShadowing)
@@ -157,17 +159,19 @@ public class StoryService {
 
         foreShadowing.addStoryFshadow(storyForeShadowing);
 
-        return storyForeShadowing;
+        return foreShadowing;
     }
 
 
     /**
      * 복선 스토리에서 삭제
      */
-    public void deleteStoryFshadow(StoryForeShadowing storyForeShadowing) {
+    public ForeShadowing deleteStoryFshadow(ForeShadowing foreShadowing, Long storyId) {
         //복선리스트에서 복선스토리 삭제
-        StoryForeShadowing sfs = storyForeShadowingRepository.findById(storyForeShadowing.getId()).orElseThrow(()->new NotFoundException());
+        StoryForeShadowing sfs = storyForeShadowingRepository.findByForeShadowing(foreShadowing);
         storyForeShadowingRepository.delete(sfs);
+
+        return foreShadowing;
     }
 
     /**
@@ -175,9 +179,28 @@ public class StoryService {
      */
     public ForeShadowing updateFshadowClose(Long fshadowId, Long closeStoryId){
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(()->new NotFoundException());
+
+        StoryForeShadowing delStoryForeShadowing = storyForeShadowingRepository.findByForeShadowing(foreShadowing);
+        storyForeShadowingRepository.delete(delStoryForeShadowing);
+
         foreShadowing.updateFshadowClose(closeStoryId);
 
         return foreShadowing;
     }
+
+    /**
+     * 복선 회수 취소
+     */
+    public ForeShadowing deleteFshadowClose(Long fshadowId, Long closeStoryId,  Story story){
+        ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(()->new NotFoundException());
+        foreShadowing.updateFshadowClose(null);
+
+        StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
+                .foreShadowing(foreShadowing)
+                .story(story).build());
+
+        return foreShadowing;
+    }
+
 
 }

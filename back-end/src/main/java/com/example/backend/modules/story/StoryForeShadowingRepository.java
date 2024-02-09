@@ -9,4 +9,6 @@ import java.util.List;
 public interface StoryForeShadowingRepository extends JpaRepository<StoryForeShadowing, Long> {
     @EntityGraph(attributePaths = {"story"})
     List<StoryForeShadowing> findWithStoryByForeShadowing(ForeShadowing foreShadowing);
+
+    StoryForeShadowing findByForeShadowing(ForeShadowing foreShadowing);
 }

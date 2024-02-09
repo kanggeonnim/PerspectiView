@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -16,6 +18,7 @@ import java.util.Set;
 @Entity
 @Getter
 @NoArgsConstructor
+@DynamicInsert
 @EqualsAndHashCode(of = "id")
 public class ForeShadowing {
     @Id
@@ -31,7 +34,8 @@ public class ForeShadowing {
     @Column(nullable = true)
     private String fShadowContent;
 
-    @Column(nullable = true)
+    @Column(nullable = false)
+    @ColumnDefault("-1")
     private Long fShadowClose;
 
     @OneToMany(mappedBy = "foreShadowing")
