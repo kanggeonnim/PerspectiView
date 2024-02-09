@@ -3,7 +3,8 @@ package com.example.backend.modules.story;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.character.CharacterResponseDto;
-import com.example.backend.modules.foreshadowing.ForeShadowingRequestDto;
+import com.example.backend.modules.foreshadowing.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/team/{teamId}/product/{productId}/plot/{plotId}/story")
 public class StoryController {
     private final StoryService storyService;
+    private final ForeShadowingService foreShadowingService;
 
     @PostMapping
     public ApiResult<StoryResponseDto> createStory(@RequestBody StoryRequestDto storyRequestDto) {
@@ -58,4 +60,42 @@ public class StoryController {
         return ApiResult.OK(storyResponseDto);
     }
 
+    @PatchMapping("/{storyId}/fsStatus")
+    public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
+                                                               @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
+        ForeShadowing result =  storyService.createStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+    }
+
+    @DeleteMapping("/{storyId}/fsStatus/{foreshadowingId}")
+    public ApiResult<ForeShadowingResponseDto> delForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
+
+        ForeShadowing result = storyService.deleteStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+    }
+
+    @DeleteMapping("/{storyId}/fsClose/{foreshadowingId}")
+    public ApiResult<ForeShadowingResponseDto> closeForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
+
+        ForeShadowing result = storyService.updateFshadowClose(foreshadowingId, storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+    }
+
+    @PatchMapping("/{storyId}/fsClose/{foreshadowingId}")
+    public ApiResult<ForeShadowingResponseDto> closeCancleForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                        @PathVariable("foreshadowingId") Long foreshadowingId) {
+
+        ForeShadowing result = storyService.deleteFshadowClose(foreshadowingId, storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
+    }
 }
