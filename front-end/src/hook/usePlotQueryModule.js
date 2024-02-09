@@ -24,6 +24,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       queryClient.invalidateQueries({ queryKey: ["plotList"] });
     },
   });
+
   const { mutate: updatePlot } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
