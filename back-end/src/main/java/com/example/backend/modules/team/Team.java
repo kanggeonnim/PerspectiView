@@ -47,7 +47,7 @@ public class Team {
         this.title = title;
         this.info = info;
         this.personal = personal;
-        members.addAll(user);
+        if(user != null) members.addAll(user);
     }
 
     @Column(nullable = false)

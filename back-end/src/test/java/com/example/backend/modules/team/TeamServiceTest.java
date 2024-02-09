@@ -1,5 +1,6 @@
 package com.example.backend.modules.team;
 
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -39,8 +41,16 @@ class TeamServiceTest {
     private Team makeTeam(User user) {
         Team team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
+                .build();
+        return teamService.createTeam(team, user);
+    }
+
+    private Team makeTeamWithUser(User user, List<User> users) {
+        Team team = Team.builder().title("team1")
+                .info("team info")
+                .personal(false)
+                .user(users)
                 .build();
         return teamService.createTeam(team, user);
     }
@@ -63,10 +73,22 @@ class TeamServiceTest {
     @Test
     @DisplayName("team 생성 test")
     public void teamCreate() {
-        User user = makeUser("nickname");
-        makeTeam(user);
+
+        User manager = makeUser("nickname");
+        User memberA = makeUser("nickname1");
+        User memberB = makeUser("nickname2");
+        User memberC = makeUser("nickname3");
+        List<User> users = new ArrayList<>();
+        users.add(memberA);
+        users.add(memberB);
+        users.add(memberC);
+
+        makeTeamWithUser(manager, users);
 
         Assertions.assertEquals(teamRepository.count(), 1);
+
+        Team team = teamRepository.findAll().get(0);
+        Assertions.assertEquals(team.getMembers().size(), 3);
     }
 
     @Test
@@ -78,7 +100,6 @@ class TeamServiceTest {
         String changeInfo = "change info";
         Team newTeam = Team.builder().title("team1")
                 .info(changeInfo)
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         teamService.updateTeam(team.getId(), newTeam, user);

@@ -117,7 +117,6 @@ class StoryServiceTest {
 
         team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         teamService.createTeam(team, user);

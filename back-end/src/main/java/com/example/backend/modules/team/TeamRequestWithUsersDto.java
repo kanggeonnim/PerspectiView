@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class TeamRequestDto {
+public class TeamRequestWithUsersDto {
     @Length(max = 20) @NotNull
     private String title;
     private String info;

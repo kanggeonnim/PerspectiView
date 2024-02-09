@@ -104,7 +104,6 @@ class ForeShadowingServiceTest {
     private Team makeTeam(User user) {
         Team team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         return teamService.createTeam(team, user);
