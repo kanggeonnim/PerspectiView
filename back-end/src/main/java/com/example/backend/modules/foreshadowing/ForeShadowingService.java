@@ -24,30 +24,18 @@ public class ForeShadowingService {
 
     /**
      * 복선 생성
-     *
-     * @param user          사용자
-     * @param teamId        팀 아이디
-     * @param productId     작품 아이디
+
      * @param foreShadowing 복선
      * @return
      */
     @Transactional
-    public ForeShadowing createForeShadowing(Long productId, ForeShadowing foreShadowing) {
-        Product product = productService.findByProductId(productId);
-
-        if (!product.equals(foreShadowing.getProduct())) {
-            throw new RuntimeException();
-        }
-
+    public ForeShadowing createForeShadowing(ForeShadowing foreShadowing) {
         return foreShadowingRepository.save(foreShadowing);
     }
 
 
     /**
      * 작품에 포함된 복선 조회
-     *
-     * @param user
-     * @param teamId
      * @param productId
      * @return
      */
@@ -59,20 +47,11 @@ public class ForeShadowingService {
 
     /**
      * 복선 수정
-     *
-     * @param user
-     * @param teamId
-     * @param productId
      * @param foreShadowing
      * @return
      */
     @Transactional
-    public ForeShadowing updateForeShadowing(Long productId, ForeShadowing foreShadowing) {
-        Product product = productService.findByProductId(productId);
-
-        if (!product.equals(foreShadowing.getProduct())) {
-            throw new RuntimeException();
-        }
+    public ForeShadowing updateForeShadowing(ForeShadowing foreShadowing) {
 
         ForeShadowing findForeShadowing = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(() -> new NotFoundException());
         findForeShadowing.updateForeShadowing(findForeShadowing.getFShadowName(), findForeShadowing.getFShadowContent(), findForeShadowing.getFShadowClose());
@@ -81,18 +60,10 @@ public class ForeShadowingService {
 
     /**
      * 복선 삭제
-     *
-     * @param user
-     * @param teamId
-     * @param productId
      * @param fShadowingId
      */
     @Transactional
-    public void deleteForeShadowing(Long productId, Long fShadowingId) {
-        ForeShadowing foreShadowing = foreShadowingRepository.findById(fShadowingId).orElseThrow(() -> new NotFoundException());
-        if (!foreShadowing.getProduct().getId().equals(productId)) {
-            throw new RuntimeException();
-        }
+    public void deleteForeShadowing(Long fShadowingId) {
         foreShadowingRepository.deleteById(fShadowingId);
     }
 
