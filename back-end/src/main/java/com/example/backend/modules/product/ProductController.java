@@ -28,7 +28,8 @@ public class ProductController {
 
     @PostMapping
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
-                                                          @RequestPart(required = false) MultipartFile uploadImage) throws IOException {
+                                                          @RequestPart(required = false) MultipartFile uploadImage,
+                                                          @PathVariable("teamId")Long teamId) throws IOException {
 
         Product product = ProductRequestDto.from(productRequestDto);
         log.info("product : {}" , productRequestDto);
@@ -38,7 +39,7 @@ public class ProductController {
             product.updateProductImage(url);
         }
         log.info("=========createTeamController==========");
-        Product newProduct =  productService.createTeamProduct(productRequestDto.from(productRequestDto),productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
+        Product newProduct =  productService.createTeamProduct(productRequestDto.from(productRequestDto), teamId,productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
         log.info("=========createTeamController==========");
         List<Genre> genres = productService.findGenreList(newProduct.getProductGenres());
         log.info("=========createTeamController==========");
