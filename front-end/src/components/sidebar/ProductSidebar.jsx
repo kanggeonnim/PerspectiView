@@ -4,7 +4,9 @@ import {
   ArrowRightToLine,
   Contact2,
   Plus,
+  PlusCircle,
   SendToBack,
+  X,
 } from "lucide-react";
 import { Link, NavLink, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -27,6 +29,10 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Input } from "../ui/input";
+import { GradientPicker } from "./GradientPicker";
+import { AccordionHeader } from "@radix-ui/react-accordion";
+import { Button } from "../ui/button";
 
 const plotDummy = Array.from({ length: 10 }, (_, index) => ({
   plotId: index + 1,
@@ -53,12 +59,22 @@ const storyDummy = Array.from({ length: 10 }, (_, index) => ({
 
 // TODO: 플롯 추가/수정/삭제 이벤트
 function ProductSidebar() {
-  const { productId } = useParams();
+  // const { productId } = useParams();
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [addPlot, setAddPlot] = useState(false);
+  const [background, setBackground] = useState(
+    "linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)"
+  );
+  const toggleAddPlot = (event) => {
+    setAddPlot(!addPlot);
+  };
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
+
+  const teamId = 1;
+  const productId = 1;
 
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
@@ -79,7 +95,7 @@ function ProductSidebar() {
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
                   onClick={() => {
-                    navigate(`/product/${productId}/character`);
+                    navigate(`/team/${teamId}/product/${productId}/character`);
                   }}
                   active={location.pathname === `/product/${productId}/character`}
                 >
@@ -99,7 +115,7 @@ function ProductSidebar() {
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
                   onClick={() => {
-                    navigate(`/product/${productId}/foreshadowing`);
+                    navigate(`/team/${teamId}/product/${productId}/foreshadowing`);
                   }}
                   active={location.pathname === `/product/${productId}/foreshadowing`}
                 >
@@ -119,7 +135,7 @@ function ProductSidebar() {
                 <NavigationMenuLink
                   className={navigationMenuTriggerStyle()}
                   onClick={() => {
-                    navigate(`/product/${productId}/flow`);
+                    navigate(`/team/${teamId}/product/${productId}/flow`);
                   }}
                   active={location.pathname === `/product/${productId}/flow`}
                 >
@@ -152,14 +168,52 @@ function ProductSidebar() {
                 ) : (
                   <Accordion type="single" collapsible className="w-full pl-4 my-1">
                     <AccordionItem value="plots" className="w-full border-none">
-                      <AccordionTrigger className="flex flex-row-reverse justify-end w-full py-2 font-bold">
-                        <div className="flex items-center justify-around w-full">
-                          <div className="w-1/2 text-left text-nowrap">플롯</div>
-                          <Plus className=" text-primary" size={15} />
+                      <AccordionHeader className="flex items-center justify-between w-full ">
+                        <AccordionTrigger className="flex flex-row-reverse justify-end w-full py-2 font-bold border-2">
+                          <div className="flex items-center w-full px-8 border border-red-400 ">
+                            <div className="w-full text-left text-nowrap">플롯</div>
+                          </div>
+                        </AccordionTrigger>
+
+                        <div className="flex justify-end mx-2 border-2" onClick={toggleAddPlot}>
+                          {addPlot ? (
+                            <X
+                              strokeWidth={2.5}
+                              className="p-1 ro`unded-sm text-primary hover:bg-secondary-accent"
+                            />
+                          ) : (
+                            <PlusCircle
+                              strokeWidth={2.5}
+                              className="p-1 rounded-sm text-primary hover:bg-secondary-accent"
+                            />
+                          )}
                         </div>
-                      </AccordionTrigger>
+                      </AccordionHeader>
                       <AccordionContent className="ml-2">
+                        <div className=""></div>
+
                         <ScrollArea className="min-w-full h-60">
+                          {addPlot && (
+                            <div
+                            // onBlur={() => {
+                            //   setAddPlot(false);
+                            // }}
+                            // className="flex items-center"
+                            >
+                              {/* <input
+                                placeholder="플롯 이름"
+                                className="flex-grow px-3 py-2 border border-gray-300 rounded-lg"
+                              />
+                              <div className="relative">
+                                <GradientPicker
+                                  className="absolute top-0 right-0 mt-1"
+                                  background={background}
+                                  setBackground={setBackground}
+                                />
+                              </div>
+                              <Button className="ml-2">생성하기</Button> */}
+                            </div>
+                          )}
                           {plotDummy.map((plot, index) => (
                             <PlotList key={index} plotName={plot.plotName} stories={storyDummy} />
                           ))}
