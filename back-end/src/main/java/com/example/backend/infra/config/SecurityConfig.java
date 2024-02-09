@@ -63,7 +63,7 @@ public class SecurityConfig {
 		http
 				.csrf(AbstractHttpConfigurer::disable)
 				.httpBasic(AbstractHttpConfigurer::disable)
-				.cors(Customizer.withDefaults())
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
 //				.cors(cors -> cors.disable())
 //				.headers((headers)->
 //						headers.contentTypeOptions(contentTypeOptionsConfig ->
@@ -105,7 +105,7 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:3000", "http://localhost:5173/"));
 		configuration.setAllowedMethods(Arrays.asList("*"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.addExposedHeader("Authorization");
@@ -114,12 +114,6 @@ public class SecurityConfig {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
-		source.registerCorsConfiguration("/team/**", configuration);
-		source.registerCorsConfiguration("/token/**", configuration);
-		source.registerCorsConfiguration("/category/**", configuration);
-		source.registerCorsConfiguration("/genre/**", configuration);
-		source.registerCorsConfiguration("/keyword/**", configuration);
-
 
 		return source;
 	}
