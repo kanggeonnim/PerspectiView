@@ -11,50 +11,74 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { PlusCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
 import Column from "./Column";
 
 export default function ForeshadowingTab() {
-  //state는 {tasks:{각 복선 정보딕셔id,Name} ,columns:{각 컬럼 정보딕셔너리id,title,taksIds}, columnsOrder:[]}
+  //복선전체 GET 요청
+  const { teamId, productId } = useParams();
+  const { fshadowData, getFshadowIsSuccess } = useFshadowQueryModule(
+    teamId,
+    productId
+  );
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
   }));
+  console.log("zustand", fshadows);
+
+  // //zustand store에 반영(setFshadows)
+  // const { fshadows, setFshadows } = useFshadow((state) => ({
+  //   fshadows: state.fshadows,
+  //   setFshadows: state.setFshadows,
+  // }));
+  // useEffect(() => {
+  //   if (getFshadowIsSuccess) {
+  //     setFshadows(fshadowData);
+  //   }
+  // }, [fshadowData, getFshadowIsSuccess, setFshadows]);
+
+  // // fshadows 상태가 업데이트되면 실행될 useEffect
+  // useEffect(() => {
+  //   console.log("업데이트 이후", fshadows);
+  // }, [fshadows]);
 
   //TODO API콜
-  useEffect(() => {
-    // 상태 변경이 실제로 필요한지 검사하기 위한 변수
-    console.log("복선 상태 변경");
-    let isUpdateNeeded = false;
+  // useEffect(() => {
+  //   // 상태 변경이 실제로 필요한지 검사하기 위한 변수
+  //   console.log("복선 상태 변경");
+  //   let isUpdateNeeded = false;
 
-    const updatedFshadows = Object.keys(fshadows).reduce((acc, key) => {
-      const fshadow = fshadows[key];
-      let newColumnId = fshadow.columnId;
+  //   const updatedFshadows = Object.keys(fshadows).reduce((acc, key) => {
+  //     const fshadow = fshadows[key];
+  //     let newColumnId = fshadow.columnId;
 
-      if (fshadow.storyIdList.length === 0) {
-        newColumnId = "column-1";
-      } else if (fshadow.fshadowClose) {
-        newColumnId = "column-3";
-      } else {
-        newColumnId = "column-2";
-      }
+  //     if (fshadow.storyIdList.length === 0) {
+  //       newColumnId = "column-1";
+  //     } else if (fshadow.fshadowClose) {
+  //       newColumnId = "column-3";
+  //     } else {
+  //       newColumnId = "column-2";
+  //     }
 
-      if (newColumnId !== fshadow.columnId) {
-        isUpdateNeeded = true; // 업데이트가 필요한 경우 표시
-        acc[key] = { ...fshadow, columnId: newColumnId };
-      } else {
-        acc[key] = fshadow;
-      }
+  //     if (newColumnId !== fshadow.columnId) {
+  //       isUpdateNeeded = true; // 업데이트가 필요한 경우 표시
+  //       acc[key] = { ...fshadow, columnId: newColumnId };
+  //     } else {
+  //       acc[key] = fshadow;
+  //     }
 
-      return acc;
-    }, {});
+  //     return acc;
+  //   }, {});
 
-    if (isUpdateNeeded) {
-      setFshadows(updatedFshadows);
-    }
-  }, [fshadows, setFshadows]);
+  //   if (isUpdateNeeded) {
+  //     setFshadows(updatedFshadows);
+  //   }
+  // }, [fshadows, setFshadows]);
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
