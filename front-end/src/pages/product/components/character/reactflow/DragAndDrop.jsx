@@ -185,7 +185,7 @@ export default function DnD({ users, idx }) {
         >
           <Controls />
           <Panel position="top-right">
-            <Button className="mr-2 bg-green-400">저장</Button>
+            {/* <Button className="mr-2 bg-green-400">저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}
             <Button className="mr-2" onClick={onTempoSave}>임시저장</Button>
             <Button variant="outline" onClick={onRestore}>불러오기</Button>

@@ -15,7 +15,7 @@ import CharTagAdd from "./CharTagAdd";
 
 
 
-export default function CharAdd({name, description, onChange, onCreate }) {
+export default function CharAdd({name, description,url, onChange, onCreate }) {
   
   return (
     <AlertDialog>
@@ -41,17 +41,18 @@ export default function CharAdd({name, description, onChange, onCreate }) {
                     name="name"
                     className="border"
                     onChange={onChange}
-                    value={name}
+                    // value={name}
                   />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2 h-1/4">
-                <div className="box-border w-1/5 mr-3 text-xl">특징</div>
+                {/* <div className="box-border w-1/5 mr-3 text-xl">특징</div>
                 <div className="box-border w-4/5 h-1/2">
-                  {/* <CharTag /> */}
+                  <CharTag />
                   
                   <CharTagAdd />
-                </div>
+                </div> */}
+                
               </div>
               <div className="flex flex-row w-full m-2 h-2/3">
                 <div className="box-border w-1/5 mr-3 text-xl">세부 사항</div>
@@ -60,7 +61,7 @@ export default function CharAdd({name, description, onChange, onCreate }) {
                     className="w-4/5 h-full border z-30"
                     name="description"
                     onChange={onChange}
-                    value={description}
+                    // value={description}
                   />
                 </div>
               </div>

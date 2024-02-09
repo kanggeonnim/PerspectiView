@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import useCharTagStore from "@/store/useCharTagStore";
 
-const wordArr = ["락커", "힙합", "ENTJ", "골초", "락밴드","골무" , "골계", "골격", "골골골골골골골골"];
+const wordArr = ["락커", "힙합", "ENTJ", "골초", "락밴드","골무" , "골계", "골격", "골골골골"];
 // FIXME 특징 받아올 DB로 대체 
 
 

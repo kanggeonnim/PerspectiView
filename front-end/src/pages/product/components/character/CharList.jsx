@@ -51,14 +51,14 @@ export default function CharList({ users, onIdxChange }) {
                     <div className="box-border w-4/5">{user.name}</div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/4">
-                    <div className="box-border w-1/5 mr-3 text-xl">특징</div>
+                    {/* <div className="box-border w-1/5 mr-3 text-xl">특징</div>
                     <div className="box-border w-4/5">
                       {user.tag.map((tag, index) => (
                         <Badge variant="off" className="mr-1" key={index}>
                           {tag}
                         </Badge>
                       ))}
-                    </div>
+                    </div> */}
                   </div>
                   <div className="flex flex-row w-full m-2 h-2/3">
                     <div className="box-border w-1/5 mr-3 text-xl">

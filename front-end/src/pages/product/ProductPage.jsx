@@ -4,9 +4,15 @@ import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useLocation } from "react-router-dom";
+import useProductAddStore from "@/store/useProductAddStore";
 
 export default function ProductPage() {
   const { getUser, getUserIsSuccess } = useUserQueryModule();
+
+  const { pathname } = useLocation();
+  console.log(pathname);
+  const { products } = useProductAddStore();
+  console.log(products);
 
   if (!getUserIsSuccess) {
     return <div>Loading...</div>;
