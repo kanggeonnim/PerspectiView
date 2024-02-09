@@ -71,7 +71,8 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
     @Override
     public int vote(Authentication authentication, FilterInvocation filter, Collection<ConfigAttribute> attributes) {
         HttpServletRequest request = filter.getRequest();
-
+        log.info("==========product voter in===============");
+        log.info("url : {}" , request.getRequestURI());
         // Target URL 아니면 통과
         if(!requiresAuthorization(request))return ACCESS_GRANTED;
 
