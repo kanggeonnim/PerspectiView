@@ -182,13 +182,7 @@ function WorkList({ title, info, onChange, onCreate }) {
               onClick={() => {
                 console.log(productDetail);
                 // // create product
-                createProduct({
-                  productTitle: "작품1",
-                  productDetail: "작품1 내용",
-                  category: null,
-                  genres: [],
-                  uploadImage: "imageeee",
-                });
+                createProduct(productDetail);
               }}
             >
               생성하기
