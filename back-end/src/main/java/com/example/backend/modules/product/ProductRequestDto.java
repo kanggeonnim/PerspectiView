@@ -12,7 +12,6 @@ import java.util.List;
 @Builder
 @Slf4j
 public class ProductRequestDto {
-    private Long productId;
     private String productTitle;
     private String productInfo;
     private Category category;
