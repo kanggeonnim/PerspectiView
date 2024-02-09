@@ -127,7 +127,7 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
     }
 
     private boolean requiresAuthorization(HttpServletRequest request) {
-
+        log.info("url : {}" , request.getRequestURI());
         boolean matches = requiresAuthorizationRequestMatcher.matches(request);
 
         return matches;

@@ -7,6 +7,7 @@ import com.example.backend.modules.story.Story;
 import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,15 +18,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/team/{teamId}/product/{productId}/plot")
+@Slf4j
 public class PlotController {
     private final PlotService plotService;
 
     /**
      * 작품으로 플롯 조회
      *
-     * @param teamId
      * @param productId
-     * @param principalDetails
      * @return
      */
     @GetMapping
@@ -47,6 +47,7 @@ public class PlotController {
     @PostMapping
     public ApiResult<PlotResponseDto> createPlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
                                                  @PathVariable("productId") Long productId) {
+        log.info("== plot create controller===");
         Plot plot = plotService.createPlot(productId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotResponseDto.of(plot));
     }

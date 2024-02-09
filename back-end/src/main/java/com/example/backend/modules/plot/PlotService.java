@@ -42,12 +42,9 @@ public class PlotService {
     public Plot createPlot(Long productId, Plot plot) {
 
         Product product = productService.findByProductId(productId);
-
-        if (!product.equals(plot.getProduct())) {
-            throw new RuntimeException();
-        }
-
-        return plotRepository.save(plot);
+        Plot creaetPlot = plotRepository.save(plot);
+        creaetPlot.setProduct(product);
+        return creaetPlot;
     }
 
     /**
