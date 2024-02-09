@@ -144,7 +144,7 @@ public class ProductServiceTest {
         genres.add(genre2);
 
         //when
-        Product result = productService.createTeamProduct(product, genres);
+        Product result = productService.createTeamProduct(product,  team.getId(), genres);
 
         //then
         assertEquals("작품의 이름이 작품1이어야합니다.", "작품1", result.getTitle());
@@ -179,7 +179,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        productService.createTeamProduct(product, team.getId(), genres);
 
         //when
         List<Product> findProducts = productService.productList(team.getId());
@@ -216,7 +216,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        productService.createTeamProduct(product, team.getId(), genres);
 
         //update
         Product updateProduct = Product.builder()
@@ -274,7 +274,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
         //updaet
         Product updaetProduct = Product.builder()
@@ -316,7 +316,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        productService.createTeamProduct(product, team.getId(), genres);
 
         //when
         productService.deleteProduct(1L);
@@ -354,7 +354,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
         //when
         Product result = productService.findByProductId(givenProduct.getId());
@@ -391,7 +391,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
         Product product1 = productService.findByProductId(givenProduct.getId());
         //when
