@@ -137,7 +137,7 @@ class ForeShadowingServiceTest {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
         //when
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         //then
         assertEquals(createdFS.getFShadowName(), foreShadowing.getFShadowName());
@@ -154,7 +154,7 @@ class ForeShadowingServiceTest {
                 .build();
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         ForeShadowing updateFS = ForeShadowing.builder()
                 .id(foreShadowing.getId())
@@ -183,7 +183,7 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        foreShadowingService.createForeShadowing(foreShadowing);
+        foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         //when
         foreShadowingService.deleteForeShadowing(foreShadowing.getId());
@@ -206,7 +206,7 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing fs = foreShadowingService.createForeShadowing( setForeShadowing);
+        ForeShadowing fs = foreShadowingService.createForeShadowing(setForeShadowing, product.getId());
 
         Story story = storySetting();
         //story 생성 후 그 중간 테이블 1개 생성

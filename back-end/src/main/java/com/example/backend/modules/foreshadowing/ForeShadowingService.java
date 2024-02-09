@@ -29,7 +29,9 @@ public class ForeShadowingService {
      * @return
      */
     @Transactional
-    public ForeShadowing createForeShadowing(ForeShadowing foreShadowing) {
+    public ForeShadowing createForeShadowing(ForeShadowing foreShadowing, Long productId) {
+        Product product = productService.findByProductId(productId);
+        foreShadowing.updateProduct(product);
         return foreShadowingRepository.save(foreShadowing);
     }
 
