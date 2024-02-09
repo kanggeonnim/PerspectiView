@@ -5,6 +5,7 @@ import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.UnanimousBased;
@@ -71,8 +72,10 @@ public class SecurityConfig {
 				.authorizeRequests(authorize ->
 						// accessDecisionManager
 						authorize.accessDecisionManager(accessDecisionManager())
+
 //						authorize
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
+								.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
 								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
