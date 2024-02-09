@@ -39,7 +39,8 @@ export default function Plot({ plotId, plotName, stories, plotColor, setPlotColo
                     console.log(plotId);
                   }}
                 />
-): (<></>
+              ) : (
+                <></>
               )}
             </div>
           </div>

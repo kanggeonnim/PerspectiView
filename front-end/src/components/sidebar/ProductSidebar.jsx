@@ -252,7 +252,7 @@ function ProductSidebar() {
                               key={index}
                               plotId={plot.plotId}
                               plotName={plot.plotName}
-                              stories={storyDummy}
+                              stories={plot.storyList}
                               plotColor={plot.plotColor}
                             />
                           ))}
