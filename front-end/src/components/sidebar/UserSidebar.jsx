@@ -120,7 +120,7 @@ function UserSidebar() {
 
                       {/* api 호출 시 */}
                       {teamData?.map((team, index) => (
-                        <SelectItem key={index} value={team} className="block w-40 truncate">
+                        <SelectItem key={index} value={team} className="block w-full truncate">
                           {team.title}
                         </SelectItem>
                         // <li key={index}>
