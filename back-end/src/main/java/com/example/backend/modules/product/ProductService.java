@@ -6,6 +6,7 @@ import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.productrelation.ProductRelation;
 import com.example.backend.modules.team.Team;
+import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
 import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import java.util.Set;
 public class ProductService {
     private final ProductRepository productRepository;
 
-    private final TeamService teamService;
+    private final TeamRepository teamRepository;
 
     private final ProductGenreRepository productGenreRepository;
 
@@ -34,7 +35,7 @@ public class ProductService {
      * 팀 작품 생성
      */
     @Transactional
-    public Product createTeamProduct(Product product, List<Genre> genres) {
+    public Product createTeamProduct(Product product, Long teamId,List<Genre> genres) {
 
         //중간 테이블 저장
         //장르 + 작품에 대한 값이 있어야함
@@ -42,7 +43,9 @@ public class ProductService {
             Genre genre = genreRepository.findById(g.getId()).orElseThrow(() -> new NotFoundException());
             product.addProductGenre(productGenreRepository.save(new ProductGenre(product, genre)));
         }
-
+        //팀 정보 불러와서 product에 넣기
+        Team team = teamRepository.findById(teamId).orElseThrow(()->new NotFoundException());
+        product.updateTeam(team);
         return productRepository.save(product);
     }
 
