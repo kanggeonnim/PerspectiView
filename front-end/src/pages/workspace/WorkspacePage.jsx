@@ -67,7 +67,6 @@ export default function WorkspacePage() {
 
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");
-
   const { getUser, getUserIsSuccess } = useUserQueryModule();
   console.log("getUser", getUserIsSuccess, getUser);
 

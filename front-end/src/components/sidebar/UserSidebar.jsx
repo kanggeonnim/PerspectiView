@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
+import { useAuthStore } from "@/store/useAuthStore";
 
 const teams = Array.from({ length: 10 }, (_, index) => ({
   teamId: index,
@@ -33,6 +34,8 @@ function UserSidebar() {
   // API 호출 시 사용
   const { teamData, getTeamIsSuccess } = useTeamQueryModule();
   console.log("getTeam", getTeamIsSuccess, teamData);
+
+  const { user } = useAuthStore();
 
   // 데이터 로딩 중일 때
   // if (!getTeamIsSuccess) {
@@ -162,8 +165,8 @@ function UserSidebar() {
               <div className="flex items-center justify-between">
                 <div className="px-1 mx-1">
                   <Avatar>
-                    <AvatarImage src="https://github.com/shadcn.png" alt="user_image" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={user.userImageUrl} alt="user_image" />
+                    <AvatarFallback>{user.email.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 </div>
 
@@ -172,8 +175,8 @@ function UserSidebar() {
                     isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
-                  <div className="mx-1 text-xs ">작가명</div>
-                  <div className="mx-1 text-xs break-all text-zinc-600">user@gmail.com</div>
+                  <div className="mx-1 text-xs break-words">{user.userNickname.split("_")[1]}</div>
+                  <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
                 </div>
               </div>
             </div>

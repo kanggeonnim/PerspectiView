@@ -3,7 +3,13 @@ import { devtools } from "zustand/middleware";
 
 export const useAuthStore = create(
   devtools((set) => ({
-    user: null,
+    user: {
+      userNickname: "",
+      userImageUrl: null,
+      email: "",
+      userPhone: null,
+      userInfo: null,
+    },
     setUser: (user) => {
       set({ user: user });
     },
