@@ -95,7 +95,7 @@ function UserSidebar() {
                   onValueChange={(team) => {
                     console.log("team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
                     setSelectedTeam(
-                      team.teamName.length > 10 ? team.teamName.slice(0, 10) + "..." : team.teamName
+                      team.title.length > 10 ? team.title.slice(0, 10) + "..." : team.title
                     );
                     navigate(`/workspace/team/${team.teamId}`);
                   }}
