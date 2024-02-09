@@ -191,9 +191,10 @@ public class StoryService {
     /**
      * 복선 회수 취소
      */
-    public ForeShadowing deleteFshadowClose(Long fshadowId, Long closeStoryId,  Story story){
+    public ForeShadowing deleteFshadowClose(Long fshadowId, Long closeStoryId){
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(()->new NotFoundException());
         foreShadowing.updateFshadowClose(null);
+        Story story = storyRepository.findById(closeStoryId).orElseThrow(()->new NotFoundException());
 
         StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
                 .foreShadowing(foreShadowing)

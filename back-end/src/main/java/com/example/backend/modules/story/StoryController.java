@@ -71,7 +71,7 @@ public class StoryController {
 
     @DeleteMapping("/{storyId}/fsStatus/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> delForeShadowing(@PathVariable("storyId") Long storyId,
-                                                               @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
+                                                                @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
 
         ForeShadowing result = storyService.deleteStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
@@ -80,14 +80,22 @@ public class StoryController {
     }
 
     @DeleteMapping("/{storyId}/fsClose/{foreshadowingId}")
-    public ApiResult<ForeShadowingRequestDto> closeForeShadowing() {
+    public ApiResult<ForeShadowingResponseDto> closeForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
 
-        return null;
+        ForeShadowing result = storyService.updateFshadowClose(foreshadowingId, storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
     }
 
     @PatchMapping("/{storyId}/fsClose/{foreshadowingId}")
-    public ApiResult<ForeShadowingRequestDto> closeCancleForeShadowing() {
+    public ApiResult<ForeShadowingResponseDto> closeCancleForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                        @PathVariable("foreshadowingId") Long foreshadowingId) {
 
-        return null;
+        ForeShadowing result = storyService.deleteFshadowClose(foreshadowingId, storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds));
     }
 }
