@@ -75,11 +75,11 @@ public class SecurityConfig {
 						// accessDecisionManager
 						authorize.accessDecisionManager(accessDecisionManager())
 
-//						authorize
+//						authorize.
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
-								.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
-								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+								.requestMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
+//								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
 						// hasRole('ROLE_USER')")
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
@@ -113,6 +113,12 @@ public class SecurityConfig {
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
+		source.registerCorsConfiguration("/team/**", configuration);
+		source.registerCorsConfiguration("/token/**", configuration);
+		source.registerCorsConfiguration("/category/**", configuration);
+		source.registerCorsConfiguration("/genre/**", configuration);
+		source.registerCorsConfiguration("/keyword/**", configuration);
+
 
 		return source;
 	}
