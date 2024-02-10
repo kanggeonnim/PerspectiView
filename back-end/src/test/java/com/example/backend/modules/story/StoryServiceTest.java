@@ -152,7 +152,7 @@ class StoryServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, "", characters);
+        storyService.createStory(story, plot.getId(), "", characters);
 
         fromCharacter = Character.builder()
                 .product(product)
@@ -220,7 +220,7 @@ class StoryServiceTest {
 
 
         //when
-        Story result = storyService.createStory(s, content, characters);
+        Story result = storyService.createStory(s, plot.getId(), content, characters);
         em.flush();
         em.clear();
 
@@ -276,7 +276,7 @@ class StoryServiceTest {
                 .storyForeShadowings(new HashSet<>())
                 .storyRelations(new HashSet<>())
                 .build();
-        storyService.createStory(delStory, "스토리 내용", characters);
+        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters);
         //when
         storyService.deleteStory(delStory.getId());
         //then
