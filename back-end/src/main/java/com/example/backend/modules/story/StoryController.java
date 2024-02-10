@@ -62,16 +62,6 @@ public class StoryController {
         return ApiResult.OK(storyResponseDto);
     }
 
-    @PutMapping("/{storyId}/fsStatus/{foreshadowingId}")
-    public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
-                                                                @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
-        ForeShadowing result = storyService.createStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
-        String columnId = setColumn(storyIds, result);
-
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
-    }
-
     private String setColumn(List<FshadowStoryIdDto> storyIds, ForeShadowing foreShadowing) {
         String columnId;
         if (storyIds.isEmpty() && foreShadowing.getFShadowClose() == null) {
@@ -86,11 +76,22 @@ public class StoryController {
         return columnId;
     }
 
+    @PutMapping("/{storyId}/fsStatus/{foreshadowingId}")
+    public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
+                                                                @PathVariable("foreshadowingId") Long foreshadowingId) {
+        ForeShadowing result = storyService.createStoryFshadow(foreshadowingId, storyId);
+        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+        String columnId = setColumn(storyIds, result);
+
+        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
+    }
+
+
     @DeleteMapping("/{storyId}/fsStatus/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> delForeShadowing(@PathVariable("storyId") Long storyId,
-                                                                @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
+                                                                @PathVariable("foreshadowingId") Long foreshadowingId) {
 
-        ForeShadowing result = storyService.deleteStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
+        ForeShadowing result = storyService.deleteStoryFshadow(foreshadowingId, storyId);
         List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
         String columnId = setColumn(storyIds, result);
 
