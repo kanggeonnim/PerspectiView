@@ -3,6 +3,8 @@ export default function CharInfo({ user, onIdxChange }) {
     event.dataTransfer.setData("application/reactflow", nodeType);
     event.dataTransfer.effectAllowed = "move";
     onIdxChange(event.target.id);
+    console.log(event.target)
+    // console.log(event.target.id)
   };
 
   return (

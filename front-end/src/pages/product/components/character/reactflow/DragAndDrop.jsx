@@ -52,7 +52,7 @@ const addEndMarker = (edge) => ({
   },
 });
 
-export default function DnD({ users, idx }) {
+export default function DnD({ users, charDatas, idx }) {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -110,22 +110,34 @@ export default function DnD({ users, idx }) {
       if (typeof type === "undefined" || !type) {
         return;
       }
-      const index = idx - 1;
+
+
+      if (!charDatas) return;
+      // charDatas가 로딩 중이라면 빈 데이터를 반환하도록 처리
+      const index = parseInt(idx);
+      const chardex = charDatas.map((chars) => (chars.id) )
+      console.log(index)
+
+      let findex =chardex.findIndex(v=>v === index)
+      // 인덱스 추출
+      // console.log(findex)
+
+
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-
+      // console.log("제 발", charDatas)
       const newNode = {
         id: getId(),
         type,
         position,
         data: {
           image: {
-            // url: user.users[document.getElementsByClassName(event.target.id)[0].id].url
-            url: users[index].url,
+            url: charDatas[findex].url,
+            // url: charDatas.find((v)=>v.id === idx).url
           },
-          name: users[index].name,
+          name: charDatas[findex].name,
           label: (
             <>
               <input
@@ -146,7 +158,7 @@ export default function DnD({ users, idx }) {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, labelInput, idx]
+    [reactFlowInstance, labelInput, idx, charDatas]
   );
 
   const handleLabelInputChange = (event) => {

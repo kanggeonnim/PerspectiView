@@ -7,8 +7,9 @@ import CharList from "./CharList";
 import CharAdd from "./CharAdd";
 import useCharStore from "@/store/useCharStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { privateApi } from "@/util/api";
+import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 
@@ -24,38 +25,18 @@ export default function CharTab() {
     setSelectedIdx,
     onCreate
   } = useCharStore();
+  const { teamId, productId } = useParams()
+  const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
+
   // const [searchParams] = useSearchParams();
   // const [cookies, setCookie] = useCookies(["refresh token"]);
   // const ACCESS_TOKEN = searchParams.get("accessToken");
   // const REFRESH_TOKEN = searchParams.get("refreshToken");
 
-  useEffect(() => {
-    async () => {
-    navigate("/product/1/character");
-    const response = await privateApi.get(`${VITE_BASE_URL}/api/team`
-    // , {
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUzMTU0LCJleHAiOjE3MDczNTQwNTR9.BBG4me-sgIfBKJH3bSp_uhiIVbGGiYCx8OUbzON3ze8`,
-    //     "Access-Control-Allow-Origin": "http://localhost:5173",
-    //     "Access-Control-Expose-Headers" : "Authorization",
-    //     "Access-Control-Allow-Credentials": true,
-    //   },
-    //   withCredentials: true,
-    // }
-    );
-    console.log(response);
+  if (!getCharIsSuccess) {
+    return <div>Loading...</div>
   }
-    
-  }, []);
 
-
-  
-
-
-  const find = ({teamId}) => {
-    const {charData, getCharIsSuccess} = useCharQueryModule(teamId);
-  }
   const onChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -67,7 +48,7 @@ export default function CharTab() {
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-2/3 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
-            <DnD users={users} idx={selectedIdx} />
+            <DnD users={users} charDatas={charData} idx={selectedIdx} />
           </div>
           <div className="flex flex-col w-1/3">
             <div className="flex justify-between">
@@ -83,7 +64,7 @@ export default function CharTab() {
               />
             </div>
             <div className="box-border w-full h-full m-2">
-              <CharList users={users} onIdxChange={(idx) => setSelectedIdx(idx)} />
+              <CharList users={users} charDatas={charData} onIdxChange={(idx) => setSelectedIdx(idx)} />
             </div>
           </div>
         </div>

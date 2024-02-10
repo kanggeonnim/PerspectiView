@@ -1,10 +1,29 @@
-import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { BookPlus } from "lucide-react";
+import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import WorkList from "./WorkList";
 import useProductAddStore from "@/store/useProductAddStore";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import OneButtonselect from "./selects/oneButtonSelect";
+import RadioSelect from "./selects/radioSelect";
 
 function CreateProduct() {
-  const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
+  const { inputs, setInputs, products, setProducts, onCreate } =
+    useProductAddStore();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -27,7 +46,11 @@ function Product({ productImg, productName }) {
   return (
     <div className="flex flex-col items-center">
       <Card className="w-32 mx-3 my-1 h-36">
-        <img className="w-full h-full rounded-xl" src={productImg} alt="cover of work" />
+        <img
+          className="w-full h-full rounded-xl"
+          src={productImg}
+          alt="cover of work"
+        />
       </Card>
       <div className="m-2">{productName}</div>
     </div>
@@ -35,48 +58,130 @@ function Product({ productImg, productName }) {
 }
 
 export default function ProductList({ productsdata, teamNo }) {
-  const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
-  console.log("is", productsdata)
 
-  const goProduct = () => {
-    
-  }
-
+  const { teamId } = useParams();
+  const [productDetail, setProductDetail] = useState({
+    productTitle: "",
+    productInfo: "",
+    category: null,
+    genres: [],
+    uploadImage: "",
+  });
+  
+  console.log(productDetail)
   return (
     <div className="flex flex-wrap h-full ">
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
+      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center">
         <CreateProduct />
       </div>
 
       {productsdata?.map((product) => (
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" key={product.productId}>
-          <Link to={`/team/${teamNo}/product/${product.productId}`} key={product.productId}>
-            <Product productImg={product.productImageUrl} productName={product.productTitle} />
-          </Link>
-        </div>
-      ))}
-      {/* FIXME 아래는 POST가 안되서 임시로 만듬, POST 확인시 삭제 */}
-      {/* {products.map((prod, index) => (
-        <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" key={index}>
-          <Link to={`/team/${teamId}/product/${prod.id}`} key={prod.id}>
-            <Product productImg={prod.url} productName={prod.name} />
-          </Link>
-        </div>
-      ))} */}
-      {/* {products.map((product) => (
         <div
-          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
+          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center"
           key={product.productId}
         >
-          <Link to={`/product/${product.productId}`} key={product.productId}>
-            <Product
-              productImg={product.productImg}
-              productName={product.productName}
-            />
-          </Link>
+          {/* 여기서 수정 모달,  */}
+
+          <AlertDialog className="w-full h-full">
+            <div>
+              <AlertDialogTrigger>
+                <Product 
+                  productImg={product.productImageUrl}
+                  productName={product.productTitle}
+                />
+              </AlertDialogTrigger>
+            </div>
+            <AlertDialogContent className="flex flex-row w-2/3 max-w-2/3 h-2/3">
+              <div className="box-border flex flex-col w-1/4 h-full p-3 m-3">
+                <AlertDialogHeader className="flex flex-col w-full h-full">
+                  <CardTitle className="text-2xl">
+                    <div>작품 편집</div>
+                  </CardTitle>
+                  <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
+                    빈칸
+                  </div>
+                </AlertDialogHeader>
+              </div>
+              <div className="box-border flex flex-col w-2/3 h-full p-3">
+                <div className="flex flex-col justify-around w-full h-5/6">
+                  <div className="flex flex-row w-full h-1/6 m-2">
+                    <div className="box-border w-1/6 mr-3 text-xl">작품명</div>
+                    <div className="box-border w-5/6">
+                      <input
+                        type="text"
+                        name="title"
+                        className="border"
+                        onChange={(e) => {
+                          setProductDetail({
+                            ...productDetail,
+                            productTitle: e.target.value,
+                          });
+                        }}
+                        defaultvalue={product.productTitle}
+                        
+                      />
+                    </div>
+                  </div>
+                  <div className="flex flex-row w-full h-1/6 m-2">
+                    <div className="box-border w-1/6 mr-3 text-xl">장르</div>
+                    <div className="box-border flex flex-wrap w-5/6 gap-2">
+                      <OneButtonselect className="w-full" />
+                    </div>
+                  </div>
+                  <div className="flex flex-row w-full h-1/6 m-2">
+                    <div className="box-border w-1/6 mr-3 text-xl">분류</div>
+                    <div className="box-border flex flex-wrap w-5/6 gap-2">
+                      <RadioSelect />
+                    </div>
+                  </div>
+                  <div className="flex flex-row w-full h-1/6 m-2">
+                    <div className="box-border w-1/6 mr-3 text-xl">설명</div>
+                    <div className="box-border w-5/6">
+                      <input
+                        name="info"
+                        onChange={(e) => {
+                          setProductDetail({
+                            ...productDetail,
+                            productInfo: e.target.value,
+                          });
+                        }}
+                        className="w-4/5 border"
+                        value={product.productInfo}
+                        style={{
+                          pointerEvents:"all",
+                        }}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex justify-end w-full h-1/6 m-2">
+                    <Link
+                      to={`/team/${teamNo}/product/${product.productId}`}
+                      key={product.productId}
+                    >
+                      <div className="flex justify-end box-border mr-3 text-xl font-bold text-blue-500">
+                        작품 상세 정보
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>취소하기</AlertDialogCancel>
+                  <AlertDialogAction
+                    onClick={() => {
+                      console.log(productDetail);
+                      // // create product
+                      updateProduct(productDetail);
+                    }}
+                  >
+                    편집하기
+                  </AlertDialogAction>
+                  {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
+                </AlertDialogFooter>
+              </div>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
-      ))} */}
-      {/* FIXME 예시 이미지  */}
+      ))}
     </div>
   );
 }
