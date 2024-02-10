@@ -235,7 +235,7 @@ public class PlotServiceTest {
 
         System.out.println("plot 개수: " + plotRepository.findAll());
 
-        plotService.deletePlot(product.getId(), plot.getId());
+        plotService.deletePlot(plot.getId());
 
         //then
         System.out.println("plot 개수: " + plotRepository.findAll());
