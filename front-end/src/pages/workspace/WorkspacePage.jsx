@@ -70,7 +70,7 @@ export default function WorkspacePage() {
   const refreshToken = searchParams.get("refreshToken");
 
   const { getUser, getUserIsSuccess } = useUserQueryModule();
-
+  console.log(getUser);
   useEffect(() => {
     if (accessToken) {
       console.log("render");

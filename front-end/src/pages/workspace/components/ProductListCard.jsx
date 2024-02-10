@@ -11,6 +11,8 @@ import ProductList from "./ProductList";
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+import { useParams } from "react-router-dom";
 // import useProductQueryModule from "@/hook/useProductQueryModule";
 
 // 속한 팀 작품 목록 데이터
@@ -41,12 +43,15 @@ const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
   const itemsPerPage = 9;
-  // const totalItems = teamProductInfoData.length;
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);
-  // const { productData, getProductIsSuccess } = useProductQueryModule("3");
-  const [totalItems, setTotalItems] = useState("0");
-  const [totalPages, setTotalPages] = useState("1");
-  const [productInfo, setProductInfo] = useState([]);
+  const { teamId } = useParams();
+  const { productData, getProductIsSuccess } = useProductQueryModule(teamId);
+  console.log(productData);
+  const totalItems = productData?.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  // const [totalItems, setTotalItems] = useState("0");
+  // const [totalPages, setTotalPages] = useState("1");
+  // const [productInfo, setProductInfo] = useState([]);
 
   // useEffect(() => {
   //   if (productData) {
@@ -96,7 +101,9 @@ function ProductListCard() {
     }
     return paginationButtons;
   };
-
+  if (!getProductIsSuccess) {
+    return <div>Loading...</div>;
+  }
   return (
     // don't set width,height here(effect on teamworkspace)
     <div className="flex flex-col items-center justify-between w-full h-full min-h-full mx-2 ">
@@ -129,7 +136,7 @@ function ProductListCard() {
               )}
             /> */}
             <ProductList
-              productsdata={productInfo.slice(
+              productsdata={productData?.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}

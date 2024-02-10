@@ -15,7 +15,10 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
 
   const { mutate: createPlot } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product/${productId}/plot`, newData);
+      const response = await privateApi.post(
+        `/api/team/${teamId}/product/${productId}/plot`,
+        newData
+      );
       console.log(response);
       return response.data.response;
     },
@@ -24,10 +27,11 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       queryClient.invalidateQueries({ queryKey: ["plotList"] });
     },
   });
+
   const { mutate: updatePlot } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
-        `/team/${teamId}/product/${productId}/plot/${plotId}`,
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}`,
         updatedData
       );
       console.log(response);
@@ -43,7 +47,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
     mutationFn: async () => {
       console.log(teamId, productId, plotId);
       const response = await privateApi.delete(
-        `/team/${teamId}/product/${productId}/plot/${plotId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}`
       );
       console.log(response);
       return response.data.response;

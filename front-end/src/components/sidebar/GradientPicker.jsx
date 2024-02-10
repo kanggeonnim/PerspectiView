@@ -41,7 +41,8 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
                 className="w-6 h-6 rounded-md cursor-pointer active:scale-105 m-0.5"
                 onClick={(e) => {
                   e.stopPropagation();
-                  type === "add" ? setPlotColor(s) : console.log("update api call");
+                  type === "add" ? setPlotColor(s) : console.log("teamId, productId, plotId");
+                  // updatePlot();
                 }}
               />
             ))}
