@@ -14,35 +14,33 @@ const useProductQueryModule = (teamId) => {
   });
 
   const { mutate: createProduct } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (newData) => {
       const response = await privateApi.post(`/team/${teamId}/product`, 
-      {   
-        "productTitle": "create Testa",
-        "productInfo": "string!",
-        "category": {
-          "id": 1,
-          "name": "웹소설"
-        },
-        "genres": [
-          {
-            "id":2,
-            "name": "액션"
-          }
-        ]
-      ,
-      "uploadImage": "https://img6.yna.co.kr/etc/inner/KR/2021/06/12/AKR20210612027700009_02_i_P4.jpg"
-    });
+      newData
+      );
       console.log(response);
       return response.data.response;
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["plotList"] });
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
+    },
+  });
+  const { mutate: updateProduct } = useMutation({
+    mutationFn: async (newData) => {
+      const response = await privateApi.put(`/team/${teamId}/product`, 
+      newData
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["productList"] });
     },
   });
 
-
-  return { productData, getProductIsSuccess, createProduct };
+  return { productData, getProductIsSuccess, createProduct, updateProduct };
 };
 
 export default useProductQueryModule;

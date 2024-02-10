@@ -91,7 +91,7 @@ export default function CharAdd({
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
-              console.log({
+              console.log("여기",{
                 name: newCharName,
                 detail: newCharDescript,
               });

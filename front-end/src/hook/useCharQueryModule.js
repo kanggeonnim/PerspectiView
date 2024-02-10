@@ -6,13 +6,16 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const useCharQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
 
-  const { data: charData, isSuccess: getCharIsSuccess } = useQuery({
+  const { data: charData, isSuccess: getCharIsSuccess, isLoading } = useQuery({
     queryKey: ["char", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`
       );
       console.log(response);
-      return response.data.response;
+      if (response) {
+        
+        return response.data.response;
+      }
     },
   });
 
