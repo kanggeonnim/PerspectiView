@@ -1,52 +1,14 @@
 import { applyEdgeChanges } from "reactflow";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-const colors = [
-  "#E2E2E2",
-  "#ff75c3",
-  "#ffa647",
-  "#ffe83f",
-  "#9fff5b",
-  "#70e2ff",
-  "#cd93ff",
-  "#09203f",
-  "#D1180B",
-];
+
 const useNodeStore = create(
   devtools((set, get) => ({
-    nodes: [
-      // {
-      //   id: "1",
-      //   type: "story",
-      //   data: { title: "story", color: "#ff75c3" },
-      //   position: { x: 0, y: 0 },
-      // },
-      // {
-      //   id: "2",
-      //   type: "story",
-      //   data: { title: "story", color: "#ffa647" },
-      //   position: { x: 200, y: 0 },
-      // },
-    ],
-    // setNodes: (node) => {
-    //   set({ node: node });
-    // },
-    edges: [
-      // {
-      //   id: "1",
-      //   style: {
-      //     // stroke: "#334155",
-      //     // strokeWidth: 3,
-      //     sourceColor: "#ff75c3",
-      //     targetColor: "#ffa647",
-      //   },
-      //   type: "story",
-      //   source: "1",
-      //   sourceHandle: null,
-      //   target: "2",
-      //   targetHandle: null,
-      // },
-    ],
+    nodes: [],
+    setNodes: (newNodes) => {
+      set({ nodes: newNodes });
+    },
+    edges: [],
 
     onNodesChange: (changes) => {
       if (changes[0].type === "position" && changes[0].dragging) {
@@ -63,13 +25,14 @@ const useNodeStore = create(
       });
     },
 
-    addStory(newStory, plotIndex, storyIndex, plotColor) {
+    addStory(newStory, plotId, plotColor) {
       const lastNode = get().nodes.slice(-1)[0];
       const newNodeId = String(get().nodes.length + 1);
       const type = "story";
       const data = {
         title: newStory.storyTitle,
         color: plotColor,
+        plotId: plotId,
       };
 
       const position = { x: newNodeId * 200, y: 0 };
@@ -90,7 +53,6 @@ const useNodeStore = create(
           },
         ],
       });
-      console.log("nodes", get().nodes);
 
       /*
        *
@@ -118,7 +80,6 @@ const useNodeStore = create(
         };
 
         set({ edges: [...get().edges, newEdge] });
-        console.log("edges", get().edges);
       }
     },
   }))

@@ -2,11 +2,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
 import { useProductStore } from "@/store/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
+import useNodeStore from "@/store/useNodeStore";
 
 const useProductQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
   const { setProduct } = useProductStore();
   const { setPlotList } = usePlotListStore();
+  const { setNodes, addStory } = useNodeStore();
 
   const { data: productList, isSuccess: getProductListIsSuccess } = useQuery({
     queryKey: ["productList", teamId],
@@ -20,7 +22,15 @@ const useProductQueryModule = (teamId, productId) => {
     queryKey: ["productData", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
-      setProduct(response.data.response);
+      const product = response.data.response;
+      setProduct(product);
+      setPlotList(product.plots);
+      setNodes([]);
+      product.plots.map((plot) => {
+        plot.stories.map((story) => {
+          addStory(story, plot.plotId, plot.plotColor);
+        });
+      });
       return response.data.response;
     },
   });

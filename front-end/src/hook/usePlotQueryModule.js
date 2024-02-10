@@ -1,10 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
+import useNodeStore from "@/store/useNodeStore";
 
 const usePlotQueryModule = (teamId, productId, plotId) => {
   const queryClient = useQueryClient();
   const { plotList, setPlotList } = usePlotListStore();
+  const { nodes } = useNodeStore();
 
   const { mutate: createPlot } = useMutation({
     mutationFn: async (newData) => {
@@ -31,25 +33,30 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       console.log(response);
       return response.data.response;
     },
-    onSuccess: (data) => {
-      const updated = plotList.map((plot) => {
-        if (plot.plotId === data.plotId) {
-          return {
-            ...plot, // 이전 요소 정보를 유지하고
-            plotName: data.plotName, // plotName을 data의 plotName으로 업데이트
-            plotColor: data.plotColor, // plotColor를 data의 plotColor로 업데이트
-            stories: data.stories, // stories를 data의 stories로 업데이트
-          };
-        } else {
-          return plot;
-        }
-      });
-
+    onSuccess: () => {
       // Invalidate and refetch
-      console.log("success", updated);
-      setPlotList(updated);
-      // story plotcolor state 변경
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
     },
+
+    // onSuccess: (data) => {
+    //   const updatedPlot = plotList.map((plot) => {
+    //     if (plot.plotId === data.plotId) {
+    //       return {
+    //         ...plot, // 이전 요소 정보를 유지하고
+    //         plotName: data.plotName, // plotName을 data의 plotName으로 업데이트
+    //         plotColor: data.plotColor, // plotColor를 data의 plotColor로 업데이트
+    //         stories: data.stories, // stories를 data의 stories로 업데이트
+    //       };
+    //     } else {
+    //       return plot;
+    //     }
+    //   });
+
+    //   // Invalidate and refetch
+    //   console.log("success", updatedPlot);
+    //   setPlotList(updatedPlot);
+    //   // story plotcolor state 변경
+    // },
   });
 
   const { mutate: deletePlot } = useMutation({
