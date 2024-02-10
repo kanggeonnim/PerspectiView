@@ -136,6 +136,23 @@ const useFshadowQueryModule = (
     },
   });
 
+  //복선 회수
+  const { mutate: uncloseFshadow } = useMutation({
+    mutationFn: async () => {
+      const response = await privateApi.delete(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsClose/${foreshadowingId}`
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
   return {
     fshadowList,
     getFshadowIsSuccess,
@@ -145,6 +162,7 @@ const useFshadowQueryModule = (
     dropFshadow,
     undropFshadow,
     closeFshadow,
+    uncloseFshadow,
   };
 };
 

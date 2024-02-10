@@ -47,13 +47,13 @@ export default function ForeshadowingTab() {
       fshadowsIds: [],
     },
   };
-  console.log("복선들", fshadows);
+  // console.log("복선들", fshadows);
   //컬럼 taskIds 채우기
   Object.keys(fshadows).forEach((key) => {
     const fshadow = fshadows[key];
     columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
   });
-  console.log("각 컬럼에 복선id넣기 다시 실행됨");
+  // console.log("각 컬럼에 복선id넣기 다시 실행됨");
 
   return (
     <div className="">

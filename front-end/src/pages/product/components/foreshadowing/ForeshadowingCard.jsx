@@ -20,17 +20,21 @@ export function ForeshadowingCard({ colFshadow, index }) {
     dropFshadow,
     undropFshadow,
     closeFshadow,
+    uncloseFshadow,
   } = useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
   }));
+
+  //해당 스토리 내에서 사용되었는지 여부
   const isDropped = colFshadow.storyIdList.some(
     (storyIdObject) => storyIdObject.storyId == storyId
   );
+  //해당 스토리 내에서 회수되었는지 여부
+  const isClose = colFshadow.fshadowClose == storyId;
 
-  //console test
-  console.log("복선", colFshadow, colFshadow.columnId);
+  // console.log("복선", colFshadow, colFshadow.columnId);
 
   const handleEditSubmit = () => {
     updateFshadow({
@@ -42,7 +46,6 @@ export function ForeshadowingCard({ colFshadow, index }) {
     setIsEditMode(false);
   };
 
-  //TODO StoryIdList/fshadowClose를 참고해서 badge표시 상태 변경
   return (
     <Card className="box-border flex flex-col w-full p-2 my-2">
       <CardHeader>
@@ -59,18 +62,24 @@ export function ForeshadowingCard({ colFshadow, index }) {
             )}
             {isDropped ? (
               <Badge variant="outline" onClick={() => undropFshadow()}>
-                사용 중
+                사용취소
               </Badge>
             ) : (
               <Badge variant="outline" onClick={() => dropFshadow()}>
                 사용
               </Badge>
             )}
-            <Badge variant="outline" onClick={() => closeFshadow()}>
-              회수
-            </Badge>
+            {isClose ? (
+              <Badge variant="outline" onClick={() => uncloseFshadow()}>
+                회수취소
+              </Badge>
+            ) : (
+              <Badge variant="outline" onClick={() => closeFshadow()}>
+                회수
+              </Badge>
+            )}
           </div>
-          {/* //TODO delete 확인 창,api delete기능 */}
+          {/* //TODO delete 더블체크화면 */}
           <Trash2 size={16} onClick={deleteFshadow} />
           {!isEditMode && (
             <Pencil size={16} onClick={() => setIsEditMode(true)} />
