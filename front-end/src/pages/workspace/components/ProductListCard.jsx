@@ -48,21 +48,21 @@ function ProductListCard() {
   const [teamNo, setTeamNo] = useState("");
   useEffect(() => {
     if (teamData) {
-      console.log("team?", getProductIsSuccess, teamData);
+      console.log("team?", getProductListIsSuccess, teamData);
       setTeamNo(() => teamData[0].id);
     }
   });
-  const { productData, getProductIsSuccess } = useProductQueryModule(teamNo);
+  const { productList, getProductListIsSuccess } = useProductQueryModule(teamNo);
   const [totalItems, setTotalItems] = useState("0");
   const [totalPages, setTotalPages] = useState("1");
   const [productInfo, setProductInfo] = useState([]);
 
   useEffect(() => {
-    if (productData) {
-      setTotalItems(() => productData.length);
+    if (productList) {
+      setTotalItems(() => productList.length);
       setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
-      console.log("getproduct", getProductIsSuccess, productData);
-      setProductInfo(() => productData);
+      console.log("getproduct", getProductListIsSuccess, productList);
+      setProductInfo(() => productList);
     }
   });
 
@@ -106,7 +106,7 @@ function ProductListCard() {
     return paginationButtons;
   };
 
-  if (!getProductIsSuccess) {
+  if (!getProductListIsSuccess) {
     return <div>Loading...</div>;
   }
   return (
@@ -141,7 +141,7 @@ function ProductListCard() {
               )}
             /> */}
             <ProductList
-              productsdata={productData?.slice(
+              productsdata={productList?.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}

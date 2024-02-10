@@ -15,12 +15,12 @@ const colors = [
 const useNodeStore = create(
   devtools((set, get) => ({
     nodes: [
-      {
-        id: "1",
-        type: "story",
-        data: { title: "story", color: "#ff75c3" },
-        position: { x: 0, y: 0 },
-      },
+      // {
+      //   id: "1",
+      //   type: "story",
+      //   data: { title: "story", color: "#ff75c3" },
+      //   position: { x: 0, y: 0 },
+      // },
       // {
       //   id: "2",
       //   type: "story",

@@ -12,17 +12,19 @@ import {
 import { Button } from "@/components/ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { XCircle } from "lucide-react";
+import { useState } from "react";
 
 export function ConfirmModal({ teamId, productId, plotId }) {
   const { deletePlot } = usePlotQueryModule(teamId, productId, plotId);
+  const [open, setOpen] = useState(false);
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <div onClick={() => setOpen(!open)}>
         <Button variant="sm" className="p-0">
           <XCircle size={15} />
         </Button>
-      </AlertDialogTrigger>
+      </div>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>플롯을 삭제하시겠습니까?</AlertDialogTitle>

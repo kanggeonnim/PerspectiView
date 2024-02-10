@@ -1,50 +1,87 @@
-import { create} from 'zustand';
+import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-const useProductStore = create(devtools((set) => ({
-  totalItems: 0,
-  totalPages: 1,
-  productInfo: [],
-  setProductData: (productData, itemsPerPage) => {
-    const totalItems = productData.length;
-    const totalPages = Math.ceil(totalItems / itemsPerPage);
-    set({ totalItems, totalPages, productInfo: productData });
-  },
-  
-  inputs: {
-    productTitle: "empty",
-    productInfo: "1",
-    url: ""
-  },
-  products: [
-    {
-      id: 1,
-      productTitle: "작품",
-      productInfo: "작품입니다.",
-      url: "https://img6.yna.co.kr/etc/inner/KR/2021/06/12/AKR20210612027700009_02_i_P4.jpg"
+export const useProductStore = create(
+  devtools((set) => ({
+    product: null,
+    setProduct: (product) => {
+      set({ product: product });
     },
-    
-  ],
-  selectedIdx: '',
-  setInputs: (newInputs) => set((state) => ({ inputs: newInputs })),
-  setProducts: (newProducts) => set((state) => ({ products: newProducts })),
-  setSelectedIdx: (newIdx) => set((state) => ({ selectedIdx: newIdx })),
-  onCreate: () => {
-    set((state) => {
-      const product = {
-        id: state.products.length + 1,
-        tag: [],
-        productTitle: state.inputs.productTitle,
-        productInfo: state.inputs.productInfo,
-        url: state.inputs.url
-      };
-      return {
-        products: [...state.products, product],
-        inputs: { productTitle: "empty", productInfo: "", url: "" }
-      };
-    });
-  }
+  }))
+);
 
-})));
-
-export default useProductStore;
+// {
+//     "productId": 1,
+//     "productTitle": "testing",
+//     "productInfo": "for test",
+//     "productImageUrl": "ssss",
+//     "category": {
+//         "id": 1,
+//         "name": "웹소설"
+//     },
+//     "genres": [],
+//     "plots": [
+//         {
+//             "plotId": 6,
+//             "plotName": "플롯3",
+//             "plotColor": "#ffe83f",
+//             "stories": [
+//                 {
+//                     "storyId": 4,
+//                     "storyTitle": "스토리1",
+//                     "characters": [],
+//                     "positionX": 0,
+//                     "positionY": 0
+//                 }
+//             ]
+//         },
+//         {
+//             "plotId": 7,
+//             "plotName": "중막?",
+//             "plotColor": "#CD5C5C",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 8,
+//             "plotName": "플롯4",
+//             "plotColor": "#ff75c3",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 11,
+//             "plotName": "플롯1321323",
+//             "plotColor": "#ff75c3",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 15,
+//             "plotName": "플롯?!?~",
+//             "plotColor": "#ff75c3",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 18,
+//             "plotName": "sdfdsf",
+//             "plotColor": "#09203f",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 22,
+//             "plotName": "123213",
+//             "plotColor": "#cd93ff",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 29,
+//             "plotName": "sdfdsdfsf",
+//             "plotColor": "#cd93ff",
+//             "stories": []
+//         },
+//         {
+//             "plotId": 30,
+//             "plotName": "플롯~~~~~~",
+//             "plotColor": "#ff75c3",
+//             "stories": []
+//         }
+//     ]
+// }

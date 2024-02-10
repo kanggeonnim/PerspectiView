@@ -1,17 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
+import { usePlotListStore } from "@/store/plot/usePlotListStore";
 
 const usePlotQueryModule = (teamId, productId, plotId) => {
   const queryClient = useQueryClient();
-
-  const { data: plotList, isSuccess: getPlotListIsSuccess } = useQuery({
-    queryKey: ["plotList"],
-    queryFn: async () => {
-      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/plot`);
-      console.log(response);
-      return response.data.response;
-    },
-  });
+  const { plotList, setPlotList } = usePlotListStore();
 
   const { mutate: createPlot } = useMutation({
     mutationFn: async (newData) => {
@@ -22,9 +15,9 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       console.log(response);
       return response.data.response;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["plotList"] });
+      setPlotList(data); // setPlotList는 컴포넌트 내에서 상태를 업데이트하는 함수
     },
   });
 
@@ -38,9 +31,24 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       console.log(response);
       return response.data.response;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      const updated = plotList.map((plot) => {
+        if (plot.plotId === data.plotId) {
+          return {
+            ...plot, // 이전 요소 정보를 유지하고
+            plotName: data.plotName, // plotName을 data의 plotName으로 업데이트
+            plotColor: data.plotColor, // plotColor를 data의 plotColor로 업데이트
+            stories: data.stories, // stories를 data의 stories로 업데이트
+          };
+        } else {
+          return plot;
+        }
+      });
+
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["plotList"] });
+      console.log("success", updated);
+      setPlotList(updated);
+      // story plotcolor state 변경
     },
   });
 
@@ -54,12 +62,11 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       return response.data.response;
     },
     onSuccess: () => {
-      // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["plotList"] });
+      setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
     },
   });
 
-  return { plotList, getPlotListIsSuccess, createPlot, updatePlotColor, deletePlot };
+  return { createPlot, updatePlotColor, deletePlot };
 };
 
 export default usePlotQueryModule;

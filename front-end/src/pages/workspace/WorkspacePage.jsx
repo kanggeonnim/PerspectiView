@@ -7,7 +7,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { Link, Outlet, useLocation, useNavigate, useSearchParams } from "react-router-dom";
-import useProductStore from "@/store/useProductStore";
+import useProductListStore from "@/store/useProductListStore";
 import useUserQueryModule from "@/hook/useUserQueryModule";
 import clsx from "clsx";
 import { Button } from "@/components/ui/button";
@@ -78,24 +78,24 @@ export default function WorkspacePage() {
     }
   }, [accessToken, refreshToken]);
 
-  // const { productData, getProductIsSuccess} = useProductQueryModule('3');
+  // const { productList, getProductListIsSuccess} = useProductQueryModule('3');
 
   // useEffect(()=> {
-  //   if(productData){
-  //     console.log("getproduct", getProductIsSuccess, productData[0].category)
+  //   if(productList){
+  //     console.log("getproduct", getProductListIsSuccess, productList[0].category)
 
   //   }
   // })
 
-  // const productCall = ({ productData, itemsPerPage }) => {
-  //   const { setProductData } = useProductStore();
+  // const productCall = ({ productList, itemsPerPage }) => {
+  //   const { setProductList } = useProductListStore();
 
   //   useEffect(() => {
-  //     if (productData) {
-  //       setProductData(productData, itemsPerPage);
-  //       console.log("getproduct", getProductIsSuccess, productData);
+  //     if (productList) {
+  //       setProductList(productList, itemsPerPage);
+  //       console.log("getproduct", getProductListIsSuccess, productList);
   //     }
-  //   }, [productData, itemsPerPage]);}
+  //   }, [productList, itemsPerPage]);}
 
   return (
     <MainLayout variant="horizontal">
