@@ -75,7 +75,7 @@ public class PlotService {
      */
     @Transactional
     public Plot updatePlot(Long plotId, Plot plot) {
-        Plot findPlot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
+        Plot findPlot = plotRepository.findWithStoryById(plotId).orElseThrow(() -> new NotFoundException());
         findPlot.updatePlot(plot.getName(), plot.getColor());
         return findPlot;
     }
