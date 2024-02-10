@@ -2,6 +2,7 @@ package com.example.backend.modules.plot;
 
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.product.ProductRepository;
+import com.example.backend.modules.story.StoryService;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.product.Product;
@@ -17,8 +18,9 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class PlotService {
     private final PlotRepository plotRepository;
+    private final StoryService storyService;
 
-    private final ProductService productService;
+//    private final ProductService productService;
     private final ProductRepository productRepository;
 
     /**
@@ -41,7 +43,8 @@ public class PlotService {
     @Transactional
     public Plot createPlot(Long productId, Plot plot) {
 
-        Product product = productService.findByProductId(productId);
+//        Product product = productService.findByProductId(productId);
+        Product product = productRepository.findById(productId).orElseThrow(()->new NotFoundException());
         Plot creaetPlot = plotRepository.save(plot);
         creaetPlot.setProduct(product);
         return creaetPlot;
@@ -51,8 +54,20 @@ public class PlotService {
      * 작품으로 플롯 조회
      */
     public List<Plot> findByProductId(Long productId) {
-        Product product = productService.findByProductId(productId);
+        Product product = productRepository.findById(productId).orElseThrow(()->new NotFoundException());
         return plotRepository.findWithStoryByProduct(product);
+    }
+
+    /**
+     * 스토리 관계와 함께 플롯 조회
+     */
+    public List<Plot> findWithStoryRelationById(Product product){
+        List<Plot> plots = plotRepository.findWithStoryByProduct(product);
+        for(Plot plot : plots){
+            //스토리 관계 까지 있는 스토리로 업데이트
+            plot.updateStories(storyService.findWithStoryRelation(plot));
+        }
+        return plots;
     }
 
     /**
@@ -69,12 +84,9 @@ public class PlotService {
      * 플롯 삭제
      */
     @Transactional
-    public void deletePlot(Long productId, Long plotId) {
+    public void deletePlot(Long plotId) {
         Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
-        if (!plot.getProduct().getId().equals(productId)) {
-            throw new RuntimeException();
-        }
-        plotRepository.deleteById(plotId);
+        plotRepository.deleteById(plot.getId());
     }
 
     @Transactional
