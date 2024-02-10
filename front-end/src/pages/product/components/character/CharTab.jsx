@@ -24,7 +24,6 @@ export default function CharTab() {
     setSelectedIdx,
     onCreate
   } = useCharStore();
-  const navigate = useNavigate();
   // const [searchParams] = useSearchParams();
   // const [cookies, setCookie] = useCookies(["refresh token"]);
   // const ACCESS_TOKEN = searchParams.get("accessToken");
@@ -33,16 +32,18 @@ export default function CharTab() {
   useEffect(() => {
     async () => {
     navigate("/product/1/character");
-    const response = await privateApi.get(`${VITE_BASE_URL}/api/team`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUzMTU0LCJleHAiOjE3MDczNTQwNTR9.BBG4me-sgIfBKJH3bSp_uhiIVbGGiYCx8OUbzON3ze8`,
-        "Access-Control-Allow-Origin": "http://localhost:5173",
-        "Access-Control-Expose-Headers" : "Authorization",
-        "Access-Control-Allow-Credentials": true,
-      },
-      withCredentials: true,
-    });
+    const response = await privateApi.get(`${VITE_BASE_URL}/api/team`
+    // , {
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3MzUzMTU0LCJleHAiOjE3MDczNTQwNTR9.BBG4me-sgIfBKJH3bSp_uhiIVbGGiYCx8OUbzON3ze8`,
+    //     "Access-Control-Allow-Origin": "http://localhost:5173",
+    //     "Access-Control-Expose-Headers" : "Authorization",
+    //     "Access-Control-Allow-Credentials": true,
+    //   },
+    //   withCredentials: true,
+    // }
+    );
     console.log(response);
   }
     

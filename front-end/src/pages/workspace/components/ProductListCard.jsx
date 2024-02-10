@@ -12,8 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useParams } from "react-router-dom";
-// import useProductQueryModule from "@/hook/useProductQueryModule";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
@@ -43,24 +42,29 @@ const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
   const itemsPerPage = 9;
-  const { teamId } = useParams();
-  const { productData, getProductIsSuccess } = useProductQueryModule(teamId);
-  console.log(productData);
-  const totalItems = productData?.length;
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  // const totalItems = teamProductInfoData.length;
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
+  const [teamNo, setTeamNo] = useState("");
+  useEffect(() => {
+    if (teamData) {
+      console.log("team?", getProductIsSuccess, teamData);
+      setTeamNo(() => teamData[0].id);
+    }
+  });
+  const { productData, getProductIsSuccess } = useProductQueryModule(teamNo);
+  const [totalItems, setTotalItems] = useState("0");
+  const [totalPages, setTotalPages] = useState("1");
+  const [productInfo, setProductInfo] = useState([]);
 
-  // const [totalItems, setTotalItems] = useState("0");
-  // const [totalPages, setTotalPages] = useState("1");
-  // const [productInfo, setProductInfo] = useState([]);
-
-  // useEffect(() => {
-  //   if (productData) {
-  //     setTotalItems(() => productData.length);
-  //     setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
-  //     console.log("getproduct", getProductIsSuccess, productData);
-  //     setProductInfo(() => productData);
-  //   }
-  // });
+  useEffect(() => {
+    if (productData) {
+      setTotalItems(() => productData.length);
+      setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
+      console.log("getproduct", getProductIsSuccess, productData);
+      setProductInfo(() => productData);
+    }
+  });
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -102,7 +106,6 @@ function ProductListCard() {
     return paginationButtons;
   };
 
-  
   if (!getProductIsSuccess) {
     return <div>Loading...</div>;
   }
@@ -142,6 +145,7 @@ function ProductListCard() {
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
+              teamNo={teamNo}
             />
             <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}

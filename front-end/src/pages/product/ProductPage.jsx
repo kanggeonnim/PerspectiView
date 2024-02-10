@@ -11,8 +11,8 @@ export default function ProductPage() {
 
   const { pathname } = useLocation();
   console.log(pathname);
-  const { products } = useProductAddStore();
-  console.log(products);
+  // const { products } = useProductAddStore();
+  // console.log(products);
 
   if (!getUserIsSuccess) {
     return <div>Loading...</div>;
