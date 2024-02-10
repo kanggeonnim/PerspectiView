@@ -48,7 +48,7 @@ function ProductListCard() {
   const [teamNo, setTeamNo] = useState("");
   useEffect(() => {
     if (teamData) {
-      console.log("team?", getProductIsSuccess, teamData);
+      // console.log("team?", getProductIsSuccess, teamData);
       setTeamNo(() => teamData[0].id);
     }
   });

@@ -4,9 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { useEffect } from "react";
 import ProductDetail from "./ProductDetail";
 import { PlusCircleIcon } from "lucide-react";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -32,7 +33,7 @@ function CreateWork() {
 }
 
 function WorkList({ title, info, onChange, onCreate }) {
-  const { teamId } = useParams();
+  // const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
@@ -40,9 +41,17 @@ function WorkList({ title, info, onChange, onCreate }) {
     genres: [],
     uploadImage: "",
   });
-
-  const { createProduct } = useProductQueryModule(teamId);
-
+  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
+  const [teamNo, setTeamNo] = useState("");
+  useEffect(() => {
+    if (teamData) {
+      setTeamNo(() => teamData[0].id);
+      console.log("team?", teamNo);
+    }
+  });
+  // FIXME 팀 ID undefined 발생
+  const { createProduct } = useProductQueryModule(teamNo);
+  // console.log(teamId)
   return (
     <AlertDialog className="w-full h-full">
       <div>
