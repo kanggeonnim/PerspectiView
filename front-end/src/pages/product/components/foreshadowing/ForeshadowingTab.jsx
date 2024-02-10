@@ -19,10 +19,8 @@ import { useParams } from "react-router-dom";
 import Column from "./Column";
 
 export default function ForeshadowingTab() {
-  //복선전체 GET 요청
   const { teamId, productId } = useParams();
-  const { fshadowList, getFshadowIsSuccess, createFshadow } =
-    useFshadowQueryModule(teamId, productId);
+  const { createFshadow } = useFshadowQueryModule(teamId, productId);
 
   const { fshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
@@ -49,7 +47,7 @@ export default function ForeshadowingTab() {
       fshadowsIds: [],
     },
   };
-
+  console.log("복선들", fshadows);
   //컬럼 taskIds 채우기
   Object.keys(fshadows).forEach((key) => {
     const fshadow = fshadows[key];

@@ -1,23 +1,17 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { BookPlus } from "lucide-react";
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import WorkList from "./WorkList";
-import useProductAddStore from "@/store/useProductAddStore";
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { Card, CardTitle } from "@/components/ui/card";
+import useProductAddStore from "@/store/useProductAddStore";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import WorkList from "./WorkList";
 import OneButtonselect from "./selects/oneButtonSelect";
 import RadioSelect from "./selects/radioSelect";
 
@@ -58,7 +52,6 @@ function Product({ productImg, productName }) {
 }
 
 export default function ProductList({ productsdata, teamNo }) {
-
   const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
@@ -67,17 +60,17 @@ export default function ProductList({ productsdata, teamNo }) {
     genres: [],
     uploadImage: "",
   });
-  
-  console.log(productDetail)
+
+  console.log(productDetail);
   return (
     <div className="flex flex-wrap h-full ">
-      <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center">
+      <div className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
         <CreateProduct />
       </div>
 
       {productsdata?.map((product) => (
         <div
-          className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 flex justify-center"
+          className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5"
           key={product.productId}
         >
           {/* 여기서 수정 모달,  */}
@@ -85,7 +78,7 @@ export default function ProductList({ productsdata, teamNo }) {
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
-                <Product 
+                <Product
                   productImg={product.productImageUrl}
                   productName={product.productTitle}
                 />
@@ -104,7 +97,7 @@ export default function ProductList({ productsdata, teamNo }) {
               </div>
               <div className="box-border flex flex-col w-2/3 h-full p-3">
                 <div className="flex flex-col justify-around w-full h-5/6">
-                  <div className="flex flex-row w-full h-1/6 m-2">
+                  <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">작품명</div>
                     <div className="box-border w-5/6">
                       <input
@@ -117,24 +110,23 @@ export default function ProductList({ productsdata, teamNo }) {
                             productTitle: e.target.value,
                           });
                         }}
-                        defaultvalue={product.productTitle}
-                        
+                        defaultValue={product.productTitle}
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row w-full h-1/6 m-2">
+                  <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       <OneButtonselect className="w-full" />
                     </div>
                   </div>
-                  <div className="flex flex-row w-full h-1/6 m-2">
+                  <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       <RadioSelect />
                     </div>
                   </div>
-                  <div className="flex flex-row w-full h-1/6 m-2">
+                  <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">설명</div>
                     <div className="box-border w-5/6">
                       <input
@@ -148,17 +140,17 @@ export default function ProductList({ productsdata, teamNo }) {
                         className="w-4/5 border"
                         value={product.productInfo}
                         style={{
-                          pointerEvents:"all",
+                          pointerEvents: "all",
                         }}
                       />
                     </div>
                   </div>
-                  <div className="flex justify-end w-full h-1/6 m-2">
+                  <div className="flex justify-end w-full m-2 h-1/6">
                     <Link
                       to={`/team/${teamNo}/product/${product.productId}`}
                       key={product.productId}
                     >
-                      <div className="flex justify-end box-border mr-3 text-xl font-bold text-blue-500">
+                      <div className="box-border flex justify-end mr-3 text-xl font-bold text-blue-500">
                         작품 상세 정보
                       </div>
                     </Link>

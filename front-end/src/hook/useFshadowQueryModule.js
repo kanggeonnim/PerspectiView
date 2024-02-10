@@ -4,7 +4,13 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 //복선 전체 조회 & useFshadow에 반영
-const useFshadowQueryModule = (teamId, productId, foreshadowingId) => {
+const useFshadowQueryModule = (
+  teamId,
+  productId,
+  foreshadowingId,
+  plotId,
+  storyId
+) => {
   const queryClient = useQueryClient();
 
   const { fshadows, setFshadows } = useFshadow();
@@ -18,7 +24,7 @@ const useFshadowQueryModule = (teamId, productId, foreshadowingId) => {
       return response.data.response;
     },
   });
-  //TODO 여기서 쓰는 거 맞는 지 확인
+
   useEffect(() => {
     if (getFshadowIsSuccess) {
       setFshadows(fshadowList);
@@ -43,7 +49,7 @@ const useFshadowQueryModule = (teamId, productId, foreshadowingId) => {
     },
   });
 
-  // put
+  // put(복선 타이틀,내용)
   const { mutate: updateFshadow } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
@@ -79,12 +85,66 @@ const useFshadowQueryModule = (teamId, productId, foreshadowingId) => {
     },
   });
 
+  //복선 사용(drop)
+  const { mutate: dropFshadow } = useMutation({
+    mutationFn: async () => {
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsStatus/${foreshadowingId}`
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
+  //복선 사용취소(undrop)
+  const { mutate: undropFshadow } = useMutation({
+    mutationFn: async () => {
+      const response = await privateApi.delete(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsStatus/${foreshadowingId}`
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
+  //복선 회수
+  const { mutate: closeFshadow } = useMutation({
+    mutationFn: async () => {
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsClose/${foreshadowingId}`
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
   return {
     fshadowList,
     getFshadowIsSuccess,
     createFshadow,
     deleteFshadow,
     updateFshadow,
+    dropFshadow,
+    undropFshadow,
+    closeFshadow,
   };
 };
 

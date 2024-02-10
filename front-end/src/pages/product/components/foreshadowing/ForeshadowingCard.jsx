@@ -12,19 +12,25 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editName, setEditName] = useState(colFshadow.fshadowName);
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
-  const { teamId, productId } = useParams();
-  const { storyId } = useParams();
-  console.log("복선", colFshadow);
+  const { teamId, productId, plotId, storyId } = useParams();
   const fshadowId = colFshadow.fshadowId;
-  const { deleteFshadow, updateFshadow } = useFshadowQueryModule(
-    teamId,
-    productId,
-    fshadowId
-  );
+  const {
+    deleteFshadow,
+    updateFshadow,
+    dropFshadow,
+    undropFshadow,
+    closeFshadow,
+  } = useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
   }));
+  const isDropped = colFshadow.storyIdList.some(
+    (storyIdObject) => storyIdObject.storyId == storyId
+  );
+
+  //console test
+  console.log("복선", colFshadow, colFshadow.columnId);
 
   const handleEditSubmit = () => {
     updateFshadow({
@@ -34,46 +40,6 @@ export function ForeshadowingCard({ colFshadow, index }) {
     });
     console.log("수정 요청:", fshadowId, editName, editContent);
     setIsEditMode(false);
-  };
-
-  // 토글 복선 사용 버튼
-  const toggleStoryIdInFshadow = () => {
-    console.log("사용중");
-    // 해당 복선의 storyIdList에 현재 storyId가 있는지 확인(boolean)
-    const exists = colFshadow.storyIdList.some(
-      (story) => story.storyId === storyId
-    );
-
-    // true이면 현재 storyId제거, false이면 storyId 추가
-    const newStoryIdList = exists
-      ? colFshadow.storyIdList.filter((story) => story.storyId !== storyId)
-      : [...colFshadow.storyIdList, { storyId }];
-
-    setFshadows({
-      ...fshadows,
-      [colFshadow.fshadowId]: {
-        ...colFshadow,
-        storyIdList: newStoryIdList,
-      },
-    });
-    console.log(fshadows);
-  };
-
-  // 토글 복선 회수 버튼
-  const finalButton = () => {
-    let newFshadowClose;
-    if (colFshadow.fshadowClose) {
-      newFshadowClose = null;
-    } else {
-      newFshadowClose = storyId;
-    }
-    setFshadows({
-      ...fshadows,
-      [colFshadow.fshadowId]: {
-        ...colFshadow,
-        fshadowClose: newFshadowClose,
-      },
-    });
   };
 
   //TODO StoryIdList/fshadowClose를 참고해서 badge표시 상태 변경
@@ -91,10 +57,16 @@ export function ForeshadowingCard({ colFshadow, index }) {
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
-            <Badge variant="outline" onClick={toggleStoryIdInFshadow}>
-              사용
-            </Badge>
-            <Badge variant="outline" onClick={finalButton}>
+            {isDropped ? (
+              <Badge variant="outline" onClick={() => undropFshadow()}>
+                사용 중
+              </Badge>
+            ) : (
+              <Badge variant="outline" onClick={() => dropFshadow()}>
+                사용
+              </Badge>
+            )}
+            <Badge variant="outline" onClick={() => closeFshadow()}>
               회수
             </Badge>
           </div>
