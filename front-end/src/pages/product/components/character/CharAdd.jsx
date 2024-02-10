@@ -16,18 +16,22 @@ import { useState } from "react";
 // import CharTag from "./CharTag";
 // import CharTagAdd from "./CharTagAdd";
 
-
-
-export default function CharAdd({name, description, url, onChange, onCreate }) {
-
+export default function CharAdd({
+  name,
+  description,
+  url,
+  onChange,
+  onCreate,
+}) {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const [addChar, setAddChar] = useState(false);
   const [newCharName, setNewCharName] = useState("");
-  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } = useCharQueryModule(teamId, productId)
+  const [newCharDescript, setNewCharDescript] = useState("");
+  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } =
+    useCharQueryModule(teamId, productId);
 
-  console.log(charData)
-
+  // console.log(charData);
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -51,8 +55,8 @@ export default function CharAdd({name, description, url, onChange, onCreate }) {
                   <input
                     name="name"
                     className="border"
-                    onChange={onChange}
-                    value={name}
+                    value={newCharName}
+                    onChange={(e) => setNewCharName(e.target.value)}
                   />
                 </div>
               </div>
@@ -63,7 +67,6 @@ export default function CharAdd({name, description, url, onChange, onCreate }) {
                   
                   <CharTagAdd />
                 </div> */}
-                
               </div>
               <div className="flex flex-row w-full m-2 h-2/3">
                 <div className="box-border w-1/5 mr-3 text-xl">세부 사항</div>
@@ -71,8 +74,8 @@ export default function CharAdd({name, description, url, onChange, onCreate }) {
                   <input
                     className="w-4/5 h-full border z-30"
                     name="description"
-                    onChange={onChange}
-                    value={description}
+                    value={newCharDescript}
+                    onChange={(e) => setNewCharDescript(e.target.value)}
                   />
                 </div>
               </div>
@@ -85,8 +88,21 @@ export default function CharAdd({name, description, url, onChange, onCreate }) {
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>취소하기</AlertDialogCancel>
-          <AlertDialogAction onClick={onCreate}>생성하기</AlertDialogAction>
-          {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
+          <AlertDialogAction
+            onClick={() => {
+              // 캐릭터 POST
+              console.log({
+                name: newCharName,
+                detail: newCharDescript,
+              });
+              createChar({
+                name: newCharName,
+                detail: newCharDescript,
+              });
+            }}
+          >
+            생성하기
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
