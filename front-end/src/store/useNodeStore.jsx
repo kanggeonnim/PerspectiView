@@ -9,7 +9,7 @@ const colors = [
   "#9fff5b",
   "#70e2ff",
   "#cd93ff",
-  "#09203f",
+  "#09203f",  
   "#D1180B",
 ];
 const useNodeStore = create(

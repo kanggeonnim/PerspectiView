@@ -54,9 +54,7 @@ function ProductSidebar() {
   const { plotList, setPlotList } = usePlotListStore();
 
   useEffect(() => {
-    console.log(product);
     if (product && product.plots) {
-      console.log(product.plots);
       setPlotList(product.plots);
     }
   }, [product, setPlotList]);
