@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { Card, CardTitle } from "@/components/ui/card";
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import Buttonselect from "./selects/ButtonSelect";
+import { Button } from "@/components/ui/button";
 
 function CreateProduct() {
   const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
@@ -49,6 +50,8 @@ function Product({ productImg, productName }) {
 
 export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
+  const navigate = useNavigate();
+  const [isEdit, setIsEdit] = useState(false);
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
@@ -81,7 +84,7 @@ export default function ProductList({ productsdata, teamNo }) {
               <div className="box-border flex flex-col w-1/4 h-full p-3 m-3">
                 <AlertDialogHeader className="flex flex-col w-full h-full">
                   <CardTitle className="text-2xl">
-                    <div>작품 편집</div>
+                    <div>작품 정보</div>
                   </CardTitle>
                   <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
                     빈칸
@@ -103,7 +106,7 @@ export default function ProductList({ productsdata, teamNo }) {
                             productTitle: e.target.value,
                           });
                         }}
-                        defaultvalue={product.productTitle}
+                        defaultValue={product.productTitle}
                       />
                     </div>
                   </div>
@@ -138,28 +141,44 @@ export default function ProductList({ productsdata, teamNo }) {
                       />
                     </div>
                   </div>
-                  <div className="flex justify-end w-full m-2 h-1/6">
-                    <Link
-                      to={`/team/${teamNo}/product/${product.productId}`}
-                      key={product.productId}
-                    >
-                      <div className="box-border flex justify-end mr-3 text-xl font-bold text-blue-500">
-                        작품 상세 정보
-                      </div>
-                    </Link>
-                  </div>
                 </div>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>취소하기</AlertDialogCancel>
-                  <AlertDialogAction
-                    onClick={() => {
-                      console.log(productDetail);
-                      // // create product
-                      updateProduct(productDetail);
-                    }}
-                  >
-                    편집하기
-                  </AlertDialogAction>
+                  {isEdit ? (
+                    <>
+                      <AlertDialogCancel
+                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                        onClick={() => setIsEdit(false)}
+                      >
+                        취소
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          console.log(productDetail);
+                          // // create product
+                          updateProduct(productDetail);
+                        }}
+                      >
+                        편집
+                      </AlertDialogAction>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                        onClick={() => setIsEdit(!isEdit)}
+                      >
+                        편집
+                      </Button>
+                      <AlertDialogAction
+                        onClick={() => {
+                          navigate(`/team/${teamNo}/product/${product.productId}`);
+                        }}
+                      >
+                        상세 보기
+                      </AlertDialogAction>
+                    </>
+                  )}
+
                   {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
                 </AlertDialogFooter>
               </div>

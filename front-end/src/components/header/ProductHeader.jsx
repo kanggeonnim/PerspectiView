@@ -44,7 +44,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   <Badge className="text-stone-100 bg-badge" radius="full">
-                    {product?.category.name}
+                    {product?.category?.name}
                   </Badge>
                 </div>
               </div>
