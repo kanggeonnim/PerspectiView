@@ -5,10 +5,10 @@ import { devtools } from "zustand/middleware";
 const useNodeStore = create(
   devtools((set, get) => ({
     nodes: [],
+    edges: [],
     setNodes: (newNodes) => {
       set({ nodes: newNodes });
     },
-    edges: [],
 
     onNodesChange: (changes) => {
       if (changes[0].type === "position" && changes[0].dragging) {
@@ -26,6 +26,7 @@ const useNodeStore = create(
     },
 
     addStory(newStory, plotId, plotColor) {
+      console.log(newStory);
       const lastNode = get().nodes.slice(-1)[0];
       const newNodeId = String(get().nodes.length + 1);
       const type = "story";
