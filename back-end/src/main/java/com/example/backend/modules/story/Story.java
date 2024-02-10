@@ -78,4 +78,14 @@ public class Story {
     public void updatePositionY(Double positionY){
         this.positionY = positionY;
     }
+
+    //-----content 바꾸는 메서드-----//
+    public void updateContent(Content content){
+        this.content = content;
+    }
+
+    //-----plot 설정하는 메서드-----//
+    public void updatePlot(Plot plot){
+        this.plot = plot;
+    }
 }
