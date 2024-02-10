@@ -136,7 +136,7 @@ function ProductListCard() {
               )}
             /> */}
             <ProductList
-              productsdata={productData.slice(
+              productsdata={productData?.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
