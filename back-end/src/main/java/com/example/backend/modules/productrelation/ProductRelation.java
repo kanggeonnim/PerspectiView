@@ -55,4 +55,8 @@ public class ProductRelation {
         this.sourceHandle = productRelation.sourceHandle;
         this.targetHandle = productRelation.targetHandle;
     }
+
+    public void updateProduct(Product product) {
+        this.product = product;
+    }
 }
