@@ -36,8 +36,8 @@ class S3UploaderTest {
     public void testS3Image() throws IOException {
         byte[] content = new byte[1024];
         MockMultipartFile multipartFile = new MockMultipartFile("image", "image.jpg", MediaType.IMAGE_JPEG_VALUE, content);
-
         Optional<String> returnUrl = s3Uploader.upload(multipartFile);
+
         assertNotNull(returnUrl.get());
     }
 

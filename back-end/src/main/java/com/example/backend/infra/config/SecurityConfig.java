@@ -5,14 +5,17 @@ import com.example.backend.modules.auth.oauth.PrincipalOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDecisionVoter;
 import org.springframework.security.access.vote.UnanimousBased;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -22,6 +25,7 @@ import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration // IoC 빈(bean)을 등록
@@ -33,7 +37,9 @@ public class SecurityConfig {
 	private final MyAuthenticationFailureHandler myAuthenticationFailureHandler;
 	private final JwtAuthorizationFilter jwtAuthorizationFilter;
 	private final JwtExceptionFilter jwtExceptionFilter;
-	private final TeamCheckVoter teamCheckVoter;
+
+	private final ProductCheckVoter productCheckVoter;
+	private final AuthenticationEntryPoint authEntryPoint;
 
 	@Bean
 	public BCryptPasswordEncoder encodePwd() {
@@ -46,7 +52,8 @@ public class SecurityConfig {
 		List<AccessDecisionVoter<?>> decisionVoters = new ArrayList<>();
 		decisionVoters.add(new WebExpressionVoter());
 		// voter 목록에 teamCheckVoter 추가
-		decisionVoters.add(teamCheckVoter);
+//		decisionVoters.add(teamCheckVoter);
+		decisionVoters.add(productCheckVoter);
 		// 모든 voter 승인 시 허가
 		return new UnanimousBased(decisionVoters);
 	}
@@ -56,20 +63,24 @@ public class SecurityConfig {
 		http
 				.csrf(AbstractHttpConfigurer::disable)
 				.httpBasic(AbstractHttpConfigurer::disable)
-				.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource()))
-				.headers((headers)->
-						headers.contentTypeOptions(contentTypeOptionsConfig ->
-								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
+				.cors(cors -> cors.configurationSource(corsConfigurationSource()))
+//				.cors(cors -> cors.disable())
+//				.headers((headers)->
+//						headers.contentTypeOptions(contentTypeOptionsConfig ->
+//								headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)))
+//				.exceptionHandling((except) -> except.authenticationEntryPoint(authEntryPoint))
 				.formLogin(AbstractHttpConfigurer::disable) // form 로그인 비활성화
 				.sessionManagement(sessionManagement->sessionManagement
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeRequests(authorize ->
 						// accessDecisionManager
-//						authorize.accessDecisionManager(accessDecisionManager())
-						authorize
+						authorize.accessDecisionManager(accessDecisionManager())
+
+//						authorize.
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
-								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
+								.requestMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
+//								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or
 						// hasRole('ROLE_USER')")
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') and
@@ -94,10 +105,11 @@ public class SecurityConfig {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin("http://localhost:5173");
-		configuration.addAllowedHeader("*");
+		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/", "http://localhost:3000", "http://localhost:5173/"));
+		configuration.setAllowedMethods(Arrays.asList("*"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.addExposedHeader("Authorization");
-		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
+//		configuration.addAllowedMethod("*"); // 모든 HTTP 메소드 허용
 		configuration.setAllowCredentials(true);
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

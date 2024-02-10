@@ -33,8 +33,8 @@ public class ProductRelationService {
     /**
      * 전체 인물관계 조회
      */
-    public List<ProductRelation> findAllProductRelation(User user, Long teamId, Long productId) {
-        Product product = productService.findByProductId(user, teamId, productId);
+    public List<ProductRelation> findAllProductRelation(Long productId) {
+        Product product = productService.findByProductId(productId);
         List<ProductRelation> productRelations = productRelationRepository.findAllByProduct(product);
         return productRelations;
     }
@@ -42,7 +42,7 @@ public class ProductRelationService {
     /**
      * 단일 인물관계 조회
      */
-    public ProductRelation findProductRelation(User user, Long teamId, Long productRelationId) {
+    public ProductRelation findProductRelation(Long productRelationId) {
         ProductRelation productRelation = productRelationRepository.findById(productRelationId)
                 .orElseThrow(() -> new NotFoundException());
         return productRelation;

@@ -17,7 +17,6 @@ public class TeamResponseWithMembersDto {
     private String title;
     private String info;
     private boolean personal;
-    private String profileImageUrl;
 
     public static TeamResponseWithMembersDto of(Team team) {
 
@@ -36,7 +35,6 @@ public class TeamResponseWithMembersDto {
                 .title(team.getTitle())
                 .info(team.getInfo())
                 .personal(team.isPersonal())
-                .profileImageUrl(team.getTeamImageUrl())
                 .userResponseDtos(users)
                 .build();
     }

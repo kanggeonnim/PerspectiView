@@ -1,6 +1,7 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
+import com.example.backend.modules.category.CategoryRepository;
 import com.example.backend.modules.category.CategoryService;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
@@ -15,12 +16,9 @@ import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -29,9 +27,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,6 +46,9 @@ public class ProductServiceTest {
 
     @Autowired
     CategoryService categoryService;
+
+    @Autowired
+    CategoryRepository categoryRepository;
 
     @Autowired
     GenreRepository genreRepository;
@@ -78,7 +78,6 @@ public class ProductServiceTest {
     private Team makeTeam(User user) {
         Team team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         return teamService.createTeam(team, user);
@@ -144,7 +143,7 @@ public class ProductServiceTest {
         genres.add(genre2);
 
         //when
-        Product result = productService.createTeamProduct(product, genres);
+        Product result = productService.createTeamProduct(product,  team.getId(), genres);
 
         //then
         assertEquals("작품의 이름이 작품1이어야합니다.", "작품1", result.getTitle());
@@ -152,6 +151,40 @@ public class ProductServiceTest {
         assertEquals("작품의 image url이 다릅니다.", "image_url", result.getProductImageuRL());
         assertEquals("작품의 카테고리가 다릅니다.", "webtoon", result.getCategory().getName());
         assertEquals("작품의 장르가 2개 생성되어야", 2, result.getProductGenres().size());
+    }
+
+    @Test
+    public void 작품리스트() throws Exception {
+        //given
+        User user = makeUser("nickname");
+        Team team = makeTeam(user);
+
+        Category category = Category.builder().name("webtoon").build();
+        Category newCategory = categoryRepository.save(category);
+
+        Genre genre1 = Genre.builder().genreName("SF").build();
+        Genre genre2 = Genre.builder().genreName("액션").build();
+        em.persist(genre1);
+        em.persist(genre2);
+
+        Product product = Product.builder()
+                .team(team)
+                .title("작품1")
+                .info("작품에 대한 설명")
+                .productImageuRL("image_url")
+                .category(newCategory)
+                .build();
+        List<Genre> genres = new ArrayList<>();
+        genres.add(genre1);
+        genres.add(genre2);
+
+        productService.createTeamProduct(product, team.getId(), genres);
+
+        //when
+        List<Product> findProducts = productService.productList(team.getId());
+        //then
+        assertEquals("작품1", findProducts.get(0).getTitle());
+        System.out.println("productgenre가져오는지 테스트" + findProducts.get(0).getProductGenres());
     }
 
     @Test
@@ -182,7 +215,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        productService.createTeamProduct(product, team.getId(), genres);
 
         //update
         Product updateProduct = Product.builder()
@@ -202,7 +235,7 @@ public class ProductServiceTest {
         em.flush();
         em.clear();
 
-        Product findResult = productService.findByProductId(user, team.getId(), result.getId());
+        Product findResult = productService.findByProductId(result.getId());
 
         //then
         assertEquals("작품의 이름이 다릅니다.", "작품3", findResult.getTitle());
@@ -240,7 +273,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
         //updaet
         Product updaetProduct = Product.builder()
@@ -282,7 +315,7 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        productService.createTeamProduct(product, genres);
+        productService.createTeamProduct(product, team.getId(), genres);
 
         //when
         productService.deleteProduct(1L);
@@ -320,10 +353,10 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
         //when
-        Product result = productService.findByProductId(user, team.getId(), givenProduct.getId());
+        Product result = productService.findByProductId(givenProduct.getId());
 
         //then
         assertEquals("제목이 작품1이어야합니다.", "작품1", result.getTitle());
@@ -357,9 +390,9 @@ public class ProductServiceTest {
         genres.add(genre1);
         genres.add(genre2);
 
-        Product givenProduct = productService.createTeamProduct(product, genres);
+        Product givenProduct = productService.createTeamProduct(product, team.getId(), genres);
 
-        Product product1 = productService.findByProductId(user, team.getId(), givenProduct.getId());
+        Product product1 = productService.findByProductId(givenProduct.getId());
         //when
         System.out.println("작품장르 길이: " + product1.getProductGenres().size());
         List<Genre> result = productService.findGenreList(product1.getProductGenres());
@@ -390,14 +423,14 @@ public class ProductServiceTest {
         em.flush();
         em.clear();
 
-        Product findProduct = productService.findByProductId(user, team.getId(), product.getId());
+        Product findProduct = productService.findByProductId(product.getId());
 
 
         //when
         List<Plot> plots = productService.findPlots(findProduct.getId());
         //then
         assertEquals(2, plots.size());
-        assertEquals("플롯1",plots.get(0).getName());
-        assertEquals("플롯2",plots.get(1).getName());
+        assertEquals("플롯1", plots.get(0).getName());
+        assertEquals("플롯2", plots.get(1).getName());
     }
 }

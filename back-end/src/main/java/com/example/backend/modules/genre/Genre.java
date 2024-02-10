@@ -23,7 +23,8 @@ public class Genre {
     }
 
     @Builder
-    public Genre(String genreName) {
+    public Genre(Long id, String genreName) {
+        this.id = id;
         this.genreName = genreName;
     }
 }

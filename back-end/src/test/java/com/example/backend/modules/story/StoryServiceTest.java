@@ -117,7 +117,6 @@ class StoryServiceTest {
 
         team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         teamService.createTeam(team, user);
@@ -164,8 +163,8 @@ class StoryServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
-        characterService.createCharacter(fromCharacter, product.getId(), team.getId(), user);
-        characterService.createCharacter(toCharacter, product.getId(), team.getId(), user);
+        characterService.createCharacter(fromCharacter, team.getId(), user);
+        characterService.createCharacter(toCharacter, team.getId(), user);
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)

@@ -6,10 +6,14 @@ import com.example.backend.modules.auth.TokenResponseDto;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -18,7 +22,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +33,8 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
 
     private final JwtUtil jwtUtil;
     private final ObjectMapper objectMapper;
-
+    @Value("${redirectUrl}")
+    private String redirectUrl;
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         log.info("successfullAuthentication 실행됨.");
@@ -41,8 +48,19 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
                         objectMapper.writeValueAsString(principalDetails.getUser().getAuthorities())
                 );
 
-        response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:5173/app/workspace")
-//        response.sendRedirect(UriComponentsBuilder.fromUriString("https://i10b310.p.ssafy.io/app/workspace")
+        // 쿠키 설정
+        ResponseCookie accessCookie = ResponseCookie.from("accessToken", URLEncoder.encode(token.getAccessToken(), "UTF-8"))
+                .httpOnly(true)
+                .secure(true)
+                .path("/")      // path
+                .maxAge(Duration.ofDays(1))
+                .sameSite("None")  // sameSite
+                .build();
+
+        response.setHeader(HttpHeaders.SET_COOKIE, accessCookie.toString());
+
+//        response.sendRedirect(UriComponentsBuilder.fromUriString("http://localhost:5173/app/workspace")
+        response.sendRedirect(UriComponentsBuilder.fromUriString(redirectUrl)
                 .queryParam("accessToken", token.getAccessToken())
                 .queryParam("refreshToken", token.getRefreshToken())
                 .build()

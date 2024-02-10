@@ -3,11 +3,9 @@ package com.example.backend.modules.plot;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.story.Story;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,10 +23,11 @@ public class Plot {
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
     private Product product;
 
     @OneToMany(mappedBy = "plot",cascade = CascadeType.REMOVE)
-    private List<Story> stories;
+    private List<Story> stories = new ArrayList<>();
 
     @Builder
     public Plot(Long id, String name, String color, Product product) {
@@ -43,5 +42,6 @@ public class Plot {
         this.name = name;
         this.color = color;
     }
+
 
 }

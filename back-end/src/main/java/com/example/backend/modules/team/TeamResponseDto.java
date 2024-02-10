@@ -10,16 +10,13 @@ public class TeamResponseDto {
     private String title;
     private String info;
     private boolean personal;
-    private String profileImageUrl;
 
     public static TeamResponseDto of(Team team) {
-
         return TeamResponseDto.builder()
                 .id(team.getId())
                 .title(team.getTitle())
                 .info(team.getInfo())
                 .personal(team.isPersonal())
-                .profileImageUrl(team.getTeamImageUrl())
                 .build();
     }
 }

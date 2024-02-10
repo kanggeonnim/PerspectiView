@@ -20,7 +20,6 @@ public class TeamResponseWithMembersAndProductsDto {
     private List<ProductResponseOnlyDto> productResponseDtos;
     private String info;
     private boolean personal;
-    private String profileImageUrl;
 
 
     public static TeamResponseWithMembersAndProductsDto of(Team team) {
@@ -46,7 +45,6 @@ public class TeamResponseWithMembersAndProductsDto {
                 .title(team.getTitle())
                 .info(team.getInfo())
                 .personal(team.isPersonal())
-                .profileImageUrl(team.getTeamImageUrl())
                 .productResponseDtos(products)
                 .userResponseDtos(users)
                 .build();

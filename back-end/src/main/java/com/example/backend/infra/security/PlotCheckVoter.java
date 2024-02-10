@@ -94,10 +94,10 @@ public class PlotCheckVoter implements AccessDecisionVoter<FilterInvocation> {
 
         PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
         Long targetTeamId = obtainTeamId(request);
-        Team team = teamService.getTeam(targetTeamId);
+        Team team = teamService.getTeam(targetTeamId, principal.getUser());
 
         Long targetProductId = obtainProductId(request);
-        Product product = productService.findByProductId(principal.getUser(), team.getId(), targetProductId);
+        Product product = productService.findByProductId(targetProductId);
 
         // 해당 팀의 작품이 아니면 예외
         if(!product.getTeam().equals(team)) return ACCESS_DENIED;
@@ -110,7 +110,7 @@ public class PlotCheckVoter implements AccessDecisionVoter<FilterInvocation> {
         }
 
         Long targetPlotId = obtainPlotId(request);
-        List<Plot> plots = plotService.findByProductId(principal.getUser(), team.getId(), targetProductId);
+        List<Plot> plots = plotService.findByProductId(targetProductId);
 
         // 매니저가 아니면 예외
         if(!team.ifManager(principal.getUser())) return ACCESS_DENIED;

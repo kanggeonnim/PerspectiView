@@ -91,6 +91,11 @@ public class Product {
         productGenres.add(productGenre);
     }
 
+    //--------작품에 팀 추가-------------//
+    public void updateTeam(Team team){
+        this.team = team;
+    }
+
     public void addPlot(Plot plot){
         plots.add(plot);
     }

@@ -1,7 +1,6 @@
 package com.example.backend.modules.team;
 
 
-import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.exception.BadRequestException;
 import com.example.backend.modules.exception.ForbiddenException;
 import com.example.backend.modules.exception.NotFoundException;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -42,8 +40,19 @@ public class TeamService {
         return teamRepository.findByManagersContainingAndPersonal(user, false);
     }
 
-    public Team getTeam(Long id) {
-        return teamRepository.findWithMemberAndManagerAndProductById(id).orElseThrow(() -> new NotFoundException());
+    public Team getTeam(Long id, User user) {
+
+        Team team = teamRepository.findWithMemberAndManagerAndProductById(id).orElseThrow(() -> new NotFoundException());
+
+        if(team.ifManager(user) || team.ifMember(user)){
+            return team;
+        }
+
+        throw new ForbiddenException("not in team");
+    }
+
+    public List<Team> searchTeams(String keyword){
+        return teamRepository.findByTitleContains(keyword);
     }
 
     public Team updateTeam(Long teamId, Team team, User user) {

@@ -104,7 +104,6 @@ class ForeShadowingServiceTest {
     private Team makeTeam(User user) {
         Team team = Team.builder().title("team1")
                 .info("team info")
-                .teamImageUrl("https://s3")
                 .personal(false)
                 .build();
         return teamService.createTeam(team, user);
@@ -138,7 +137,7 @@ class ForeShadowingServiceTest {
         User user = makeUser("nickname");
         Team team = makeTeam(user);
         //when
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         //then
         assertEquals(createdFS.getFShadowName(), foreShadowing.getFShadowName());
@@ -155,7 +154,7 @@ class ForeShadowingServiceTest {
                 .build();
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing createdFS = foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), foreShadowing);
+        ForeShadowing createdFS = foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         ForeShadowing updateFS = ForeShadowing.builder()
                 .id(foreShadowing.getId())
@@ -166,7 +165,7 @@ class ForeShadowingServiceTest {
                 .build();
 
         //when
-        ForeShadowing atferUpdate = foreShadowingService.updateForeShadowing(user, team.getId(), product.getId(), updateFS);
+        ForeShadowing atferUpdate = foreShadowingService.updateForeShadowing(updateFS);
 
         //then
         assertEquals(atferUpdate.getFShadowName(), updateFS.getFShadowName());
@@ -184,13 +183,13 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), foreShadowing);
+        foreShadowingService.createForeShadowing(foreShadowing, product.getId());
 
         //when
-        foreShadowingService.deleteForeShadowing(user, team.getId(), product.getId(), foreShadowing.getId());
+        foreShadowingService.deleteForeShadowing(foreShadowing.getId());
 
         //then
-        List<ForeShadowing> foreShadowingList = foreShadowingService.findByProductId(user, team.getId(), product.getId());
+        List<ForeShadowing> foreShadowingList = foreShadowingService.findByProductId(product.getId());
         assertEquals(foreShadowingList.size(), 0);
     }
 
@@ -207,7 +206,7 @@ class ForeShadowingServiceTest {
 
         User user = makeUser("nickname");
         Team team = makeTeam(user);
-        ForeShadowing fs = foreShadowingService.createForeShadowing(user, team.getId(), product.getId(), setForeShadowing);
+        ForeShadowing fs = foreShadowingService.createForeShadowing(setForeShadowing, product.getId());
 
         Story story = storySetting();
         //story 생성 후 그 중간 테이블 1개 생성
