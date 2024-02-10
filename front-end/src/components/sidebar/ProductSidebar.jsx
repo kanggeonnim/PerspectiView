@@ -63,7 +63,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 function ProductSidebar() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
-
+  console.log(teamId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [addPlot, setAddPlot] = useState(false);
   const [newPlotName, setNewPlotName] = useState("");
@@ -170,7 +170,7 @@ function ProductSidebar() {
                       <div className="font-bold">플롯</div>
                     </SelectTrigger>
                     <SelectContent className="px-2">
-                      {plotList.map((plot, index) => (
+                      {plotList?.map((plot, index) => (
                         <Plot
                           key={index}
                           plotId={plot.plotId}
@@ -243,7 +243,7 @@ function ProductSidebar() {
                       )}
                       <AccordionContent className="ml-2">
                         <ScrollArea className="min-w-full h-60">
-                          {plotList.map((plot, index) => (
+                          {plotList?.map((plot, index) => (
                             <Plot
                               key={index}
                               plotId={plot.plotId}
