@@ -52,21 +52,21 @@ public class PlotController {
         return ApiResult.OK(PlotResponseDto.of(plot));
     }
 
-    @PatchMapping("/{plotId}")
+    @PutMapping("/{plotId}")
     public ApiResult<PlotPreviewResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
                                                  @PathVariable("plotId") Long plotId) {
         Plot plot = plotService.updatePlot(plotId, PlotRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotPreviewResponseDto.of(plot));
     }
 
-    @PatchMapping("/{plotId}/name")
+    @PutMapping("/{plotId}/name")
     public ApiResult<PlotPreviewResponseDto> updatePlotName(@RequestBody @Valid PlotNameRequestDto plotRequestDto,
                                                         @PathVariable("plotId") Long plotId) {
         Plot plot = plotService.updatePlotName(plotId, PlotNameRequestDto.from(plotRequestDto));
         return ApiResult.OK(PlotPreviewResponseDto.of(plot));
     }
 
-    @PatchMapping("/{plotId}/color")
+    @PutMapping("/{plotId}/color")
     public ApiResult<PlotPreviewResponseDto> updatePlotColor(@RequestBody @Valid PlotColorRequestDto plotRequestDto,
                                                             @PathVariable("plotId") Long plotId) {
         Plot plot = plotService.updatePlotColor(plotId, PlotColorRequestDto.from(plotRequestDto));
