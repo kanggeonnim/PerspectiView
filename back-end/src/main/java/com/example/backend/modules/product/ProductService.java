@@ -4,6 +4,8 @@ import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
 import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.plot.PlotRepository;
+import com.example.backend.modules.plot.PlotService;
 import com.example.backend.modules.productrelation.ProductRelation;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
@@ -30,6 +32,8 @@ public class ProductService {
     private final ProductGenreRepository productGenreRepository;
 
     private final GenreRepository genreRepository;
+
+    private final PlotService plotService;
 
     /**
      * 팀 작품 생성
@@ -141,7 +145,7 @@ public class ProductService {
      * 작품 인물 관계 조회
      */
     public List<ProductRelation> findProductRelations(Long productId) {
-        Product product = productRepository.findWithTeamById(productId).orElseThrow(() -> new NotFoundException());
+        Product product = productRepository.findWithProductRelationById(productId).orElseThrow(() -> new NotFoundException());
         return product.getProductRelations().stream().toList();
 
     }
@@ -151,6 +155,7 @@ public class ProductService {
      */
     public List<Plot> findPlots(Long productId) {
         Product product = productRepository.findWithPlotById(productId);
-        return product.getPlots().stream().toList();
+        List<Plot> plots =plotService.findWithStoryRelationById(product);
+        return plots;
     }
 }
