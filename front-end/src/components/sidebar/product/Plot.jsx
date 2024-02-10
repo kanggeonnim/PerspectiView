@@ -5,22 +5,37 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { GradientPicker } from "./GradientPicker";
-import { XCircle } from "lucide-react";
+import { UndoIcon, XCircle } from "lucide-react";
 import { useState } from "react";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useParams } from "react-router-dom";
 
-export default function Plot({ plotId, plotName, stories, plotColor, setPlotColor }) {
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { ConfirmModal } from "./ConfirmModal";
+
+export default function Plot({ plotId = undefined, plotName, stories, plotColor, setPlotColor }) {
   const [isHovered, setIsHovered] = useState(false);
   const { teamId, productId } = useParams();
   const { deletePlot } = usePlotQueryModule(teamId, productId, plotId);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (event) => {
+    event.stopPropagation();
     setIsHovered(true);
   };
 
-  const handleMouseLeave = () => {
-    console.log("leave");
+  const handleMouseLeave = (event) => {
+    event.stopPropagation();
     setIsHovered(false);
   };
   return (
@@ -36,13 +51,7 @@ export default function Plot({ plotId, plotName, stories, plotColor, setPlotColo
             <div className="flex items-center">
               <GradientPicker plotId={plotId} plotColor={plotColor} setPlotColor={setPlotColor} />
               {isHovered ? (
-                <XCircle
-                  size={15}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    deletePlot();
-                  }}
-                />
+                <ConfirmModal teamId={teamId} productId={productId} plotId={plotId} />
               ) : (
                 <></>
               )}

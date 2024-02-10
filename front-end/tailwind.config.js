@@ -57,6 +57,7 @@ export const theme = {
       destructive: {
         DEFAULT: "var(--destructive)",
         foreground: "var(--destructive-foreground)",
+        accent: "var(--destructive-accent)",
       },
       muted: {
         DEFAULT: "var(--muted)",

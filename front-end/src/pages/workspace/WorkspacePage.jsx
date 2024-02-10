@@ -1,4 +1,4 @@
-import UserSidebar from "@/components/sidebar/UserSidebar";
+import UserSidebar from "@/components/sidebar/user/UserSidebar";
 // import useProductQueryModule from "@/hook/useProductQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { useAuthStore } from "@/store/useAuthStore";

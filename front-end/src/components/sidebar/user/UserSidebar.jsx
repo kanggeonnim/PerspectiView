@@ -2,7 +2,7 @@ import { ArrowLeftToLine, ArrowRightToLine, User, Users } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
 import { useEffect, useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 import logo from "@/assets/main_logo.svg";
 import logo_icon from "@/assets/main_logo_icon.svg";
 

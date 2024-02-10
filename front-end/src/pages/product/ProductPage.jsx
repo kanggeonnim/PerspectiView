@@ -1,5 +1,5 @@
 import ProductHeader from "@/components/header/ProductHeader";
-import ProductSidebar from "@/components/sidebar/ProductSidebar";
+import ProductSidebar from "@/components/sidebar/product/ProductSidebar";
 import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";

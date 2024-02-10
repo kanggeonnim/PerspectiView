@@ -28,10 +28,11 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
     },
   });
 
-  const { mutate: updatePlot } = useMutation({
+  const { mutate: updatePlotColor } = useMutation({
     mutationFn: async (updatedData) => {
+      console.log("update", updatedData, teamId, productId, plotId);
       const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}/plot/${plotId}`,
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/color`,
         updatedData
       );
       console.log(response);
@@ -58,7 +59,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
     },
   });
 
-  return { plotList, getPlotListIsSuccess, createPlot, updatePlot, deletePlot };
+  return { plotList, getPlotListIsSuccess, createPlot, updatePlotColor, deletePlot };
 };
 
 export default usePlotQueryModule;

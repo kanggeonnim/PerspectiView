@@ -31,34 +31,9 @@ import {
 } from "@/components/ui/accordion";
 import { Input } from "@/components/ui/input";
 import { GradientPicker } from "./GradientPicker";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
-
-// const plotDummy = Array.from({ length: 10 }, (_, index) => ({
-//   plotId: index + 1,
-//   plotName: `발단 ${index + 1}`,
-//   plotColorId: "2",
-// }));
-
-// const storyDummy = Array.from({ length: 10 }, (_, index) => ({
-//   storyId: index + 1,
-//   plotId: index + 1,
-//   storyTitle: `주인공 등장 ${index + 1}`,
-//   storyContent: "화이트 드래곤이 울부짖었다 크아아앙",
-//   characList: [
-//     {
-//       id: "juingong21",
-//     },
-//     {
-//       id: "whitedragon",
-//     },
-//   ],
-//   position_x: 0,
-//   position_y: 10,
-// }));
-
-// TODO: 플롯 추가/수정/삭제 이벤트
 
 function ProductSidebar() {
   const navigate = useNavigate();
@@ -66,6 +41,7 @@ function ProductSidebar() {
   console.log(teamId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [addPlot, setAddPlot] = useState(false);
+
   const [newPlotName, setNewPlotName] = useState("");
   const [newPlotColor, setNewPlotColor] = useState(
     "linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)"
@@ -190,7 +166,7 @@ function ProductSidebar() {
                           </div>
                         </AccordionTrigger>
 
-                        <div className="flex justify-end mx-2 " onClick={toggleAddPlot}>
+                        <div className="flex justify-end mx-2" onClick={toggleAddPlot}>
                           {addPlot ? (
                             <X
                               strokeWidth={2.5}
