@@ -5,6 +5,8 @@ import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
 import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
+import com.example.backend.modules.plot.Plot;
+import com.example.backend.modules.plot.PlotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,12 +24,13 @@ public class StoryService {
     private final StoryRelationRepository storyRelationRepository;
     private final StoryForeShadowingRepository storyForeShadowingRepository;
     private final ForeShadowingRepository foreShadowingRepository;
+    private final PlotRepository plotRepository;
 
     /**
      * 스토리 생성
      */
     @Transactional
-    public Story createStory(Story story, String storycontent, List<Character> characters) {
+    public Story createStory(Story story, Long plotId, String storycontent, List<Character> characters) {
         /**
          * 순서는 플롯 안에서의 순서는 따진다.
          * update story s left join plot p
@@ -37,11 +40,16 @@ public class StoryService {
          */
         //content 등록
         Content content = createContent(storycontent);
-
+        story.updateContent(content);
 
         //먼저 index뒤로 미루기
-        storyRepository.updatePositionX(story.getPlot().getId(), story.getPositionX());
+        storyRepository.updatePositionX(plotId, story.getPositionX());
 
+        //plotId로 plot 찾아오기
+        Plot plot = plotRepository.findById(plotId).orElseThrow(()-> new NotFoundException());
+        story.updatePlot(plot);
+
+        //content와 plot 저장 후 넣기
         Story madeStory = storyRepository.save(story);
 
         for (Character c : characters) {
@@ -82,7 +90,7 @@ public class StoryService {
         storyRelationRepository.deleteAll(story.getStoryRelations());
         storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
 
-        Story findStory = storyRepository.findWithPlotById(story.getId()).orElseThrow(() -> new RuntimeException());
+        Story findStory = storyRepository.findWithPlotContentById(story.getId()).orElseThrow(() -> new NotFoundException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -121,7 +129,7 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findWithPlotById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new RuntimeException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -204,6 +212,13 @@ public class StoryService {
 //                .story(story).build());
 
         return foreShadowing;
+    }
+
+    /**
+     * 스토리 등장인물이랑 같이 조회
+     */
+    public List<Story> findWithStoryRelation(Plot plot){
+        return storyRepository.findWithStoryRelationByPlot(plot);
     }
 
 
