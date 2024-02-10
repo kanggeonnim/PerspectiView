@@ -33,8 +33,7 @@ public class foreShadowingController {
     }
 
     @PatchMapping("/{foreshadowingId}")
-    public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto,
-                                                                   @PathVariable("productId") Long productId) {
+    public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
         ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing( ForeShadowingRequestDto.from(foreShadowingRequestDto));
         List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
@@ -49,8 +48,7 @@ public class foreShadowingController {
     }
 
     @DeleteMapping("/{foreshadowingId}")
-    public ApiResult<ForeShadowingResponseDto> deleteForeShadowing(@PathVariable("foreshadowingId") Long foreShadowingId,
-                                                                   @PathVariable("productId") Long productId) {
+    public ApiResult<ForeShadowingResponseDto> deleteForeShadowing(@PathVariable("foreshadowingId") Long foreShadowingId) {
         foreShadowingService.deleteForeShadowing(foreShadowingId);
         return ApiResult.OK(null);
     }
