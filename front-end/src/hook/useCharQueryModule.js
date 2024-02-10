@@ -9,7 +9,7 @@ const useCharQueryModule = () => {
   const { data: charData, isSuccess: getCharIsSuccess } = useQuery({
     queryKey: ["char", teamId, productId],
     queryFn: async () => {
-      const response = await privateApi.get(`/team/${teamId}/product/${productId}/character`
+      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`
       // ,{
       //   headers: {
       //     "Content-Type": "application/json",
@@ -26,7 +26,7 @@ const useCharQueryModule = () => {
 
   const { mutate: createChar } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product/${productId}/character`, newData);
+      const response = await privateApi.post(`/api/team/${teamId}/product/${productId}/character`, newData);
       console.log(response);
       return response.data.response;
     },
@@ -38,7 +38,7 @@ const useCharQueryModule = () => {
   const { mutate: updateChar } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
-        `/team/${teamId}/product/${productId}/character`,
+        `/api/team/${teamId}/product/${productId}/character`,
         updatedData
       );
       console.log(response);
@@ -53,7 +53,7 @@ const useCharQueryModule = () => {
   const { mutate: deleteChar } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.delete(
-        `/team/${teamId}/product/${productId}/character`
+        `/api/team/${teamId}/product/${productId}/character`
       );
       console.log(response);
       return response.data.response;
