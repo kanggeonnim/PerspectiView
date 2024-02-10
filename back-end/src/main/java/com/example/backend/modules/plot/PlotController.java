@@ -53,24 +53,27 @@ public class PlotController {
     }
 
     @PutMapping("/{plotId}")
-    public ApiResult<PlotPreviewResponseDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
+    public ApiResult<PlotResponseNoCharacterDto> updatePlot(@RequestBody @Valid PlotRequestDto plotRequestDto,
                                                  @PathVariable("plotId") Long plotId) {
+        log.info("===========plot name, color update===========");
         Plot plot = plotService.updatePlot(plotId, PlotRequestDto.from(plotRequestDto));
-        return ApiResult.OK(PlotPreviewResponseDto.of(plot));
+        return ApiResult.OK(PlotResponseNoCharacterDto.of(plot));
     }
 
     @PutMapping("/{plotId}/name")
-    public ApiResult<PlotPreviewResponseDto> updatePlotName(@RequestBody @Valid PlotNameRequestDto plotRequestDto,
+    public ApiResult<PlotResponseNoCharacterDto> updatePlotName(@RequestBody @Valid PlotNameRequestDto plotRequestDto,
                                                         @PathVariable("plotId") Long plotId) {
+        log.info("===========plot name update===========");
         Plot plot = plotService.updatePlotName(plotId, PlotNameRequestDto.from(plotRequestDto));
-        return ApiResult.OK(PlotPreviewResponseDto.of(plot));
+        return ApiResult.OK(PlotResponseNoCharacterDto.of(plot));
     }
 
     @PutMapping("/{plotId}/color")
-    public ApiResult<PlotPreviewResponseDto> updatePlotColor(@RequestBody @Valid PlotColorRequestDto plotRequestDto,
+    public ApiResult<PlotResponseNoCharacterDto> updatePlotColor(@RequestBody @Valid PlotColorRequestDto plotRequestDto,
                                                             @PathVariable("plotId") Long plotId) {
+        log.info("===========plot color update===========");
         Plot plot = plotService.updatePlotColor(plotId, PlotColorRequestDto.from(plotRequestDto));
-        return ApiResult.OK(PlotPreviewResponseDto.of(plot));
+        return ApiResult.OK(PlotResponseNoCharacterDto.of(plot));
     }
 
     @DeleteMapping("/{plotId}")
