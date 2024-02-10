@@ -76,4 +76,18 @@ public class PlotService {
         }
         plotRepository.deleteById(plotId);
     }
+
+    @Transactional
+    public Plot updatePlotName(Long plotId, Plot from) {
+        Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
+        plot.setName(from.getName());
+        return plot;
+    }
+
+    @Transactional
+    public Plot updatePlotColor(Long plotId, Plot from) {
+        Plot plot = plotRepository.findById(plotId).orElseThrow(() -> new NotFoundException());
+        plot.setColor(from.getColor());
+        return plot;
+    }
 }

@@ -6,15 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class PlotRequestDto {
+public class PlotColorRequestDto {
     @NotNull
     private String plotName;
     @NotNull
     private String plotColor;
 
-    public static Plot from(PlotRequestDto plotRequestDto) {
+    public static Plot from(PlotColorRequestDto plotRequestDto) {
         return Plot.builder().name(plotRequestDto.getPlotName())
                 .color(plotRequestDto.getPlotColor()).build();
     }
-
 }
