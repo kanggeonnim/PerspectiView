@@ -62,7 +62,7 @@ public class StoryController {
         return ApiResult.OK(storyResponseDto);
     }
 
-    @PutMapping("/{storyId}/fsStatus")
+    @PutMapping("/{storyId}/fsStatus/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
                                                                 @RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
         ForeShadowing result = storyService.createStoryFshadow(ForeShadowingRequestDto.from(foreShadowingRequestDto), storyId);
@@ -97,7 +97,7 @@ public class StoryController {
         return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
     }
 
-    @DeleteMapping("/{storyId}/fsClose/{foreshadowingId}")
+    @PutMapping("/{storyId}/fsClose/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> closeForeShadowing(@PathVariable("storyId") Long storyId,
                                                                   @PathVariable("foreshadowingId") Long foreshadowingId) {
 
@@ -109,7 +109,7 @@ public class StoryController {
         return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
     }
 
-    @PutMapping("/{storyId}/fsClose/{foreshadowingId}")
+    @DeleteMapping("/{storyId}/fsClose/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> closeCancleForeShadowing(@PathVariable("storyId") Long storyId,
                                                                         @PathVariable("foreshadowingId") Long foreshadowingId) {
 
