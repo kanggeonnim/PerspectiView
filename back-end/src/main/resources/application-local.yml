@@ -68,3 +68,4 @@ spring:
             scope:
               - name
               - email
+redirectUrl: "http://localhost:5173/app/workspace"
