@@ -20,7 +20,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import OneButtonselect from "./selects/oneButtonSelect";
+import Buttonselect from "./selects/ButtonSelect";
 import RadioSelect from "./selects/radioSelect";
 
 function CreateWork() {
@@ -81,7 +81,7 @@ function WorkList({ title, info, onChange, onCreate }) {
             <div className="flex flex-row w-full m-2">
               <div className="box-border w-1/6 mr-3 text-xl">장르</div>
               <div className="box-border flex flex-wrap w-5/6 gap-2">
-                <OneButtonselect className="w-full" />
+                <Buttonselect className="w-full" />
               </div>
             </div>
             <div className="flex flex-row w-full m-2">
