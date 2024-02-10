@@ -56,7 +56,7 @@ public class ForeShadowingService {
     public ForeShadowing updateForeShadowing(ForeShadowing foreShadowing) {
 
         ForeShadowing findForeShadowing = foreShadowingRepository.findById(foreShadowing.getId()).orElseThrow(() -> new NotFoundException());
-        findForeShadowing.updateForeShadowing(findForeShadowing.getFShadowName(), findForeShadowing.getFShadowContent(), findForeShadowing.getFShadowClose());
+        findForeShadowing.updateForeShadowing(foreShadowing.getFShadowName(), foreShadowing.getFShadowContent());
         return foreShadowing;
     }
 
