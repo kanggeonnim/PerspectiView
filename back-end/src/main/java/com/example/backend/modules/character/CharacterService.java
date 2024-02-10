@@ -72,7 +72,6 @@ public class CharacterService {
      *
      * @param character   등장인물
      * @param characterId 등장인물 아이디
-     * @param productId   작품 아이디
      * @param teamId      팀 아이디
      * @param user        유저
      * @return 등장인물

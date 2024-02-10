@@ -50,7 +50,7 @@ public class JwtSuccessHandler implements AuthenticationSuccessHandler {
 
         // 쿠키 설정
         ResponseCookie accessCookie = ResponseCookie.from("accessToken", URLEncoder.encode(token.getAccessToken(), "UTF-8"))
-                .httpOnly(true)
+                .httpOnly(false)
                 .secure(true)
                 .path("/")      // path
                 .maxAge(Duration.ofDays(1))
