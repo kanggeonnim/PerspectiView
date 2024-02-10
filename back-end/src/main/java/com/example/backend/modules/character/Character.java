@@ -30,6 +30,7 @@ public class Character {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
+    @Setter
     private Product product;
 
     @OneToMany(mappedBy = "character")
