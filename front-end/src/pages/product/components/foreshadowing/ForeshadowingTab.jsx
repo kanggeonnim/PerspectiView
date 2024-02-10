@@ -21,10 +21,8 @@ import Column from "./Column";
 export default function ForeshadowingTab() {
   //복선전체 GET 요청
   const { teamId, productId } = useParams();
-  const { fshadowData, getFshadowIsSuccess } = useFshadowQueryModule(
-    teamId,
-    productId
-  );
+  const { fshadowList, getFshadowIsSuccess, createFshadow } =
+    useFshadowQueryModule(teamId, productId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
@@ -82,18 +80,6 @@ export default function ForeshadowingTab() {
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-
-  // TODO productId, fromStoryId,toStoryId
-  const createData = () => {
-    const newData = {
-      fshadowName: title,
-      fshadowContent: content,
-    };
-    console.log("create");
-    // post요청
-    // mutation.mutate(newData)
-    // setTriggerUpdate();
-  };
 
   // const onDragEnd = (result) => {
   //   const { destination, source, draggableId } = result;
@@ -220,7 +206,20 @@ export default function ForeshadowingTab() {
                 </div>
               </div>
               <DialogFooter>
-                <Button type="submit" onClick={createData}>
+                <Button
+                  type="submit"
+                  onClick={() => {
+                    console.log({
+                      fshadowName: title,
+                      fshadowContent: content,
+                    });
+                    // create plot
+                    createFshadow({
+                      fshadowName: title,
+                      fshadowContent: content,
+                    });
+                  }}
+                >
                   생성하기
                 </Button>
               </DialogFooter>

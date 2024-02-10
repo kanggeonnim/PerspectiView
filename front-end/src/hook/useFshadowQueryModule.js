@@ -1,14 +1,15 @@
 import { useFshadow } from "@/store/useFshadow";
 import { privateApi } from "@/util/api";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
-// const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 //복선 전체 조회 & useFshadow에 반영
 const useFshadowQueryModule = (teamId, productId) => {
-  // const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
+
   const { fshadows, setFshadows } = useFshadow();
-  const { data: fshadowData, isSuccess: getFshadowIsSuccess } = useQuery({
+
+  const { data: fshadowList, isSuccess: getFshadowIsSuccess } = useQuery({
     queryKey: ["foreshadowing", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(
@@ -17,38 +18,32 @@ const useFshadowQueryModule = (teamId, productId) => {
       return response.data.response;
     },
   });
+  //TODO 여기서 쓰는 거 맞는 지 확인
   useEffect(() => {
     if (getFshadowIsSuccess) {
-      setFshadows(fshadowData);
+      setFshadows(fshadowList);
     }
-  }, [getFshadowIsSuccess, fshadowData, setFshadows]);
+  }, [getFshadowIsSuccess, fshadowList, setFshadows]);
 
-  return { fshadowData, getFshadowIsSuccess };
-};
-
-// export default useFshadowQueryModule;
-
-//복선 post요청 & useFshadow에 반영
-const useFshadowPostQueryModule = (teamId, productId) => {
-  // const queryClient = useQueryClient();
-  // const { fshadows, setFshadows } = useFshadow();
-  const { data: fshadowData, isSuccess: getFshadowIsSuccess } = useQuery({
-    queryKey: ["foreshadowing", teamId, productId],
-    queryFn: async () => {
+  //post
+  const { mutate: createFshadow } = useMutation({
+    mutationFn: async (newData) => {
       const response = await privateApi.post(
-        `/api/team/${teamId}/product/${productId}/foreshadowing`
+        `/api/team/${teamId}/product/${productId}/foreshadowing`,
+        newData
       );
+      console.log("복선생성", response);
       return response.data.response;
     },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
   });
-  // useEffect(() => {
-  //   if (getFshadowIsSuccess) {
-  //     setFshadows(fshadowData);
-  //   }
-  // }, [getFshadowIsSuccess, fshadowData, setFshadows]);
 
-  return { fshadowData, getFshadowIsSuccess };
+  return { fshadowList, getFshadowIsSuccess, createFshadow };
 };
 
 export default useFshadowQueryModule;
-useFshadowPostQueryModule;
