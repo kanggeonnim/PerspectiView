@@ -25,11 +25,14 @@ import {
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
 import { Progress } from "@ark-ui/react";
+import useUserQueryModule from "@/hook/useUserQueryModule";
 
 function UserSidebar() {
   // API 호출 시 사용
   const { teams, getTeamsIsSuccess } = useTeamQueryModule();
   console.log("getTeam", getTeamsIsSuccess, teams);
+  const { getUser, getUserIsSuccess } = useUserQueryModule();
+  console.log(getUser);
 
   const { user } = useAuthStore();
   console.log("usersidebaar", user);
@@ -42,7 +45,9 @@ function UserSidebar() {
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
-
+  if (!getUserIsSuccess || !user) {
+    return <div>Loading...</div>;
+  }
   // 전역으로 관리하는 workspace 이름 바뀔때마다 해당하는 작품목록 불러오기
   // useEffect(() => {
   //   console.log();
@@ -150,7 +155,7 @@ function UserSidebar() {
                 <div className="px-1 mx-1">
                   <Avatar>
                     <AvatarImage src={user.userImageUrl} alt="user_image" />
-                    <AvatarFallback>{user.email.slice(0, 2)}</AvatarFallback>
+                    <AvatarFallback>{user?.email.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 </div>
 

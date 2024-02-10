@@ -1,5 +1,5 @@
 import { Card } from "@/components/ui/card";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import useProductAddStore from "@/store/useProductAddStore";
 
@@ -38,6 +38,8 @@ function Product({ productImg, productName }) {
 export default function ProductList({ productsdata }) {
   const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
   console.log(products);
+  const { teamId } = useParams();
+
   return (
     <div className="flex flex-wrap h-full ">
       <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5 ">
@@ -54,7 +56,7 @@ export default function ProductList({ productsdata }) {
       {/* FIXME 아래는 POST가 안되서 임시로 만듬, POST 확인시 삭제 */}
       {products.map((prod, index) => (
         <div className="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5" key={index}>
-          <Link to={`/product/${prod.id}`} key={prod.id}>
+          <Link to={`/team/${teamId}/product/${prod.id}`} key={prod.id}>
             <Product productImg={prod.url} productName={prod.name} />
           </Link>
         </div>
