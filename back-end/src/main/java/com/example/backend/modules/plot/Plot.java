@@ -45,5 +45,10 @@ public class Plot {
         this.color = color;
     }
 
+    //-----스토리 리스트 업데이트----//
+    public void updateStories(List<Story> stories){
+        this.stories = stories;
+    }
+
 
 }
