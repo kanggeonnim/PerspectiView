@@ -42,28 +42,17 @@ public class Character {
     private double positionY;
 
     @Builder
-    public Character(String characterName, Product product) {
+    public Character(Long id, String characterName, String characterImageUrl, String characterDetail, Product product, Set<CharacterKeyword> characterKeywords, double positionX, double positionY) {
+        this.id = id;
         this.characterName = characterName;
-        this.product = product;
-    }
-
-    @Builder(builderMethodName = "positionBuilder")
-    public Character(String characterName, String characterDetail, double positionX, double positionY) {
-        this.characterName = characterName;
-
-
+        this.characterImageUrl = characterImageUrl;
         this.characterDetail = characterDetail;
+        this.product = product;
+        this.characterKeywords = characterKeywords;
         this.positionX = positionX;
         this.positionY = positionY;
     }
 
-    public void changeCharacter(Character character) {
-        this.characterName = character.getCharacterName();
-        this.characterImageUrl = character.getCharacterImageUrl();
-        this.characterDetail = character.getCharacterDetail();
-        this.positionX = character.getPositionX();
-        this.positionY = character.getPositionY();
-    }
 
     public void addImageUrl(String url) {
         this.characterImageUrl = url;
@@ -76,4 +65,13 @@ public class Character {
     public void removeKeywords(CharacterKeyword characterKeyword) {
         characterKeywords.remove(characterKeyword);
     }
+
+    public void changeCharacter(Character character) {
+        this.characterName = character.getCharacterName();
+        this.characterImageUrl = character.getCharacterImageUrl();
+        this.characterDetail = character.getCharacterDetail();
+        this.positionX = character.getPositionX();
+        this.positionY = character.getPositionY();
+    }
+
 }

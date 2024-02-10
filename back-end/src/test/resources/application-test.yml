@@ -70,3 +70,4 @@ jasypt:
   password : ${JASYPT_PASSWORD}
   encryptor:
     bean: jasyptEncryptor
+redirectUrl: "http://localhost:5173/app/workspace"

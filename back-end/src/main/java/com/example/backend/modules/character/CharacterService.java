@@ -90,7 +90,6 @@ public class CharacterService {
      * 등장인물 삭제
      *
      * @param charterId 등장인물 아이디
-     * @param productId 작품 아이디
      * @param teamId    팀 아이디
      * @param user      유저
      */
