@@ -42,7 +42,7 @@ public class CharacterController {
         return ApiResult.OK(null);
     }
 
-    @PatchMapping("/{characterId}")
+    @PutMapping("/{characterId}")
     public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(required = false) MultipartFile uploadImage,
                                                            @PathVariable Long characterId, @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
 

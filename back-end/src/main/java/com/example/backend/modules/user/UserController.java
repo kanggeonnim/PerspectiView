@@ -34,7 +34,7 @@ public class UserController {
         return ApiResult.OK(null);
     }
 
-    @PatchMapping
+    @PutMapping
     public ApiResult<UserResponseDto> updateUser(@RequestBody @Valid UserRequestDto userRequestDto,
                                                  @RequestPart(required = false) MultipartFile uploadImage,
                                                  @AuthenticationPrincipal PrincipalDetails principal) throws IOException {

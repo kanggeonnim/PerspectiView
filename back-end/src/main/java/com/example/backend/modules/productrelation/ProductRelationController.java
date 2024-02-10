@@ -24,7 +24,7 @@ public class ProductRelationController {
         return ApiResult.OK(ProductRelationResponseDto.of(productRelation));
     }
 
-    @PatchMapping("/{relationId}")
+    @PutMapping("/{relationId}")
     public ApiResult<ProductRelationResponseDto> updateProductRelation(@RequestBody @Valid ProductRelationRequestDto productRelationRequestDto,
                                                                        @PathVariable("relationId") Long relationId) {
         ProductRelation productRelation = productRelationService.updateProductRelation(relationId, productRelationRequestDto.from(productRelationRequestDto));

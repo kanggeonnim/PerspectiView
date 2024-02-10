@@ -1,13 +1,9 @@
 package com.example.backend.modules.foreshadowing;
 
 import com.example.backend.modules.api.ApiResult;
-import com.example.backend.modules.auth.principal.PrincipalDetails;
-import com.example.backend.modules.product.ProductService;
-import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -32,7 +28,7 @@ public class foreShadowingController {
         return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing, storyids, columnId));
     }
 
-    @PatchMapping("/{foreshadowingId}")
+    @PutMapping("/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
         ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing( ForeShadowingRequestDto.from(foreShadowingRequestDto));
         List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
