@@ -16,4 +16,5 @@ public class PlotRequestDto {
         return Plot.builder().name(plotRequestDto.getPlotName())
                 .color(plotRequestDto.getPlotColor()).build();
     }
+
 }

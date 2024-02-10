@@ -4,15 +4,15 @@ import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
+import com.example.backend.modules.product.Product;
+import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.productrelation.ProductRelationRepository;
 import com.example.backend.modules.productrelation.ProductRelationService;
 import com.example.backend.modules.story.*;
-import com.example.backend.modules.team.TeamService;
-import com.example.backend.modules.user.User;
-import com.example.backend.modules.product.Product;
-import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
+import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
 import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -33,9 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -171,8 +168,8 @@ class CharacterServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
-        characterService.createCharacter(fromCharacter, team.getId(), user);
-        characterService.createCharacter(toCharacter, team.getId(), user);
+        characterService.createCharacter(fromCharacter, product.getId());
+        characterService.createCharacter(toCharacter, product.getId());
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)
@@ -207,7 +204,7 @@ class CharacterServiceTest {
         characterRepository.save(character2);
         characterRepository.save(character3);
         //when
-        List<Character> result = characterService.getCharacters(product.getId(), team.getId(), user);
+        List<Character> result = characterService.getCharacters(product.getId());
 
         //then
         Assertions.assertThat(result.size()).isEqualTo(5);
@@ -232,7 +229,7 @@ class CharacterServiceTest {
         // given
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
         // when
-        Character result = characterService.createCharacter(character1, team.getId(), user);
+        Character result = characterService.createCharacter(character1, product.getId());
 
         // then
         Assertions.assertThat(result.getCharacterName()).isEqualTo(character1.getCharacterName());
@@ -243,15 +240,15 @@ class CharacterServiceTest {
     void 등장인물삭제() {
         // given
         Character character1 = Character.builder().characterName("뽀로로").product(product).build();
-        characterService.createCharacter(character1, team.getId(), user);
+        characterService.createCharacter(character1,product.getId());
 
 
         // when
 
-        characterService.deleteCharacter(character1.getId(), team.getId(),  user);
+        characterService.deleteCharacter(character1.getId());
         // then
         assertThrows(RuntimeException.class, () -> {
-            characterService.getCharacter(character1.getId(), product.getId(), user);
+            characterService.getCharacter(character1.getId());
         });
     }
 }

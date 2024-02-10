@@ -163,8 +163,8 @@ class StoryServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
-        characterService.createCharacter(fromCharacter, team.getId(), user);
-        characterService.createCharacter(toCharacter, team.getId(), user);
+        characterService.createCharacter(fromCharacter, product.getId());
+        characterService.createCharacter(toCharacter, product.getId());
 
         foreShadowing = ForeShadowing.builder()
                 .product(product)

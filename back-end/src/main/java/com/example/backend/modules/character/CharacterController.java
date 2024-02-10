@@ -24,30 +24,26 @@ public class CharacterController {
     private final S3Uploader s3Uploader;
 
     @GetMapping
-    public ApiResult<List<CharacterResponseDto>> getCharacters(@PathVariable Long productId, @PathVariable Long teamId, @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        List<Character> characters = characterService.getCharacters(productId, teamId, principalDetails.getUser());
+    public ApiResult<List<CharacterResponseDto>> getCharacters(@PathVariable Long productId) {
+        List<Character> characters = characterService.getCharacters(productId);
         return ApiResult.OK(characters.stream().map(CharacterResponseDto::of)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> getCharacter(@PathVariable Long teamId,
-                                                        @AuthenticationPrincipal PrincipalDetails principalDetails, @PathVariable Long characterId) {
-        Character character = characterService.getCharacter(characterId, teamId, principalDetails.getUser());
+    public ApiResult<CharacterResponseDto> getCharacter(@PathVariable Long characterId) {
+        Character character = characterService.getCharacter(characterId);
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 
     @DeleteMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> deleteCharacter(@PathVariable Long teamId,
-                                                           @AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                           @PathVariable Long characterId) {
-        characterService.deleteCharacter(characterId, teamId, principalDetails.getUser());
+    public ApiResult<CharacterResponseDto> deleteCharacter(@PathVariable Long characterId) {
+        characterService.deleteCharacter(characterId);
         return ApiResult.OK(null);
     }
 
     @PatchMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> updateCharacter(@PathVariable Long teamId, @AuthenticationPrincipal PrincipalDetails principalDetails,
-                                                           @RequestPart(required = false) MultipartFile uploadImage,
+    public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(required = false) MultipartFile uploadImage,
                                                            @PathVariable Long characterId, @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
 
         Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
@@ -56,15 +52,14 @@ public class CharacterController {
             String url = s3Uploader.upload(uploadImage).orElseThrow(() -> new IllegalArgumentException());
             reqCharacter.addImageUrl(url);
         }
-        Character character = characterService.updateCharacter(reqCharacter, characterId, teamId,  principalDetails.getUser());
+        Character character = characterService.updateCharacter(reqCharacter, characterId);
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 
     @PostMapping
-    public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long teamId,
+    public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
-                                                           @RequestBody @Valid CharacterRequestDto characterRequestDto,
-                                                           @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+                                                           @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
         log.info("========create character contoller ======");
         Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
 
@@ -73,7 +68,7 @@ public class CharacterController {
             reqCharacter.addImageUrl(url);
         }
 
-        Character character = characterService.createCharacter(reqCharacter, teamId, principalDetails.getUser());
+        Character character = characterService.createCharacter(reqCharacter, productId);
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 }

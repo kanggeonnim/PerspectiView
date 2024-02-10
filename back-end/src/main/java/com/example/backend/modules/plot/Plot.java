@@ -17,9 +17,11 @@ public class Plot {
     private Long id;
 
     @Column(nullable = false)
+    @Setter
     private String name;
 
     @Column(nullable = false)
+    @Setter
     private String color;
 
     @ManyToOne(fetch = FetchType.LAZY)

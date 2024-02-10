@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 public class CharacterRequestDto {
+    private Long id;
     @NotNull
     private String name;
 
@@ -17,7 +18,8 @@ public class CharacterRequestDto {
     private double positionY;
 
     public static Character from(CharacterRequestDto characterRequestDto){
-        return Character.positionBuilder()
+        return Character.builder()
+                .id(characterRequestDto.getId())
                 .characterName(characterRequestDto.getName())
                 .characterDetail(characterRequestDto.getDetail())
                 .positionX(characterRequestDto.getPositionX())

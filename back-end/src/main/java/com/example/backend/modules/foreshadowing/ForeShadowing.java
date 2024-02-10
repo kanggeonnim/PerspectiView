@@ -51,10 +51,9 @@ public class ForeShadowing {
         this.storyForeShadowings =storyForeShadowings;
     }
 
-    public void updateForeShadowing(String fShadowName, String fShadowContent, Long fShadowClose){
+    public void updateForeShadowing(String fShadowName, String fShadowContent){
         this.fShadowName = fShadowName;
         this.fShadowContent = fShadowContent;
-        this.fShadowClose = fShadowClose;
     }
 
     //------storyfshadowList에 추가------//
