@@ -34,6 +34,7 @@ const useNodeStore = create(
         title: newStory.storyTitle,
         color: plotColor,
         plotId: plotId,
+        characters: newStory.characters,
       };
 
       const position = { x: newNodeId * 200, y: 0 };

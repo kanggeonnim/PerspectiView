@@ -53,7 +53,11 @@ const CustomNode = memo(function CustomNode({ id, data }) {
         }}
       >
         <div className={`absolute m-1 top-0 right-0  ${isHovered ? "visible" : "hidden"}`}>
-          <Button size="sm" className="h-full p-1 rounded-full bg-secondary-accent">
+          <Button
+            size="sm"
+            className="h-full p-1 rounded-full bg-secondary-accent"
+            onClick={() => {}}
+          >
             <MinusCircle size={15} className="mx-auto text-foreground" />
           </Button>
         </div>
