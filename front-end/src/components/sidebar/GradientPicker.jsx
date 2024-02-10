@@ -16,7 +16,7 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
     "#09203f",
     "#D1180B",
   ];
-  const { updatePlot } = usePlotQueryModule(teamId, productId, plotId);
+  // const { updatePlot } = usePlotQueryModule(teamId, productId, plotId);
   return (
     <Popover>
       <PopoverTrigger onClick={(e) => e.stopPropagation()} asChild>
