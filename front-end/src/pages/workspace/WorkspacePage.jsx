@@ -69,8 +69,6 @@ export default function WorkspacePage() {
   const accessToken = searchParams.get("accessToken");
   const refreshToken = searchParams.get("refreshToken");
 
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log(getUser);
   useEffect(() => {
     if (accessToken) {
       console.log("render");
@@ -98,10 +96,6 @@ export default function WorkspacePage() {
   //       console.log("getproduct", getProductIsSuccess, productData);
   //     }
   //   }, [productData, itemsPerPage]);}
-
-  if (!getUserIsSuccess) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <MainLayout variant="horizontal">

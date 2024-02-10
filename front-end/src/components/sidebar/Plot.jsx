@@ -34,7 +34,7 @@ export default function Plot({ plotId, plotName, stories, plotColor, setPlotColo
           <div className="flex items-center justify-around w-full">
             <div className="w-1/2 font-bold text-left truncate text-nowrap">{plotName}</div>
             <div className="flex items-center">
-              <GradientPicker plotColor={plotColor} setPlotColor={setPlotColor} />
+              <GradientPicker plotId={plotId} plotColor={plotColor} setPlotColor={setPlotColor} />
               {isHovered ? (
                 <XCircle
                   size={15}
@@ -51,7 +51,7 @@ export default function Plot({ plotId, plotName, stories, plotColor, setPlotColo
         </AccordionTrigger>
         <AccordionContent>
           <div>
-            {stories.map((story, index) => (
+            {stories?.map((story, index) => (
               <div
                 key={index}
                 className="px-3 py-1 my-1 text-xs font-bold transition-all rounded hover:bg-primary-light hover:text-accent-foreground focus:bg-primary-accent-light focus:text-accent-foreground focus:outline-none"

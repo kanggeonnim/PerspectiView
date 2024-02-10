@@ -3,6 +3,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { Paintbrush } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 export function GradientPicker({ plotColor, setPlotColor, type }) {
   const solids = [
@@ -16,7 +17,10 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
     "#09203f",
     "#D1180B",
   ];
-  // const { updatePlot } = usePlotQueryModule(teamId, productId, plotId);
+  const { teamId, productId } = useParams();
+  console.log(teamId, productId);
+  const { updatePlot } = usePlotQueryModule(teamId, productId);
+
   return (
     <Popover>
       <PopoverTrigger onClick={(e) => e.stopPropagation()} asChild>
@@ -42,7 +46,10 @@ export function GradientPicker({ plotColor, setPlotColor, type }) {
                 onClick={(e) => {
                   e.stopPropagation();
                   type === "add" ? setPlotColor(s) : console.log("teamId, productId, plotId");
-                  // updatePlot();
+                  // updatePlot({
+                  //   plotName: plotName,
+                  //   plotColor: plotColor,
+                  // });
                 }}
               />
             ))}

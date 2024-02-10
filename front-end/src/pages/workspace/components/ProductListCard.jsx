@@ -101,6 +101,8 @@ function ProductListCard() {
     }
     return paginationButtons;
   };
+
+  
   if (!getProductIsSuccess) {
     return <div>Loading...</div>;
   }
