@@ -13,7 +13,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import RadioSelect from "./selects/radioSelect";
+import RadioButtonSelect from "./selects/RadioButtonSelect";
 import Buttonselect from "./selects/ButtonSelect";
 
 function CreateProduct() {
@@ -116,7 +116,7 @@ export default function ProductList({ productsdata, teamNo }) {
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <RadioSelect />
+                      <RadioButtonSelect />
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">

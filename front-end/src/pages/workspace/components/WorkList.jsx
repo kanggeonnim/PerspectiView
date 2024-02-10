@@ -21,7 +21,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import Buttonselect from "./selects/ButtonSelect";
-import RadioSelect from "./selects/radioSelect";
+import RadioButtonSelect from "./selects/RadioButtonSelect";
 
 function CreateWork() {
   return (
@@ -87,7 +87,7 @@ function WorkList({ title, info, onChange, onCreate }) {
             <div className="flex flex-row w-full m-2">
               <div className="box-border w-1/6 mr-3 text-xl">분류</div>
               <div className="box-border flex flex-wrap w-5/6 gap-2">
-                <RadioSelect />
+                <RadioButtonSelect />
               </div>
             </div>
             <div className="flex flex-row w-full m-2">
