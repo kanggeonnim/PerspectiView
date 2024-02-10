@@ -9,7 +9,7 @@ const colors = [
   "#9fff5b",
   "#70e2ff",
   "#cd93ff",
-  "#09203f",  
+  "#09203f",
   "#D1180B",
 ];
 const useNodeStore = create(
@@ -28,12 +28,15 @@ const useNodeStore = create(
       //   position: { x: 200, y: 0 },
       // },
     ],
+    // setNodes: (node) => {
+    //   set({ node: node });
+    // },
     edges: [
       // {
       //   id: "1",
       //   style: {
-      // // stroke: "#334155",
-      //  // strokeWidth: 3,
+      //     // stroke: "#334155",
+      //     // strokeWidth: 3,
       //     sourceColor: "#ff75c3",
       //     targetColor: "#ffa647",
       //   },
@@ -60,23 +63,20 @@ const useNodeStore = create(
       });
     },
 
-    addStory(addIndex) {
-      console.log(addIndex);
-      const lastNode = get().nodes[addIndex - 1];
-      const newNodeId = String(Number(lastNode.id) + 1);
-
+    addStory(newStory, plotIndex, storyIndex, plotColor) {
+      const lastNode = get().nodes.slice(-1)[0];
+      const newNodeId = String(get().nodes.length + 1);
       const type = "story";
       const data = {
-        title: "storyyyy",
-        color: colors[Math.floor(Math.random() * 9)], // 받아온 plotColor 넣어주기
+        title: newStory.storyTitle,
+        color: plotColor,
       };
 
-      const position = { x: Number(lastNode.id) * 200, y: 0 };
+      const position = { x: newNodeId * 200, y: 0 };
 
       set({
         nodes: [
           ...get().nodes,
-
           {
             id: newNodeId,
             type,
@@ -97,27 +97,29 @@ const useNodeStore = create(
        *
        * 가장 마지막 node와 연결하는 edge 자동으로 생성
        */
-      const lastEdge = get().edges.slice(-1)[0];
-      const newEdgeId = lastEdge === undefined ? "1" : String(Number(lastEdge.id) + 1);
+      if (get().nodes.length > 1) {
+        const lastEdge = get().edges.slice(-1)[0];
+        const newEdgeId = lastEdge === undefined ? "1" : String(Number(lastEdge.id) + 1);
 
-      const sourceColor = lastNode.data.color;
-      const targetColor = data.color;
-      const newEdge = {
-        id: newEdgeId,
-        style: {
-          sourceColor: sourceColor,
-          targetColor: targetColor,
-        },
-        type: "story",
-        source: lastNode.id,
-        sourceHandle: null,
-        target: newNodeId,
-        targetHandle: null,
-        animated: true,
-      };
+        const sourceColor = lastNode.data.color;
+        const targetColor = plotColor;
+        const newEdge = {
+          id: newEdgeId,
+          style: {
+            sourceColor: sourceColor,
+            targetColor: targetColor,
+          },
+          type: "story",
+          source: lastNode.id,
+          sourceHandle: null,
+          target: newNodeId,
+          targetHandle: null,
+          animated: true,
+        };
 
-      set({ edges: [...get().edges, newEdge] });
-      console.log("edges", get().edges);
+        set({ edges: [...get().edges, newEdge] });
+        console.log("edges", get().edges);
+      }
     },
   }))
 );
