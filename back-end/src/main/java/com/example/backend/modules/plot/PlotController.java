@@ -76,7 +76,7 @@ public class PlotController {
     @DeleteMapping("/{plotId}")
     public ApiResult<PlotResponseDto> deletePlot(@PathVariable("plotId") Long plotId,
                                                  @PathVariable("productId") Long productId) {
-        plotService.deletePlot(productId, plotId);
+        plotService.deletePlot(plotId);
         return ApiResult.OK(null);
     }
 
