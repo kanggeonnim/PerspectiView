@@ -10,13 +10,24 @@ import {
 import { CardTitle } from "@/components/ui/card";
 import { PlusCircleIcon } from "lucide-react";
 import { Plus } from "lucide-react";
-import CharTag from "./CharTag";
-import CharTagAdd from "./CharTagAdd";
+import useCharQueryModule from "@/hook/useCharQueryModule";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
+// import CharTag from "./CharTag";
+// import CharTagAdd from "./CharTagAdd";
 
 
 
-export default function CharAdd({name, description,url, onChange, onCreate }) {
-  
+export default function CharAdd({name, description, url, onChange, onCreate }) {
+
+  const navigate = useNavigate();
+  const { teamId, productId } = useParams();
+  const [addChar, setAddChar] = useState(false);
+  const [newCharName, setNewCharName] = useState("");
+  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } = useCharQueryModule(teamId, productId)
+
+  console.log(charData)
+
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

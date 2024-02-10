@@ -1,5 +1,5 @@
 import { privateApi } from "@/util/api";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -7,7 +7,7 @@ const useCharQueryModule = () => {
   const queryClient = useQueryClient();
 
   const { data: charData, isSuccess: getCharIsSuccess } = useQuery({
-    queryKey: ["char", teamId],
+    queryKey: ["char", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/team/${teamId}/product/${productId}/character`
       // ,{
