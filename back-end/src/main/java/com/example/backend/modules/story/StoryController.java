@@ -19,10 +19,12 @@ public class StoryController {
     private final ForeShadowingService foreShadowingService;
 
     @PostMapping
-    public ApiResult<StoryResponseDto> createStory(@RequestBody StoryRequestDto storyRequestDto) {
+    public ApiResult<StoryResponseDto> createStory(@RequestBody StoryRequestDto storyRequestDto,
+                                                   @PathVariable("plotId") Long plotId) {
         //story 등록
         Story story = storyService.createStory(
                 StoryRequestDto.of(storyRequestDto),
+                plotId,
                 storyRequestDto.getStoryContent(),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()));
 
