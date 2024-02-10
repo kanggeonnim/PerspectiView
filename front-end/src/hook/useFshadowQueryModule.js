@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 //복선 전체 조회 & useFshadow에 반영
-const useFshadowQueryModule = (teamId, productId) => {
+const useFshadowQueryModule = (teamId, productId, foreshadowingId) => {
   const queryClient = useQueryClient();
 
   const { fshadows, setFshadows } = useFshadow();
@@ -43,7 +43,49 @@ const useFshadowQueryModule = (teamId, productId) => {
     },
   });
 
-  return { fshadowList, getFshadowIsSuccess, createFshadow };
+  // put
+  const { mutate: updateFshadow } = useMutation({
+    mutationFn: async (updatedData) => {
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product/${productId}/foreshadowing/${foreshadowingId}`,
+        updatedData
+      );
+      console.log(response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
+  //delete
+  const { mutate: deleteFshadow } = useMutation({
+    mutationFn: async () => {
+      console.log(teamId, productId, foreshadowingId);
+      const response = await privateApi.delete(
+        `/api/team/${teamId}/product/${productId}/foreshadowing/${foreshadowingId}`
+      );
+      console.log("복선삭제", response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["foreshadowing", teamId, productId],
+      });
+    },
+  });
+
+  return {
+    fshadowList,
+    getFshadowIsSuccess,
+    createFshadow,
+    deleteFshadow,
+    updateFshadow,
+  };
 };
 
 export default useFshadowQueryModule;
