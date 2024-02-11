@@ -1,13 +1,11 @@
 import check_icon from "@/assets/check_icon.svg";
 import book_icon from "@/assets/opened_book.svg";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
-import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-export function ForeshadowingCardProduct({ colFshadow, index }) {
+export function ForeshadowingCardStoryDetail({ colFshadow, index }) {
   const [isEditMode, setIsEditMode] = useState(false);
   const [editName, setEditName] = useState(colFshadow.fshadowName);
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
@@ -50,19 +48,6 @@ export function ForeshadowingCardProduct({ colFshadow, index }) {
               <div>{colFshadow.fshadowName}</div>
             )}
           </div>
-
-          {colFshadow.columnId === "column-1" && (
-            <Trash2 class="cursor-pointer" size={16} onClick={deleteFshadow} />
-          )}
-          {!isEditMode ? (
-            <Pencil
-              class="cursor-pointer"
-              size={16}
-              onClick={() => setIsEditMode(true)}
-            />
-          ) : (
-            <Button onClick={handleEditSubmit}>수정 완료</Button>
-          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">

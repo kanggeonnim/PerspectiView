@@ -62,7 +62,7 @@ export default function ForeshadowingProduct() {
           <CardTitle className="text-3xl">복선 목록</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <PlusCircle size={24} />
+              <PlusCircle class="cursor-pointer" size={24} />
             </AlertDialogTrigger>
             <AlertDialogContent className="">
               <AlertDialogHeader>

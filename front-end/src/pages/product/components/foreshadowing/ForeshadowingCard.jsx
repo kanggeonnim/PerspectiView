@@ -88,14 +88,24 @@ export function ForeshadowingCard({ colFshadow, index }) {
             )}
           </div>
           {/* //TODO delete 더블체크화면 */}
-          {colFshadow.columnId === "column-1" && (
-            <Trash2 size={16} onClick={deleteFshadow} />
-          )}
-          {!isEditMode ? (
-            <Pencil size={16} onClick={() => setIsEditMode(true)} />
-          ) : (
-            <Button onClick={handleEditSubmit}>수정 완료</Button>
-          )}
+          <div className="flex">
+            {colFshadow.columnId === "column-1" && (
+              <Trash2
+                class="cursor-pointer"
+                size={16}
+                onClick={deleteFshadow}
+              />
+            )}
+            {!isEditMode ? (
+              <Pencil
+                class="cursor-pointer"
+                size={16}
+                onClick={() => setIsEditMode(true)}
+              />
+            ) : (
+              <Button onClick={handleEditSubmit}>수정 완료</Button>
+            )}
+          </div>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
@@ -118,7 +128,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
             언급한 스토리 ID:
           </p>
           <div className="flex ">
-            {colFshadow.storyIdList.map((storyOb, index) => (
+            {colFshadow.storyIdList?.map((storyOb, index) => (
               <div key={index} className="mr-3">
                 <Link
                   to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}

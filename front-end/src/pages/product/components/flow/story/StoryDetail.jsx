@@ -1,9 +1,29 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { useStoryDetail } from "@/store/useStoryDetailStore";
+import { useParams } from "react-router-dom";
+import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
 
 const characListData = [
   {
@@ -59,32 +79,57 @@ const storyData = {
 };
 
 const getCharacName = (characId) => {
-  const result = characListData.filter((charac) => charac.characId === characId);
+  const result = characListData.filter(
+    (charac) => charac.characId === characId
+  );
   return result[0].characName;
 };
 
 export default function StoryDetail() {
+  const { teamId, productId, plotId, storyId } = useParams();
+  const {
+    getStoryDetail,
+    getStoryDetailIsSuccess,
+    getStoryFshadowList,
+    getStoryFshadowListIsSuccess,
+  } = useStoryQueryModule(teamId, productId, plotId, storyId);
+  const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
+    useStoryDetail();
+  // console.log("여기", storyDetail1);
+
   return (
     <Card className="w-1/2 h-full m-5 ">
       <form action="" method="" className="flex flex-col w-full h-full ">
         <CardHeader>
           {/* 스토리 제목 */}
-          <CardTitle className="flex w-full my-2 text-3xl">{storyData.storyTitle}</CardTitle>
+          <CardTitle className="flex w-full my-2 text-3xl">
+            {storyData.storyTitle}
+          </CardTitle>
 
           {/* 복선 */}
           <div className="flex flex-col justify-between">
-            <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
+            <div className="my-2 text-xs font-bold">
+              이 스토리에 사용된 복선
+            </div>
             <div className="flex items-start justify-start space-x-2">
-              {/* TODO: 스토리에 해당하는 복선 조회 api */}
-              <Badge className=" bg-progress text-foreground" radius="full">
-                복선 제목
-              </Badge>
+              {storyFshadowList?.map((fshadow) => (
+                <HoverCard key={fshadow.fshadowId}>
+                  <HoverCardTrigger>
+                    <Badge>{fshadow.fshadowName}</Badge>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    <ForeshadowingCardStoryDetail colFshadow={fshadow} />
+                  </HoverCardContent>
+                </HoverCard>
+              ))}
             </div>
           </div>
 
           {/* 인물 목록 */}
           <div className="flex flex-col justify-between ">
-            <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
+            <div className="my-2 text-xs font-bold ">
+              이 스토리에 등장한 인물
+            </div>
             <div className="flex items-start justify-start space-x-2">
               {storyData.characList.map((character, key) => (
                 <div className="flex flex-col items-center " key={key}>
@@ -109,7 +154,10 @@ export default function StoryDetail() {
 
         <CardContent className="flex w-full h-full">
           <div className="flex flex-col justify-start w-full h-full ">
-            <Textarea className="w-full h-full text-lg" defaultValue={storyData.storyContent} />
+            <Textarea
+              className="w-full h-full text-lg"
+              defaultValue={storyData.storyContent}
+            />
           </div>
         </CardContent>
         <CardFooter className="flex justify-end">
