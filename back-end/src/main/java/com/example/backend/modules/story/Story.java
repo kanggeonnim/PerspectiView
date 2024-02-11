@@ -89,4 +89,8 @@ public class Story {
     public void updatePlot(Plot plot){
         this.plot = plot;
     }
+
+    public void updateStoryRelation(List<StoryRelation> storyRelations) {
+        if(storyRelations!=null) storyRelations.addAll(storyRelations);
+    }
 }
