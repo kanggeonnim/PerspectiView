@@ -20,9 +20,12 @@ public class StoryRequestDto {
     private int positionX;
     private Double positionY;
 
-    public static Story of(StoryRequestDto storyRequestDto) {
+//    public static Story of(StoryRequestDto storyRequestDto) {
+    public static Story of(StoryRequestDto storyRequestDto,List<StoryRelation> storyRelations,List<StoryForeShadowing> storyForeShadowings) {
         return Story.builder()
                 .title(storyRequestDto.getStoryTitle())
+                .storyRelations(storyRelations)
+                .storyForeShadowings(storyForeShadowings)
                 .positionX(storyRequestDto.getPositionX())
                 .positionY(storyRequestDto.getPositionY())
                 .build();
