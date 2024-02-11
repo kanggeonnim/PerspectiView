@@ -103,12 +103,12 @@ public class StoryService {
      * @return
      */
     @Transactional
-    public Story updateStory(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
+    public Story updateStory(Long storyId, Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
         storyRelationRepository.deleteAll(story.getStoryRelations());
         storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
-
-        Story findStory = storyRepository.findWithPlotContentById(story.getId()).orElseThrow(() -> new NotFoundException());
+        log.info("=============스토리를 찾는다.=============");
+        Story findStory = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
 
         Set<StoryRelation> storyRelations;
         Set<StoryForeShadowing> storyForeShadowings;
@@ -124,7 +124,7 @@ public class StoryService {
                 .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
-        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new NotFoundException());
+        Content content = contentRepository.findById(findStory.getContent().getId()).orElseThrow(() -> new NotFoundException());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
