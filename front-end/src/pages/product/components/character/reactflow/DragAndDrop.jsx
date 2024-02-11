@@ -15,8 +15,18 @@ import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 import "./style.css";
 import { Button } from "@/components/ui/button";
+import useRelativeModule from "@/hook/useRelativeModule";
+import { useRelativeStore } from "@/store/useRelativeStore";
 
 const flowKey = "relation";
+
+const selector = (store) => ({
+  nodes: store.nodes,
+  edges: store.edges,
+  onNodesChange: store.onNodesChange,
+  onEdgesChange: store.onEdgesChange,
+  addStory: store.addStory,
+});
 
 const initialNodes = [];
 
@@ -58,7 +68,7 @@ export default function DnD({ users, charDatas, idx }) {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
+  
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
@@ -68,11 +78,14 @@ export default function DnD({ users, charDatas, idx }) {
     }
   }, [reactFlowInstance]);
 
+  // 임시저장 
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
       // console.log(typeof(JSON.stringify(flow)))
-      console.log(nodes)
+      console.log("flow 전부", reactFlowInstance)
+      console.log("노드(?)", nodes)
+      console.log("엣지(?)", edges)
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
@@ -111,7 +124,6 @@ export default function DnD({ users, charDatas, idx }) {
       // charDatas가 로딩 중이라면 빈 데이터를 반환하도록 처리
       const index = parseInt(idx);
       const chardex = charDatas.map((chars) => (chars.id) )
-      console.log(index)
 
       let findex =chardex.findIndex(v=>v === index)
       // 인덱스 추출
@@ -141,7 +153,6 @@ export default function DnD({ users, charDatas, idx }) {
             </>
           ),
         },
-        onchange: {},
       };
 
       setNodes((nds) => nds.concat(newNode));

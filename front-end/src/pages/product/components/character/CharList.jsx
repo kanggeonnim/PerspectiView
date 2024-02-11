@@ -23,7 +23,6 @@ export default function CharList({ users, charDatas, onIdxChange }) {
   // const [datas, setDatas] = useState();
 
 
-  console.log(charDatas)
   return (
     // <div className="flex flex-wrap gap-2">
     //   {users.map((user) => (

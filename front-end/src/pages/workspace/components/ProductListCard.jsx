@@ -61,7 +61,7 @@ function ProductListCard() {
     if (productList) {
       setTotalItems(() => productList.length);
       setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
-      console.log("getproduct", getProductListIsSuccess, productList);
+      // console.log("getproduct", getProductListIsSuccess, productList);
       setProductInfo(() => productList);
     }
   });

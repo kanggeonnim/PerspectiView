@@ -11,7 +11,6 @@ const useCharQueryModule = (teamId, productId) => {
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`
       );
-      console.log(response);
       if (response) {
         
         return response.data.response;
@@ -22,7 +21,6 @@ const useCharQueryModule = (teamId, productId) => {
   const { mutate: createChar } = useMutation({
     mutationFn: async (newData) => {
       const response = await privateApi.post(`/api/team/${teamId}/product/${productId}/character`, newData);
-      console.log(response);
       return response.data.response;
     },
     onSuccess: () => {

@@ -8,10 +8,13 @@ export const useRelativeStore = create(
         set({ nodes: nodes });
       },
       edges: null,
-      setNodes: (product) => {
+      setNodes: (edges) => {
         set({ edges: edges });
       },
-
+      viewport: null,
+      setViewport: (viewport) => {
+        set({viewport: viewport})
+      }
     }))
   );
 
