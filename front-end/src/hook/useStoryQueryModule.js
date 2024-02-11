@@ -16,7 +16,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     queryKey: ["eachStory"],
     queryFn: async () => {
       const response = await privateApi.get(
-        `api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
       );
       console.log("스토리단일조회", response);
       return response.data.response;
@@ -34,7 +34,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     queryKey: ["fshadowList"],
     queryFn: async () => {
       const response = await privateApi.get(
-        `api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
       );
       console.log("스토리 연관 복선조회", response);
       return response.data.response;

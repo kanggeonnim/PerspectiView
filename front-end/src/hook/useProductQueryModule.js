@@ -46,7 +46,7 @@ const useProductQueryModule = (teamId, productId) => {
 
   const { mutate: createProduct } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product`, newData);
+      const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {
@@ -56,7 +56,7 @@ const useProductQueryModule = (teamId, productId) => {
   });
   const { mutate: updateProduct } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.put(`/team/${teamId}/product`, newData);
+      const response = await privateApi.put(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {
