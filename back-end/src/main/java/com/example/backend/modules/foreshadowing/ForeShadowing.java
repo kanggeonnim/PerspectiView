@@ -38,8 +38,8 @@ public class ForeShadowing {
     @ColumnDefault("-1")
     private Long fShadowClose;
 
-    @OneToMany(mappedBy = "foreShadowing")
-    private List<StoryForeShadowing> storyForeShadowings = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "foreShadowing")
+    private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
 
     @Builder
     public ForeShadowing(Long id, String fShadowName, String fShadowContent, Long fShadowClose, Product product,List<StoryForeShadowing> storyForeShadowings) {
@@ -48,7 +48,7 @@ public class ForeShadowing {
         this.fShadowContent = fShadowContent;
         this.fShadowClose = fShadowClose;
         this.product = product;
-        this.storyForeShadowings =storyForeShadowings;
+        if(storyForeShadowings!=null) this.storyForeShadowings.addAll(storyForeShadowings);
     }
 
     public void updateForeShadowing(String fShadowName, String fShadowContent){

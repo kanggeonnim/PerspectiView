@@ -177,6 +177,14 @@ public class StoryService {
 
         Story story = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
 
+        //이미 추가되어있는 복선이면 추가되지 않게 처리
+        List<StoryForeShadowing> storyForeShadowings = storyForeShadowingRepository.findByStory(story);
+        for(StoryForeShadowing sfs : storyForeShadowings){
+            if(sfs.getForeShadowing().equals(fshadow)){
+                return null;
+            }
+        }
+
         StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
                 .foreShadowing(fshadow)
                 .story(story).build());

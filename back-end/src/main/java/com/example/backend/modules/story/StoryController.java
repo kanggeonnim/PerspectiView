@@ -6,6 +6,7 @@ import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/team/{teamId}/product/{productId}/plot/{plotId}/story")
 public class StoryController {
     private final StoryService storyService;
@@ -23,7 +25,7 @@ public class StoryController {
                                                    @PathVariable("plotId") Long plotId) {
         //story 등록
         Story story = storyService.createStory(
-                StoryRequestDto.of(storyRequestDto,null,null),
+                StoryRequestDto.of(storyRequestDto, null, null),
                 plotId,
                 storyRequestDto.getStoryContent(),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
@@ -36,7 +38,7 @@ public class StoryController {
     @PutMapping("/{storyId}")
     public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto) {
         Story story = storyService.updateStory(
-                StoryRequestDto.of(storyRequestDto,null,null),
+                StoryRequestDto.of(storyRequestDto, null, null),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
                 storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
 
@@ -58,7 +60,7 @@ public class StoryController {
     @PostMapping("/{storyId}/vertical")
     public ApiResult<StoryResponseDto> updatePositionY(@PathVariable("storyId") Long storyId,
                                                        @RequestBody StoryRequestDto storyRequestDto) {
-        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto,null,null));
+        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto, null, null));
         StoryResponseDto storyResponseDto = storyService.findByStoryId(storyId);
         return ApiResult.OK(storyResponseDto);
     }
@@ -81,10 +83,13 @@ public class StoryController {
     public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
         ForeShadowing result = storyService.createStoryFshadow(foreshadowingId, storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
-        String columnId = setColumn(storyIds, result);
-
-        return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
+        if (result != null) {
+            List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+            String columnId = setColumn(storyIds, result);
+            return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
+        }
+        log.info("========중복 데이터입니다.==========");
+        return ApiResult.OK(null);
     }
 
 
