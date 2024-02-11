@@ -3,18 +3,17 @@ import ProductSidebar from "@/components/sidebar/product/ProductSidebar";
 import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
-import { Outlet, useLocation } from "react-router-dom";
-import useProductAddStore from "@/store/useProductAddStore";
+import { Outlet, useParams } from "react-router-dom";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+import { useAuthStore } from "@/store/useAuthStore";
 
 export default function ProductPage() {
   const { getUser, getUserIsSuccess } = useUserQueryModule();
+  const { teamId, productId } = useParams();
+  const { productData, getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
+  const { user } = useAuthStore();
 
-  const { pathname } = useLocation();
-  console.log(pathname);
-  // const { products } = useProductAddStore();
-  // console.log(products);
-
-  if (!getUserIsSuccess) {
+  if (!user) {
     return <div>Loading...</div>;
   }
   return (

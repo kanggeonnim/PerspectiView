@@ -34,11 +34,14 @@ import { GradientPicker } from "./GradientPicker";
 import { Button } from "../../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
+import { useProductStore } from "@/store/useProductStore";
+import { usePlotListStore } from "@/store/plot/usePlotListStore";
 
 function ProductSidebar() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
-  console.log(teamId);
+
+  const { createPlot } = usePlotQueryModule(teamId, productId);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [addPlot, setAddPlot] = useState(false);
 
@@ -47,9 +50,14 @@ function ProductSidebar() {
     "linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)"
   );
   const { user } = useAuthStore();
+  const { product } = useProductStore();
+  const { plotList, setPlotList } = usePlotListStore();
 
-  const { plotList, getPlotListIsSuccess, createPlot } = usePlotQueryModule(teamId, productId);
-  console.log(plotList);
+  useEffect(() => {
+    if (product && product.plots) {
+      setPlotList(product.plots);
+    }
+  }, [product, setPlotList]);
 
   const toggleAddPlot = () => {
     setAddPlot(!addPlot);
@@ -57,10 +65,6 @@ function ProductSidebar() {
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
-
-  if (!getPlotListIsSuccess) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
@@ -224,7 +228,7 @@ function ProductSidebar() {
                               key={index}
                               plotId={plot.plotId}
                               plotName={plot.plotName}
-                              stories={plot.storyList}
+                              stories={plot.stories}
                               plotColor={plot.plotColor}
                             />
                           ))}

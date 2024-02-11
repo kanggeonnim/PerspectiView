@@ -5,29 +5,14 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { GradientPicker } from "./GradientPicker";
-import { UndoIcon, XCircle } from "lucide-react";
 import { useState } from "react";
-import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useParams } from "react-router-dom";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { ConfirmModal } from "./ConfirmModal";
 
 export default function Plot({ plotId = undefined, plotName, stories, plotColor, setPlotColor }) {
   const [isHovered, setIsHovered] = useState(false);
   const { teamId, productId } = useParams();
-  const { deletePlot } = usePlotQueryModule(teamId, productId, plotId);
 
   const handleMouseEnter = (event) => {
     event.stopPropagation();

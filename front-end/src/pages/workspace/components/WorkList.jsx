@@ -4,9 +4,10 @@ import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
+import { useEffect } from "react";
 import ProductDetail from "./ProductDetail";
 import { PlusCircleIcon } from "lucide-react";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -20,8 +21,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import OneButtonselect from "./selects/oneButtonSelect";
-import RadioSelect from "./selects/radioSelect";
+import Buttonselect from "./selects/ButtonSelect";
+import RadioButtonSelect from "./selects/RadioButtonSelect";
 
 function CreateWork() {
   return (
@@ -32,17 +33,32 @@ function CreateWork() {
 }
 
 function WorkList({ title, info, onChange, onCreate }) {
-  const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
-    category: null,
-    genres: [],
+    category: {
+      "id": 1,
+      "name": "웹소설"
+    },
+    genres: [
+      {
+        "id": 1,
+        "name": "SF"
+      }
+    ],
     uploadImage: "",
   });
-
-  const { createProduct } = useProductQueryModule(teamId);
-
+  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
+  const [teamNo, setTeamNo] = useState("");
+  useEffect(() => {
+    if (teamData) {
+      setTeamNo(() => teamData[0].id);
+      console.log("team?", teamNo);
+    }
+  }, [teamData]);
+  // FIXME 팀 ID undefined 발생
+  const { createProduct } = useProductQueryModule(teamNo);
+  // console.log(teamId)
   return (
     <AlertDialog className="w-full h-full">
       <div>
@@ -81,13 +97,13 @@ function WorkList({ title, info, onChange, onCreate }) {
             <div className="flex flex-row w-full m-2">
               <div className="box-border w-1/6 mr-3 text-xl">장르</div>
               <div className="box-border flex flex-wrap w-5/6 gap-2">
-                <OneButtonselect className="w-full" />
+                <Buttonselect className="w-full" />
               </div>
             </div>
             <div className="flex flex-row w-full m-2">
               <div className="box-border w-1/6 mr-3 text-xl">분류</div>
               <div className="box-border flex flex-wrap w-5/6 gap-2">
-                <RadioSelect />
+                <RadioButtonSelect />
               </div>
             </div>
             <div className="flex flex-row w-full m-2">
