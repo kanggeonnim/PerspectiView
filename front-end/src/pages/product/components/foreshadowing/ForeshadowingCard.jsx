@@ -31,6 +31,9 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const isDropped = colFshadow.storyIdList.some(
     (storyIdObject) => storyIdObject.storyId == storyId
   );
+
+  console.log("여기", colFshadow.columnId);
+
   //해당 스토리 내에서 회수되었는지 여부
   const isClose = colFshadow.fshadowClose == storyId;
 
@@ -60,7 +63,34 @@ export function ForeshadowingCard({ colFshadow, index }) {
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
-            {isDropped ? (
+            {!isDropped && colFshadow.columnId !== "column-3" && (
+              <Badge variant="outline" onClick={() => dropFshadow()}>
+                사용
+              </Badge>
+            )}
+            {isDropped &&
+              colFshadow.columnId !== "column-1" &&
+              colFshadow.columnId !== "column-3" && (
+                <Badge variant="outline" onClick={() => undropFshadow()}>
+                  사용취소
+                </Badge>
+              )}
+            {/* {!isClose && colFshadow.columnId !== "column-1" && (
+              <Badge variant="outline" onClick={() => closeFshadow()}>
+                회수
+              </Badge>
+            )} */}
+            {!isClose && colFshadow.columnId === "column-2" && (
+              <Badge variant="outline" onClick={() => closeFshadow()}>
+                회수
+              </Badge>
+            )}
+            {isClose && colFshadow.columnId === "column-3" && (
+              <Badge variant="outline" onClick={() => uncloseFshadow()}>
+                회수취소
+              </Badge>
+            )}
+            {/* {isDropped ? (
               <Badge variant="outline" onClick={() => undropFshadow()}>
                 사용취소
               </Badge>
@@ -77,7 +107,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
               <Badge variant="outline" onClick={() => closeFshadow()}>
                 회수
               </Badge>
-            )}
+            )} */}
           </div>
           {/* //TODO delete 더블체크화면 */}
           <Trash2 size={16} onClick={deleteFshadow} />
