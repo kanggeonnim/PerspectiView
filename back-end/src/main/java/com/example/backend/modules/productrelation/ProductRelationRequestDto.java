@@ -9,7 +9,6 @@ import lombok.Data;
 @Data
 @Builder
 public class ProductRelationRequestDto {
-    private Long productRelationId;
     private CharacterRequestDto fromCharacter;
     private CharacterRequestDto toCharacter;
     private String productRelationInfo;
@@ -19,13 +18,12 @@ public class ProductRelationRequestDto {
     private String targetHandle;
 
 
-    public ProductRelation from(ProductRelationRequestDto productRelationRequestDto) {
+    public static ProductRelation from(ProductRelationRequestDto productRelationRequestDto) {
         return ProductRelation.builder()
                 .sourceId(productRelationRequestDto.getSourceId())
                 .tagetId(productRelationRequestDto.getTargetId())
                 .sourceHandle(productRelationRequestDto.getSourceHandle())
                 .targetHandle(productRelationRequestDto.getTargetHandle())
-                .id(productRelationRequestDto.getProductRelationId())
                 .productRelationInfo(productRelationRequestDto.getProductRelationInfo())
                 .fromCharacter(CharacterRequestDto.from(productRelationRequestDto.getFromCharacter()))
                 .toCharacter(CharacterRequestDto.from(productRelationRequestDto.getToCharacter()))
