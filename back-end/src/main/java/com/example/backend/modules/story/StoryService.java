@@ -182,6 +182,14 @@ public class StoryService {
 
         Story story = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
 
+        //이미 추가되어있는 복선이면 추가되지 않게 처리
+        List<StoryForeShadowing> storyForeShadowings = storyForeShadowingRepository.findByStory(story);
+        for(StoryForeShadowing sfs : storyForeShadowings){
+            if(sfs.getForeShadowing().equals(fshadow)){
+                return null;
+            }
+        }
+
         StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.save(StoryForeShadowing.builder()
                 .foreShadowing(fshadow)
                 .story(story).build());
@@ -243,7 +251,19 @@ public class StoryService {
      * 스토리 등장인물이랑 같이 조회
      */
     public List<Story> findWithStoryRelation(Plot plot){
-        return storyRepository.findWithStoryRelationByPlot(plot);
+        List<Story> stories = storyRepository.findWithStoryRelationByPlot(plot);
+        for(Story s:stories){
+            List<StoryRelation> storyRelations = findWithCharacterByStory(s);
+            s.updateStoryRelation(storyRelations);
+        }
+        return stories;
+    }
+
+    /**
+     * 스토리관계 인물이랑 같이 조회
+     */
+    public List<StoryRelation> findWithCharacterByStory(Story story){
+        return storyRelationRepository.findWithCharacterByStory(story);
     }
 
 

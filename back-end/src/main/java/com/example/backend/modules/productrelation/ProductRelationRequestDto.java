@@ -13,12 +13,16 @@ public class ProductRelationRequestDto {
     private CharacterRequestDto fromCharacter;
     private CharacterRequestDto toCharacter;
     private String productRelationInfo;
+    private Long sourceId;
+    private Long targetId;
     private String sourceHandle;
     private String targetHandle;
 
 
     public ProductRelation from(ProductRelationRequestDto productRelationRequestDto) {
         return ProductRelation.builder()
+                .sourceId(productRelationRequestDto.getSourceId())
+                .tagetId(productRelationRequestDto.getTargetId())
                 .sourceHandle(productRelationRequestDto.getSourceHandle())
                 .targetHandle(productRelationRequestDto.getTargetHandle())
                 .id(productRelationRequestDto.getProductRelationId())
