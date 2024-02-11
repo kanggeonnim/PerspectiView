@@ -62,7 +62,8 @@ export default function DnD({ users, charDatas, idx }) {
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log(flow)
+      // console.log(flow)
+      
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
@@ -70,7 +71,8 @@ export default function DnD({ users, charDatas, idx }) {
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log(typeof(JSON.stringify(flow)))
+      // console.log(typeof(JSON.stringify(flow)))
+      console.log(nodes)
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
