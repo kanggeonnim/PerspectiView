@@ -15,7 +15,7 @@ import LabelNode from "./customnode/LabelNode";
 import "./style.css";
 import { Button } from "@/components/ui/button";
 
-const flowKey = "example-flow";
+const flowKey = "relation";
 
 const initialNodes = [];
 
@@ -76,20 +76,15 @@ export default function DnD({ users, charDatas, idx }) {
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log(flow)
+      console.log(typeof(JSON.stringify(flow)))
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
-
-  const onDragOver = useCallback((event) => {
-    event.preventDefault();
-  }, []);
-
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
-
+      console.log(flow.viewport)
       if (flow) {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
         setNodes(flow.nodes || []);
@@ -100,6 +95,10 @@ export default function DnD({ users, charDatas, idx }) {
 
     restoreFlow();
   }, [setNodes, setViewport]);
+
+  const onDragOver = useCallback((event) => {
+    event.preventDefault();
+  }, []);
 
   const onDrop = useCallback(
     (event) => {
