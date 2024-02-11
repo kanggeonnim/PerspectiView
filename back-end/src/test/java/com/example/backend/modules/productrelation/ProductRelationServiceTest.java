@@ -1,6 +1,7 @@
 package com.example.backend.modules.productrelation;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
@@ -17,19 +18,18 @@ import com.example.backend.modules.user.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -100,6 +100,9 @@ class ProductRelationServiceTest {
 
     private Content content;
 
+    private CharacterRequestDto fromCharacterRequestDto;
+
+    private CharacterRequestDto toCharacterRequestDto;
     @PersistenceContext
     EntityManager em;
 
@@ -163,15 +166,32 @@ class ProductRelationServiceTest {
                 .product(product)
                 .characterName("toCharacter")
                 .build();
+
         characterService.createCharacter(fromCharacter, product.getId());
         characterService.createCharacter(toCharacter, product.getId());
 
+        fromCharacterRequestDto = CharacterRequestDto.builder()
+                .id(fromCharacter.getId())
+                .name(fromCharacter.getCharacterName())
+                .detail(fromCharacter.getCharacterDetail())
+                .positionY(fromCharacter.getPositionY())
+                .positionX(fromCharacter.getPositionX())
+                .build();
+
+        toCharacterRequestDto = CharacterRequestDto.builder()
+                .id(toCharacter.getId())
+                .name(toCharacter.getCharacterName())
+                .detail(toCharacter.getCharacterDetail())
+                .positionY(toCharacter.getPositionY())
+                .positionX(toCharacter.getPositionX())
+                .build();
         foreShadowing = ForeShadowing.builder()
                 .product(product)
                 .fShadowClose(null)
                 .fShadowName("fShadowName")
                 .fShadowContent("fShadowContent")
                 .build();
+
         foreShadowingRepository.save(foreShadowing);
 
         StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
@@ -232,13 +252,27 @@ class ProductRelationServiceTest {
                 .fromCharacter(fromCharacter)
                 .toCharacter(toCharacter)
                 .build();
+        ProductRelation productRelation2 = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
+        ProductRelation productRelation3 = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
         productRelationService.createProductRelation(product.getId(), productRelation);
-        //when
+        productRelationService.createProductRelation(product.getId(), productRelation2);
+        productRelationService.createProductRelation(product.getId(), productRelation3);
 
+        //when
         List<ProductRelation> productRelations = productRelationService.findAllProductRelation(product.getId());
 
         //then
-        assertEquals(productRelations.size(), 1);
+        assertEquals(productRelations.size(), 3);
     }
 
     @Test
@@ -263,6 +297,70 @@ class ProductRelationServiceTest {
 
         //then
         assertEquals(afterUpdate.getProductRelationInfo(), beforeUpdate.getProductRelationInfo());
+    }
+
+    @Test
+    public void 전체인물관계수정() throws Exception {
+        //given
+        ProductRelation productRelation = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
+        ProductRelation productRelation2 = ProductRelation.builder()
+                .product(product)
+                .productRelationInfo("info")
+                .fromCharacter(fromCharacter)
+                .toCharacter(toCharacter)
+                .build();
+        productRelationService.createProductRelation(product.getId(), productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation2);
+
+        em.flush();
+        em.clear();
+
+        ProductRelationRequestDto productRelation3 = ProductRelationRequestDto.builder()
+                .productRelationInfo("info1")
+                .fromCharacter(fromCharacterRequestDto)
+                .toCharacter(toCharacterRequestDto)
+                .sourceHandle("a")
+                .targetHandle("b")
+                .targetId(1L)
+                .sourceId(1L)
+                .build();
+
+        ProductRelationRequestDto productRelation4 = ProductRelationRequestDto.builder()
+                .productRelationInfo("info2")
+                .fromCharacter(fromCharacterRequestDto)
+                .toCharacter(toCharacterRequestDto)
+                .sourceHandle("a")
+                .targetHandle("b")
+                .targetId(1L)
+                .sourceId(1L)
+                .build();
+
+        ProductRelationRequestDto productRelation5 = ProductRelationRequestDto.builder()
+                .productRelationInfo("info3")
+                .fromCharacter(fromCharacterRequestDto)
+                .toCharacter(toCharacterRequestDto)
+                .sourceHandle("a")
+                .targetHandle("b")
+                .targetId(1L)
+                .sourceId(1L)
+                .build();
+
+        List<ProductRelationRequestDto> productRelations = new ArrayList<>();
+        productRelations.add(productRelation3);
+        productRelations.add(productRelation4);
+        productRelations.add(productRelation5);
+
+        //when
+        productRelationService.updateAllProductRelation(product.getId(), productRelations);
+        List<ProductRelation> result = productRelationService.findAllProductRelation(product.getId());
+
+        //then
+        Assertions.assertEquals(result.size(), 3);
     }
 
     @Test

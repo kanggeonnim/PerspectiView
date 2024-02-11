@@ -3,6 +3,7 @@ package com.example.backend.modules.productrelation;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
+import com.example.backend.modules.story.StoryRelationRepository;
 import com.example.backend.modules.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class ProductRelationService {
      */
     public List<ProductRelation> findAllProductRelation(Long productId) {
         Product product = productService.findByProductId(productId);
-        List<ProductRelation> productRelations = productRelationRepository.findAllByProduct(product);
+        List<ProductRelation> productRelations = productRelationRepository.findByProduct(product);
         return productRelations;
     }
 
@@ -64,5 +66,20 @@ public class ProductRelationService {
     @Transactional
     public void deleteProductRelation(Long productRelationId) {
         productRelationRepository.deleteById(productRelationId);
+    }
+
+    @Transactional
+    public List<ProductRelationResponseDto> updateAllProductRelation(Long productId, List<ProductRelationRequestDto> productRelationRequestDtos) {
+        Product product = productService.findByProductId(productId);
+        productRelationRepository.deleteAll(product.getProductRelations());
+        List<ProductRelationResponseDto> productRelations = new ArrayList<>();
+
+        productRelationRequestDtos.stream().collect(Collectors.toList()).stream()
+                .map(ProductRelationRequestDto::from)
+                .map(productRelation -> productRelation.updateProduct(product))
+                .map(productRelationRepository::save)
+                .map(ProductRelationResponseDto::of)
+                .forEach(productRelationResponseDto -> productRelations.add(productRelationResponseDto));
+        return productRelations;
     }
 }

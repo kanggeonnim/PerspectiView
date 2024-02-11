@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface ProductRelationRepository extends JpaRepository<ProductRelation, Long> {
 
     @EntityGraph(attributePaths = {"fromCharacter","toCharacter"})
-    List<ProductRelation> findAllByProduct(Product product);
+    List<ProductRelation> findByProduct(Product product);
 
     @EntityGraph(attributePaths = {"fromCharacter","toCharacter"})
     Optional<ProductRelation> findById(Long id);
