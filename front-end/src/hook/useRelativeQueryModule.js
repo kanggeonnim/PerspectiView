@@ -1,14 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
-import { useRelativeStore } from "@/store/useRelativeStore";
+import { useProductStore } from "@/store/useProductStore";
+import useRelativeStore from "@/store/relative/useRelativeStore";
+import useNodeStore from "@/store/useNodeStore";
 
-const useRelativeModule = (teamId, productId) => {
+const useRelativeQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
-  const {nodes, setNodes, edges, setEdges, viewport, setViewport} = useRelativeStore();
+  const { setProduct } = useProductStore();
+  const { setNodes } = useNodeStore();
+
   const { data: relativeList, isSuccess: getRelativeListIsSuccess } = useQuery({
-    queryKey: ["relativeList"],
+    queryKey: ["relativeList",teamId, productId],
     queryFn: async () => {
-      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/relative`);
+      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/relation`);
       console.log(response);
       return response.data.response;
     },
@@ -17,7 +21,7 @@ const useRelativeModule = (teamId, productId) => {
   const { mutate: createRelative } = useMutation({
     mutationFn: async (newData) => {
       const response = await privateApi.post(
-        `/api/team/${teamId}/product/${productId}/relatives`,
+        `/api/team/${teamId}/product/${productId}/relation`,
         newData
       );
       console.log(response);
@@ -33,7 +37,7 @@ const useRelativeModule = (teamId, productId) => {
     mutationFn: async (updatedData) => {
       console.log("update", updatedData, teamId, productId);
       const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}/relatives`,
+        `/api/team/${teamId}/product/${productId}/relation`,
         updatedData
       );
       console.log(response);
@@ -49,7 +53,7 @@ const useRelativeModule = (teamId, productId) => {
     mutationFn: async () => {
       console.log(teamId, productId, plotId);
       const response = await privateApi.delete(
-        `/api/team/${teamId}/product/${productId}/relatives`
+        `/api/team/${teamId}/product/${productId}/relation`
       );
       console.log(response);
       return response.data.response;
@@ -63,4 +67,4 @@ const useRelativeModule = (teamId, productId) => {
   return { relativeList, getRelativeListIsSuccess, createRelative, updateRelative, deleteRelative };
 };
 
-export default useRelativeModule;
+export default useRelativeQueryModule;

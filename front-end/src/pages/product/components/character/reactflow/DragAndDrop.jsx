@@ -10,14 +10,15 @@ import ReactFlow, {
 } from "reactflow";
 import DownloadButton from "./DownloadButton";
 import CustomNode from "./customnode/CustomNode";
-import FloatingEdge from "./FloatingEdge";
 import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 import "./style.css";
 import { Button } from "@/components/ui/button";
-import useRelativeModule from "@/hook/useRelativeModule";
-import { useRelativeStore } from "@/store/useRelativeStore";
-
+import useRelativeQueryModule from "@/hook/useRelativeQueryModule";
+import { useParams } from "react-router-dom";
+import useNodeStore from "@/store/useNodeStore";
+import useCharStore from "@/store/useCharStore";
+import useRelativeStore from "@/store/relative/useRelativeStore";
 const flowKey = "relation";
 
 const selector = (store) => ({
@@ -25,14 +26,9 @@ const selector = (store) => ({
   edges: store.edges,
   onNodesChange: store.onNodesChange,
   onEdgesChange: store.onEdgesChange,
-  addStory: store.addStory,
 });
 
-const initialNodes = [];
-
-const initialEdges = [];
-
-let id = 0;
+let id = 1;
 const getId = () => `${id++}`;
 
 const nodeTypes = {
@@ -41,7 +37,6 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  floating: FloatingEdge,
   custom: CustomConnectionLine,
 };
 
@@ -55,51 +50,104 @@ const defaultEdgeOptions = {
   },
 };
 
-
 export default function DnD({ users, charDatas, idx }) {
+  // get 받은 데이터들을 아래
+  const { teamId, productId } = useParams();
+  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(
+    teamId,
+    productId
+  );
+  const [relativeData, setRelativeData] = useState("");
+  useEffect(() => {
+    if (relativeList) {
+      // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
+      setRelativeData(relativeList);
+      // console.log(relativeData)
+    }
+  });
+  //
+  const initialNodes = [
+    // {
+    //   id: "1",
+    //   data: { name: "Node 1" },
+    //   position: { x: 100, y: 100 },
+    //   type: "custom",
+    // },
+    // {
+    //   id: "2",
+    //   data: { name: "Node 2" },
+    //   position: { x: 100, y: 250 },
+    //   type: "custom",
+    // },
+  ];
+
+  const initialEdges = [
+    // {
+    //   id: "e1-2",
+    //   source: "1",
+    //   sourceHandle: "b",
+    //   target: "2",
+    //   targetHandle: "f",
+    // },
+  ];
+
   const reactFlowWrapper = useRef(null);
+
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
-
+  const { edgedata, setEdgedata, nodedata, setNodedata } = useRelativeStore();
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-  
+
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      // console.log(flow)
-      
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
-  // 임시저장 
+  // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      // console.log(typeof(JSON.stringify(flow)))
-      console.log("flow 전부", reactFlowInstance)
-      console.log("노드(?)", nodes)
-      console.log("엣지(?)", edges)
+      setEdgedata(flow.edges);
+      setNodedata(flow.nodes);
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-  }, [reactFlowInstance]);
+  }, [reactFlowInstance, setEdgedata]);
+
+  const edgePost = edgedata?.map((v) => Object.entries(v));
+  // console.log(edgePost)
+  const nodePost = nodedata?.map((v) => Object.entries(v));
+  console.log(nodePost)
+
+
+
+  let resultArr = []
+  for (let a = 3; a < 7; a++) {
+    // const edgeExac = edgePost?.map((v) => v[a]);
+    let value = edgePost?.map((v) => v[a][1])
+    resultArr.push(value)
+  }
+  console.log(resultArr)
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
-      console.log(flow.viewport)
+      // console.log(flow);
       if (flow) {
-        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
-        setViewport({ x, y, zoom });
+        // setViewport({ x, y, zoom });
       }
+      // 마우스를 뗄 떼마다 POST
     };
 
     restoreFlow();
@@ -119,35 +167,35 @@ export default function DnD({ users, charDatas, idx }) {
         return;
       }
 
-
       if (!charDatas) return;
       // charDatas가 로딩 중이라면 빈 데이터를 반환하도록 처리
       const index = parseInt(idx);
-      const chardex = charDatas.map((chars) => (chars.id) )
+      const chardex = charDatas.map((chars) => chars.id);
 
-      let findex =chardex.findIndex(v=>v === index)
+      let findex = chardex.findIndex((v) => v === index);
       // 인덱스 추출
-      // console.log(findex)
-
+      console.log(findex);
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
+        //
       });
-      // console.log("제 발", charDatas)
+
       const newNode = {
         id: getId(),
         type,
         position,
         data: {
           name: charDatas[findex].name,
+          charId: charDatas[findex].id,
           label: (
             <>
               <input
                 type="text"
                 placeholder="label"
                 onChange={handleLabelInputChange}
-                id={`${getId()}`}
+                // id={`${getId()}`}
                 defaultValue="인물관계"
               />
             </>
@@ -163,13 +211,6 @@ export default function DnD({ users, charDatas, idx }) {
   const handleLabelInputChange = (event) => {
     setLabelInput(event.target.value);
   };
-
-  const connectionLineStyle = {
-    strokeWidth: 2,
-    stroke: "black",
-  };
-
-  const defaultViewport = { x: 0, y: 0, zoom: 0.9 };
 
   return (
     <div className="dndflow">
@@ -188,10 +229,8 @@ export default function DnD({ users, charDatas, idx }) {
           connectionLineComponent={CustomConnectionLine}
           snapToGrid
           snapGrid={[8, 8]}
-          defaultViewport={defaultViewport}
           elementsSelectable={true}
           defaultEdgeOptions={defaultEdgeOptions}
-          connectionLineStyle={connectionLineStyle}
           className="download-image"
         >
           <Controls />
@@ -199,10 +238,14 @@ export default function DnD({ users, charDatas, idx }) {
           <Panel position="top-right">
             {/* <Button className="mr-2 bg-green-400">저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}
-            <Button className="mr-2" onClick={onTempoSave}>임시저장</Button>
-            <Button variant="outline" onClick={onRestore}>불러오기</Button>
+            <Button className="mr-2" onClick={onTempoSave}>
+              임시저장
+            </Button>
+            <Button variant="outline" onClick={onRestore}>
+              불러오기
+            </Button>
           </Panel>
-          {/* <DownloadButton /> */}
+          <DownloadButton />
         </ReactFlow>
       </div>
     </div>

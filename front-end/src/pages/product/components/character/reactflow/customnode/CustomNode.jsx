@@ -1,15 +1,57 @@
 import { useState } from "react";
 import { Handle, Position } from "reactflow";
+import { Button } from "@/components/ui/button";
+import { MinusCircle, MoreHorizontal } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
 
-export default function CustomNode({ data, isConnectable }) {
+export default function CustomNode({ id, data, isConnectable }) {
+
+  // const navigate = useNavigate();
+
   const [labelInput, setLabelInput] = useState("");
+
+  const { teamId, productId } = useParams();
+
   const handleLabelInputChange = (event) => {
     setLabelInput(event.target.value);
   };
 
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const onNodeClick = () => {
+    console.log(id);
+    // navigate(`/team/${teamId}/product/${productId}/story/${id}`);
+  };
+
   return (
     <>
-      <div className="flex w-28 h-28 border-2 items-center justify-center rounded-full">
+      <div
+        className="flex w-28 h-28 border-2 items-center justify-center"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onClick={() => onNodeClick()}
+      >
+        <div
+          className={`absolute m-1 top-0 right-0  ${
+            isHovered ? "visible" : "hidden"
+          }`}
+        >
+          <Button
+            size="sm"
+            className="h-full p-1 rounded-full bg-secondary-accent"
+            onClick={() => {}}
+          >
+            <MinusCircle size={15} className="mx-auto text-foreground" />
+          </Button>
+        </div>
         <div className="flex flex-col items-center justify-center w-28 h-28">
           <input
             className="text-sm text-center !w-28 bg-transparent"
