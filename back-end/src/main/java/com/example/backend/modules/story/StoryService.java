@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -157,6 +158,23 @@ public class StoryService {
                 .collect(Collectors.toList());
 
         return StoryResponseDto.of(story, characterList, foreShadowingList);
+    }
+
+    /**
+     * 스토리 아이디로 복선 리스트 조회
+     */
+    public List<ForeShadowing> findFshadowList(Long storyId){
+        //스토리받아서 거기에 있는 스토리복선 관계 리스트 찾기
+        Story story = storyRepository.findWithStoryFshadowById(storyId).orElseThrow(()->new NotFoundException());
+        Set<StoryForeShadowing> storyForeShadowings = story.getStoryForeShadowings();
+        List<ForeShadowing>foreShadowings = new ArrayList<>();
+        //복선스토리관계에서 복선 빼오기
+        for(StoryForeShadowing sfs: storyForeShadowings){
+            StoryForeShadowing storyForeShadowing = storyForeShadowingRepository.findWithFshadowById(sfs.getId()).orElseThrow(()->new NotFoundException());
+            foreShadowings.add(storyForeShadowing.getForeShadowing());
+        }
+        log.info("==============복선 리스트에 모두 추가 완료=================");
+        return foreShadowings;
     }
 
 
