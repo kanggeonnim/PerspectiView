@@ -46,9 +46,7 @@ function ProductSidebar() {
   const [addPlot, setAddPlot] = useState(false);
 
   const [newPlotName, setNewPlotName] = useState("");
-  const [newPlotColor, setNewPlotColor] = useState(
-    "linear-gradient(to top left,#ff75c3,#ffa647,#ffe83f,#9fff5b,#70e2ff,#cd93ff)"
-  );
+  const [newPlotColor, setNewPlotColor] = useState("#ff75c3");
   const { user } = useAuthStore();
   const { product } = useProductStore();
   const { plotList, setPlotList } = usePlotListStore();
