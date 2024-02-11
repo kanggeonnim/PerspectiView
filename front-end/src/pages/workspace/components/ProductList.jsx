@@ -117,7 +117,7 @@ export default function ProductList({ productsdata, teamNo }) {
                             productTitle: e.target.value,
                           });
                         }}
-                        defaultvalue={product.productTitle}
+                        defaultValue={product.productTitle}
                         
                       />
                     </div>

@@ -33,12 +33,19 @@ function CreateWork() {
 }
 
 function WorkList({ title, info, onChange, onCreate }) {
-  // const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
-    category: null,
-    genres: [],
+    category: {
+      "id": 1,
+      "name": "웹소설"
+    },
+    genres: [
+      {
+        "id": 1,
+        "name": "SF"
+      }
+    ],
     uploadImage: "",
   });
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
@@ -48,7 +55,7 @@ function WorkList({ title, info, onChange, onCreate }) {
       setTeamNo(() => teamData[0].id);
       console.log("team?", teamNo);
     }
-  });
+  }, [teamData]);
   // FIXME 팀 ID undefined 발생
   const { createProduct } = useProductQueryModule(teamNo);
   // console.log(teamId)
