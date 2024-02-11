@@ -27,7 +27,7 @@ const selector = (store) => ({
   onEdgesChange: store.onEdgesChange,
 });
 
-let id = 0;
+let id = 1;
 const getId = () => `${id++}`;
 
 const nodeTypes = {
@@ -63,28 +63,28 @@ export default function DnD({ users, charDatas, idx }) {
   })
   //
   const initialNodes = [
-    {
-      id: "5",
-      data: { name: "Node 1" },
-      position: { x: 100, y: 100 },
-      type: "custom",
-    },
-    {
-      id: "2",
-      data: { name: "Node 2" },
-      position: { x: 100, y: 250 },
-      type: "custom",
-    },
+    // {
+    //   id: "1",
+    //   data: { name: "Node 1" },
+    //   position: { x: 100, y: 100 },
+    //   type: "custom",
+    // },
+    // {
+    //   id: "2",
+    //   data: { name: "Node 2" },
+    //   position: { x: 100, y: 250 },
+    //   type: "custom",
+    // },
   ];
 
   const initialEdges = [
-    {
-      id: "e1-2",
-      source: "5",
-      sourceHandle: "b",
-      target: "2",
-      targetHandle: "f",
-    },
+    // {
+    //   id: "e1-2",
+    //   source: "1",
+    //   sourceHandle: "b",
+    //   target: "2",
+    //   targetHandle: "f",
+    // },
   ];
 
   const reactFlowWrapper = useRef(null);
@@ -120,14 +120,14 @@ export default function DnD({ users, charDatas, idx }) {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
       // console.log(flow);
-      // if (flow) {
-      //   // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+      if (flow) {
+        // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
 
-      //   setNodes(flow.nodes || []);
-      //   setEdges(flow.edges || []);
-      //   // setViewport({ x, y, zoom });
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        // setViewport({ x, y, zoom });
 
-      // }
+      }
       // 마우스를 뗄 떼마다 POST
     };
 
@@ -174,7 +174,7 @@ export default function DnD({ users, charDatas, idx }) {
                 type="text"
                 placeholder="label"
                 onChange={handleLabelInputChange}
-                id={`${getId()}`}
+                // id={`${getId()}`}
                 defaultValue="인물관계"
               />
             </>

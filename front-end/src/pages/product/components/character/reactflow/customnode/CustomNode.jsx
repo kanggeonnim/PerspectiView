@@ -27,7 +27,7 @@ export default function CustomNode({ id, data, isConnectable }) {
   };
 
   const onNodeClick = () => {
-    console.log(id, teamId, productId);
+    console.log(id);
     // navigate(`/team/${teamId}/product/${productId}/story/${id}`);
   };
 
@@ -38,9 +38,6 @@ export default function CustomNode({ id, data, isConnectable }) {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={() => onNodeClick()}
-        style={{
-          borderColor: `${data.color}`,
-        }}
       >
         <div
           className={`absolute m-1 top-0 right-0  ${
