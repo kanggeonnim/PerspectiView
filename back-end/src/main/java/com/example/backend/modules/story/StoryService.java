@@ -1,10 +1,11 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterRepository;
+import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
-import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,12 +26,13 @@ public class StoryService {
     private final StoryForeShadowingRepository storyForeShadowingRepository;
     private final ForeShadowingRepository foreShadowingRepository;
     private final PlotRepository plotRepository;
+    private final CharacterRepository characterRepository;
 
     /**
      * 스토리 생성
      */
     @Transactional
-    public Story createStory(Story story, Long plotId, String storycontent, List<Character> characters) {
+    public Story createStory(Story story, Long plotId, String storycontent, List<Character> characters, List<ForeShadowing> foreShadowings) {
         /**
          * 순서는 플롯 안에서의 순서는 따진다.
          * update story s left join plot p
@@ -53,11 +55,25 @@ public class StoryService {
         Story madeStory = storyRepository.save(story);
 
         for (Character c : characters) {
+            Character character = characterRepository.findById(c.getId()).orElseThrow(()->new NotFoundException());
             StoryRelation storyRelation = StoryRelation.builder()
                     .story(madeStory)
-                    .character(c).build();
-            madeStory.addStoryRelation(storyRelationRepository.save(storyRelation));
+                    .character(character).build();
+            StoryRelation makeStoryRelation = storyRelationRepository.save(storyRelation);
+            madeStory.addStoryRelation(makeStoryRelation);
         }
+
+        //복선스토리 저장
+        for(ForeShadowing fs : foreShadowings){
+            ForeShadowing foreShadowing = foreShadowingRepository.findById(fs.getId()).orElseThrow(()->new NotFoundException());
+            createStoryFshadow(foreShadowing.getId(), madeStory.getId());
+            StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
+                    .foreShadowing(foreShadowing)
+                    .story(madeStory).build();
+            StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
+            madeStory.addStoryForeShadowing(makeStoryForeShadowing);
+        }
+        
 
         return madeStory;
     }
