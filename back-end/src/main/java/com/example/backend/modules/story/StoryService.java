@@ -9,6 +9,7 @@ import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 @Transactional(readOnly = true)
 public class StoryService {
     private final StoryRepository storyRepository;
@@ -122,7 +124,7 @@ public class StoryService {
                 .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
-        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new RuntimeException());
+        Content content = contentRepository.findById(story.getContent().getId()).orElseThrow(() -> new NotFoundException());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
@@ -145,7 +147,7 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new RuntimeException());
+        Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
                 .collect(Collectors.toList());
@@ -161,9 +163,12 @@ public class StoryService {
     /**
      * 스토리 y축
      */
-    public Story updatePositionY(Story story) {
-        Story findStory = storyRepository.findById(story.getId()).orElseThrow(() -> new RuntimeException());
-        findStory.updatePositionY(story.getPositionY());
+    @Transactional
+    public Story updatePositionY(Long storyId, Double positionY) {
+        Story findStory = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
+        log.info("=============스토리 불러옴=============");
+        findStory.updatePositionY(positionY);
+        log.info("=============스토리 y축 변경함=============");
         return findStory;
     }
 
