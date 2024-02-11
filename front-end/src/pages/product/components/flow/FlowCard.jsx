@@ -7,13 +7,16 @@ import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { useParams } from "react-router-dom";
 
 const selector = (store) => ({
   nodes: store.nodes,
   edges: store.edges,
   onNodesChange: store.onNodesChange,
   onEdgesChange: store.onEdgesChange,
-  addStory: store.addStory,
+  arrangeStory: store.arrangeStory,
 });
 
 const nodeTypes = {
@@ -32,12 +35,31 @@ const snapGrid = [20, 20];
 export default function FlowCard() {
   // whenever you use multiple values, you should use shallow for making sure that the component only re-renders when one of the values change
   const { nodes, edges, onNodesChange, onEdgesChange, addStory } = useNodeStore(selector);
+  const [movedNode, setMovedNode] = useState();
+  const { teamId, productId } = useParams();
 
+  const { moveStory } = useStoryQueryModule(teamId, productId);
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
-      onNodesChange={onNodesChange}
+      onNodeDragStop={() => {
+        moveStory(
+          {
+            storyId: movedNode.storyId,
+            positionY: movedNode.position.y,
+          },
+          movedNode.plotId
+        );
+      }}
+      onNodesChange={(changes) => {
+        setMovedNode({
+          ...changes[0],
+          plotId: nodes.find((node) => node.id === changes[0].id).data.plotId,
+          storyId: nodes.find((node) => node.id === changes[0].id).data.storyId,
+        });
+        onNodesChange(changes);
+      }}
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
       edgeTypes={edgeTypes}

@@ -21,7 +21,8 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
-  console.log(id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition);
+  // console.log(id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition);
+
   const onEdgeClick = (event) => {
     event.stopPropagation();
     console.log(event);

@@ -3,11 +3,11 @@ import { privateApi } from "@/util/api";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
 import useNodeStore from "@/store/useNodeStore";
 
-const useStoryQueryModule = (teamId, productId, plotId) => {
+const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   const queryClient = useQueryClient();
   const { plotList, setPlotList } = usePlotListStore();
   const { nodes } = useNodeStore();
-  const { addStory } = useNodeStore();
+  const { arrangeStory } = useNodeStore();
 
   const { mutate: createStory } = useMutation({
     // mutationFn: async (newData) => {
@@ -20,7 +20,7 @@ const useStoryQueryModule = (teamId, productId, plotId) => {
     // },
     onSuccess: (data) => {
       // Invalidate and refetch
-      addStory(data, plot.plotId, plot.plotColor);
+      arrangeStory(data, plot.plotId, plot.plotColor);
 
       // setPlotList(data); // setPlotList는 컴포넌트 내에서 상태를 업데이트하는 함수
     },
@@ -40,7 +40,16 @@ const useStoryQueryModule = (teamId, productId, plotId) => {
     // },
   });
 
-  return { createStory, deleteStory };
+  const { mutate: moveStory } = useMutation({
+    mutationFn: async (newPosition, plotId) => {
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${newPosition.storyId}/vertical`,
+        newPosition
+      );
+      return response.data.response;
+    },
+  });
+  return { createStory, deleteStory, moveStory };
 };
 
 export default useStoryQueryModule;
