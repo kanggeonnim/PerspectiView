@@ -22,6 +22,7 @@ const characListData = [
     img: `https://ui.shadcn.com/avatars/0${index + 1}.png`,
   })),
 ];
+
 const zoomSelector = (s) => s.transform[2] >= 1.5;
 
 const CustomNode = memo(function CustomNode({ id, data, type }) {
@@ -72,9 +73,16 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
         {type === "empty" && (
           <Button
             className="bg-transparent border-none shadow-none hover:bg-transparent"
-            onClick={() => createStory({
-              
-            })}
+            onClick={() => {
+              createStory({
+                storyTitle: "",
+                storyContent: "",
+                characters: [],
+                foreShadowings: [],
+                positionX: 1,
+                positionY: 0,
+              });
+            }}
           >
             <PlusCircle size={30} className="mx-auto text-black" />
           </Button>

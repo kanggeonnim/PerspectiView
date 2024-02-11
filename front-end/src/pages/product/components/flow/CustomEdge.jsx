@@ -1,5 +1,7 @@
 import { Button } from "@/components/ui/button";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
 import { Plus } from "lucide-react";
+import { useParams } from "react-router-dom";
 import { BaseEdge, EdgeLabelRenderer, getBezierPath, useReactFlow } from "reactflow";
 
 export default function CustomEdge({
@@ -21,13 +23,20 @@ export default function CustomEdge({
     targetY,
     targetPosition,
   });
-  // console.log(id, sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition);
 
+  const { teamId, productId } = useParams();
+  const { createStory } = useStoryQueryModule(teamId, productId);
   const onEdgeClick = (event) => {
     event.stopPropagation();
-    console.log(event);
-    // setNodes((nodes) => nodes.filter((node) => node.id !== id));
-    // setEdges((edges) => edges.filter((edge) => edge.id !== id));
+    console.log(
+      "edge click",
+      event,
+      id,
+
+      sourcePosition,
+      targetPosition
+    );
+    // createStory();
   };
   return (
     <>

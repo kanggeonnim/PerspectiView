@@ -27,7 +27,6 @@ const useProductQueryModule = (teamId, productId) => {
       setPlotList(product.plots);
       setNodes([]);
       let idx = 0;
-      console.log("product", product.plots);
 
       product.plots.map((plot) => {
         if (plot.stories.length === 0) {
