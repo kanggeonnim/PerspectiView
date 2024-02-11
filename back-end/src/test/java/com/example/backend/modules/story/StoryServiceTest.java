@@ -328,7 +328,7 @@ class StoryServiceTest {
                 .positionY(3.0)
                 .build();
         //when
-        storyService.updatePositionY(newStory);
+        storyService.updatePositionY(newStory.getId(), newStory.getPositionY());
         StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
         //then
         assertEquals(newStory.getPositionY(), findStory.getPositionY(), "위치가 변해야합니다.");
