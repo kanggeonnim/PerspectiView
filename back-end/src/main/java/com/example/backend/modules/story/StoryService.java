@@ -238,7 +238,19 @@ public class StoryService {
      * 스토리 등장인물이랑 같이 조회
      */
     public List<Story> findWithStoryRelation(Plot plot){
-        return storyRepository.findWithStoryRelationByPlot(plot);
+        List<Story> stories = storyRepository.findWithStoryRelationByPlot(plot);
+        for(Story s:stories){
+            List<StoryRelation> storyRelations = findWithCharacterByStory(s);
+            s.updateStoryRelation(storyRelations);
+        }
+        return stories;
+    }
+
+    /**
+     * 스토리관계 인물이랑 같이 조회
+     */
+    public List<StoryRelation> findWithCharacterByStory(Story story){
+        return storyRelationRepository.findWithCharacterByStory(story);
     }
 
 
