@@ -157,7 +157,7 @@ class CharacterServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, "", characters);
+        storyService.createStory(story, plot.getId(),"", characters);
 
         fromCharacter = Character.builder()
                 .product(product)

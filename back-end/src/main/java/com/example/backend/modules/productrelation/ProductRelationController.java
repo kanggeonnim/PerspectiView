@@ -19,12 +19,13 @@ public class ProductRelationController {
     private final ProductRelationService productRelationService;
 
     @PostMapping
-    public ApiResult<ProductRelationResponseDto> createProductRelation(@RequestBody @Valid ProductRelationRequestDto productRelationRequestDto) {
-        ProductRelation productRelation = productRelationService.createProductRelation(productRelationRequestDto.from(productRelationRequestDto));
+    public ApiResult<ProductRelationResponseDto> createProductRelation(@PathVariable("productId") Long productId,
+                                                                       @RequestBody @Valid ProductRelationRequestDto productRelationRequestDto) {
+        ProductRelation productRelation = productRelationService.createProductRelation(productId, productRelationRequestDto.from(productRelationRequestDto));
         return ApiResult.OK(ProductRelationResponseDto.of(productRelation));
     }
 
-    @PatchMapping("/{relationId}")
+    @PutMapping("/{relationId}")
     public ApiResult<ProductRelationResponseDto> updateProductRelation(@RequestBody @Valid ProductRelationRequestDto productRelationRequestDto,
                                                                        @PathVariable("relationId") Long relationId) {
         ProductRelation productRelation = productRelationService.updateProductRelation(relationId, productRelationRequestDto.from(productRelationRequestDto));

@@ -74,7 +74,7 @@ public class TeamController {
                     @ApiResponse(responseCode = "403", description = "not manager")
             }
     )
-    @PatchMapping("/{teamId}")
+    @PutMapping("/{teamId}")
     public ApiResult<TeamResponseWithMembersDto> updateTeam(@PathVariable Long teamId,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails,
                                                             @RequestBody @Valid TeamRequestDto teamRequestDto){

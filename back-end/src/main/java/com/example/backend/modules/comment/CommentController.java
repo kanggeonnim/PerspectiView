@@ -43,7 +43,7 @@ public class CommentController {
     /**
      * 댓글 수정
      */
-    @PatchMapping("/{commentId}")
+    @PutMapping("/{commentId}")
     public ApiResult<CommentResponseDto> updateComment(@RequestBody @Valid CommentRequestDto commentRequestDto,
                                  @PathVariable("commentId") Long commentId){
         Comment comment = commentService.updateComment(commentId, CommentRequestDto.from(commentRequestDto));

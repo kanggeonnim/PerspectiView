@@ -20,6 +20,9 @@ public interface StoryRepository extends JpaRepository<Story,Long> {
     @EntityGraph(attributePaths = {"plot"})
     List<Story> findWithPlotByPlot(Plot plot);
 
-    @EntityGraph(attributePaths = {"plot"})
-    Optional<Story> findWithPlotById(Long id);
+    @EntityGraph(attributePaths = {"plot","content"})
+    Optional<Story> findWithPlotContentById(Long id);
+
+    @EntityGraph(attributePaths = {"storyRelations"})
+    List<Story> findWithStoryRelationByPlot(Plot plot);
 }

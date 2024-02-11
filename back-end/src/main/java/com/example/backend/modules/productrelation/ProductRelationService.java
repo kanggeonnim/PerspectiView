@@ -25,7 +25,9 @@ public class ProductRelationService {
      * @return
      */
     @Transactional
-    public ProductRelation createProductRelation(ProductRelation productRelation) {
+    public ProductRelation createProductRelation(Long productId, ProductRelation productRelation) {
+        Product product = productService.findByProductId(productId);
+        productRelation.updateProduct(product);
         ProductRelation newProductRelation = productRelationRepository.save(productRelation);
         return newProductRelation;
     }

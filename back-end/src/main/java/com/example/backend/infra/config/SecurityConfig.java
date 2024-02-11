@@ -79,6 +79,7 @@ public class SecurityConfig {
 //						authorize.
 								.requestMatchers("/v3/**", "/swagger-ui/**").permitAll()
 						.requestMatchers("/user/**").authenticated()
+								.requestMatchers("/test/**").permitAll()
 								.requestMatchers(HttpMethod.OPTIONS, "/**/*").permitAll()
 //								.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 						// .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or

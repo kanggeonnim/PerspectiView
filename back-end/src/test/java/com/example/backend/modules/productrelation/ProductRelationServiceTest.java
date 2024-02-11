@@ -152,7 +152,7 @@ class ProductRelationServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, "", characters);
+        storyService.createStory(story, plot.getId(),"dd", characters);
 
         fromCharacter = Character.builder()
                 .product(product)
@@ -198,7 +198,7 @@ class ProductRelationServiceTest {
                 .build();
 
         //when
-        productRelationService.createProductRelation(productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation);
 
         //then
         assertEquals(productRelationRepository.count(), 1);
@@ -214,7 +214,7 @@ class ProductRelationServiceTest {
                 .fromCharacter(fromCharacter)
                 .toCharacter(toCharacter)
                 .build();
-        productRelationService.createProductRelation(productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation);
 
         //when
         ProductRelation findProductRelation = productRelationService.findProductRelation(productRelation.getId());
@@ -232,7 +232,7 @@ class ProductRelationServiceTest {
                 .fromCharacter(fromCharacter)
                 .toCharacter(toCharacter)
                 .build();
-        productRelationService.createProductRelation(productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation);
         //when
 
         List<ProductRelation> productRelations = productRelationService.findAllProductRelation(product.getId());
@@ -250,7 +250,7 @@ class ProductRelationServiceTest {
                 .fromCharacter(fromCharacter)
                 .toCharacter(toCharacter)
                 .build();
-        productRelationService.createProductRelation(productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation);
 
         ProductRelation beforeUpdate = ProductRelation.builder()
                 .product(product)
@@ -274,7 +274,7 @@ class ProductRelationServiceTest {
                 .fromCharacter(fromCharacter)
                 .toCharacter(toCharacter)
                 .build();
-        productRelationService.createProductRelation(productRelation);
+        productRelationService.createProductRelation(product.getId(), productRelation);
 
         //when
         productRelationService.deleteProductRelation(productRelation.getId());
