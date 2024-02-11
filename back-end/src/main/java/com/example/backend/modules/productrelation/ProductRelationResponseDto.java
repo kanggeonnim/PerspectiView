@@ -21,6 +21,8 @@ public class ProductRelationResponseDto {
                 .productRelationInfo(productRelation.getProductRelationInfo())
                 .fromCharacter(CharacterResponseDto.of(productRelation.getFromCharacter()))
                 .toCharacter(CharacterResponseDto.of(productRelation.getToCharacter()))
+                .sourceHandle(productRelation.getSourceHandle())
+                .targetHandle(productRelation.getTargetHandle())
                 .build();
     }
 
