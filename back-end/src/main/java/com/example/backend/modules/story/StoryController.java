@@ -6,6 +6,7 @@ import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/team/{teamId}/product/{productId}/plot/{plotId}/story")
 public class StoryController {
     private final StoryService storyService;
@@ -55,10 +57,11 @@ public class StoryController {
         return ApiResult.OK(storyService.findByStoryId(storyId));
     }
 
-    @PostMapping("/{storyId}/vertical")
+    @PutMapping("/{storyId}/vertical")
     public ApiResult<StoryResponseDto> updatePositionY(@PathVariable("storyId") Long storyId,
-                                                       @RequestBody StoryRequestDto storyRequestDto) {
-        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto,null,null));
+                                                       @RequestBody StoryVerticalRequestDto storyVerticalRequestDto) {
+        storyService.updatePositionY(storyVerticalRequestDto.getStoryId(),storyVerticalRequestDto.getPositionY());
+        log.info("============y축 수정===========");
         StoryResponseDto storyResponseDto = storyService.findByStoryId(storyId);
         return ApiResult.OK(storyResponseDto);
     }
