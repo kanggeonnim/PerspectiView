@@ -99,4 +99,9 @@ public class Product {
     public void addPlot(Plot plot){
         plots.add(plot);
     }
+
+    //-------작품에 플롯 리스트 추가---------//
+    public void updatePlots(List<Plot> plots){
+        this.plots = plots;
+    }
 }
