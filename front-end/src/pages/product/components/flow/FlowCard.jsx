@@ -21,6 +21,7 @@ const selector = (store) => ({
 
 const nodeTypes = {
   story: CustomNode,
+  empty: CustomNode,
 };
 
 const edgeTypes = {
@@ -38,27 +39,33 @@ export default function FlowCard() {
   const [movedNode, setMovedNode] = useState();
   const { teamId, productId } = useParams();
 
+  console.log("nodes", nodes);
   const { moveStory } = useStoryQueryModule(teamId, productId);
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
       onNodeDragStop={() => {
-        moveStory(
-          {
-            storyId: movedNode.storyId,
-            positionY: movedNode.position.y,
-          },
-          movedNode.plotId
-        );
+        if (movedNode.type === "story") {
+          moveStory(
+            {
+              storyId: movedNode.storyId,
+              positionY: movedNode.position.y,
+            },
+            movedNode.plotId
+          );
+        }
       }}
       onNodesChange={(changes) => {
-        setMovedNode({
-          ...changes[0],
-          plotId: nodes.find((node) => node.id === changes[0].id).data.plotId,
-          storyId: nodes.find((node) => node.id === changes[0].id).data.storyId,
-        });
-        onNodesChange(changes);
+        if (nodes.find((node) => node.id === changes[0].id).type === "story") {
+          setMovedNode({
+            ...changes[0],
+            plotId: nodes.find((node) => node.id === changes[0].id).data.plotId,
+            storyId: nodes.find((node) => node.id === changes[0].id).data.storyId,
+            movedNode: nodes.find((node) => node.id === changes[0].id).type,
+          });
+          onNodesChange(changes);
+        }
       }}
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}

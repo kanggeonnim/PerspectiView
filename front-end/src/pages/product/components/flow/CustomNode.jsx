@@ -2,11 +2,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { MinusCircle, MoreHorizontal } from "lucide-react";
+import { MinusCircle, MoreHorizontal, PlusCircle } from "lucide-react";
 import { Handle, Position, useStore } from "reactflow";
 import { memo, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
 
 // TODO: 플롯으로 스토리 조회 API 호출 시 charaList에 id, 이름, 이미지 와야 됨
 const characListData = [
@@ -23,12 +24,13 @@ const characListData = [
 ];
 const zoomSelector = (s) => s.transform[2] >= 1.5;
 
-const CustomNode = memo(function CustomNode({ id, data }) {
+const CustomNode = memo(function CustomNode({ id, data, type }) {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const showContent = useStore(zoomSelector);
-  const [isHovered, setIsHovered] = useState(false);
 
+  const { createStory } = useStoryQueryModule(teamId, productId, data.plotId);
+  const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -39,17 +41,21 @@ const CustomNode = memo(function CustomNode({ id, data }) {
 
   const onNodeClick = () => {
     console.log(id, teamId, productId);
-    navigate(`/team/${teamId}/product/${productId}/story/${id}`);
+    navigate(`/team/${teamId}/product/${productId}/story/${data.storyId}`);
   };
+
   return (
     <>
       <div
-        className="flex items-center justify-center w-32 h-40 p-4 border rounded"
+        className="flex items-center justify-center w-32 h-40 p-4 border rounded "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={() => onNodeClick()}
+        onClick={() => type === "story" && onNodeClick()}
         style={{
-          borderColor: `${data.color}`,
+          borderStyle: type === "empty" ? "dashed" : "solid",
+          opacity: type === "empty" ? 0.3 : 1,
+          borderWidth: type === "empty" ? "5px" : "2px",
+          borderColor: `${data.borderColor}`,
         }}
       >
         <div className={`absolute m-1 top-0 right-0  ${isHovered ? "visible" : "hidden"}`}>
@@ -62,9 +68,22 @@ const CustomNode = memo(function CustomNode({ id, data }) {
           </Button>
         </div>
         {showContent && <div>{data.title}</div>}
+
+        {type === "empty" && (
+          <Button
+            className="bg-transparent border-none shadow-none hover:bg-transparent"
+            onClick={() => createStory({
+              
+            })}
+          >
+            <PlusCircle size={30} className="mx-auto text-black" />
+          </Button>
+        )}
         <Handle type="target" position={Position.Left} />
         <Handle type="source" position={Position.Right} />
       </div>
+
+      {/* 스토리별 등장인물 목록 */}
       {showContent && (
         <div className="absolute w-[120px] mt-2">
           <Popover>

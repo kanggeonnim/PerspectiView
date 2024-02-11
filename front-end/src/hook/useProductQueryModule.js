@@ -8,7 +8,7 @@ const useProductQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
   const { setProduct } = useProductStore();
   const { setPlotList } = usePlotListStore();
-  const { setNodes, arrangeStory } = useNodeStore();
+  const { setNodes, arrangeStory, addEmptyStory } = useNodeStore();
 
   const { data: productList, isSuccess: getProductListIsSuccess } = useQuery({
     queryKey: ["productList", teamId],
@@ -27,10 +27,18 @@ const useProductQueryModule = (teamId, productId) => {
       setPlotList(product.plots);
       setNodes([]);
       let idx = 0;
+      console.log("product", product.plots);
+
       product.plots.map((plot) => {
-        plot.stories.map((story) => {
-          arrangeStory(story, plot.plotId, idx++, plot.plotColor);
-        });
+        if (plot.stories.length === 0) {
+          // console.log("empty", plot.stories, plot.plotId, plot.plotColor, idx++);
+          addEmptyStory(idx++, plot.plotId, plot.plotColor);
+        } else {
+          plot.stories.map((story) => {
+            arrangeStory(story, plot.plotId, idx++, plot.plotColor);
+            // console.log("arrange", idx++);
+          });
+        }
       });
       return response.data.response;
     },
