@@ -160,6 +160,7 @@ export default function DnD({ users, charDatas, idx }) {
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
+        // 
       });
 
       const newNode = {
@@ -168,6 +169,7 @@ export default function DnD({ users, charDatas, idx }) {
         position,
         data: {
           name: charDatas[findex].name,
+          charId: charDatas[findex].id ,
           label: (
             <>
               <input
