@@ -16,9 +16,9 @@ import { useFshadow } from "@/store/useFshadow";
 import { PlusCircle } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Column from "./Column";
+import ColumnProduct from "./ColumnProduct";
 
-export default function ForeshadowingTab() {
+export default function ForeshadowingProduct() {
   const { teamId, productId } = useParams();
   const { createFshadow } = useFshadowQueryModule(teamId, productId);
 
@@ -29,6 +29,7 @@ export default function ForeshadowingTab() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
+  //이렇게 안해도 될 듯?? but 변경하려면 시간 걸리니까 일단 두자
   const columns = {
     "column-1": {
       id: "column-1",
@@ -46,12 +47,13 @@ export default function ForeshadowingTab() {
       fshadowsIds: [],
     },
   };
-
+  // console.log("복선들", fshadows);
   //컬럼 taskIds 채우기
   Object.keys(fshadows).forEach((key) => {
     const fshadow = fshadows[key];
     columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
   });
+  // console.log("각 컬럼에 복선id넣기 다시 실행됨");
 
   return (
     <div className="">
@@ -124,7 +126,7 @@ export default function ForeshadowingTab() {
               (fshadowsId) => fshadows[fshadowsId]
             );
             return (
-              <Column
+              <ColumnProduct
                 key={column.id}
                 column={column}
                 colFshadows={colFshadows}

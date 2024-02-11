@@ -1,6 +1,10 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import App from "./App.jsx";
@@ -14,7 +18,7 @@ import ProductPage from "./pages/product/ProductPage.jsx";
 import CharTab from "./pages/product/components/character/CharTab.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
-import { default as ForeshadowingTab } from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
+import ForeshadowingTabProduct from "./pages/product/components/foreshadowing/ForeshadowingTabProduct.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import ProductListCard from "./pages/workspace/components/ProductListCard.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
@@ -71,14 +75,14 @@ const router = createBrowserRouter(
             },
             {
               path: "foreshadowing",
-              element: <ForeshadowingTab />,
+              element: <ForeshadowingTabProduct />,
             },
             {
               path: "flow",
               element: <FlowTab />,
             },
             {
-              path: "story/:storyId",
+              path: "plot/:plotId/story/:storyId",
               element: <StoryInfo />,
             },
           ],

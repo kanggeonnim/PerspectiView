@@ -1,9 +1,3 @@
-import { Link, useNavigate } from "react-router-dom";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
-import { Card, CardTitle } from "@/components/ui/card";
-import WorkList from "./WorkList";
-import useProductAddStore from "@/store/useProductAddStore";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -13,13 +7,17 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import RadioButtonSelect from "./selects/RadioButtonSelect";
-import Buttonselect from "./selects/ButtonSelect";
 import { Button } from "@/components/ui/button";
+import { Card, CardTitle } from "@/components/ui/card";
+import useProductAddStore from "@/store/useProductAddStore";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import WorkList from "./WorkList";
+import Buttonselect from "./selects/ButtonSelect";
+import RadioButtonSelect from "./selects/RadioButtonSelect";
 
 function CreateProduct() {
-  const { inputs, setInputs, products, setProducts, onCreate } =
-    useProductAddStore();
+  const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
 
   const onChange = (e) => {
     const { name, value } = e.target;
@@ -42,11 +40,7 @@ function Product({ productImg, productName }) {
   return (
     <div className="flex flex-col items-center">
       <Card className="w-32 mx-3 my-1 h-36">
-        <img
-          className="w-full h-full rounded-xl"
-          src={productImg}
-          alt="cover of work"
-        />
+        <img className="w-full h-full rounded-xl" src={productImg} alt="cover of work" />
       </Card>
       <div className="m-2">{productName}</div>
     </div>
@@ -82,10 +76,7 @@ export default function ProductList({ productsdata, teamNo }) {
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
-                <Product
-                  productImg={product.productImageUrl}
-                  productName={product.productTitle}
-                />
+                <Product productImg={product.productImageUrl} productName={product.productTitle} />
               </AlertDialogTrigger>
             </div>
             <AlertDialogContent className="flex flex-row w-2/3 max-w-2/3 h-2/3">
@@ -151,24 +142,41 @@ export default function ProductList({ productsdata, teamNo }) {
                   </div>
                 </div>
                 <AlertDialogFooter>
-                  <>
-                    <AlertDialogCancel>취소</AlertDialogCancel>
-                    <Button
-                      className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                      onClick={() => setIsEdit(!isEdit)}
-                    >
-                      편집
-                    </Button>
-                    <AlertDialogAction
-                      onClick={() => {
-                        navigate(
-                          `/team/${teamNo}/product/${product.productId}`
-                        );
-                      }}
-                    >
-                      상세 보기
-                    </AlertDialogAction>
-                  </>
+                  {isEdit ? (
+                    <>
+                      <AlertDialogCancel
+                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                        onClick={() => setIsEdit(false)}
+                      >
+                        취소
+                      </AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          console.log(productDetail);
+                          // // create product
+                          updateProduct(productDetail);
+                        }}
+                      >
+                        편집
+                      </AlertDialogAction>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                        onClick={() => setIsEdit(!isEdit)}
+                      >
+                        편집
+                      </Button>
+                      <AlertDialogAction
+                        onClick={() => {
+                          navigate(`/team/${teamNo}/product/${product.productId}`);
+                        }}
+                      >
+                        상세 보기
+                      </AlertDialogAction>
+                    </>
+                  )}
 
                   {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
                 </AlertDialogFooter>
