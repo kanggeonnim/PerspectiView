@@ -10,15 +10,14 @@ import ReactFlow, {
 } from "reactflow";
 import DownloadButton from "./DownloadButton";
 import CustomNode from "./customnode/CustomNode";
-import FloatingEdge from "./FloatingEdge";
 import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 import "./style.css";
 import { Button } from "@/components/ui/button";
-import useRelativeModule from "@/hook/useRelativeModule";
-import useRelativeStore from "@/store/useRelativeStore";
-import { json } from "react-router-dom";
-
+import useRelativeQueryModule from "@/hook/useRelativeQueryModule";
+import { useParams } from "react-router-dom";
+import useNodeStore from "@/store/useNodeStore";
+import useCharStore from "@/store/useCharStore";
 const flowKey = "relation";
 
 const selector = (store) => ({
@@ -37,7 +36,6 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  floating: FloatingEdge,
   custom: CustomConnectionLine,
 };
 
@@ -52,15 +50,51 @@ const defaultEdgeOptions = {
 };
 
 export default function DnD({ users, charDatas, idx }) {
+  // get 받은 데이터들을 아래
+  const {teamId, productId} = useParams();
+  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(teamId, productId);
+  const [ relativeData, setRelativeData ] = useState('')
+  useEffect(() => {
+    if (relativeList) {
+      // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
+      setRelativeData(relativeList)
+      // console.log(relativeData)
+    }
+  })
+  //
+  const initialNodes = [
+    {
+      id: "5",
+      data: { name: "Node 1" },
+      position: { x: 100, y: 100 },
+      type: "custom",
+    },
+    {
+      id: "2",
+      data: { name: "Node 2" },
+      position: { x: 100, y: 250 },
+      type: "custom",
+    },
+  ];
+
+  const initialEdges = [
+    {
+      id: "e1-2",
+      source: "5",
+      sourceHandle: "b",
+      target: "2",
+      targetHandle: "f",
+    },
+  ];
+
   const reactFlowWrapper = useRef(null);
-  const { nodess, edgess, setNodess, setEdgess } = useRelativeStore(selector);
-  // 윗줄 임시로 s하나씩 더 붙여서 구분
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
-
+  
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
@@ -69,47 +103,32 @@ export default function DnD({ users, charDatas, idx }) {
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      // console.log(flow)
-
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
-  // 임시저장
+  // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      const nodeFind = flow.nodes;
-      const exNode = nodeFind.map((nodes) => 
-        Object.fromEntries([
-          Object.entries(nodes)[2],
-          Object.entries(nodes)[4],
-          Object.entries(nodes)[5],
-        ])
-      );
-      const nodeSet = {nodes : exNode}
-      console.log(nodeSet)
-      // 객체에서 필요한 조건만 추출중
-      // 필요조건에 안들어간건 default로
-      // 필요 조건 2번 인덱스 에서 id
-      // 4번 인덱스의 에서 position (이건 객체)
-      // 5번 인덱스에서 name 이상 최소조건
-      // localStorage.setItem(flowKey, JSON.stringify(flow));
-      localStorage.setItem(flowKey, JSON.stringify(nodeSet))
+     
+      localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
-      console.log(flow);
-      if (flow) {
-        // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-        
-        setNodes(flow.nodes || []);
-        setEdges(flow.edges || []);
-        // setViewport({ x, y, zoom });
-      }
+      // console.log(flow);
+      // if (flow) {
+      //   // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+
+      //   setNodes(flow.nodes || []);
+      //   setEdges(flow.edges || []);
+      //   // setViewport({ x, y, zoom });
+
+      // }
+      // 마우스를 뗄 떼마다 POST
     };
 
     restoreFlow();
@@ -136,13 +155,13 @@ export default function DnD({ users, charDatas, idx }) {
 
       let findex = chardex.findIndex((v) => v === index);
       // 인덱스 추출
-      // console.log(findex)
+      console.log(findex)
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
       });
-      // console.log("제 발", charDatas)
+
       const newNode = {
         id: getId(),
         type,
@@ -205,7 +224,7 @@ export default function DnD({ users, charDatas, idx }) {
               불러오기
             </Button>
           </Panel>
-          {/* <DownloadButton /> */}
+          <DownloadButton />
         </ReactFlow>
       </div>
     </div>

@@ -4,11 +4,11 @@ import { devtools } from "zustand/middleware";
 
 const useRelativeStore = create(
   devtools((set, get) => ({
-    nodess: [],
-    edgess: [],
-    setNodess: (newNodes) => set((state) => ({ nodess: newNodes }))
-    ,
-    setEdgess: (newEdges) => set((state) => ({ nodess: newEdges }))
+    // nodes: [],
+    relatives: [],
+    // setNodes: (newNodes) => set((state) => ({ nodes: newNodes }))
+    // ,
+    setRelatives: (newEdges) => set((state) => ({ relatives: newRelatives }))
     ,
   }))
 );
