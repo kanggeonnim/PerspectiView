@@ -27,7 +27,7 @@ public class Story {
     @JoinColumn(name = "plot_id")
     private Plot plot;
 
-    @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Content content;
 
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "story")

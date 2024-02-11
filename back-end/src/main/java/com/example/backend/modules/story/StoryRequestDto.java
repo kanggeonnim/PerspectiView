@@ -25,6 +25,7 @@ public class StoryRequestDto {
         return Story.builder()
                 .title(storyRequestDto.getStoryTitle())
                 .storyRelations(storyRelations)
+                .content(new Content(storyRequestDto.getStoryContent()))
                 .storyForeShadowings(storyForeShadowings)
                 .positionX(storyRequestDto.getPositionX())
                 .positionY(storyRequestDto.getPositionY())

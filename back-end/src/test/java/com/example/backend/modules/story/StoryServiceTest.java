@@ -254,7 +254,7 @@ class StoryServiceTest {
                 .storyRelations(new ArrayList<>())
                 .build();
         //when
-        Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
+        Story updatedStory = storyService.updateStory(story.getId(),newStory, characters, foreShadowings);
         em.flush();
         em.clear();
         List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
@@ -290,7 +290,7 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters1, foreShadowings);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -305,11 +305,11 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters1, foreShadowings);
 
         List<Character> characters2 = new ArrayList<>();
         characters2.add(toCharacter);
-        storyService.updateStory(story, characters2, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters2, foreShadowings);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -328,7 +328,7 @@ class StoryServiceTest {
                 .positionY(3.0)
                 .build();
         //when
-        storyService.updatePositionY(newStory);
+        storyService.updatePositionY(newStory.getId(), newStory.getPositionY());
         StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
         //then
         assertEquals(newStory.getPositionY(), findStory.getPositionY(), "위치가 변해야합니다.");
