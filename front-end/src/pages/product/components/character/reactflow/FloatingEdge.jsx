@@ -43,8 +43,7 @@ function FloatingEdge({ id, source, target, markerEnd, connectionLineStyle }) {
             pointerEvents:"all",
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
           }}
-          className="z-50 w-16 text-center"
-          placeorder="관계"
+          placeholder="관계"
           
         />
      

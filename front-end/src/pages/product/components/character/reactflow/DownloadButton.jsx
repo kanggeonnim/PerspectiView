@@ -33,9 +33,9 @@ function DownloadButton() {
   };
 
   return (
-    <Panel position="top-right">
+    <Panel position="">
       <button className="download-btn" onClick={onClick}>
-        인물관계도 저장
+        이미지로 저장
       </button>
     </Panel>
   );

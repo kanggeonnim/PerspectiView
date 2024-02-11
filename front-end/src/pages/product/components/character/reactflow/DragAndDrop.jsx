@@ -8,6 +8,7 @@ import ReactFlow, {
   Panel,
   useReactFlow,
 } from "reactflow";
+import DownloadButton from "./DownloadButton";
 import CustomNode from "./customnode/CustomNode";
 import FloatingEdge from "./FloatingEdge";
 import CustomConnectionLine from "./CustomConnectionLine";
@@ -44,13 +45,6 @@ const defaultEdgeOptions = {
   },
 };
 
-const addEndMarker = (edge) => ({
-  ...edge,
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-    color: "black",
-  },
-});
 
 export default function DnD({ users, charDatas, idx }) {
   const reactFlowWrapper = useRef(null);
@@ -132,15 +126,10 @@ export default function DnD({ users, charDatas, idx }) {
         type,
         position,
         data: {
-          image: {
-            url: charDatas[findex].url,
-            // url: charDatas.find((v)=>v.id === idx).url
-          },
           name: charDatas[findex].name,
           label: (
             <>
               <input
-                className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28"
                 type="text"
                 placeholder="label"
                 onChange={handleLabelInputChange}
@@ -150,8 +139,6 @@ export default function DnD({ users, charDatas, idx }) {
             </>
           ),
         },
-        className:
-          "!rounded-full flex items-center justify-center !bg-transparent",
         onchange: {},
       };
 
@@ -195,6 +182,7 @@ export default function DnD({ users, charDatas, idx }) {
           className="download-image"
         >
           <Controls />
+          {/* <DownloadButton /> */}
           <Panel position="top-right">
             {/* <Button className="mr-2 bg-green-400">저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}
