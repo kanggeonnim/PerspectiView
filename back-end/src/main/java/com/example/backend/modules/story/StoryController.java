@@ -36,12 +36,13 @@ public class StoryController {
     }
 
     @PutMapping("/{storyId}")
-    public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto) {
-        Story story = storyService.updateStory(
+    public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto,
+                                                   @PathVariable("storyId") Long storyId) {
+        Story story = storyService.updateStory(storyId,
                 StoryRequestDto.of(storyRequestDto,null,null),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
                 storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
-
+        log.info("==========story update 완료=============");
         StoryResponseDto storyResponseDto = storyService.findByStoryId(story.getId());
         return ApiResult.OK(storyResponseDto);
     }
@@ -54,7 +55,14 @@ public class StoryController {
 
     @GetMapping("/{storyId}")
     public ApiResult<StoryResponseDto> getStory(@PathVariable("storyId") Long storyId) {
-        return ApiResult.OK(storyService.findByStoryId(storyId));
+        StoryResponseDto storyResponseDto=storyService.findByStoryId(storyId);
+        //storyResponseDto 복선에 제대로 된 값 넣기
+        List<ForeShadowingResponseDto> foreShadowingResponseDtos =  storyResponseDto.getForeShadowings();
+        for(ForeShadowingResponseDto fsdto: foreShadowingResponseDtos){
+//            fsdto.
+        }
+
+        return ApiResult.OK(storyResponseDto);
     }
 
     @PutMapping("/{storyId}/vertical")
