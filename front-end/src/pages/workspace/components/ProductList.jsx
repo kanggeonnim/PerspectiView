@@ -60,7 +60,7 @@ export default function ProductList({ productsdata, teamNo }) {
     uploadImage: "",
   });
 
-  console.log(productDetail);
+  // console.log(productDetail);
   return (
     <div className="flex flex-wrap h-full ">
       <div className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">

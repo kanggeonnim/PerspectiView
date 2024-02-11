@@ -8,14 +8,25 @@ import ReactFlow, {
   Panel,
   useReactFlow,
 } from "reactflow";
+import DownloadButton from "./DownloadButton";
 import CustomNode from "./customnode/CustomNode";
 import FloatingEdge from "./FloatingEdge";
 import CustomConnectionLine from "./CustomConnectionLine";
 import LabelNode from "./customnode/LabelNode";
 import "./style.css";
 import { Button } from "@/components/ui/button";
+import useRelativeModule from "@/hook/useRelativeModule";
+import { useRelativeStore } from "@/store/useRelativeStore";
 
 const flowKey = "relation";
+
+const selector = (store) => ({
+  nodes: store.nodes,
+  edges: store.edges,
+  onNodesChange: store.onNodesChange,
+  onEdgesChange: store.onEdgesChange,
+  addStory: store.addStory,
+});
 
 const initialNodes = [];
 
@@ -44,13 +55,6 @@ const defaultEdgeOptions = {
   },
 };
 
-const addEndMarker = (edge) => ({
-  ...edge,
-  markerEnd: {
-    type: MarkerType.ArrowClosed,
-    color: "black",
-  },
-});
 
 export default function DnD({ users, charDatas, idx }) {
   const reactFlowWrapper = useRef(null);
@@ -64,19 +68,24 @@ export default function DnD({ users, charDatas, idx }) {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
+  
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log(flow)
+      // console.log(flow)
+      
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
 
+  // 임시저장 
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      console.log(typeof(JSON.stringify(flow)))
+      // console.log(typeof(JSON.stringify(flow)))
+      console.log("flow 전부", reactFlowInstance)
+      console.log("노드(?)", nodes)
+      console.log("엣지(?)", edges)
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance]);
@@ -115,7 +124,6 @@ export default function DnD({ users, charDatas, idx }) {
       // charDatas가 로딩 중이라면 빈 데이터를 반환하도록 처리
       const index = parseInt(idx);
       const chardex = charDatas.map((chars) => (chars.id) )
-      console.log(index)
 
       let findex =chardex.findIndex(v=>v === index)
       // 인덱스 추출
@@ -132,15 +140,10 @@ export default function DnD({ users, charDatas, idx }) {
         type,
         position,
         data: {
-          image: {
-            url: charDatas[findex].url,
-            // url: charDatas.find((v)=>v.id === idx).url
-          },
           name: charDatas[findex].name,
           label: (
             <>
               <input
-                className="flex items-center justify-center text-sm text-center bg-transparent !p-0 !w-28"
                 type="text"
                 placeholder="label"
                 onChange={handleLabelInputChange}
@@ -150,9 +153,6 @@ export default function DnD({ users, charDatas, idx }) {
             </>
           ),
         },
-        className:
-          "!rounded-full flex items-center justify-center !bg-transparent",
-        onchange: {},
       };
 
       setNodes((nds) => nds.concat(newNode));
@@ -195,6 +195,7 @@ export default function DnD({ users, charDatas, idx }) {
           className="download-image"
         >
           <Controls />
+          {/* <DownloadButton /> */}
           <Panel position="top-right">
             {/* <Button className="mr-2 bg-green-400">저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}

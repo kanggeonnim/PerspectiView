@@ -1,4 +1,5 @@
 
+
 .download-image .download-btn {
   border: 1px solid #000000;
   background: #ededed;
@@ -12,6 +13,7 @@
 .download-image .download-btn:hover {
   opacity: 0.6;
 }
+
 .react-flow__node-zoom {
   font-size: 12px;
   background: #fff;
