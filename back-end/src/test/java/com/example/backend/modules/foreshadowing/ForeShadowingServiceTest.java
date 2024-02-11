@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -94,8 +95,8 @@ class ForeShadowingServiceTest {
                 .positionY(1.0)
                 .plot(p)
                 .content(c)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
 
         return storyRepository.save(story);

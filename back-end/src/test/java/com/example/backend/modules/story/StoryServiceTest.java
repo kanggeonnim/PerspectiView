@@ -146,13 +146,13 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, plot.getId(), "", characters);
+        storyService.createStory(story, plot.getId(), "", characters,foreShadowings);
 
         fromCharacter = Character.builder()
                 .product(product)
@@ -211,8 +211,8 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
         String content = "내용이 들어감";
 
@@ -220,7 +220,7 @@ class StoryServiceTest {
 
 
         //when
-        Story result = storyService.createStory(s, plot.getId(), content, characters);
+        Story result = storyService.createStory(s, plot.getId(), content, characters,foreShadowings);
         em.flush();
         em.clear();
 
@@ -250,8 +250,8 @@ class StoryServiceTest {
                 .content(content)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
         //when
         Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
@@ -273,10 +273,10 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
-        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters);
+        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters,foreShadowings);
         //when
         storyService.deleteStory(delStory.getId());
         //then
