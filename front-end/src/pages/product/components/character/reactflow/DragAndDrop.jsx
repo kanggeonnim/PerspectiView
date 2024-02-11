@@ -18,6 +18,7 @@ import useRelativeQueryModule from "@/hook/useRelativeQueryModule";
 import { useParams } from "react-router-dom";
 import useNodeStore from "@/store/useNodeStore";
 import useCharStore from "@/store/useCharStore";
+import useRelativeStore from "@/store/relative/useRelativeStore";
 const flowKey = "relation";
 
 const selector = (store) => ({
@@ -51,16 +52,19 @@ const defaultEdgeOptions = {
 
 export default function DnD({ users, charDatas, idx }) {
   // get 받은 데이터들을 아래
-  const {teamId, productId} = useParams();
-  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(teamId, productId);
-  const [ relativeData, setRelativeData ] = useState('')
+  const { teamId, productId } = useParams();
+  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(
+    teamId,
+    productId
+  );
+  const [relativeData, setRelativeData] = useState("");
   useEffect(() => {
     if (relativeList) {
       // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
-      setRelativeData(relativeList)
+      setRelativeData(relativeList);
       // console.log(relativeData)
     }
-  })
+  });
   //
   const initialNodes = [
     // {
@@ -94,7 +98,7 @@ export default function DnD({ users, charDatas, idx }) {
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
-  
+  const { edgedata, setEdgedata, nodedata, setNodedata } = useRelativeStore();
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
@@ -111,10 +115,26 @@ export default function DnD({ users, charDatas, idx }) {
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      
+      setEdgedata(flow.edges);
+      setNodedata(flow.nodes);
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-  }, [reactFlowInstance]);
+  }, [reactFlowInstance, setEdgedata]);
+
+  const edgePost = edgedata?.map((v) => Object.entries(v));
+  // console.log(edgePost)
+  const nodePost = nodedata?.map((v) => Object.entries(v));
+  console.log(nodePost)
+
+
+
+  let resultArr = []
+  for (let a = 3; a < 7; a++) {
+    // const edgeExac = edgePost?.map((v) => v[a]);
+    let value = edgePost?.map((v) => v[a][1])
+    resultArr.push(value)
+  }
+  console.log(resultArr)
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
@@ -126,7 +146,6 @@ export default function DnD({ users, charDatas, idx }) {
         setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
         // setViewport({ x, y, zoom });
-
       }
       // 마우스를 뗄 떼마다 POST
     };
@@ -155,12 +174,12 @@ export default function DnD({ users, charDatas, idx }) {
 
       let findex = chardex.findIndex((v) => v === index);
       // 인덱스 추출
-      console.log(findex)
+      console.log(findex);
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
         y: event.clientY,
-        // 
+        //
       });
 
       const newNode = {
@@ -169,7 +188,7 @@ export default function DnD({ users, charDatas, idx }) {
         position,
         data: {
           name: charDatas[findex].name,
-          charId: charDatas[findex].id ,
+          charId: charDatas[findex].id,
           label: (
             <>
               <input
