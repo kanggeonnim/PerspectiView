@@ -11,12 +11,17 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { TagsInput } from "@ark-ui/react";
-import { Plus, PlusCircle, X } from "lucide-react";
+import { PlusCircle, X } from "lucide-react";
+import { useState } from "react";
 
 // TODO: Dialog 화면 비율에 따라서 스크롤바 생기도록 수정
 // TODO: 팀 추가 ui 수정
 export default function TeamCreate() {
+  const { createTeam } = useTeamQueryModule();
+  const [title, setTitle] = useState("");
+  const [info, setInfo] = useState("");
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -28,14 +33,22 @@ export default function TeamCreate() {
       <DialogContent className="sm:max-w-[800px]">
         <DialogHeader className="my-3">
           <DialogTitle>팀 생성하기</DialogTitle>
-          <DialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</DialogDescription>
+          <DialogDescription>
+            작품을 공유할 수 있는 팀을 생성해보세요.
+          </DialogDescription>
         </DialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
             <Label htmlFor="teamName" className="">
               팀명
             </Label>
-            <Input id="teamName" placeholder="팀명을 입력하세요" className="" />
+            <Input
+              value={title}
+              id="teamName"
+              placeholder="팀명을 입력하세요"
+              className=""
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
           <div className="flex flex-col gap-y-2">
             <Label htmlFor="teamInfo" className="">
@@ -43,8 +56,10 @@ export default function TeamCreate() {
             </Label>
             <Textarea
               id="teamInfo"
+              value={info}
               placeholder="팀에 대한 설명을 입력해주세요(선택)"
               className="h-24"
+              onChange={(e) => setInfo(e.target.value)}
             />
           </div>
           {/* //TODO 엔터치면 배지만들어지는것 */}
@@ -83,7 +98,9 @@ export default function TeamCreate() {
                         index={index}
                         value={value}
                       >
-                        <TagsInput.ItemText className="p-1">{value}</TagsInput.ItemText>
+                        <TagsInput.ItemText className="p-1">
+                          {value}
+                        </TagsInput.ItemText>
                         <TagsInput.ItemDeleteTrigger className="p-1">
                           <X size={20} strokeWidth={1} />
                         </TagsInput.ItemDeleteTrigger>
@@ -102,7 +119,18 @@ export default function TeamCreate() {
           </TagsInput.Root>
         </div>
         <DialogFooter>
-          <Button type="submit">팀 생성</Button>
+          <Button
+            type="submit"
+            onClick={() =>
+              createTeam({
+                title: title,
+                info: info,
+                users: [],
+              })
+            }
+          >
+            팀 생성
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

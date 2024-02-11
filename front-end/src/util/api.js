@@ -1,6 +1,5 @@
 // api.js(지금 필요 없음)
 import axios from "axios";
-import { getCookie, setCookie } from "./cookie";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -71,10 +70,11 @@ export const publicApi = axios.create({
 //토큰을 함께 보내는 instance
 export const privateApi = axios.create({
   baseURL: VITE_BASE_URL,
+  //TODO 머지할떄 조심
   headers: {
-    Authorization: getCookie("token"),
-    // Authorization:
-    // "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTAwOTQ1NTYyMzA3MDI0MDk1NDU0Iiwicm9sZSI6Ilt7XCJpZFwiOjEsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NDkzMDI1LCJleHAiOjE3MDc1MDAyMjV9.iF2Y5B7c7djlDq2O419O0AoK_OfWQRI8OlSH2fQGjpQ",
+    // Authorization: getCookie("token"),
+    Authorization:
+      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NjgxOTYzLCJleHAiOjE3MDc2ODkxNjN9.jScH3b9gpk3W0mzAlK_pWxQaCaTqbuJZoUgD_q2glnI",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",
