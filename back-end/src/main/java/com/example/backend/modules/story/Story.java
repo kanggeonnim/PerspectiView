@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,10 +30,10 @@ public class Story {
     @OneToOne(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private Content content;
 
-    @OneToMany(mappedBy = "story")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "story")
     private Set<StoryRelation> storyRelations = new HashSet<>();
 
-    @OneToMany(mappedBy = "story")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "story")
     private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
 
     //index번호
@@ -44,12 +45,12 @@ public class Story {
     private Double positionY;
 
     @Builder
-    public Story(Long id, String title, Content content, Set<StoryRelation> storyRelations, Set<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot){
+    public Story(Long id, String title, Content content, List<StoryRelation> storyRelations, List<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot){
         this.id = id;
         this.title = title;
         this.content = content;
-        this.storyRelations = storyRelations;
-        this.storyForeShadowings = storyForeShadowings;
+        if(storyRelations!=null) storyRelations.addAll(storyRelations);
+        if(storyForeShadowings!=null) storyForeShadowings.addAll(storyForeShadowings);
         this.positionX = positionX;
         this.positionY = positionY;
         this.plot = plot;
@@ -66,7 +67,7 @@ public class Story {
 
     //-----storyRelation에 추가----//
     public void addStoryRelation(StoryRelation storyRelation){
-        this.storyRelations.add(storyRelation);
+        storyRelations.add(storyRelation);
     }
 
 
