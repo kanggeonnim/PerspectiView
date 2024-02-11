@@ -1,6 +1,7 @@
 import { MainLayout } from "@/layouts/MainLayout";
 import { GoogleButton } from "./components/button/GoogleButton";
 import { KakaoButton } from "./components/button/KakaoButton";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import logo from "@/assets/main_logo.svg";
@@ -32,6 +33,9 @@ export default function LoginPage() {
             </Link>
             <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/naver">
               <NaverButton />
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/test?username=test_username">
+              <Button className="w-full"> 테스트 </Button>
             </Link>
           </CardContent>
         </Card>
