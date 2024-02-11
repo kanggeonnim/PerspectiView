@@ -23,10 +23,11 @@ public class StoryController {
                                                    @PathVariable("plotId") Long plotId) {
         //story 등록
         Story story = storyService.createStory(
-                StoryRequestDto.of(storyRequestDto),
+                StoryRequestDto.of(storyRequestDto,null,null),
                 plotId,
                 storyRequestDto.getStoryContent(),
-                storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()));
+                storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
+                storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
 
         StoryResponseDto storyResponseDto = storyService.findByStoryId(story.getId());
         return ApiResult.OK(storyResponseDto);
@@ -35,7 +36,7 @@ public class StoryController {
     @PutMapping("/{storyId}")
     public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto) {
         Story story = storyService.updateStory(
-                StoryRequestDto.of(storyRequestDto),
+                StoryRequestDto.of(storyRequestDto,null,null),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
                 storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
 
@@ -57,7 +58,7 @@ public class StoryController {
     @PostMapping("/{storyId}/vertical")
     public ApiResult<StoryResponseDto> updatePositionY(@PathVariable("storyId") Long storyId,
                                                        @RequestBody StoryRequestDto storyRequestDto) {
-        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto));
+        storyService.updatePositionY(StoryRequestDto.of(storyRequestDto,null,null));
         StoryResponseDto storyResponseDto = storyService.findByStoryId(storyId);
         return ApiResult.OK(storyResponseDto);
     }
