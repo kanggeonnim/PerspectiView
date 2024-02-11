@@ -125,7 +125,8 @@ public class ProductService {
      */
     public Product findByProductId(Long productId) {
         Product findProduct = productRepository.findWithGenreCategoryById(productId).orElseThrow(() -> new NotFoundException());
-
+        List<Plot> plots = plotService.findWithStoryRelationById(findProduct);
+        findProduct.updatePlots(plots);
         return findProduct;
     }
 
