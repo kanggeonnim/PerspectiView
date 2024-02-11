@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
-import { useRelativeStore } from "@/store/useRelativeStore";
+import useRelativeStore from "@/store/useRelativeStore";
 
 const useRelativeModule = (teamId, productId) => {
   const queryClient = useQueryClient();
