@@ -1,13 +1,13 @@
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -60,14 +60,14 @@ export default function ForeshadowingTab() {
       <Card className="box-border h-full p-3">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-3xl">복선 목록</CardTitle>
-          <Dialog>
-            <DialogTrigger asChild>
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
               <PlusCircle size={24} />
-            </DialogTrigger>
-            <DialogContent className="">
-              <DialogHeader>
-                <DialogTitle>복선생성하기</DialogTitle>
-              </DialogHeader>
+            </AlertDialogTrigger>
+            <AlertDialogContent className="">
+              <AlertDialogHeader>
+                <div>복선생성하기</div>
+              </AlertDialogHeader>
               <div className="flex flex-col items-center w-full gap-5">
                 <div className="flex flex-col w-full space-y-1.5">
                   <Label htmlFor="title">복선 타이틀</Label>
@@ -88,9 +88,17 @@ export default function ForeshadowingTab() {
                   />
                 </div>
               </div>
-              <DialogFooter>
-                <Button
-                  type="submit"
+              <AlertDialogFooter>
+                <AlertDialogCancel
+                  onClick={() => {
+                    setTitle("");
+                    setContent("");
+                  }}
+                >
+                  취소하기
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  // type="submit"
                   onClick={() => {
                     console.log({
                       fshadowName: title,
@@ -101,13 +109,15 @@ export default function ForeshadowingTab() {
                       fshadowName: title,
                       fshadowContent: content,
                     });
+                    setTitle("");
+                    setContent("");
                   }}
                 >
                   생성하기
-                </Button>
-              </DialogFooter>
-            </DialogContent>
-          </Dialog>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardHeader>
         <CardContent className="box-border flex flex-row justify-around gap-4 px-12 py-6 h-5/6">
           {["column-1", "column-2", "column-3"].map((columnId) => {

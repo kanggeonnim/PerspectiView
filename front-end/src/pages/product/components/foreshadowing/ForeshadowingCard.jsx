@@ -6,7 +6,7 @@ import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export function ForeshadowingCard({ colFshadow, index }) {
   const [isEditMode, setIsEditMode] = useState(false);
@@ -75,11 +75,6 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   사용취소
                 </Badge>
               )}
-            {/* {!isClose && colFshadow.columnId !== "column-1" && (
-              <Badge variant="outline" onClick={() => closeFshadow()}>
-                회수
-              </Badge>
-            )} */}
             {!isClose && colFshadow.columnId === "column-2" && (
               <Badge variant="outline" onClick={() => closeFshadow()}>
                 회수
@@ -90,31 +85,16 @@ export function ForeshadowingCard({ colFshadow, index }) {
                 회수취소
               </Badge>
             )}
-            {/* {isDropped ? (
-              <Badge variant="outline" onClick={() => undropFshadow()}>
-                사용취소
-              </Badge>
-            ) : (
-              <Badge variant="outline" onClick={() => dropFshadow()}>
-                사용
-              </Badge>
-            )}
-            {isClose ? (
-              <Badge variant="outline" onClick={() => uncloseFshadow()}>
-                회수취소
-              </Badge>
-            ) : (
-              <Badge variant="outline" onClick={() => closeFshadow()}>
-                회수
-              </Badge>
-            )} */}
           </div>
           {/* //TODO delete 더블체크화면 */}
-          <Trash2 size={16} onClick={deleteFshadow} />
-          {!isEditMode && (
-            <Pencil size={16} onClick={() => setIsEditMode(true)} />
+          {colFshadow.columnId === "column-1" && (
+            <Trash2 size={16} onClick={deleteFshadow} />
           )}
-          <button onClick={handleEditSubmit}>수정 완료</button>
+          {!isEditMode ? (
+            <Pencil size={16} onClick={() => setIsEditMode(true)} />
+          ) : (
+            <button onClick={handleEditSubmit}>수정 완료</button>
+          )}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
@@ -134,20 +114,32 @@ export function ForeshadowingCard({ colFshadow, index }) {
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
           <p className="mr-3 text-sm font-medium leading-none">
-            언급된 스토리:
+            언급된 스토리 ID:
           </p>
           <div className="flex ">
             {colFshadow.storyIdList.map((storyOb, index) => (
               <div key={index} className="mr-3">
-                {storyOb.storyId}
+                <Link
+                  to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
+                >
+                  {storyOb.storyId}
+                </Link>
               </div>
             ))}
           </div>
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">회수 스토리:</p>
-          <div className="flex ">{colFshadow.fshadowClose}</div>
+          <p className="mr-3 text-sm font-medium leading-none">
+            회수 스토리 ID:
+          </p>
+          <div className="flex ">
+            <Link
+              to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
+            >
+              {colFshadow.fshadowClose}
+            </Link>
+          </div>
         </div>
       </CardContent>
     </Card>
