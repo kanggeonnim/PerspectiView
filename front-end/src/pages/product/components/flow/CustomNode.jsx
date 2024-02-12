@@ -41,8 +41,8 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
   };
 
   const onNodeClick = () => {
-    console.log(id, teamId, productId);
-    navigate(`/team/${teamId}/product/${productId}/story/${data.storyId}`);
+    // console.log(id, teamId, productId, data.plotId, data.storyId);
+    navigate(`/team/${teamId}/product/${productId}/plot/${data.plotId}/story/${data.storyId}`);
   };
 
   return (

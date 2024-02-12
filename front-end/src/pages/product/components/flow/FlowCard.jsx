@@ -34,13 +34,12 @@ const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
 const snapGrid = [20, 20];
 
 export default function FlowCard() {
-  // whenever you use multiple values, you should use shallow for making sure that the component only re-renders when one of the values change
+  const { teamId, productId } = useParams();
+  const { moveStory } = useStoryQueryModule(teamId, productId);
   const { nodes, edges, onNodesChange, onEdgesChange, addStory } = useNodeStore(selector);
   const [movedNode, setMovedNode] = useState();
-  const { teamId, productId } = useParams();
 
-  console.log("nodes", nodes);
-  const { moveStory } = useStoryQueryModule(teamId, productId);
+  // console.log("nodes", nodes);
   return (
     <ReactFlow
       nodes={nodes}

@@ -18,7 +18,8 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
       const response = await privateApi.get(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
       );
-      console.log("스토리단일조회", response);
+      // console.log("스토리단일조회", response);
+      setStoryDetail(response.data.response);
       return response.data.response;
     },
   });
