@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 
-export default function RadioButtonSelect({ onOptionChange }) {
+export default function RadioButtonSelect() {
   // 라디오 버튼
   // 카테고리
   const arrs = [
@@ -15,7 +15,6 @@ export default function RadioButtonSelect({ onOptionChange }) {
 
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
-    onOptionChange(e.target.value); // 선택된 값 전달
   };
 
   return (

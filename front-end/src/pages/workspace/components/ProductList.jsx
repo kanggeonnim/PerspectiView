@@ -59,7 +59,7 @@ export default function ProductList({ productsdata, teamNo }) {
     productInfo: "",
     category: null,
     genres: [],
-    uploadImage: "",
+    // uploadImage: "",
   });
   // console.log(productDetail);
   return (
