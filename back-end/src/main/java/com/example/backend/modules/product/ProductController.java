@@ -10,6 +10,7 @@ import com.example.backend.modules.plot.PlotResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,7 +27,7 @@ public class ProductController {
     private final ProductService productService;
     private final S3Uploader s3Uploader;
 
-    @PostMapping
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
                                                           @RequestPart(required = false) MultipartFile uploadImage,
                                                           @PathVariable("teamId")Long teamId) throws IOException {
