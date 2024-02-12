@@ -39,17 +39,17 @@ public class TeamController {
     public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestWithUsersDto teamRequestDto,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
         List<UserRequestOnlyEmailDto> users = teamRequestDto.getUsers();
-        log.info("email size : {}" , users.size());
+
         List<User> findUsers = new ArrayList<>();
-        for(UserRequestOnlyEmailDto user : users){
-            log.info("email check : {}" , user.getEmail());
-            User byEmail = userRepository.findByEmail(user.getEmail());
-            if(byEmail != null){
-                findUsers.add(byEmail);
+
+        if(users != null){
+            for(UserRequestOnlyEmailDto user : users){
+                log.info("email check : {}" , user.getEmail());
+                User byEmail = userRepository.findByEmail(user.getEmail());
+                if(byEmail != null){
+                    findUsers.add(byEmail);
+                }
             }
-        }
-        if(findUsers.size() > 0){
-            log.info("user repository get 완료");
         }
 
         Team team = TeamRequestWithUsersDto.from(teamRequestDto);
