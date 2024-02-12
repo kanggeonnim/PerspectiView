@@ -22,6 +22,8 @@ export default function TeamCreate() {
   const { createTeam } = useTeamQueryModule();
   const [title, setTitle] = useState("");
   const [info, setInfo] = useState("");
+  const [emailList, setEmailList] = useState([]);
+  console.log("emailList", emailList);
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -81,6 +83,8 @@ export default function TeamCreate() {
           </div> */}
           {/* //TODO 폰트맞추기, 수정기능이상한거고치기 중복일때 */}
           <TagsInput.Root
+            value={emailList}
+            onValueChange={setEmailList}
             validate={(details) => {
               return !details.value.includes(details.inputValue);
             }}
@@ -121,13 +125,18 @@ export default function TeamCreate() {
         <DialogFooter>
           <Button
             type="submit"
-            onClick={() =>
+            onClick={() => {
+              console.log(emailList);
+              const userEmails = emailList.value.map((email1) => ({
+                email: email1,
+              }));
+              console.log("useEmail", userEmails);
               createTeam({
                 title: title,
                 info: info,
-                users: [],
-              })
-            }
+                users: userEmails,
+              });
+            }}
           >
             팀 생성
           </Button>
