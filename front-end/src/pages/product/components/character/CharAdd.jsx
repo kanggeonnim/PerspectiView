@@ -13,7 +13,7 @@ import { Plus } from "lucide-react";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import ImageUploader from "../ImageUploader";
+import ImageUploader from "../ImageUploader/ImageUploader";
 // import CharTag from "./CharTag";
 // import CharTagAdd from "./CharTagAdd";
 

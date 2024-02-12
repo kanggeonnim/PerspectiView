@@ -23,7 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import ImageUploader from "@/pages/product/components/ImageUploader";
+import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
 
 function CreateWork() {
   return (
@@ -54,9 +54,10 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   useEffect(() => {
     if (teamData) {
       setTeamNo(() => teamData[0].id);
-      console.log("team?", teamNo);
+      console.log(teamData)
     }
   }, [teamData]);
+  console.log("team?", teamNo);
   // FIXME 팀 ID undefined 발생
   const { createProduct } = useProductQueryModule(teamNo);
   // console.log(teamId)
@@ -77,7 +78,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
             </CardTitle>
             <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
               {/* <PlusCircleIcon /> */}
-              <ImageUploader className="w-max, h-max"/>
+              <ProductImageUploader className="w-max, h-max"/>
             </div>
           </AlertDialogHeader>
         </div>
