@@ -126,6 +126,7 @@ public class StoryService {
 
         //Content를 가져와서 수정
         Content content = contentRepository.findById(findStory.getContent().getId()).orElseThrow(() -> new NotFoundException());
+        content.updateContent(story.getContent().getContent());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
         return findStory;
