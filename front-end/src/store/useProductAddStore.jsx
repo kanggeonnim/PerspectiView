@@ -30,7 +30,7 @@ const useProductAddStore = create(devtools((set) => ({
       };
       return {
         products: [...state.products, product],
-        inputs: { name: "", description : "", url: "" }
+        inputs: { name: "", description : "", url: "", genres:"", categories:"" }
       };
     });
   }

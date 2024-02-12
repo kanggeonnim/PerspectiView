@@ -16,13 +16,26 @@ export const privateApi = axios.create({
   headers: {
     Authorization: getCookie("accessToken"),
     // Authorization:
-    //   "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NzExNzkxLCJleHAiOjE3MDc3MTg5OTF9.Pfb48pcEudl2vWn31o17WlkBB12IsXuVy2H--nLrMz0",
+    // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NzQ0OTk4LCJleHAiOjE3MDc3NTIxOTh9.cpXI27udPpyzhbUYmQKRXTBMxaJwANOk7SN2y43z0ho",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",
   },
   withCredentials: true,
 });
+
+export const formApi = axios.create({
+  baseURL: VITE_BASE_URL,
+  headers: {
+    "Content-Type": "multipart/form-data",
+    Authorization: getCookie("accessToken"),
+    // Authorization:
+    // "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NzM3NTI1LCJleHAiOjE3MDc3NDQ3MjV9.rlMUxPDMGT0p_1IKcK4AomkYPjei_M08SxlEjcfnXJM",
+    "Access-Control-Allow-Origin": "http://localhost:5173",
+    "Access-Control-Allow-Credentials": true,
+  },
+});
+
 // 리프레시토큰 요청 api
 // function postRefreshToken() {
 //   const response = publicApi.post("/api/token/refresh", {

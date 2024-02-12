@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { privateApi } from "@/util/api";
+import { privateApi, formApi, publicApi } from "@/util/api";
 import { useProductStore } from "@/store/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
 import useNodeStore from "@/store/useNodeStore";
@@ -22,7 +22,7 @@ const useProductQueryModule = (teamId, productId) => {
   const { data: productData, isSuccess: getProductDataIsSuccess } = useQuery({
     queryKey: ["productData", teamId, productId],
     queryFn: async () => {
-      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
+      const response = await privateApi.get(`/api/team/${teamId}/product`);
       const product = response.data.response;
       setProduct(product);
       setPlotList(product.plots);
@@ -45,8 +45,17 @@ const useProductQueryModule = (teamId, productId) => {
 
   const { mutate: createProductData } = useMutation({
     mutationFn: async (newData) => {
-      console.log(newData);
-      const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
+    const formData = new FormData();
+    // formData.append('productRequestDto', JSON.stringify(newData.productRequestDto));
+    const json = JSON.stringify(newData.productRequestDto)
+    const blob = new Blob([json], { type : "application/json"})
+    formData.append('productRequestDto', blob)
+    formData.append('uploadImage', newData.uploadImage);
+      const response = await formApi.post(`/api/team/${teamId}/product`, formData, {
+        // headers: {
+        //   'Content-Type': 'multipart/form-data',
+        // },
+      } );
       return response.data.response;
     },
     onSuccess: () => {

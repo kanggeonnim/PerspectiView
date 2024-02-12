@@ -16,8 +16,7 @@ import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import ImageUploader from "@/pages/product/components/ImageUploader";
-
+import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
 function CreateProduct() {
   const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
 
@@ -26,7 +25,7 @@ function CreateProduct() {
     setInputs({ ...inputs, [name]: value });
   };
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center a">
       <WorkList
         products={products}
         productsId={products.id}
@@ -60,7 +59,7 @@ export default function ProductList({ productsdata, teamNo }) {
     productInfo: "",
     category: null,
     genres: [],
-    uploadImage: "",
+    // uploadImage: "",
   });
   // console.log(productDetail);
   return (
@@ -89,7 +88,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div>작품 정보</div>
                   </CardTitle>
                   <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
-                    <ImageUploader />
+                    <ProductImageUploader baseImg={product.productImageUrl} />
                   </div>
                 </AlertDialogHeader>
               </div>
