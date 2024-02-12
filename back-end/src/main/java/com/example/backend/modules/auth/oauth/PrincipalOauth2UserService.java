@@ -62,8 +62,12 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             oAuth2UserInfo = new NaverUserInfo((Map) oAuth2User.getAttributes());
         }
 
+//        Optional<User> optionalUser =
+//                userRepository.findWithAuthoritiesByUsername(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId());
+
+        // 하나의 이메일로는 하나의 회원가입만가능
         Optional<User> optionalUser =
-                userRepository.findWithAuthoritiesByUsername(oAuth2UserInfo.getProvider() + "_" + oAuth2UserInfo.getProviderId());
+                userRepository.findWithAuthoritiesByEmail(oAuth2UserInfo.getEmail());
 
         if (optionalUser.isEmpty()) {
             String providerId = oAuth2UserInfo.getProviderId();
