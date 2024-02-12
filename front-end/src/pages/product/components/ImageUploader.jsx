@@ -8,6 +8,7 @@ function ImageUploader() {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+    console.log(selectedImage)
   };
 
   const handleUploadClick = () => {
@@ -20,15 +21,32 @@ function ImageUploader() {
     }
   };
 
+  const handleUploadImage = async () => {
+    if (image) {
+      const formData = new FormData();
+      formData.append('uploadImage', image);
+        
+      try {
+        const response = await fetch('your-upload-url', {
+          method: 'POST',
+          body: formData
+        });
+        const data = await response.json();
+        console.log(data);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    }
+  };
+
   return (
-    <div className="flex items-center justify-center w-full h-full my-3 bg-gray-300 border h-2/3" onClick={handleUploadClick} style={{ cursor: 'pointer' }}>
+    <div className="flex flex-col items-center justify-center w-full h-full my-3 bg-gray-300 border h-2/3" onClick={handleUploadClick} style={{ cursor: 'pointer' }}>
       {image ? (
         <div className='w-full h-full'>
           <img className='w-full h-full' src={URL.createObjectURL(image)} alt="Uploaded" style={{ maxWidth: '300px' }} />
         </div>
       ) : (
         <>
-        {/* <div> 이미지 업로드</div> */}
         <PlusCircleIcon />
         <input
           ref={fileInputRef}
@@ -39,6 +57,7 @@ function ImageUploader() {
         />
         </>
       )}
+      {image && <button onClick={handleUploadImage}>이미지 지우기</button>}
     </div>
   );
 }

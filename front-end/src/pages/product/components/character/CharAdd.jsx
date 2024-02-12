@@ -13,6 +13,7 @@ import { Plus } from "lucide-react";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import ImageUploader from "../ImageUploader";
 // import CharTag from "./CharTag";
 // import CharTagAdd from "./CharTagAdd";
 
@@ -44,7 +45,7 @@ export default function CharAdd({
         <div className="box-border flex flex-row w-full h-3/4 ">
           <AlertDialogHeader className="flex w-1/3 h-full items-center">
             <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full">
-              <PlusCircleIcon />
+              <ImageUploader />
             </div>
           </AlertDialogHeader>
           <div className="box-border flex flex-col w-2/3 h-full">

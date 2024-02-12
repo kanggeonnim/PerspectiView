@@ -51,7 +51,7 @@ function Product({ productImg, productName }) {
 
 export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
-  const { createProduct } = useProductQueryModule(teamNo);
+  const { updateProduct } = useProductQueryModule(teamNo);
   const navigate = useNavigate();
   // const [isEdit, setIsEdit] = useState(false);
   const [productDetail, setProductDetail] = useState({
@@ -61,7 +61,6 @@ export default function ProductList({ productsdata, teamNo }) {
     genres: [],
     uploadImage: "",
   });
-
   // console.log(productDetail);
   return (
     <div className="flex flex-wrap h-full ">
