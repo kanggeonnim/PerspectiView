@@ -81,3 +81,7 @@ spring:
 
 #redirectUrl: "https://i10b310.p.ssafy.io/app/workspace"
 redirectUrl: "http://localhost:5173/app/workspace"
+
+logging:
+  level:
+    root: INFO
