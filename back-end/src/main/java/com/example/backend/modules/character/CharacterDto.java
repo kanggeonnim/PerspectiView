@@ -14,6 +14,17 @@ public class CharacterDto {
     private double positionX;
     private double positionY;
 
+    public static CharacterResponseDto changeResponse (CharacterDto characterDto) {
+        return CharacterResponseDto.builder()
+                .id(characterDto.getId())
+                .image(characterDto.getImage())
+                .name(characterDto.getName())
+                .detail(characterDto.getDetail())
+                .positionX(characterDto.getPositionX())
+                .positionY(characterDto.getPositionY())
+                .build();
+    }
+
     public static CharacterDto of(Character character) {
         return CharacterDto.builder()
                 .id(character.getId())

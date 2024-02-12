@@ -3,6 +3,7 @@ package com.example.backend.modules.story;
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
+import com.example.backend.modules.foreshadowing.ForeShadowingPreviewDto;
 import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,8 @@ public class StoryResponseDto implements Serializable{
     private Long storyId;
     private String storyTitle;
     private List<CharacterResponseDto> characters;
-    private List<ForeShadowingResponseDto> foreShadowings;
-    private Content content;
+    private List<ForeShadowingPreviewDto> foreShadowings;
+    private ContentDto content;
     private int positionX;
     private Double positionY;
 
@@ -30,13 +31,8 @@ public class StoryResponseDto implements Serializable{
                 .storyId(story.getId())
                 .storyTitle(story.getTitle())
                 .characters(characters.stream().map(CharacterResponseDto::of).collect(Collectors.toList()))
-                .foreShadowings(foreShadowings.stream().map(foreShadowing ->
-                        ForeShadowingResponseDto.of(
-                                foreShadowing,
-                                null,
-                                "null?"
-                        )).collect(Collectors.toList()))
-                .content(story.getContent())
+                .foreShadowings(foreShadowings.stream().map(foreShadowing -> ForeShadowingPreviewDto.of(foreShadowing)).collect(Collectors.toList()))
+                .content(ContentDto.of(story.getContent()))
                 .positionX(story.getPositionX())
                 .positionY(story.getPositionY())
                 .build();

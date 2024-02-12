@@ -81,7 +81,7 @@ public class StoryService {
             madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
 
-        redisTemplate.opsForValue().set(story.getId(), StoryDto.of(madeStory, characters, foreShadowings));
+        redisTemplate.opsForValue().set(story.getId() + "", StoryDto.of(madeStory, characters, foreShadowings));
 
         return madeStory;
     }
@@ -153,8 +153,8 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-        StoryResponseDto storyResponseDto = (StoryResponseDto) redisTemplate.opsForValue().get(storyId);
-        if(storyResponseDto == null){
+        StoryDto storyDto = (StoryDto) redisTemplate.opsForValue().get(storyId + "");
+        if(storyDto == null){
         Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
@@ -164,9 +164,9 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.of(story, characterList, foreShadowingList);}
-        else {
-            return storyResponseDto;
+        return StoryResponseDto.of(story, characterList, foreShadowingList);
+        }else {
+           return StoryDto.changeResponse(storyDto);
         }
     }
 

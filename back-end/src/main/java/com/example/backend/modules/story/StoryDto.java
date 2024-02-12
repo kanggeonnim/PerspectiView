@@ -28,18 +28,29 @@ public class StoryDto implements Serializable {
     private Double positionY;
 
 
+    public static StoryResponseDto changeResponse(StoryDto storyDto) {
+        return StoryResponseDto.builder()
+                .storyId(storyDto.getStoryId())
+                .storyTitle(storyDto.getStoryTitle())
+                .characters(storyDto.getCharacters().stream().map(CharacterDto::changeResponse).collect(Collectors.toList()))
+                .foreShadowings(storyDto.getForeShadowings())
+                .content(storyDto.getContent())
+                .positionX(storyDto.getPositionX())
+                .positionY(storyDto.getPositionY())
+                .build();
+    }
+
     public static StoryDto of(Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
         return StoryDto.builder()
                 .storyId(story.getId())
                 .storyTitle(story.getTitle())
                 .characters(characters.stream().map(CharacterDto::of).collect(Collectors.toList()))
-                .foreShadowings(foreShadowings.stream().map(ForeShadowingPreviewDto::of).collect(Collectors.toList()))
-                .content(com.example.backend.modules.story.ContentDto.of(story.getContent()))
+                .foreShadowings(foreShadowings.stream().map(foreShadowing -> ForeShadowingPreviewDto.of(foreShadowing)).collect(Collectors.toList()))
+                .content(ContentDto.of(story.getContent()))
                 .positionX(story.getPositionX())
                 .positionY(story.getPositionY())
                 .build();
     }
-
     @JsonCreator
     public StoryDto(@JsonProperty("storyId") Long storyId,
                             @JsonProperty("storyTitle") String storyTitle,

@@ -223,6 +223,15 @@ class StoryServiceTest {
         em.clear();
 
         StoryResponseDto story1 = storyService.findByStoryId(story.getId());
+
+
+        for(int i = 0; i< 10000;i++){
+
+            System.out.println("HH@@@@@@@@@@@@: " + i);
+            storyService.findByStoryId(story.getId());
+            em.flush();
+            em.clear();
+        }
         StoryResponseDto story2 = storyService.findByStoryId(s.getId());
 
         System.out.println("생성 테스트 하고 난 후 스토리 전체 개수: " + storyRepository.findAll().size());
