@@ -16,7 +16,7 @@ import {
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import ImageUploader from "@/pages/product/components/ImageUploader";
+import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
 
 function CreateWork() {
   return (
@@ -49,7 +49,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   useEffect(() => {
     if (teamData) {
       setTeamNo(() => teamData[0].id);
-      console.log("team?", teamNo);
+      console.log(teamData)
     }
   }, [teamData, teamNo]);
 
@@ -74,7 +74,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
             </CardTitle>
             <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
               {/* <PlusCircleIcon /> */}
-              <ImageUploader className="w-max, h-max" />
+              <ImageUploader className="w-max, h-max"/>
             </div>
           </AlertDialogHeader>
         </div>

@@ -1,14 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { PlusCircleIcon } from 'lucide-react';
 
-function ImageUploader() {
+function CharImageUploader() {
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    console.log(selectedImage)
   };
 
   const handleUploadClick = () => {
@@ -25,7 +24,7 @@ function ImageUploader() {
     if (image) {
       const formData = new FormData();
       formData.append('uploadImage', image);
-        
+      console.log(formData)
       try {
         const response = await fetch('your-upload-url', {
           method: 'POST',
@@ -33,6 +32,8 @@ function ImageUploader() {
         });
         const data = await response.json();
         console.log(data);
+        // 이미지 업로드 후 이미지 지우기
+        setImage(null);
       } catch (error) {
         console.error('Error uploading image:', error);
       }
@@ -57,9 +58,9 @@ function ImageUploader() {
         />
         </>
       )}
-      {image && <button onClick={handleUploadImage}>이미지 지우기</button>}
+      {image && <button onClick={handleUploadImage}>이미지 삭제</button>}
     </div>
   );
 }
 
-export default ImageUploader;
+export default CharImageUploader;
