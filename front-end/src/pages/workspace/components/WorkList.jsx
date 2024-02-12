@@ -17,6 +17,7 @@ import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
 import axios from "axios";
+import { useImageStore } from "@/store/useImageStore";
 
 function CreateWork() {
   return (
@@ -47,10 +48,11 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   });
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-
+  const {images, setImages} = useImageStore()
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+    setImages(selectedImage)
   };
 
   const handleUploadClick = () => {
@@ -69,19 +71,21 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       formData.append("uploadImage", image);
       console.log(formData);
       try {
-        const response = await fetch("your-upload-url", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        console.log(data);
+        console.log(image)
+        setProductDetail(prevProductDetail => ({
+          ...prevProductDetail,
+          productRequestDto: {
+            ...prevProductDetail.productRequestDto,
+            uploadImage: formData, // 이미지 URL을 uploadImage 속성에 할당
+          },
+        }));
         // 이미지 업로드 후 이미지 지우기
         setImage(null);
       } catch (error) {
         console.error("Error uploading image:", error);
       }
     }
-  };
+  }
 
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
   const [teamNo, setTeamNo] = useState("");
@@ -127,7 +131,12 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         src={URL.createObjectURL(image)}
                         alt="Uploaded"
                         style={{ maxWidth: "300px" }}
-                        
+                        onChange={(e) => {
+                          setProductDetail({
+                            ...productDetail,
+                            uploadImage
+                          });
+                        }}
                       />
                     </div>
                   ) : (
