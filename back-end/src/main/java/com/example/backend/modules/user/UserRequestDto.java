@@ -8,8 +8,6 @@ import lombok.Data;
 public class UserRequestDto {
     private String nickname;
 
-    private String image;
-
     private String email;
 
     private String userPhone;
@@ -19,7 +17,6 @@ public class UserRequestDto {
     public static User from(UserRequestDto userRequestDto) {
         return User.builder()
                 .userNickname(userRequestDto.getNickname())
-                .userImageUrl(userRequestDto.getImage())
                 .email(userRequestDto.getEmail())
                 .userPhone(userRequestDto.getUserPhone())
                 .userInfo(userRequestDto.getUserInfo())
