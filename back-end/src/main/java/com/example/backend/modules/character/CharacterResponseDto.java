@@ -9,6 +9,7 @@ import lombok.Data;
 public class CharacterResponseDto {
     private Long id;
     private String name;
+    private String image;
     private String detail;
     private double positionX;
     private double positionY;
@@ -16,6 +17,7 @@ public class CharacterResponseDto {
     public static CharacterResponseDto of(Character character) {
         return CharacterResponseDto.builder()
                 .id(character.getId())
+                .image(character.getCharacterImageUrl())
                 .name(character.getCharacterName())
                 .detail(character.getCharacterDetail())
                 .positionX(character.getPositionX())
