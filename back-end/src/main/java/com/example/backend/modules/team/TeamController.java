@@ -2,11 +2,17 @@ package com.example.backend.modules.team;
 
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.exception.NotFoundException;
+import com.example.backend.modules.user.User;
+import com.example.backend.modules.user.UserRepository;
+import com.example.backend.modules.user.UserRequestDto;
+import com.example.backend.modules.user.UserRequestOnlyEmailDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,9 +25,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/team")
 @Tag(name = "team", description = "Team 도메인 컨트롤러")
+@Slf4j
 public class TeamController {
     private final TeamService teamService;
-
+    private final UserRepository userRepository;
     @Operation(
             responses = {@ApiResponse(responseCode = "200", description = "successful operation"),
             @ApiResponse(responseCode = "401", description = "please login"),
@@ -31,10 +38,24 @@ public class TeamController {
     @PostMapping
     public ApiResult<TeamResponseWithMembersDto> createTeam(@RequestBody @Valid TeamRequestWithUsersDto teamRequestDto,
                                                             @AuthenticationPrincipal PrincipalDetails principalDetails) throws IOException {
+        List<UserRequestOnlyEmailDto> users = teamRequestDto.getUsers();
+
+        List<User> findUsers = new ArrayList<>();
+
+        if(users != null){
+            for(UserRequestOnlyEmailDto user : users){
+                log.info("email check : {}" , user.getEmail());
+                User byEmail = userRepository.findByEmail(user.getEmail());
+                if(byEmail != null){
+                    findUsers.add(byEmail);
+                }
+            }
+        }
+
         Team team = TeamRequestWithUsersDto.from(teamRequestDto);
 
 
-        Team newTeam = teamService.createTeam(team, principalDetails.getUser());
+        Team newTeam = teamService.createTeam(team, principalDetails.getUser(), findUsers);
         return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
     }
     @GetMapping("/search")
