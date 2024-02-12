@@ -8,6 +8,7 @@ import com.example.backend.modules.user.User;
 
 import com.example.backend.modules.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class TeamService {
     private final TeamRepository teamRepository;
     private final EnrollmentRepository enrollmentRepository;
@@ -25,6 +27,20 @@ public class TeamService {
     public Team createTeam(Team team, User user) {
         Team newTeam = teamRepository.save(team);
         newTeam.addManager(user);
+
+        return newTeam;
+    }
+    public Team createTeam(Team team, User user, List<User> findUsers) {
+
+        Team newTeam = teamRepository.save(team);
+        newTeam.addManager(user);
+
+        log.info("========== add member =================");
+        for(User member : findUsers){
+            newTeam.addMember(member);
+            log.info("========== add member =================");
+        }
+
         return newTeam;
     }
 
