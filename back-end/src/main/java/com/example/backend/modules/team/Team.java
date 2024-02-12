@@ -43,11 +43,10 @@ public class Team {
     private List<Product> products;
 
     @Builder
-    public Team(String title, String info, Boolean personal, List<User> user) {
+    public Team(String title, String info, Boolean personal) {
         this.title = title;
         this.info = info;
         this.personal = personal;
-        if(user != null) members.addAll(user);
     }
 
     @Column(nullable = false)

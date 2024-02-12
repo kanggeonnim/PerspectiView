@@ -1,6 +1,7 @@
 package com.example.backend.modules.team;
 
 import com.example.backend.modules.user.UserRequestDto;
+import com.example.backend.modules.user.UserRequestOnlyEmailDto;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class TeamRequestWithUsersDto {
     private String title;
     private String info;
 
-    private List<UserRequestDto> users;
+    private List<UserRequestOnlyEmailDto> users;
     //TODO Multipart Image
 
     public static Team from(TeamRequestWithUsersDto teamRequestDto){
@@ -24,7 +25,6 @@ public class TeamRequestWithUsersDto {
                 .info(teamRequestDto.getInfo())
                 .personal(false)
                 .title(teamRequestDto.getTitle())
-                .user(teamRequestDto.getUsers().stream().map(UserRequestDto::from).collect(Collectors.toList()))
                 .build();
     }
 }

@@ -1,6 +1,5 @@
 package com.example.backend.modules.team;
 
-import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.user.UserRepository;
 import org.junit.jupiter.api.Assertions;
@@ -50,9 +49,8 @@ class TeamServiceTest {
         Team team = Team.builder().title("team1")
                 .info("team info")
                 .personal(false)
-                .user(users)
                 .build();
-        return teamService.createTeam(team, user);
+        return teamService.createTeam(team, user, users);
     }
 
 
