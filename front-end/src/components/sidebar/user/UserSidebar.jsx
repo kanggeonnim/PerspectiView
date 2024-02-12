@@ -90,7 +90,7 @@ function UserSidebar() {
                   onValueChange={(team) => {
                     console.log("team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
                     setSelectedTeam(
-                      team.title.length > 10 ? team.title.slice(0, 10) + "..." : team.title
+                      team.title.length > 10 ? team?.title.slice(0, 10) + "..." : team.title
                     );
                     navigate(`/workspace/team/${team.id}`);
                   }}
@@ -163,7 +163,7 @@ function UserSidebar() {
                     isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
-                  <div className="mx-1 text-xs break-words">{user.userNickname.split("_")[1]}</div>
+                  <div className="mx-1 text-xs break-words">{user?.userNickname.split("_")[1]}</div>
                   <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
                 </div>
               </div>
