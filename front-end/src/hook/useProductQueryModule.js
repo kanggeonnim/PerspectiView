@@ -10,9 +10,10 @@ const useProductQueryModule = (teamId, productId) => {
   const { setPlotList } = usePlotListStore();
   const { setNodes, arrangeStory, addEmptyStory } = useNodeStore();
 
-  const { data: productList, isSuccess: getProductListIsSuccess } = useQuery({
-    queryKey: ["productList", teamId],
+  const { data: productListData, isSuccess: getProductListDataIsSuccess } = useQuery({
+    queryKey: ["productListData", teamId],
     queryFn: async () => {
+      console.log(teamId);
       const response = await privateApi.get(`/api/team/${teamId}/product`);
       return response.data.response;
     },
@@ -43,34 +44,34 @@ const useProductQueryModule = (teamId, productId) => {
     },
   });
 
-  const { mutate: createProduct } = useMutation({
+  const { mutate: createProductData } = useMutation({
     mutationFn: async (newData) => {
       const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      queryClient.invalidateQueries({ queryKey: ["productListData"] });
     },
   });
-  const { mutate: updateProduct } = useMutation({
+  const { mutate: updateProductData } = useMutation({
     mutationFn: async (newData) => {
       const response = await privateApi.put(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["productList"] });
+      queryClient.invalidateQueries({ queryKey: ["productListData"] });
     },
   });
 
   return {
-    productList,
-    getProductListIsSuccess,
+    productListData,
+    getProductListDataIsSuccess,
     productData,
     getProductDataIsSuccess,
-    createProduct,
-    updateProduct,
+    createProductData,
+    updateProductData,
   };
 };
 

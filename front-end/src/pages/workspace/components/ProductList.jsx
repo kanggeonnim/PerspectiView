@@ -15,6 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import useProductQueryModule from "@/hook/useProductQueryModule";
 
 function CreateProduct() {
   const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
@@ -51,6 +52,7 @@ export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
   const navigate = useNavigate();
   const [isEdit, setIsEdit] = useState(false);
+
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
@@ -154,7 +156,7 @@ export default function ProductList({ productsdata, teamNo }) {
                         onClick={() => {
                           console.log(productDetail);
                           // // create product
-                          updateProduct(productDetail);
+                          updateProductData(productDetail);
                         }}
                       >
                         편집

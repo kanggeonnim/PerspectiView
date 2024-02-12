@@ -1,9 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Editable } from "@ark-ui/react";
-import WorkListCard from "./ProductListCard";
-import { useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
+import ProductListCard from "./ProductListCard";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -98,7 +96,7 @@ function TeamInfo() {
           </CardContent>
         </Card>
       </div>
-      <WorkListCard products={teamInfoData} />
+      <ProductListCard products={teamInfoData} />
     </div>
   );
 }
