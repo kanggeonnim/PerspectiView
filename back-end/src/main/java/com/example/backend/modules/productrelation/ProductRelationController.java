@@ -40,6 +40,13 @@ public class ProductRelationController {
                 .collect(Collectors.toList()));
     }
 
+    @PutMapping("/all")
+    public ApiResult<List<ProductRelationResponseDto>> updateAllProductRelation(@RequestBody @Valid List<ProductRelationRequestDto> productRelationRequestDtos
+            ,@PathVariable("productId")Long productId) {
+        List<ProductRelationResponseDto> productRelations = productRelationService.updateAllProductRelation(productId,productRelationRequestDtos);
+        return ApiResult.OK(productRelations);
+    }
+
     @DeleteMapping("/{relationId}")
     public ApiResult<Object> deleteProductRelation(@PathVariable("relationId") Long relationId) {
         productRelationService.deleteProductRelation(relationId);

@@ -12,6 +12,8 @@ public class ProductRelationResponseDto {
     private CharacterResponseDto fromCharacter;
     private CharacterResponseDto toCharacter;
     private String productRelationInfo;
+    private Long sourceId;
+    private Long targetId;
     private String sourceHandle;
     private String targetHandle;
 
@@ -21,6 +23,10 @@ public class ProductRelationResponseDto {
                 .productRelationInfo(productRelation.getProductRelationInfo())
                 .fromCharacter(CharacterResponseDto.of(productRelation.getFromCharacter()))
                 .toCharacter(CharacterResponseDto.of(productRelation.getToCharacter()))
+                .sourceId(productRelation.getSourceId())
+                .targetId(productRelation.getTagetId())
+                .sourceHandle(productRelation.getSourceHandle())
+                .targetHandle(productRelation.getTargetHandle())
                 .build();
     }
 

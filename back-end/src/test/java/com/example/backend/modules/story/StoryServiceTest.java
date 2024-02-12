@@ -146,13 +146,13 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, plot.getId(), "", characters);
+        storyService.createStory(story, plot.getId(), "", characters,foreShadowings);
 
         fromCharacter = Character.builder()
                 .product(product)
@@ -211,8 +211,8 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
         String content = "내용이 들어감";
 
@@ -220,7 +220,7 @@ class StoryServiceTest {
 
 
         //when
-        Story result = storyService.createStory(s, plot.getId(), content, characters);
+        Story result = storyService.createStory(s, plot.getId(), content, characters,foreShadowings);
         em.flush();
         em.clear();
 
@@ -250,11 +250,11 @@ class StoryServiceTest {
                 .content(content)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
         //when
-        Story updatedStory = storyService.updateStory(newStory, characters, foreShadowings);
+        Story updatedStory = storyService.updateStory(story.getId(),newStory, characters, foreShadowings);
         em.flush();
         em.clear();
         List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
@@ -273,10 +273,10 @@ class StoryServiceTest {
                 .positionX(1)
                 .positionY(1.0)
                 .plot(plot)
-                .storyForeShadowings(new HashSet<>())
-                .storyRelations(new HashSet<>())
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
-        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters);
+        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters,foreShadowings);
         //when
         storyService.deleteStory(delStory.getId());
         //then
@@ -290,7 +290,7 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters1, foreShadowings);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -305,11 +305,11 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters1, foreShadowings);
 
         List<Character> characters2 = new ArrayList<>();
         characters2.add(toCharacter);
-        storyService.updateStory(story, characters2, foreShadowings);
+        storyService.updateStory(story.getId(),story, characters2, foreShadowings);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -328,7 +328,7 @@ class StoryServiceTest {
                 .positionY(3.0)
                 .build();
         //when
-        storyService.updatePositionY(newStory);
+        storyService.updatePositionY(newStory.getId(), newStory.getPositionY());
         StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
         //then
         assertEquals(newStory.getPositionY(), findStory.getPositionY(), "위치가 변해야합니다.");
