@@ -54,11 +54,11 @@ class TeamServiceTest {
     }
 
 
-    private User makeUser(String username) {
+    private User makeUser(String username, String email) {
         User user = User.builder().userNickname("nickname")
                 .userImageUrl("https://s3")
                 .username(username)
-                .email("kangkun@naver.com")
+                .email(email)
                 .provider("kakao")
                 .providerId("kakao_1234")
                 .userInfo("bio")
@@ -72,10 +72,10 @@ class TeamServiceTest {
     @DisplayName("team 생성 test")
     public void teamCreate() {
 
-        User manager = makeUser("nickname");
-        User memberA = makeUser("nickname1");
-        User memberB = makeUser("nickname2");
-        User memberC = makeUser("nickname3");
+        User manager = makeUser("nickname", "yjk1@naver.com");
+        User memberA = makeUser("nickname1","yjk2@naver.com");
+        User memberB = makeUser("nickname2", "yjk3@naver.com");
+        User memberC = makeUser("nickname3", "yjk4@naver.com");
         List<User> users = new ArrayList<>();
         users.add(memberA);
         users.add(memberB);
@@ -92,7 +92,7 @@ class TeamServiceTest {
     @Test
     @DisplayName("team 수정 test")
     public void teamUpdate() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname", "yjk1@naver.com");
         Team team = makeTeam(user);
 
         String changeInfo = "change info";
@@ -110,10 +110,10 @@ class TeamServiceTest {
     @Test
     @DisplayName("enorllment 등록")
     public void createEnrollment() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname" ,"yjk1@naver.com");
         Team team = makeTeam(user);
 
-        User otherUser = makeUser("hello");
+        User otherUser = makeUser("hello", "yjk2@naver.com");
         teamService.createEnrollment(team.getId(), otherUser);
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(team, otherUser);
         assertNotNull(enrollment);
@@ -122,10 +122,10 @@ class TeamServiceTest {
     @Test
     @DisplayName("enorllment 취소")
     public void cancelEnrollment() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname", "yjk1@naver.com");
         Team team = makeTeam(user);
 
-        User otherUser = makeUser("hello");
+        User otherUser = makeUser("hello" ,"yjk2@naver.com");
         teamService.createEnrollment(team.getId(), otherUser);
         teamService.cancelEnrollment(team.getId(), otherUser);
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(team, otherUser);
@@ -136,10 +136,10 @@ class TeamServiceTest {
     @Test
     @DisplayName("enorllment 허가")
     public void acceptEnrollment() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname", "yjk1@naver.com");
         Team team = makeTeam(user);
 
-        User otherUser = makeUser("hello");
+        User otherUser = makeUser("hello", "yjk2@naver.com");
         teamService.createEnrollment(team.getId(), otherUser);
 
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(team, otherUser);
@@ -153,10 +153,10 @@ class TeamServiceTest {
     @Test
     @DisplayName("enorllment 불허")
     public void deniedEnrollment() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname", "yjk1@naver.com");
         Team team = makeTeam(user);
 
-        User otherUser = makeUser("hello");
+        User otherUser = makeUser("hello", "yjk2@naver.com");
         teamService.createEnrollment(team.getId(), otherUser);
 
         Enrollment enrollment = enrollmentRepository.findByTeamAndUser(team, otherUser);
@@ -170,12 +170,12 @@ class TeamServiceTest {
     @Test
     @DisplayName("enorllment 조회")
     public void getEnrollment() {
-        User user = makeUser("nickname");
+        User user = makeUser("nickname", "yjk1@naver.com");
         Team team = makeTeam(user);
 
-        User otherUser1 = makeUser("hello1");
-        User otherUser2 = makeUser("hello2");
-        User otherUser3 = makeUser("hello3");
+        User otherUser1 = makeUser("hello1", "yjk2@naver.com");
+        User otherUser2 = makeUser("hello2", "yjk3@naver.com");
+        User otherUser3 = makeUser("hello3", "yjk4@naver.com");
         teamService.createEnrollment(team.getId(), otherUser1);
         teamService.createEnrollment(team.getId(), otherUser2);
         teamService.createEnrollment(team.getId(), otherUser3);
