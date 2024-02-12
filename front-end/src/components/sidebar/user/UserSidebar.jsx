@@ -36,7 +36,7 @@ function UserSidebar() {
   const { getUserIsSuccess } = useUserQueryModule();
 
   const { user } = useAuthStore();
-  console.log("usersidebaar", user);
+  console.log("usersidebar", user);
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState(teamData ? teamData[0]?.title : "");
