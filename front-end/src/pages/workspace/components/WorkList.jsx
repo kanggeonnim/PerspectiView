@@ -23,6 +23,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import ImageUploader from "@/pages/product/components/ImageUploader";
 
 function CreateWork() {
   return (
@@ -32,18 +33,18 @@ function CreateWork() {
   );
 }
 
-function WorkList({ title, info, onChange, onCreate }) {
+function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
     category: {
-      "id": 1,
-      "name": "웹소설"
+      // "id": 1,
+      // "name": "웹소설"
     },
     genres: [
       {
-        "id": 1,
-        "name": "SF"
+        // "id": 1,
+        // "name": "SF"
       }
     ],
     uploadImage: "",
@@ -75,7 +76,8 @@ function WorkList({ title, info, onChange, onCreate }) {
               <div>작품 생성</div>
             </CardTitle>
             <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
-              <PlusCircleIcon />
+              {/* <PlusCircleIcon /> */}
+              <ImageUploader className="w-max, h-max"/>
             </div>
           </AlertDialogHeader>
         </div>

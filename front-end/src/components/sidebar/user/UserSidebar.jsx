@@ -29,12 +29,10 @@ import { useAuthStore } from "@/store/useAuthStore";
 function UserSidebar() {
   // API 호출 시 사용
   const { teams, getTeamsIsSuccess } = useTeamQueryModule();
-  console.log("getTeam", getTeamsIsSuccess, teams);
   const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log(getUser);
 
   const { user } = useAuthStore();
-  console.log("usersidebaar", user);
+  console.log("usersidebar", user);
 
   const [isCollapsed, setIsCollapsed] = useState(false);
   const location = useLocation();
@@ -163,7 +161,7 @@ function UserSidebar() {
                     isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
-                  <div className="mx-1 text-xs break-words">{user.userNickname.split("_")[1]}</div>
+                  <div className="mx-1 text-xs break-words">{user.nickname.split("_")[1]}</div>
                   <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
                 </div>
               </div>
