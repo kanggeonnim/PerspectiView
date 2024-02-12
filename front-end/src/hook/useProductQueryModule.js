@@ -29,14 +29,13 @@ const useProductQueryModule = (teamId, productId) => {
       setNodes([]);
       let idx = 0;
 
+      console.log(product);
       product.plots.map((plot) => {
         if (plot.stories.length === 0) {
-          // console.log("empty", plot.stories, plot.plotId, plot.plotColor, idx++);
           addEmptyStory(idx++, plot.plotId, plot.plotColor);
         } else {
           plot.stories.map((story) => {
             arrangeStory(story, plot.plotId, idx++, plot.plotColor);
-            // console.log("arrange", idx++);
           });
         }
       });
@@ -46,6 +45,7 @@ const useProductQueryModule = (teamId, productId) => {
 
   const { mutate: createProductData } = useMutation({
     mutationFn: async (newData) => {
+      console.log(newData);
       const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },

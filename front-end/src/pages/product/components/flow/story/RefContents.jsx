@@ -9,7 +9,7 @@ export default function RefContents() {
   return (
     <Tabs
       defaultValue="relation"
-      className="flex flex-col justify-between w-1/2 h-full m-5"
+      className="flex flex-col justify-between w-1/2 h-full p-1 m-5 border rounded shadow-sm"
     >
       <TabsList className="flex items-center justify-start w-full ">
         <TabsTrigger value="relation" className="text-bold">
@@ -33,7 +33,7 @@ export default function RefContents() {
       </TabsContent>
 
       {/* 복선 목록 */}
-      <TabsContent value="foreshadowing" className="h-full">
+      <TabsContent value="foreshadowing" className="h-full ">
         {/* <TestPage /> */}
         <ForeshadowingTab />
         {/* <ForeshadowingTab /> */}

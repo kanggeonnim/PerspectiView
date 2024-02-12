@@ -14,24 +14,26 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
         `/api/team/${teamId}/product/${productId}/plot`,
         newData
       );
-      console.log(response);
       return response.data.response;
     },
     onSuccess: (data) => {
-      setPlotList(data);
-      const newPlot = data.slice(-1);
-      addEmptyStory(nodes.length, newPlot[0].plotId, newPlot[0].plotColor);
+      plotList.push({
+        plotId: data.id,
+        plotName: data.plotName,
+        plotColor: data.plotColor,
+        stories: [],
+      });
+      setPlotList(plotList);
+      addEmptyStory(nodes.length, data.plotId, data.plotColor);
     },
   });
 
   const { mutate: updatePlotColor } = useMutation({
     mutationFn: async (updatedData) => {
-      console.log("update", updatedData, teamId, productId, plotId);
       const response = await privateApi.put(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/color`,
         updatedData
       );
-      console.log(response);
       return response.data.response;
     },
     onSuccess: () => {
@@ -42,11 +44,9 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
 
   const { mutate: deletePlot } = useMutation({
     mutationFn: async () => {
-      console.log(teamId, productId, plotId);
       const response = await privateApi.delete(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}`
       );
-      console.log(response);
       return response.data.response;
     },
     onSuccess: () => {

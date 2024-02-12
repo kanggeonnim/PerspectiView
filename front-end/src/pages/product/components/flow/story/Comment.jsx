@@ -75,8 +75,8 @@ export default function Comment() {
   };
 
   return (
-    <div className="h-full">
-      <ScrollArea className="rounded-md h-3/4">
+    <div className="flex flex-col justify-between max-h-full min-h-full ">
+      <ScrollArea className=" rounded-md h-[320px]">
         <div className="px-4">
           {comments.map((comment) => (
             <Card className="w-full mt-8" key={comment.id}>
@@ -84,17 +84,12 @@ export default function Comment() {
                 <CardTitle className="flex justify-between ">
                   <div className="flex items-center">
                     <Avatar>
-                      <AvatarImage
-                        src="https://github.com/shadcn.png"
-                        alt="@shadcn"
-                      />
+                      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-2">
                       <div className="mx-3">{comment.userId}</div>
-                      <div className="mx-3 text-sm text-gray-400">
-                        {comment.created}
-                      </div>
+                      <div className="mx-3 text-sm text-gray-400">{comment.created}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ">
@@ -112,15 +107,11 @@ export default function Comment() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            댓글을 삭제하시겠습니까?
-                          </AlertDialogTitle>
+                          <AlertDialogTitle>댓글을 삭제하시겠습니까?</AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>취소</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDelete}>
-                            확인
-                          </AlertDialogAction>
+                          <AlertDialogAction onClick={handleDelete}>확인</AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -149,10 +140,7 @@ export default function Comment() {
           ))}
         </div>
       </ScrollArea>
-      <form
-        onSubmit={handleSubmit}
-        className="flex flex-col w-full gap-3 p-3 h-1/4"
-      >
+      <form onSubmit={handleSubmit} className="flex flex-col w-full gap-3 p-3 h-1/4">
         <Textarea
           placeholder="댓글을 입력하세요."
           value={comment}

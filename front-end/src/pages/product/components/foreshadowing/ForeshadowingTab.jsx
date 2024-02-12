@@ -32,17 +32,17 @@ export default function ForeshadowingTab() {
   const columns = {
     "column-1": {
       id: "column-1",
-      title: "미사용 복선",
+      title: "미사용",
       fshadowsIds: [],
     },
     "column-2": {
       id: "column-2",
-      title: "사용 중인 복선",
+      title: "사용 중",
       fshadowsIds: [],
     },
     "column-3": {
       id: "column-3",
-      title: "회수 완료 복선",
+      title: "회수 완료",
       fshadowsIds: [],
     },
   };
@@ -54,85 +54,75 @@ export default function ForeshadowingTab() {
   });
 
   return (
-    <div className="">
-      <Card className="box-border h-full p-3">
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-3xl">복선 목록</CardTitle>
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <PlusCircle class="cursor-pointer" size={24} />
-            </AlertDialogTrigger>
-            <AlertDialogContent className="">
-              <AlertDialogHeader>
-                <div>복선생성하기</div>
-              </AlertDialogHeader>
-              <div className="flex flex-col items-center w-full gap-5">
-                <div className="flex flex-col w-full space-y-1.5">
-                  <Label htmlFor="title">복선 타이틀</Label>
-                  <Input
-                    id="title"
-                    value={title}
-                    placeholder="복선의 타이틀을 입력하세요"
-                    onChange={(e) => setTitle(e.target.value)}
-                  />
-                </div>
-                <div className="flex flex-col w-full space-y-1.5">
-                  <Label htmlFor="content">복선 내용</Label>
-                  <Textarea
-                    id="content"
-                    value={content}
-                    placeholder="복선에 대해 간략히 입력하세요"
-                    onChange={(e) => setContent(e.target.value)}
-                  />
-                </div>
+    <Card className="box-border max-h-full p-0 ">
+      <CardHeader className="flex flex-row items-center justify-end h-10 ">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <PlusCircle className="cursor-pointer" size={24} />
+          </AlertDialogTrigger>
+          <AlertDialogContent className="">
+            <AlertDialogHeader>
+              <div className="font-bold">복선 생성</div>
+            </AlertDialogHeader>
+            <div className="flex flex-col items-center w-full gap-5">
+              <div className="flex flex-col w-full space-y-1.5">
+                <Label htmlFor="title">복선 제목</Label>
+                <Input
+                  id="title"
+                  value={title}
+                  placeholder="복선의 제목을 입력하세요"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
               </div>
-              <AlertDialogFooter>
-                <AlertDialogCancel
-                  onClick={() => {
-                    setTitle("");
-                    setContent("");
-                  }}
-                >
-                  취소하기
-                </AlertDialogCancel>
-                <AlertDialogAction
-                  // type="submit"
-                  onClick={() => {
-                    console.log({
-                      fshadowName: title,
-                      fshadowContent: content,
-                    });
-                    // create
-                    createFshadow({
-                      fshadowName: title,
-                      fshadowContent: content,
-                    });
-                    setTitle("");
-                    setContent("");
-                  }}
-                >
-                  생성하기
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        </CardHeader>
-        <CardContent className="box-border flex flex-row justify-around gap-4 px-12 py-6 h-5/6">
-          {["column-1", "column-2", "column-3"].map((columnId) => {
-            const column = columns[columnId];
-            const colFshadows = column.fshadowsIds.map(
-              (fshadowsId) => fshadows[fshadowsId]
-            );
-            return (
-              <Column
-                key={column.id}
-                column={column}
-                colFshadows={colFshadows}
-              />
-            );
-          })}
-        </CardContent>
-      </Card>
-    </div>
+              <div className="flex flex-col w-full space-y-1.5">
+                <Label htmlFor="content">복선 내용</Label>
+                <Textarea
+                  id="content"
+                  value={content}
+                  placeholder="복선에 대해 간략히 입력하세요"
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                onClick={() => {
+                  setTitle("");
+                  setContent("");
+                }}
+              >
+                취소
+              </AlertDialogCancel>
+              <AlertDialogAction
+                // type="submit"
+                onClick={() => {
+                  console.log({
+                    fshadowName: title,
+                    fshadowContent: content,
+                  });
+                  // create
+                  createFshadow({
+                    fshadowName: title,
+                    fshadowContent: content,
+                  });
+                  setTitle("");
+                  setContent("");
+                }}
+              >
+                생성
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </CardHeader>
+      <CardContent className="box-border flex flex-row items-center justify-between p-0 ">
+        {["column-1", "column-2", "column-3"].map((columnId) => {
+          const column = columns[columnId];
+          const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
+          return <Column key={column.id} column={column} colFshadows={colFshadows} />;
+        })}
+      </CardContent>
+    </Card>
   );
 }
