@@ -102,7 +102,7 @@ export default function ForeshadowingTab() {
                       fshadowName: title,
                       fshadowContent: content,
                     });
-                    // create plot
+                    // create
                     createFshadow({
                       fshadowName: title,
                       fshadowContent: content,

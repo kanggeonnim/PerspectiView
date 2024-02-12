@@ -1,8 +1,8 @@
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useTeamQueryModule = () => {
+  const queryClient = useQueryClient();
   const { data: teamData, isSuccess: getTeamsIsSuccess } = useQuery({
     queryKey: ["teams"],
     queryFn: async () => {
@@ -12,7 +12,21 @@ const useTeamQueryModule = () => {
     },
   });
 
-  return { teamData, getTeamsIsSuccess };
+  const { mutate: createTeam } = useMutation({
+    mutationFn: async (newData) => {
+      const response = await privateApi.post(`/api/team`, newData);
+      console.log("팀생성", response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["teams"],
+      });
+    },
+  });
+
+  return { teamData, getTeamsIsSuccess, createTeam };
 };
 
 export default useTeamQueryModule;

@@ -95,7 +95,7 @@ export default function StoryDetail() {
   } = useStoryQueryModule(teamId, productId, plotId, storyId);
   const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
     useStoryDetail();
-  // console.log("여기", storyDetail1);
+  console.log("여기!!", getStoryFshadowList);
 
   return (
     <Card className="w-1/2 h-full m-5 ">
