@@ -44,8 +44,8 @@ public class CharacterController {
     }
 
     @PutMapping(value = "/{characterId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(required = false) MultipartFile uploadImage,
-                                                           @PathVariable Long characterId, @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
+    public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(value = "uploadImage", required = false) MultipartFile uploadImage,
+                                                           @PathVariable Long characterId, @RequestPart @Valid CharacterRequestDto characterRequestDto) throws IOException {
 
         Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
 

@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResult<UserResponseDto> updateUser(@RequestBody @Valid UserRequestDto userRequestDto,
+    public ApiResult<UserResponseDto> updateUser(@RequestPart @Valid UserRequestDto userRequestDto,
                                                  @RequestPart(required = false) MultipartFile uploadImage,
                                                  @AuthenticationPrincipal PrincipalDetails principal) throws IOException {
 
