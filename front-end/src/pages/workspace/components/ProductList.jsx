@@ -15,7 +15,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-
+import useProductQueryModule from "@/hook/useProductQueryModule";
+import ImageUploader from "@/pages/product/components/ImageUploader";
 function CreateProduct() {
   const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
 
@@ -27,6 +28,7 @@ function CreateProduct() {
     <div className="flex flex-col items-center">
       <WorkList
         products={products}
+        productsId={products.id}
         title={inputs.name}
         info={inputs.description}
         onChange={onChange}
@@ -49,8 +51,9 @@ function Product({ productImg, productName }) {
 
 export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
+  const { updateProduct } = useProductQueryModule(teamNo);
   const navigate = useNavigate();
-  const [isEdit, setIsEdit] = useState(false);
+  // const [isEdit, setIsEdit] = useState(false);
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
@@ -58,7 +61,6 @@ export default function ProductList({ productsdata, teamNo }) {
     genres: [],
     uploadImage: "",
   });
-
   // console.log(productDetail);
   return (
     <div className="flex flex-wrap h-full ">
@@ -86,7 +88,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div>작품 정보</div>
                   </CardTitle>
                   <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
-                    빈칸
+                    <ImageUploader />
                   </div>
                 </AlertDialogHeader>
               </div>
@@ -125,6 +127,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">설명</div>
                     <div className="box-border w-5/6">
                       <input
+                        type="text"
                         name="info"
                         onChange={(e) => {
                           setProductDetail({
@@ -133,52 +136,37 @@ export default function ProductList({ productsdata, teamNo }) {
                           });
                         }}
                         className="w-4/5 border"
-                        value={product.productInfo}
-                        style={{
-                          pointerEvents: "all",
-                        }}
+                        defaultValue={product.productInfo}
                       />
                     </div>
                   </div>
                 </div>
                 <AlertDialogFooter>
-                  {isEdit ? (
-                    <>
-                      <AlertDialogCancel
-                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                        onClick={() => setIsEdit(false)}
-                      >
-                        취소
-                      </AlertDialogCancel>
-                      <AlertDialogAction
-                        onClick={() => {
-                          console.log(productDetail);
-                          // // create product
-                          updateProduct(productDetail);
-                        }}
-                      >
-                        편집
-                      </AlertDialogAction>
-                    </>
-                  ) : (
-                    <>
-                      <Button
-                        className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                        onClick={() => setIsEdit(!isEdit)}
-                      >
-                        편집
-                      </Button>
-                      <AlertDialogAction
-                        onClick={() => {
-                          navigate(`/team/${teamNo}/product/${product.productId}`);
-                        }}
-                      >
-                        상세 보기
-                      </AlertDialogAction>
-                    </>
-                  )}
-
-                  {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
+                  <>
+                    <AlertDialogCancel
+                      className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                      // onClick={() => setIsEdit(false)}
+                    >
+                      취소
+                    </AlertDialogCancel>
+                    <AlertDialogAction
+                      className="bg-green-600"
+                      onClick={() => {
+                        console.log(productDetail);
+                        // // create product
+                        updateProductData(productDetail);
+                      }}
+                    >
+                      편집
+                    </AlertDialogAction>
+                    <AlertDialogAction
+                      onClick={() => {
+                        navigate(`/team/${teamNo}/product/${product.productId}`);
+                      }}
+                    >
+                      상세 보기
+                    </AlertDialogAction>
+                  </>
                 </AlertDialogFooter>
               </div>
             </AlertDialogContent>

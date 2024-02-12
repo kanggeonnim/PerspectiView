@@ -1,11 +1,7 @@
-/* eslint-disable react/jsx-key */
 import { BookPlus } from "lucide-react";
-import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
-import { Card, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardTitle } from "@/components/ui/card";
 import { useEffect } from "react";
-import ProductDetail from "./ProductDetail";
 import { PlusCircleIcon } from "lucide-react";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import {
@@ -13,16 +9,14 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Textarea } from "@/components/ui/textarea";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import ImageUploader from "@/pages/product/components/ImageUploader";
 
 function CreateWork() {
   return (
@@ -32,33 +26,37 @@ function CreateWork() {
   );
 }
 
-function WorkList({ title, info, onChange, onCreate }) {
+function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [productDetail, setProductDetail] = useState({
     productTitle: "",
     productInfo: "",
     category: {
-      "id": 1,
-      "name": "웹소설"
+      // "id": 1,
+      // "name": "웹소설"
     },
     genres: [
       {
-        "id": 1,
-        "name": "SF"
-      }
+        // "id": 1,
+        // "name": "SF"
+      },
     ],
     uploadImage: "",
   });
+
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
   const [teamNo, setTeamNo] = useState("");
+
   useEffect(() => {
     if (teamData) {
       setTeamNo(() => teamData[0].id);
       console.log("team?", teamNo);
     }
-  }, [teamData]);
+  }, [teamData, teamNo]);
+
   // FIXME 팀 ID undefined 발생
-  const { createProduct } = useProductQueryModule(teamNo);
+  const { createProductData } = useProductQueryModule(teamNo);
   // console.log(teamId)
+
   return (
     <AlertDialog className="w-full h-full">
       <div>
@@ -75,7 +73,8 @@ function WorkList({ title, info, onChange, onCreate }) {
               <div>작품 생성</div>
             </CardTitle>
             <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
-              <PlusCircleIcon />
+              {/* <PlusCircleIcon /> */}
+              <ImageUploader className="w-max, h-max" />
             </div>
           </AlertDialogHeader>
         </div>
@@ -125,7 +124,7 @@ function WorkList({ title, info, onChange, onCreate }) {
               onClick={() => {
                 console.log(productDetail);
                 // // create product
-                createProduct(productDetail);
+                createProductData(productDetail);
               }}
             >
               생성하기

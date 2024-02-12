@@ -13,6 +13,8 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useParams } from "react-router-dom";
 
 // 속한 팀 작품 목록 데이터
 const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
@@ -46,25 +48,28 @@ function ProductListCard() {
   // const totalPages = Math.ceil(totalItems / itemsPerPage);
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
   const [teamNo, setTeamNo] = useState("");
+
+  const { teamId } = useParams();
   useEffect(() => {
     if (teamData) {
       // console.log("team?", getProductIsSuccess, teamData);
       setTeamNo(() => teamData[0].id);
     }
-  });
-  const { productList, getProductListIsSuccess } = useProductQueryModule(teamNo);
+  }, [teamData]);
+
+  const { productListData, getProductListDataIsSuccess } = useProductQueryModule(teamId);
   const [totalItems, setTotalItems] = useState("0");
   const [totalPages, setTotalPages] = useState("1");
   const [productInfo, setProductInfo] = useState([]);
 
   useEffect(() => {
-    if (productList) {
-      setTotalItems(() => productList.length);
+    if (productListData) {
+      setTotalItems(() => productListData.length);
       setTotalPages(() => Math.ceil(totalItems / itemsPerPage));
-      // console.log("getproduct", getProductListIsSuccess, productList);
-      setProductInfo(() => productList);
+      // console.log("getproduct", getproductListDataIsSuccess, productListData);
+      setProductInfo(() => productListData);
     }
-  });
+  }, [productListData, totalItems]);
 
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -106,7 +111,7 @@ function ProductListCard() {
     return paginationButtons;
   };
 
-  if (!getProductListIsSuccess) {
+  if (!getProductListDataIsSuccess) {
     return <div>Loading...</div>;
   }
   return (
@@ -141,7 +146,7 @@ function ProductListCard() {
               )}
             /> */}
             <ProductList
-              productsdata={productList?.slice(
+              productsdata={productListData?.slice(
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}

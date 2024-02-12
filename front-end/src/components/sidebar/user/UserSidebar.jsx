@@ -1,17 +1,15 @@
 import logo from "@/assets/main_logo.svg";
 import logo_icon from "@/assets/main_logo_icon.svg";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
-import { ArrowLeftToLine, ArrowRightToLine, User, Users } from "lucide-react";
+import { ArrowLeftToLine, ArrowRightToLine, Users } from "lucide-react";
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import {
   Select,
@@ -27,30 +25,30 @@ import useUserQueryModule from "@/hook/useUserQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
 
 function UserSidebar() {
+  const navigate = useNavigate();
+
   // API 호출 시 사용
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
   console.log("getTeam", getTeamsIsSuccess, teamData);
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
-  console.log("getUser", getUser);
+
+  const { getUserIsSuccess } = useUserQueryModule();
 
   const { user } = useAuthStore();
-  console.log("usersidebaar", user);
+  console.log("usersidebar", user);
 
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const [selectedTeam, setSelectedTeam] = useState("");
+  const [selectedTeam, setSelectedTeam] = useState(
+    teamData ? teamData[0]?.title : ""
+  );
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
+
   if (!getUserIsSuccess || !user) {
     return <div>Loading...</div>;
   }
-  // 전역으로 관리하는 workspace 이름 바뀔때마다 해당하는 작품목록 불러오기
-  // useEffect(() => {
-  //   console.log();
-  // }, []);
+
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
       {/* 사용 자제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
@@ -70,36 +68,15 @@ function UserSidebar() {
           <NavigationMenu orientation="vertical" className="flex flex-col">
             <NavigationMenuList className="flex-col items-baseline">
               <NavigationMenuItem className="w-full">
-                <NavigationMenuLink
-                  className={navigationMenuTriggerStyle()}
-                  onClick={() => {
-                    console.log("my 전역으로 관리하는 workspace 이름 바꾸기");
-                    navigate(`/workspace`);
-                  }}
-                  active={location.pathname === "/workspace"}
-                >
-                  <User className="text-primary" size={20} />
-
-                  <div
-                    className={
-                      isCollapsed
-                        ? "hidden"
-                        : " mx-auto text-sm font-bold text-left text-slate-700"
-                    }
-                  >
-                    나의 워크스페이스
-                  </div>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem className="w-full">
                 <Select
+                  defaultValue={teamData && teamData[0]}
                   onValueChange={(team) => {
                     console.log(
                       "team_여기서 전역으로 관리하는 workspace 이름 바꾸기"
                     );
                     setSelectedTeam(
                       team.title.length > 10
-                        ? team.title.slice(0, 10) + "..."
+                        ? team?.title.slice(0, 10) + "..."
                         : team.title
                     );
                     navigate(`/workspace/team/${team.id}`);
@@ -111,33 +88,54 @@ function UserSidebar() {
                   >
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
-                      <SelectValue
-                        className="font-bold truncatew-34"
-                        placeholder="팀 워크스페이스"
-                      >
-                        {selectedTeam}
+                      <SelectValue className="font-bold truncatew-34">
+                        {selectedTeam.title}
                       </SelectValue>
                     )}
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>
-                        <div className="flex items-center justify-between">
-                          <div>나의 팀 목록</div>
+                        <div className="flex items-center justify-between my-1">
+                          <div>워크 스페이스 목록</div>
                           <TeamCreate />
                         </div>
                       </SelectLabel>
 
                       {/* api 호출 시 */}
-                      {teamData?.map((team, index) => (
-                        <SelectItem
-                          key={index}
-                          value={team}
-                          className="block w-full truncate"
-                        >
-                          {team.title}
-                        </SelectItem>
-                      ))}
+                      <SelectGroup className="my-1">
+                        <SelectLabel className="font-extrabold">
+                          개인 워크 스페이스
+                        </SelectLabel>
+                        {teamData?.map(
+                          (team, index) =>
+                            team.personal && (
+                              <SelectItem
+                                key={index}
+                                value={team}
+                                className="block w-full truncate font-regular"
+                              >
+                                {team.title}
+                              </SelectItem>
+                            )
+                        )}
+                      </SelectGroup>
+
+                      <SelectGroup className="my-1">
+                        <SelectLabel>팀 워크 스페이스</SelectLabel>
+                        {teamData?.map(
+                          (team, index) =>
+                            !team.personal && (
+                              <SelectItem
+                                key={index}
+                                value={team}
+                                className="block w-full truncate font-regular"
+                              >
+                                {team.title}
+                              </SelectItem>
+                            )
+                        )}
+                      </SelectGroup>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -190,7 +188,7 @@ function UserSidebar() {
                   }
                 >
                   <div className="mx-1 text-xs break-words">
-                    {user.nickname.split("_")[1]}
+                    {user?.nickname?.split("_")[1]}
                   </div>
                   <div className="mx-1 text-xs break-all text-zinc-600">
                     {user.email}

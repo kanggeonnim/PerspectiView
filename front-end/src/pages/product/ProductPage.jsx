@@ -1,6 +1,5 @@
 import ProductHeader from "@/components/header/ProductHeader";
 import ProductSidebar from "@/components/sidebar/product/ProductSidebar";
-import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useParams } from "react-router-dom";
@@ -8,8 +7,9 @@ import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useAuthStore } from "@/store/useAuthStore";
 
 export default function ProductPage() {
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
+  // const { getUser, getUserIsSuccess } = useUserQueryModule();
   const { teamId, productId } = useParams();
+  console.log("ProductPage", teamId, productId);
   const { productData, getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
   const { user } = useAuthStore();
 

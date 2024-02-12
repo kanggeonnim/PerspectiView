@@ -1,24 +1,18 @@
 import UserSidebar from "@/components/sidebar/user/UserSidebar";
-// import useProductQueryModule from "@/hook/useProductQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
-import { setCookie } from "@/util/cookie";
+import { useAuthStore } from "@/store/useAuthStore";
 import { useEffect } from "react";
-import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
+
 export default function WorkspacePage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-
-  const accessToken = searchParams.get("accessToken");
-  const refreshToken = searchParams.get("refreshToken");
+  const { user } = useAuthStore();
 
   useEffect(() => {
-    if (accessToken) {
-      console.log("render");
-      navigate("/workspace");
-      setCookie("token", accessToken);
-      setCookie("refreshToken", refreshToken); // 쿠키에 토큰 저장
+    if (user) {
+      navigate(`/workspace/team/${user.personalTeamId}`);
     }
-  }, [accessToken, refreshToken]);
+  }, [user, navigate]);
 
   return (
     <MainLayout variant="horizontal">

@@ -6,7 +6,7 @@ import { Separator } from "@/components/ui/separator";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import WorkListCard from "./ProductListCard";
+import ProductListCard from "./ProductListCard";
 
 const teamInfoData = {
   teamTitle: "B310",
@@ -121,7 +121,7 @@ function TeamInfo() {
           </CardContent>
         </Card>
       </div>
-      <WorkListCard products={teamInfoData} />
+      <ProductListCard products={teamInfoData} />
     </div>
   );
 }

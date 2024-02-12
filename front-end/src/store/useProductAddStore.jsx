@@ -5,6 +5,8 @@ const useProductAddStore = create(devtools((set) => ({
   inputs: {
     name: "",
     description: "",
+    categories: "",
+    genres: "",
     url: ""
   },
   products: [
