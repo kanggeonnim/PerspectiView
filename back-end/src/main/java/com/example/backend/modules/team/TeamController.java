@@ -3,10 +3,7 @@ package com.example.backend.modules.team;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import com.example.backend.modules.exception.NotFoundException;
-import com.example.backend.modules.user.User;
-import com.example.backend.modules.user.UserRepository;
-import com.example.backend.modules.user.UserRequestDto;
-import com.example.backend.modules.user.UserRequestOnlyEmailDto;
+import com.example.backend.modules.user.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,6 +55,19 @@ public class TeamController {
         Team newTeam = teamService.createTeam(team, principalDetails.getUser(), findUsers);
         return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
     }
+
+    @GetMapping("/{teamId}/recruit")
+    public ApiResult<?> addMember(@RequestParam String email, @PathVariable Long teamId,
+                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
+        User byEmail = userRepository.findByEmail(email);
+
+        if(byEmail != null){
+            teamService.recruitMember(teamId, principalDetails.getUser(), byEmail);
+        }
+
+        return ApiResult.OK(UserResponseDto.of(byEmail));
+    }
+
     @GetMapping("/search")
     public ApiResult<List<TeamResponseDto>> searchTeam(@RequestParam(required = false) String keyword){
         return ApiResult.OK(teamService.searchTeams(keyword).stream().map(TeamResponseDto::of).collect(Collectors.toList()));

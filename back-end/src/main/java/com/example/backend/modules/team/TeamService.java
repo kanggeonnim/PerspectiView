@@ -157,4 +157,11 @@ public class TeamService {
     public List<Enrollment> getEnrollmentWithManager(Long teamId) {
         return enrollmentRepository.findByTeamIdOrderByEnrolledAtDesc(teamId);
     }
+
+
+    public void recruitMember(Long teamId, User manager, User byEmail) {
+        Team findTeam = teamRepository.findWithManagerById(teamId).orElseThrow(() -> new NotFoundException());
+        checkIfManager(manager, findTeam);
+        findTeam.addMember(byEmail);
+    }
 }
