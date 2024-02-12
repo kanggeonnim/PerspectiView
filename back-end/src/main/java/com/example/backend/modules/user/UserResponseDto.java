@@ -6,19 +6,19 @@ import lombok.Data;
 @Data
 @Builder
 public class UserResponseDto {
-    private String userNickname;
-    private String userImageUrl;
+    private String nickname;
+    private String image;
     private String email;
-    private String userPhone;
-    private String userInfo;
+    private String phone;
+    private String info;
 
     public static UserResponseDto of(User user) {
         return UserResponseDto.builder()
-                .userNickname(user.getUserNickname())
-                .userImageUrl(user.getUserImageUrl())
+                .nickname(user.getUserNickname())
+                .image(user.getUserImageUrl())
                 .email(user.getEmail())
-                .userPhone(user.getUserPhone())
-                .userInfo(user.getUserInfo())
+                .phone(user.getUserPhone())
+                .info(user.getUserInfo())
                 .build();
     }
 }
