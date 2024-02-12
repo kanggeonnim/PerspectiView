@@ -6,14 +6,14 @@ spring:
         jdbc-url: ENC(pENtxIXQLwj6iw1Muhk/sQTrBH4TxnqiMKiws3NBbafRcwOabpjhIDvdLXvfYBebXcREvGuRFoa6ybiwgJfwzlOAkXAXql9rKD8NVtiPQ2g=)
         read-only: false
         username: ENC(gsbtnJnW1uKqtRR79jidhLv2nP1euE9Bcai5b4UEWtYi9ZSdnhFcxZMX4FDcSrLv)
-        password: ENC(YPBqsJTWRlTT3SsH3UOwVvFhFxgwFWnw8vtI4LaetbcsP1oroUOF8KjoXVKtlgbL)
+        password: ENC(TprVi6NVvSn7czJFXcGNXq8xHklB/Tu0yeF1IyCgtNxHcRvEa4MhmdIO5TF6o7vK)
     slave:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
         jdbc-url: ENC(crGmcm1IbMjKDAd0ggBaZYmpgxybsvgKnrvxBWrztUK66JIItVAuLagRsjeWmOpgcBxd2puiwGfzBCC6Sm32+PzklGO+oTf9WHZPJMQXbGs=)
         read-only: true
         username: ENC(yMgDqBlpbMs98LspyOzF+dnIFDU/hupZNDQjCRKk0P7/oZmF8yu8UVQROLtEaW4J)
-        password: ENC(E0vPjQUXrSU9l0kWs+c60uMQyHcpPAshGtVUmPh5e8FZRT8FgnYYhE8DvNenFP80)
+        password: ENC(Io52zB8c0nZu/vAV9Uy8HwnWx5OxA1WccGra5UPFn8s5tjlqQeQ0qpa6XtJwZ1uU)
 
   jpa:
     open-in-view: false
