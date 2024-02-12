@@ -7,12 +7,16 @@ import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
 @Builder
-public class StoryResponseDto {
+public class StoryResponseDto implements Serializable{
+
+    private static final long serialVersionUID = 1L;
+
     private Long storyId;
     private String storyTitle;
     private List<CharacterResponseDto> characters;

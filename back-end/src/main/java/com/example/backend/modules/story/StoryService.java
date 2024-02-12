@@ -10,6 +10,8 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,8 @@ public class StoryService {
     private final ForeShadowingRepository foreShadowingRepository;
     private final PlotRepository plotRepository;
     private final CharacterRepository characterRepository;
+
+    private final RedisTemplate redisTemplate;
 
     /**
      * 스토리 생성
@@ -77,6 +81,7 @@ public class StoryService {
             madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
 
+        redisTemplate.opsForValue().set(story.getId(), StoryDto.of(madeStory, characters, foreShadowings));
 
         return madeStory;
     }
@@ -148,6 +153,8 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
+        StoryResponseDto storyResponseDto = (StoryResponseDto) redisTemplate.opsForValue().get(storyId);
+        if(storyResponseDto == null){
         Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
@@ -157,7 +164,10 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-        return StoryResponseDto.of(story, characterList, foreShadowingList);
+        return StoryResponseDto.of(story, characterList, foreShadowingList);}
+        else {
+            return storyResponseDto;
+        }
     }
 
     /**
