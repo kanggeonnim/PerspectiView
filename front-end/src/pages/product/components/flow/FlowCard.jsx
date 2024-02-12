@@ -46,7 +46,7 @@ export default function FlowCard() {
       nodes={nodes}
       edges={edges}
       onNodeDragStop={() => {
-        if (movedNode.type === "story") {
+        if (movedNode && movedNode.type === "story") {
           moveStory(
             {
               storyId: movedNode.storyId,
@@ -84,9 +84,31 @@ export default function FlowCard() {
         작품 내 스토리의 흐름
       </Panel>
       <Panel position="top-right">
-        <Button onClick={() => addStory(nodes.length)}>
+        {/* <Button
+          onClick={() =>
+            console.log("last index")
+            // addStory({
+            //   // id: data.storyId,
+            //   type: "story",
+            //   data: {
+            //     title: data.storyTitle,
+            //     borderColor: borderColor,
+            //     plotId: plotId,
+            //     storyId: data.storyId,
+            //     characters: data.characters,
+            //   },
+            //   position: { x: data.positionX, y: data.positionY },
+            //   positionAbsolute: { x: data.positionX, y: data.positionY },
+            //   width: 128,
+            //   height: 160,
+            //   selected: false,
+            //   dragging: false,
+            // }
+            // )
+          }
+        >
           <Plus className="w-4 h-4 mr-2" /> 스토리 추가
-        </Button>
+        </Button> */}
       </Panel>
       <MiniMap />
     </ReactFlow>

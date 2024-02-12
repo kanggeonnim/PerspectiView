@@ -27,7 +27,6 @@ const useProductQueryModule = (teamId, productId) => {
       setPlotList(product.plots);
       setNodes([]);
       let idx = 0;
-      console.log("product", product.plots);
 
       product.plots.map((plot) => {
         if (plot.stories.length === 0) {
@@ -46,7 +45,7 @@ const useProductQueryModule = (teamId, productId) => {
 
   const { mutate: createProduct } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/team/${teamId}/product`, newData);
+      const response = await privateApi.post(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {
@@ -56,7 +55,7 @@ const useProductQueryModule = (teamId, productId) => {
   });
   const { mutate: updateProduct } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.put(`/team/${teamId}/product`, newData);
+      const response = await privateApi.put(`/api/team/${teamId}/product`, newData);
       return response.data.response;
     },
     onSuccess: () => {

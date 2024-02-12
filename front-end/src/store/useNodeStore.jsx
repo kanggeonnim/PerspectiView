@@ -36,9 +36,9 @@ const useNodeStore = create(
     },
 
     addEmptyStory(idx, plotId, plotColor) {
-      console.log("add emtpy");
-      const lastNode = get().nodes.slice(-1)[0];
-      const newNodeId = String(get().nodes.length + 1);
+      console.log("add emtpy", idx, plotId, plotColor);
+      // const lastNode = get().nodes.slice(-1)[0];
+      const newNodeId = String(idx);
       const type = "empty";
       const data = {
         borderColor: plotColor,
@@ -77,7 +77,7 @@ const useNodeStore = create(
         const lastEdge = get().edges.slice(-1)[0];
         const newEdgeId = lastEdge === undefined ? "1" : String(Number(lastEdge.id) + 1);
 
-        const sourceColor = lastNode.data.borderColor;
+        const sourceColor = get().nodes[idx - 1].data.borderColor;
         const targetColor = plotColor;
         const newEdge = {
           id: newEdgeId,
@@ -86,7 +86,7 @@ const useNodeStore = create(
             targetColor: targetColor,
           },
           type: "story",
-          source: lastNode.id,
+          source: get().nodes[idx - 1].id,
           sourceHandle: null,
           target: newNodeId,
           targetHandle: null,
@@ -97,8 +97,7 @@ const useNodeStore = create(
       }
     },
     arrangeStory(newStory, plotId, idx, plotColor) {
-      const lastNode = get().nodes.slice(-1)[0];
-      const newNodeId = String(get().nodes.length + 1);
+      const newNodeId = String(idx);
       const type = "story";
       const data = {
         title: newStory.storyTitle,
@@ -139,7 +138,7 @@ const useNodeStore = create(
         const lastEdge = get().edges.slice(-1)[0];
         const newEdgeId = lastEdge === undefined ? "1" : String(Number(lastEdge.id) + 1);
 
-        const sourceColor = lastNode.data.borderColor;
+        const sourceColor = get().nodes[idx - 1].data.borderColor;
         const targetColor = plotColor;
         const newEdge = {
           id: newEdgeId,
@@ -148,7 +147,7 @@ const useNodeStore = create(
             targetColor: targetColor,
           },
           type: "story",
-          source: lastNode.id,
+          source: get().nodes[idx - 1].id,
           sourceHandle: null,
           target: newNodeId,
           targetHandle: null,
@@ -158,15 +157,16 @@ const useNodeStore = create(
         set({ edges: [...get().edges, newEdge] });
       }
     },
-    // addStory(addIndex) {
-    //   console.log(addIndex);
+
+    // addStory(newStory) {
+    //   console.log(newStory);
     //   const lastNode = get().nodes[addIndex - 1];
     //   const newNodeId = String(Number(lastNode.id) + 1);
 
     //   const type = "story";
     //   const data = {
     //     title: "storyyyy",
-    //     borderColor: colors[Math.floor(Math.random() * 9)], // 받아온 plotColor 넣어주기
+    //     borderColor: , // 받아온 plotColor 넣어주기
     //   };
 
     //   const position = { x: Number(lastNode.id) * 200, y: 0 };
@@ -174,7 +174,6 @@ const useNodeStore = create(
     //   set({
     //     nodes: [
     //       ...get().nodes,
-
     //       {
     //         id: newNodeId,
     //         type,
@@ -220,3 +219,34 @@ const useNodeStore = create(
 );
 
 export default useNodeStore;
+
+/**
+ * response data
+ * {
+    "storyId": 43,
+    "storyTitle": "",
+    "characters": [],
+    "foreShadowings": [],
+    "content": {
+        "id": 62,
+        "content": ""
+    },
+    "positionX": 1,
+    "positionY": 0
+}
+ */
+
+/**
+ * node
+ *   {
+            id: newNodeId,
+            type,
+            data,
+            position,
+            positionAbsolute: position,
+            width: 128,
+            height: 160,
+            selected: false,
+            dragging: false,
+          },
+ */

@@ -8,7 +8,7 @@ import { useEffect } from "react";
 const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   const queryClient = useQueryClient();
   const { plotList, setPlotList } = usePlotListStore();
-  const { nodes, addStory } = useNodeStore();
+  const { nodes, setNodes, addStory } = useNodeStore();
   const { storyDetail, setStoryDetail, storyFshadowList, setStoryFshadowList } = useStoryDetail();
 
   //스토리 단일조회
@@ -16,7 +16,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     queryKey: ["eachStory"],
     queryFn: async () => {
       const response = await privateApi.get(
-        `api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
       );
       console.log("스토리단일조회", response);
       return response.data.response;
@@ -34,7 +34,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     queryKey: ["fshadowList"],
     queryFn: async () => {
       const response = await privateApi.get(
-        `api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
       );
       console.log("스토리 연관 복선조회", response);
       return response.data.response;
@@ -58,8 +58,46 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     onSuccess: (data) => {
       // Invalidate and refetch
-      // addStory(data, plot.plotId, plot.plotColor);
-      // setPlotList(data); // setPlotList는 컴포넌트 내에서 상태를 업데이트하는 함수
+
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
+
+      console.log(data);
+      const borderColor = plotList.find((plot) => plot.plotId === plotId).borderColor;
+
+      // setNodes([]);
+      // let idx = 0;
+
+      // product.plots.map((plot) => {
+      //   if (plot.stories.length === 0) {
+      //     // console.log("empty", plot.stories, plot.plotId, plot.plotColor, idx++);
+      //     addEmptyStory(idx++, plot.plotId, plot.plotColor);
+      //   } else {
+      //     plot.stories.map((story) => {
+      //       arrangeStory(story, plot.plotId, idx++, plot.plotColor);
+      //       // console.log("arrange", idx++);
+      //     });
+      //   }
+      // });
+
+      //
+      //
+      // addStory({
+      //   id: data.positionX,
+      //   type: "story",
+      //   data: {
+      //     title: data.storyTitle,
+      //     borderColor: borderColor,
+      //     plotId: plotId,
+      //     storyId: data.storyId,
+      //     characters: data.characters,
+      //   },
+      //   position: { x: data.positionX, y: data.positionY },
+      //   positionAbsolute: { x: data.positionX, y: data.positionY },
+      //   width: 128,
+      //   height: 160,
+      //   selected: false,
+      //   dragging: false,
+      // });
     },
   });
 

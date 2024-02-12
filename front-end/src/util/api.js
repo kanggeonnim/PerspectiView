@@ -1,66 +1,8 @@
 // api.js(지금 필요 없음)
 import axios from "axios";
+import { getCookie } from "./cookie";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
-// const instance = axios.create({
-//   baseURL: VITE_BASE_URL,
-//   withCredentials: true,
-// });
-
-// instance.interceptors.request.use(
-//   (config) => {
-//     const accessToken = getCookie("token");
-
-//     config.headers["Content-Type"] = "application/json";
-//     config.headers["Authorization"] = accessToken;
-
-//     return config;
-//   },
-//   (error) => {
-//     console.log(error);
-//     return Promise.reject(error);
-// }
-// );
-
-// axiosInstance.interceptors.response.use(
-//   (response) => response,
-//   (error) => {
-//     const statusCode = error.response?.status;
-//     if (statusCode === 401) {
-//       error.response.statusText = "Unauthorized";
-//       error.response.status = 401;
-//       // navigate("/");
-//     }
-//     return Promise.reject(error);
-//   }
-// );
-
-// instance.interceptors.response.use(
-//   (response) => {
-//     if (response.status === 404) {
-//       console.log("404 페이지로 넘어가야 함!");
-//     }
-
-//     return response;
-//   },
-//   async (error) => {
-//     if (error.response?.status === 401) {
-//       if (isTokenExpired()) await tokenRefresh();
-
-//       const accessToken = getToken();
-
-//       error.config.headers = {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${accessToken}`,
-//       };
-
-//       const response = await axios.request(error.config);
-//       return response;
-//     }
-//     return Promise.reject(error);
-//   }
-// );
 
 //토큰이 불필요한 경우
 export const publicApi = axios.create({
@@ -72,9 +14,9 @@ export const privateApi = axios.create({
   baseURL: VITE_BASE_URL,
   //TODO 머지할떄 조심
   headers: {
-    // Authorization: getCookie("token"),
-    Authorization:
-      "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NjgxOTYzLCJleHAiOjE3MDc2ODkxNjN9.jScH3b9gpk3W0mzAlK_pWxQaCaTqbuJZoUgD_q2glnI",
+    Authorization: getCookie("accessToken"),
+    // Authorization:
+    //   "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTAwOTQ1NTYyMzA3MDI0MDk1NDU0Iiwicm9sZSI6Ilt7XCJpZFwiOjEsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3Njg3NjIyLCJleHAiOjE3MDc2OTQ4MjJ9.KnzWfCvwsZ-EQGtPYQxNATz6YyjCAQX_Kr2smw1l5mc",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",

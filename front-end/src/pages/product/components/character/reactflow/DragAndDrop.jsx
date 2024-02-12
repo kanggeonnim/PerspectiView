@@ -58,6 +58,7 @@ export default function DnD({ users, charDatas, idx }) {
     productId
   );
   const [relativeData, setRelativeData] = useState("");
+  
   useEffect(() => {
     if (relativeList) {
       // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
