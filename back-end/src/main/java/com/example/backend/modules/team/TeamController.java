@@ -56,10 +56,10 @@ public class TeamController {
         return ApiResult.OK(TeamResponseWithMembersDto.of(newTeam));
     }
 
-    @GetMapping("/{teamId}/recruit")
-    public ApiResult<?> addMember(@RequestParam String email, @PathVariable Long teamId,
+    @PostMapping("/{teamId}/recruit")
+    public ApiResult<?> addMember(@RequestBody UserRequestOnlyEmailDto userRequestDto, @PathVariable Long teamId,
                                   @AuthenticationPrincipal PrincipalDetails principalDetails){
-        User byEmail = userRepository.findByEmail(email);
+        User byEmail = userRepository.findByEmail(userRequestDto.getEmail());
 
         if(byEmail != null){
             teamService.recruitMember(teamId, principalDetails.getUser(), byEmail);

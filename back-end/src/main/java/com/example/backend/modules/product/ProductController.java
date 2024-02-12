@@ -28,7 +28,7 @@ public class ProductController {
     private final S3Uploader s3Uploader;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResult<ProductResponseDto> creatTeamProject(@RequestPart(value = "productRequestDto") @Valid ProductRequestDto productRequestDto,
+    public ApiResult<ProductResponseDto> creatTeamProject(@RequestPart @Valid ProductRequestDto productRequestDto,
                                                           @RequestPart(value = "uploadImage",required = false) MultipartFile uploadImage,
                                                           @PathVariable("teamId")Long teamId) throws IOException {
 
