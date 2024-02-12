@@ -39,12 +39,31 @@ const useTeamQueryModule = (teamId) => {
     },
   });
 
+  //팀정보 페이지에서 팀원 추가
+  const { mutate: addMember } = useMutation({
+    mutationFn: async (email) => {
+      const response = await privateApi.post(
+        `/api/team/${teamId}/recruit`,
+        email
+      );
+      console.log("멤버 추가", response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["oneTeam"],
+      });
+    },
+  });
+
   return {
     teamData,
     getTeamsIsSuccess,
     createTeam,
     oneTeam,
     getOneTeamIsSuccess,
+    addMember,
   };
 };
 

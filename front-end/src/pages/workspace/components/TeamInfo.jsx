@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -23,12 +24,12 @@ const teamInfoData = {
   })),
 };
 
-// TODO: 팀 이름 받아오기
 function TeamInfo() {
   // const { workspaceName, setWorkspaceName } = useOutletContext();
   // console.log(workspaceName);
   const { teamId } = useParams();
-  const { oneTeam } = useTeamQueryModule(teamId);
+  const { oneTeam, addMember } = useTeamQueryModule(teamId);
+  const [email, setEmail] = useState("");
   const [teamTitle, setTeamTitle] = useState("");
   const [teamInfo, setTeamInfo] = useState("");
   console.log("팀정보", oneTeam);
@@ -82,11 +83,18 @@ function TeamInfo() {
             <CardTitle className="text-xl font-bold ">팀원 정보</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col h-full ">
-            <Input
-              type="email"
-              placeholder="팀원 이메일을 입력하세요"
-              className="my-4"
-            />
+            <div className="flex flex-row items-center">
+              <Input
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+                type="email"
+                placeholder="팀원 이메일을 입력하세요"
+                className="my-4"
+              />
+              <Button onClick={() => addMember(email)}>추가</Button>
+            </div>
             <div className="w-full sm:h-24 md:h-64 lg:h-64 ">
               <ScrollArea className="w-full h-full border rounded-md">
                 <div className="p-4">
