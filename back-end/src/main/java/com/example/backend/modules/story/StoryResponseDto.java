@@ -17,7 +17,7 @@ public class StoryResponseDto {
     private String storyTitle;
     private List<CharacterResponseDto> characters;
     private List<ForeShadowingResponseDto> foreShadowings;
-    private Content content;
+    private String content;
     private int positionX;
     private Double positionY;
 
@@ -32,7 +32,7 @@ public class StoryResponseDto {
                                 null,
                                 "null?"
                         )).collect(Collectors.toList()))
-                .content(story.getContent())
+                .content(story.getContent().getContent())
                 .positionX(story.getPositionX())
                 .positionY(story.getPositionY())
                 .build();
