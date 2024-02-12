@@ -7,6 +7,7 @@ import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,9 +43,9 @@ public class CharacterController {
         return ApiResult.OK(null);
     }
 
-    @PutMapping("/{characterId}")
-    public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(required = false) MultipartFile uploadImage,
-                                                           @PathVariable Long characterId, @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
+    @PutMapping(value = "/{characterId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResult<CharacterResponseDto> updateCharacter(@RequestPart(value = "uploadImage", required = false) MultipartFile uploadImage,
+                                                           @PathVariable Long characterId, @RequestPart @Valid CharacterRequestDto characterRequestDto) throws IOException {
 
         Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
 
@@ -56,7 +57,7 @@ public class CharacterController {
         return ApiResult.OK(CharacterResponseDto.of(character));
     }
 
-    @PostMapping
+    @PostMapping(value = "/{characterId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                            @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {

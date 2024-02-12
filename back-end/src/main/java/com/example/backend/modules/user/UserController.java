@@ -7,6 +7,7 @@ import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -37,8 +38,8 @@ public class UserController {
         return ApiResult.OK(null);
     }
 
-    @PutMapping
-    public ApiResult<UserResponseDto> updateUser(@RequestBody @Valid UserRequestDto userRequestDto,
+    @PutMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResult<UserResponseDto> updateUser(@RequestPart @Valid UserRequestDto userRequestDto,
                                                  @RequestPart(required = false) MultipartFile uploadImage,
                                                  @AuthenticationPrincipal PrincipalDetails principal) throws IOException {
 

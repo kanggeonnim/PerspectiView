@@ -10,6 +10,7 @@ import com.example.backend.modules.plot.PlotResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +27,9 @@ public class ProductController {
     private final ProductService productService;
     private final S3Uploader s3Uploader;
 
-    @PostMapping
-    public ApiResult<ProductResponseDto> creatTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
-                                                          @RequestPart(required = false) MultipartFile uploadImage,
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResult<ProductResponseDto> creatTeamProject(@RequestPart(value = "productRequestDto") @Valid ProductRequestDto productRequestDto,
+                                                          @RequestPart(value = "uploadImage",required = false) MultipartFile uploadImage,
                                                           @PathVariable("teamId")Long teamId) throws IOException {
 
         Product product = ProductRequestDto.from(productRequestDto);
@@ -39,7 +40,7 @@ public class ProductController {
             product.updateProductImage(url);
         }
         log.info("=========createTeamController==========");
-        Product newProduct =  productService.createTeamProduct(productRequestDto.from(productRequestDto), teamId,productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
+        Product newProduct =  productService.createTeamProduct(product, teamId,productRequestDto.getGenres().stream().map(GenreRequestDto::of).collect(Collectors.toList()));
         log.info("=========createTeamController==========");
         List<Genre> genres = productService.findGenreList(newProduct.getProductGenres());
         log.info("=========createTeamController==========");
