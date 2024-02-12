@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UserResponseDto {
+public class UserResponseWithTeamIdDto {
     private String nickname;
     private String image;
     private Long personalTeamId;
@@ -13,10 +13,11 @@ public class UserResponseDto {
     private String phone;
     private String info;
 
-    public static UserResponseDto of(User user) {
-        return UserResponseDto.builder()
+    public static UserResponseWithTeamIdDto of(User user, Long personalTeamId) {
+        return UserResponseWithTeamIdDto.builder()
                 .nickname(user.getUserNickname())
                 .image(user.getUserImageUrl())
+                .personalTeamId(personalTeamId)
                 .email(user.getEmail())
                 .phone(user.getUserPhone())
                 .info(user.getUserInfo())

@@ -3,6 +3,7 @@ package com.example.backend.modules.user;
 import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.team.TeamService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,14 @@ import java.io.IOException;
 public class UserController {
 
     private final UserService userService;
+    private final TeamService teamService;
     private final S3Uploader s3Uploader;
 
     @GetMapping
-    public ApiResult<UserResponseDto> getUser(@AuthenticationPrincipal PrincipalDetails principal) {
+    public ApiResult<UserResponseWithTeamIdDto> getUser(@AuthenticationPrincipal PrincipalDetails principal) {
         User user = userService.getUser(principal.getUsername());
-        return ApiResult.OK(UserResponseDto.of(user));
+        Long personalTeamId = teamService.getMyTeam(user).getId();
+        return ApiResult.OK(UserResponseWithTeamIdDto.of(user, personalTeamId));
     }
 
 
@@ -47,6 +50,7 @@ public class UserController {
         }
 
         User user = userService.updateUser(principal.getUsername(), reqUser);
+        Long personalTeamId = teamService.getMyTeam(user).getId();
         return ApiResult.OK(UserResponseDto.of(user));
     }
 }

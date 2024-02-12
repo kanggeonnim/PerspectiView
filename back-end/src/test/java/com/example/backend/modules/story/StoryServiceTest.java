@@ -15,6 +15,7 @@ import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
 import com.example.backend.modules.user.User;
 import com.example.backend.modules.user.UserRepository;
+import com.example.backend.modules.user.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +44,9 @@ class StoryServiceTest {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     TeamRepository teamRepository;
