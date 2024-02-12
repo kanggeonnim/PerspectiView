@@ -70,7 +70,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
             // 신규 회원가입
             User newUser = User.builder()
                     .username(provider + "_" + providerId)
-                    .userNickname(provider + "_" + providerId)
+                    .userNickname(oAuth2UserInfo.getName() + "작가님")
                     .email(oAuth2UserInfo.getEmail())
                     .provider(provider)
                     .providerId(providerId)
