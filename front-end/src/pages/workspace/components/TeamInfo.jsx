@@ -1,12 +1,12 @@
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Editable } from "@ark-ui/react";
-import WorkListCard from "./ProductListCard";
-import { useOutletContext } from "react-router-dom";
-import { useEffect } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import WorkListCard from "./ProductListCard";
 
 const teamInfoData = {
   teamTitle: "B310",
@@ -16,7 +16,9 @@ const teamInfoData = {
     userId: index,
     usernickName: `yasuo ${index + 1}`,
     userImage:
-      index % 2 == 0 ? "https://github.com/shadcn.png" : "https://ui.shadcn.com/avatars/01.png",
+      index % 2 == 0
+        ? "https://github.com/shadcn.png"
+        : "https://ui.shadcn.com/avatars/01.png",
     userEmail: "leageOfLegends@gmail.com",
   })),
 };
@@ -24,9 +26,19 @@ const teamInfoData = {
 // TODO: 팀 이름 받아오기
 function TeamInfo() {
   // const { workspaceName, setWorkspaceName } = useOutletContext();
-
   // console.log(workspaceName);
+  const { teamId } = useParams();
+  const { oneTeam } = useTeamQueryModule(teamId);
+  const [teamTitle, setTeamTitle] = useState("");
+  const [teamInfo, setTeamInfo] = useState("");
+  console.log("팀정보", oneTeam);
 
+  useEffect(() => {
+    if (oneTeam) {
+      setTeamTitle(oneTeam.title);
+      setTeamInfo(oneTeam.info);
+    }
+  }, [oneTeam]);
   return (
     <div className="flex w-full max-h-full min-h-full gap-3 m-2 ">
       <div className="flex flex-col w-1/3 h-full gap-3">
@@ -35,7 +47,12 @@ function TeamInfo() {
             <CardTitle className="text-xl font-bold">팀 정보</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-3">
-            <Editable.Root
+            <div>팀명</div>
+            <div>{teamTitle}</div>
+            <diV>팀 소개</diV>
+            <div>{teamInfo}</div>
+
+            {/* <Editable.Root
               // value={workspaceName}
               activationMode="dblclick"
               // onValueChange={(value) => setWorkspaceName(value)}
@@ -48,7 +65,7 @@ function TeamInfo() {
               </Editable.Area>
             </Editable.Root>
             <Editable.Root
-              defaultValue="우리 팀은 .."
+              defaultValue={teamInfo}
               activationMode="dblclick"
               placeholder="팀설명을 입력하세요."
             >
@@ -57,7 +74,7 @@ function TeamInfo() {
                 <Editable.Input />
                 <Editable.Preview />
               </Editable.Area>
-            </Editable.Root>
+            </Editable.Root> */}
           </CardContent>
         </Card>
         <Card className="flex flex-col w-full h-full border rounded shadow-md">
@@ -65,26 +82,32 @@ function TeamInfo() {
             <CardTitle className="text-xl font-bold ">팀원 정보</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col h-full ">
-            <Input type="email" placeholder="팀원 이메일을 입력하세요" className="my-4" />
+            <Input
+              type="email"
+              placeholder="팀원 이메일을 입력하세요"
+              className="my-4"
+            />
             <div className="w-full sm:h-24 md:h-64 lg:h-64 ">
               <ScrollArea className="w-full h-full border rounded-md">
                 <div className="p-4">
                   {/* <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4> */}
-                  {teamInfoData.members.map((member) => (
-                    <div key={member.userId}>
+                  {oneTeam?.userResponseDtos.map((member, index) => (
+                    <div key={index}>
                       <div className="text-sm">
-                        <div className="flex items-center justify-between" key={member.userId}>
+                        <div className="flex items-center justify-between">
                           <div className="px-1 mx-1">
                             <Avatar>
-                              <AvatarImage src={member.userImage} alt="@shadcn" />
+                              <AvatarImage src={member.image} alt="@shadcn" />
                               <AvatarFallback>CN</AvatarFallback>
                             </Avatar>
                           </div>
 
                           <div className="flex flex-col items-start w-full text-sm font-bold">
-                            <div className="mx-1 text-xs ">작가명</div>
+                            <div className="mx-1 text-xs ">
+                              {member.nickname}
+                            </div>
                             <div className="mx-1 text-xs break-all text-zinc-600">
-                              user@gmail.com
+                              {member.email}
                             </div>
                           </div>
                         </div>

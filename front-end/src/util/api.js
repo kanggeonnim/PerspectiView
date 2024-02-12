@@ -1,6 +1,5 @@
 // api.js(지금 필요 없음)
 import axios from "axios";
-import { getCookie } from "./cookie";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
@@ -14,9 +13,9 @@ export const privateApi = axios.create({
   baseURL: VITE_BASE_URL,
   //TODO 머지할떄 조심
   headers: {
-    Authorization: getCookie("accessToken"),
-    // Authorization:
-    //   "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NzExNzkxLCJleHAiOjE3MDc3MTg5OTF9.Pfb48pcEudl2vWn31o17WlkBB12IsXuVy2H--nLrMz0",
+    // Authorization: getCookie("accessToken"),
+    Authorization:
+      "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJrYWthb18zMzMxMjE2NzA2Iiwicm9sZSI6Ilt7XCJpZFwiOjQsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3NzIyNzQwLCJleHAiOjE3MDc3Mjk5NDB9.p6sR3xy2bws0A_OWhT__eULKND71fdF-xAF_fyXmC_Q",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",

@@ -190,7 +190,7 @@ function UserSidebar() {
                   }
                 >
                   <div className="mx-1 text-xs break-words">
-                    {user.userNickname.split("_")[1]}
+                    {user.nickname.split("_")[1]}
                   </div>
                   <div className="mx-1 text-xs break-all text-zinc-600">
                     {user.email}
