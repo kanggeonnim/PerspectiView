@@ -72,8 +72,8 @@ public class StoryService {
             StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
                     .foreShadowing(foreShadowing)
                     .story(madeStory).build();
-            StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
-            madeStory.addStoryForeShadowing(makeStoryForeShadowing);
+//            StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
+//            madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
 
 
