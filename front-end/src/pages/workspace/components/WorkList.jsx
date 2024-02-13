@@ -53,6 +53,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
     setImages(selectedImage)
+    console.log(images)
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      uploadImage: images, // 이미지 URL을 uploadImage 속성에 할당
+      },
+    ))
+
   };
 
   const handleUploadClick = () => {
@@ -67,23 +74,18 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
 
   const handleUploadImage = async () => {
     if (image) {
-      const formData = new FormData();
-      formData.append("uploadImage", image);
+      // const formData = new FormData();
+      // formData.append("uploadImage", image);
       console.log(formData);
-      try {
-        console.log(image)
-        setProductDetail(prevProductDetail => ({
-          ...prevProductDetail,
-          productRequestDto: {
-            ...prevProductDetail.productRequestDto,
-            uploadImage: formData, // 이미지 URL을 uploadImage 속성에 할당
-          },
-        }));
-        // 이미지 업로드 후 이미지 지우기
-        setImage(null);
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      console.log(image)
+      setProductDetail(ProductDetail => ({
+        ...ProductDetail,
+        uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
+        },
+      )
+      );
+      // 이미지 업로드 후 이미지 지우기
+      setImage(null);
     }
   }
 
@@ -134,7 +136,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         onChange={(e) => {
                           setProductDetail({
                             ...productDetail,
-                            uploadImage
+                            uploadImage : URL.createObjectURL(image)
                           });
                         }}
                       />
