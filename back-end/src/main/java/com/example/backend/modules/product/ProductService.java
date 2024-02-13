@@ -1,5 +1,8 @@
 package com.example.backend.modules.product;
 
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.Font;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
@@ -17,6 +20,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -131,21 +135,33 @@ public class ProductService {
         return findProduct;
     }
 
-    public StringBuffer findWithStoryContentByProductId(Long productId) {
+    public Document findWithStoryContentByProductId(Long productId) throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Font font = builder.getFont();
+        font.setColor(Color.BLACK);
+        font.setName("Arial");
+
         Product findProduct = productRepository.findWithGenreCategoryById(productId).orElseThrow(() -> new NotFoundException());
-        StringBuffer sf = new StringBuffer();
+
         for(Plot plot : findProduct.getPlots()){
             List<Story> stories = plot.getStories();
             Collections.sort(stories, (o1, o2)-> Integer.compare(o1.getPositionX(), o2.getPositionX()));
             for(Story story : stories){
-                sf.append("제목 : " + story.getTitle());
-                sf.append("\n\n");
-                sf.append("\n\n");
-                sf.append(story.getContent().getContent());
-                sf.append("\n\n");
+
+                font.setSize(25);
+                font.setBold(true);
+                builder.writeln(story.getTitle());
+                builder.writeln();
+
+                font.setSize(12);
+                font.setBold(false);
+                builder.writeln(story.getContent().getContent());
+                builder.writeln();
             }
         }
-        return sf;
+        return doc;
     }
 
     /**
