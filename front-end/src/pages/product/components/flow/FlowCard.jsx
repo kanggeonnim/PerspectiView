@@ -9,7 +9,7 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -34,6 +34,7 @@ const defaultViewport = { x: 0, y: 0, zoom: 1.5 };
 const snapGrid = [20, 20];
 
 export default function FlowCard() {
+  const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const { moveStory } = useStoryQueryModule(teamId, productId);
   const { nodes, edges, onNodesChange, onEdgesChange, addStory } = useNodeStore(selector);
@@ -44,8 +45,13 @@ export default function FlowCard() {
     <ReactFlow
       nodes={nodes}
       edges={edges}
+      onNodeClick={() => {
+        navigate(
+          `/team/${teamId}/product/${productId}/plot/${movedNode.plotId}/story/${movedNode.storyId}`
+        );
+      }}
       onNodeDragStop={() => {
-        if (movedNode && movedNode.type === "story") {
+        if (movedNode && movedNode.dragging && !movedNode.selected && movedNode.type === "story") {
           moveStory(
             {
               storyId: movedNode.storyId,
@@ -56,13 +62,14 @@ export default function FlowCard() {
         }
       }}
       onNodesChange={(changes) => {
-        if (nodes.find((node) => node.id === changes[0].id).type === "story") {
-          setMovedNode({
-            ...changes[0],
-            plotId: nodes.find((node) => node.id === changes[0].id).data.plotId,
-            storyId: nodes.find((node) => node.id === changes[0].id).data.storyId,
-            movedNode: nodes.find((node) => node.id === changes[0].id).type,
-          });
+        const findNode = nodes.find((node) => node.id === changes[0].id);
+        setMovedNode({
+          ...changes[0],
+          plotId: findNode.data.plotId,
+          storyId: findNode.data.storyId,
+          type: findNode.type,
+        });
+        if (findNode.type === "story") {
           onNodesChange(changes);
         }
       }}

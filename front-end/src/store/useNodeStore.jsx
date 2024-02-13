@@ -36,7 +36,7 @@ const useNodeStore = create(
     },
 
     addEmptyStory(idx, plotId, plotColor) {
-      console.log("add emtpy", idx, plotId, plotColor);
+      // console.log("add emtpy", idx, plotId, plotColor);
       // const lastNode = get().nodes.slice(-1)[0];
       const newNodeId = String(idx);
       const type = "empty";

@@ -65,7 +65,7 @@ export default function StoryDetail() {
           <div className="flex flex-col justify-between w-1/2 ">
             <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
             <div className="flex flex-wrap items-start justify-start ">
-              {storyFshadowList.slice(0, 5)?.map((fshadow) => (
+              {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
                   <HoverCardTrigger className="mr-1">
                     <Badge
@@ -80,7 +80,7 @@ export default function StoryDetail() {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-              <div className="mx-2">{storyFshadowList.length > 9 && <MoreHorizontal />}</div>
+              <div className="mx-2">{storyFshadowList?.length > 9 && <MoreHorizontal />}</div>
             </div>
           </div>
 
@@ -89,17 +89,17 @@ export default function StoryDetail() {
             <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
             <div className="flex items-start justify-start space-x-2">
               {storyDetail.characters?.map((character) => (
-                <div className="flex flex-col items-center " key={character.id}>
+                <div className="flex flex-col items-center " key={character.characterId}>
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Avatar>
-                          <AvatarImage src={character.image} alt="@shadcn" />
+                          <AvatarImage src={character.characterImage} alt="@shadcn" />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                       </TooltipTrigger>
                       <TooltipContent side="bottom">
-                        <p> {character.name}</p>
+                        <p> {character.characterName}</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

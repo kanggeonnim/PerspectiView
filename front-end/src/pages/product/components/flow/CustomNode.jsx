@@ -40,19 +40,14 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
     setIsHovered(false);
   };
 
-  const onNodeClick = () => {
-    // console.log(id, teamId, productId, data.plotId, data.storyId);
-    navigate(`/team/${teamId}/product/${productId}/plot/${data.plotId}/story/${data.storyId}`);
-  };
-
   return (
     <>
       <div
         className="flex items-center justify-center w-32 h-40 p-4 border rounded "
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        onClick={() => type === "story" && onNodeClick()}
         style={{
+          backgroundColor: showContent || type === "empty" ? "transparent" : `${data.borderColor}`,
           borderStyle: type === "empty" ? "dashed" : "solid",
           opacity: type === "empty" ? 0.3 : 1,
           borderWidth: type === "empty" ? "5px" : "2px",
@@ -68,7 +63,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
             <MinusCircle size={15} className="mx-auto text-foreground" />
           </Button>
         </div>
-        {showContent && <div>{data.title}</div>}
+        {showContent && <div className="text-center">{data.title}</div>}
 
         {type === "empty" && (
           <Button
@@ -97,17 +92,13 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
           <Popover>
             <PopoverTrigger asChild>
               <div className="flex items-center">
-                <Avatar key={characListData[0].characterId}>
-                  <AvatarImage src={characListData[0].img} alt="@shadcn" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                {characListData.slice(1, 3).map((charac) => (
+                {data.characters?.slice(0, 3).map((charac) => (
                   <Avatar key={charac.characterId} className="-ml-3">
-                    <AvatarImage src={charac.img} alt="@shadcn" />
-                    <AvatarFallback>CN</AvatarFallback>
+                    <AvatarImage src={charac.characImage} alt="@shadcn" />
+                    <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 ))}
-                {characListData.length > 3 && <MoreHorizontal />}
+                {data.characters && data.characters.length > 3 && <MoreHorizontal />}
               </div>
             </PopoverTrigger>
             <PopoverContent className="mt-3 w-60" side="bottom">
@@ -117,14 +108,14 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
 
               <div className="w-full sm:h-24 md:h-64 lg:h-64 ">
                 <ScrollArea className="w-full h-full rounded-md">
-                  {characListData.map((charac) => (
+                  {data.characters?.map((charac) => (
                     <div key={charac.characterId}>
                       <div className="text-sm">
                         <div className="flex items-center justify-between" key={charac.characterId}>
                           <div className="">
                             <Avatar>
-                              <AvatarImage src={charac.img} alt="@shadcn" />
-                              <AvatarFallback>CN</AvatarFallback>
+                              <AvatarImage src={charac.characImage} alt="@shadcn" />
+                              <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                             </Avatar>
                           </div>
                           <div className="flex flex-col items-start w-full font-bold">
