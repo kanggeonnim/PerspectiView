@@ -66,27 +66,31 @@ export function ForeshadowingCard({ colFshadow, index }) {
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
-            {!isDropped && colFshadow.columnId !== "column-3" && (
-              <Badge variant="outline" onClick={() => dropFshadow()}>
-                사용
-              </Badge>
-            )}
-            {isDropped &&
-              colFshadow.columnId !== "column-1" &&
-              colFshadow.columnId !== "column-3" && (
-                <Badge variant="outline" onClick={() => undropFshadow()}>
-                  사용취소
-                </Badge>
-              )}
-            {!isClose && colFshadow.columnId === "column-2" && (
-              <Badge variant="outline" onClick={() => closeFshadow()}>
-                회수
-              </Badge>
-            )}
-            {isClose && colFshadow.columnId === "column-3" && (
-              <Badge variant="outline" onClick={() => uncloseFshadow()}>
-                회수취소
-              </Badge>
+            {!isFshadowMainTab && (
+              <div className="flex flex-row">
+                {!isDropped && colFshadow.columnId !== "column-3" && (
+                  <Badge variant="outline" onClick={() => dropFshadow()}>
+                    사용
+                  </Badge>
+                )}
+                {isDropped &&
+                  colFshadow.columnId !== "column-1" &&
+                  colFshadow.columnId !== "column-3" && (
+                    <Badge variant="outline" onClick={() => undropFshadow()}>
+                      사용취소
+                    </Badge>
+                  )}
+                {!isClose && colFshadow.columnId === "column-2" && (
+                  <Badge variant="outline" onClick={() => closeFshadow()}>
+                    회수
+                  </Badge>
+                )}
+                {isClose && colFshadow.columnId === "column-3" && (
+                  <Badge variant="outline" onClick={() => uncloseFshadow()}>
+                    회수취소
+                  </Badge>
+                )}
+              </div>
             )}
           </div>
           {/* //TODO delete 더블체크화면 */}
