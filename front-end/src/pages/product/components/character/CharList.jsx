@@ -84,7 +84,6 @@ export default function CharList({ users, charDatas, onIdxChange }) {
         </AlertDialogContent>
       </AlertDialog>
     ))}
-    <LabelAdd />
   </div>
   );
 }

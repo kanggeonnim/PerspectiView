@@ -34,12 +34,13 @@ export default function CustomNode({ id, data, isConnectable }) {
   return (
     <>
       <div
-        className="flex w-28 h-28 border-2 items-center justify-center rounded-full"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={() => onNodeClick()}
+        className="flex flex-col w-28 h-28 border-2 items-center justify-center rounded-full"
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
+        // onClick={() => onNodeClick()}
       >
-        <div
+        <img src={data.image} alt="" />
+        {/* <div
           className={`absolute m-1 top-0 right-0  ${
             isHovered ? "visible" : "hidden"
           }`}
@@ -51,15 +52,11 @@ export default function CustomNode({ id, data, isConnectable }) {
           >
             <MinusCircle size={15} className="mx-auto text-foreground" />
           </Button>
+        </div> */}
+        <div className="flex flex-colz justify-center w-28 h-28">
+        
         </div>
-        <div className="flex flex-col items-center justify-center w-28 h-28">
-          <input
-            className="text-sm text-center !w-28 bg-transparent"
-            type="text"
-            onChange={handleLabelInputChange}
-            defaultValue={data.name}
-          />
-        </div>
+          
         <div className="flex justify-center">
           {/* 핸들 블록 */}
           <Handle
@@ -119,6 +116,12 @@ export default function CustomNode({ id, data, isConnectable }) {
             className="!left-16 hover:!bg-red-500 !bg-transparent !border-0 !w-3 !h-3 z-10"
           />
         </div>
+        <input
+            className="text-sm text-center bg-transparent"
+            type="text"
+            onChange={handleLabelInputChange}
+            defaultValue={data.name}
+          />
       </div>
     </>
   );
