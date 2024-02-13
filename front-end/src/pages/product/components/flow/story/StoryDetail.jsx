@@ -102,7 +102,7 @@ export default function StoryDetail() {
                     </Badge>
                   </HoverCardTrigger>
                   <HoverCardContent>
-                    <ForeshadowingCardStoryDetaill colFshadow={fshadow} />
+                    <ForeshadowingCardStoryDetail colFshadow={fshadow} />
                   </HoverCardContent>
                 </HoverCard>
               ))}

@@ -71,7 +71,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
             onClick={(e) => {
               e.stopPropagation();
               createStory({
-                storyTitle: "",
+                storyTitle: "스토리 제목을 입력하세요.",
                 content: {
                   content: "",
                 },
