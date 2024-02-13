@@ -34,8 +34,7 @@ public class ForeShadowing {
     @Column(nullable = true)
     private String fShadowContent;
 
-    @Column(nullable = false)
-    @ColumnDefault("-1")
+    @Column(nullable = true)
     private Long fShadowClose;
 
     @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "foreShadowing")
