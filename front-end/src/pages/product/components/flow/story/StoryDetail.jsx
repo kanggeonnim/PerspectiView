@@ -7,6 +7,13 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
+import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { Textarea } from "@/components/ui/textarea";
 
 // const sample = Array.from({ length: 20 }, (_, index) => ({
 //   fshadowId: index + 1,
@@ -95,7 +102,7 @@ export default function StoryDetail() {
                     </Badge>
                   </HoverCardTrigger>
                   <HoverCardContent>
-                    <ForeshadowingCardStoryDetail colFshadow={fshadow} />
+                    <ForeshadowingCardStoryDetaill colFshadow={fshadow} />
                   </HoverCardContent>
                 </HoverCard>
               ))}
