@@ -60,9 +60,9 @@ public class CharacterController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
-                                                           @RequestPart @Valid CharacterRequestDto characterRequestDto) throws IOException {
+                                                           @RequestPart @Valid CharacPostRequestDto characPostRequestDto) throws IOException {
         log.info("========create character contoller ======");
-        Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
+        Character reqCharacter = characPostRequestDto.from(characPostRequestDto);
 
         if (uploadImage != null) {
             String url = s3Uploader.upload(uploadImage).orElseThrow(() -> new IllegalArgumentException());
