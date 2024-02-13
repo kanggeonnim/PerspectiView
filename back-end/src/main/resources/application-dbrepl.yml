@@ -20,64 +20,65 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: validate
-  jwt:
-    secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
-    token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
-    haeder-refresh: ENC(A1BFSNQYpjOK6DnCL+Yz7wWE2vpUZOy+2pW8KgYTmt4eSvwoTYOrkaseK+/ebKIa)
-    haeder-access: ENC(XmDnf2JrFvZvt6kO4AygGf7jRdch2p9tXbLti9N91XcI0WY/+hP+zBZEsjWUUEbo)
 
-  data:
-    redis:
-      host: 172.17.0.1
-      port: 6379
-      password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
-    rest:
-      base-path: /api
+    jwt:
+      secret: ENC(fEJ7WA7eRGVpVlO/l1AxQxWrxdKrckoBlTwDPfYVm6+aWYyMV48weamOful1HUsovIXEGhAonBKbRrlrJRiDw2tB4Bc8zGIBSN7yBjb9nM8=)
+      token-prefix: ENC(LtV6ZJrgUovD3gbWplYf3FSYiu818pv1S9Mc+xERD9DHuxma96sQpui/A9PNYq7V)
+      haeder-refresh: ENC(A1BFSNQYpjOK6DnCL+Yz7wWE2vpUZOy+2pW8KgYTmt4eSvwoTYOrkaseK+/ebKIa)
+      haeder-access: ENC(XmDnf2JrFvZvt6kO4AygGf7jRdch2p9tXbLti9N91XcI0WY/+hP+zBZEsjWUUEbo)
 
-  security:
-    oauth2:
-      client:
-        provider:
-          kakao:
-            authorization-uri: ENC(7m0qq9n5K8CqMv5+px8Ktoe5pKj/e/Pb1uQd0wmYLfJOZgLYpO4Ty0DDXNnVroxvWhgxh9mGtPzmESw8AHibsXjSqjA4qOT8L4BC6g5zCuU=)
-            token-uri: ENC(wLwqfDDZLmXsDMDr1bLFrmcrBO8mqoCUKk2TqD9ZlOtYpaXRWla42TONNmgu4Ok/TvjxzFOHBm5tHKhJjRlUavtzcSECDi8DCwWCPjhqAng=)
-            user-info-uri: ENC(jkLqd3wH/JYRtCsssWiX845A0Um1xgNQEYua5Csu/F9LwIrWKxsDq1Zmwg814O+pKjDanr62oZVUnFgCbEbGJ7TMstt3MVGyba0MlLgp1p4=)
-            user-name-attribute: id
-          naver:
-            authorization-uri: ENC(Kidtb9hB0o0KPNbxofFI+v3gWKvbrofnfn3p6KO4QSIgABjO6e6R0OoxuFo9T3bjUhqdhhzt0inb/9iw1FFmWkXV+rWCocx9DjWsRaLQToY=)
-            token-uri: ENC(aJVcYVrlcq8e/APuXvLhUVoyp1hMprPlht76mqL7Av62D8haClzxcZk0IRiXlAuHD740ruTpBAerB6xolK17eYo+5jAD9tNE9A18Trm8qKs=)
-            user-info-uri: ENC(BdP/kJYcjM2oB8Ws8wtAhe0qVKQbKeAPvKtTdakX/RdfbcFR/dTvi9cSeq7alz9v+qar+Re3qxTYdPZaPGsN7g2fgjFdex/+co3W3qFbfmU=)
-            user-name-attribute: response
-        registration:
-          kakao:
-            client-id: ENC(CoMySNX2PMaZbR7nl9XtPITWRHrB+kClg06+bQSJw2lziuiJ8TZwW4SEK7r77oie/Kp3zS0ypWllwYYjG4rvloMu3IHjHdsmpxnWrkodEH8=)
-            client-secret: ENC(fpZjJAjfzDlkAgvwfuOQLu7rkhPMxO8f08uVQKn3sJQdufz7f+JMtNOOysi9mIuN16KvpsqNep2hwfGWazZpMUUDwdncNvYjMHLyTOBxIcs=)
-            client-authentication-method: ENC(tRG2nwDDCP/8D6b16M+xayfJGPtTwQtBGnGFW2CLeOgZFF3U+Yx/KbKdVOCOn2NqR+zuSSPWwP/634Zy0pZXRw==)
-            redirect-uri: ENC(6Fut0MIbWly5sAtApLIVphFoyEyFgw3wgGo9iu24r7HmLuaS/IWUNrNMiRkitm2evkvIxlIpu2zOO3z0jYohOvA6M94W48LzGUH65YKLpGwgGKdkNNY1FZaK5Ptk9J9i)
-            authorization-grant-type: ENC(V6kwdUnoVuOOU/Xa/yxKp1Q9bHRZgHCc2WV1kbjDgmD7KJ6EFDZUa3dsy9MwByXfX3S0Rd8gld1/3mM7AYVHjQ==)
-            client-name: kakao
-            scope:
-              - profile_nickname
-              - profile_image
-              - account_email
-              - gender
-              - age_range
-          google:
-            client-id: ENC(3yLCaS91Tn+s1RZejez5sY50G3ZhLGvgS393RXFinFG2rLWuvxTskV0qpWXvw8R/V8BH21I1VrbrwR91VKojx9KKk8x6cMNOH/YP2JwfHAdoHF//t9Ut4M+gwR+PqPafXi1y/t7pU7xFZ1U6pB9b6g==)
-            client-secret: ENC(R0TjgohMkmTRTU5+WQHuzl0HronY9SRWbwI2WEixwi+MkQ4KSOxmiMQpNl1JuLohx1ZNTql18TzvU8dY+WI0W6jvXdEA4qQZcn4S6GB8Ulo=)
-            redirect-uri: ENC(i3xcQHLj9WGsbAMXZtSUY+pBSsLKtTV6Ipy6Icx09jNZxR6bxEJmGp2n7Hg5pM0nWgIfhXpc+O0B8eO9icCkNF3O3wTE6jYvPyKcE0EZsIk959aXqNzLWeEZC05+vZ/N)
-            scope:
-              - email
-              - profile
-          naver:
-            client-id: ENC(nLSf4y/SsZVsQJyDaEAhgDWn2EcrQTKSuBTUcwD6eJaSxdkzaZewSV8nyQiCWUC8TiH3+iJZPT2Y/XGwjYAPCQ==)
-            client-secret: ENC(GzzqKKQ+9avO16JF02njfLMeK5KX/bIsFge+zVvdLHbo6hE1gzbv1/wFzEh1aR6l)
-            redirect-uri: ENC(BgEyPI9YntKOGuf2FUsyIlnVskk4uOuKCp13PWYsTggbC+zV1hcFbPh605awnuHOQ0Lbw9J+ezUiRkESjK/fma4GWtx98k+E4UnX5XedWkbVTlU1SeJ9KPgi1YX+l/S3)
-            authorization-grant-type: authorization_code
-            client-name: naver
-            scope:
-              - name
-              - email
+    data:
+      redis:
+        host: 172.17.0.1
+        port: 6379
+        password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
+      rest:
+        base-path: /api
+
+    security:
+      oauth2:
+        client:
+          provider:
+            kakao:
+              authorization-uri: ENC(7m0qq9n5K8CqMv5+px8Ktoe5pKj/e/Pb1uQd0wmYLfJOZgLYpO4Ty0DDXNnVroxvWhgxh9mGtPzmESw8AHibsXjSqjA4qOT8L4BC6g5zCuU=)
+              token-uri: ENC(wLwqfDDZLmXsDMDr1bLFrmcrBO8mqoCUKk2TqD9ZlOtYpaXRWla42TONNmgu4Ok/TvjxzFOHBm5tHKhJjRlUavtzcSECDi8DCwWCPjhqAng=)
+              user-info-uri: ENC(jkLqd3wH/JYRtCsssWiX845A0Um1xgNQEYua5Csu/F9LwIrWKxsDq1Zmwg814O+pKjDanr62oZVUnFgCbEbGJ7TMstt3MVGyba0MlLgp1p4=)
+              user-name-attribute: id
+            naver:
+              authorization-uri: ENC(Kidtb9hB0o0KPNbxofFI+v3gWKvbrofnfn3p6KO4QSIgABjO6e6R0OoxuFo9T3bjUhqdhhzt0inb/9iw1FFmWkXV+rWCocx9DjWsRaLQToY=)
+              token-uri: ENC(aJVcYVrlcq8e/APuXvLhUVoyp1hMprPlht76mqL7Av62D8haClzxcZk0IRiXlAuHD740ruTpBAerB6xolK17eYo+5jAD9tNE9A18Trm8qKs=)
+              user-info-uri: ENC(BdP/kJYcjM2oB8Ws8wtAhe0qVKQbKeAPvKtTdakX/RdfbcFR/dTvi9cSeq7alz9v+qar+Re3qxTYdPZaPGsN7g2fgjFdex/+co3W3qFbfmU=)
+              user-name-attribute: response
+          registration:
+            kakao:
+              client-id: ENC(CoMySNX2PMaZbR7nl9XtPITWRHrB+kClg06+bQSJw2lziuiJ8TZwW4SEK7r77oie/Kp3zS0ypWllwYYjG4rvloMu3IHjHdsmpxnWrkodEH8=)
+              client-secret: ENC(fpZjJAjfzDlkAgvwfuOQLu7rkhPMxO8f08uVQKn3sJQdufz7f+JMtNOOysi9mIuN16KvpsqNep2hwfGWazZpMUUDwdncNvYjMHLyTOBxIcs=)
+              client-authentication-method: ENC(tRG2nwDDCP/8D6b16M+xayfJGPtTwQtBGnGFW2CLeOgZFF3U+Yx/KbKdVOCOn2NqR+zuSSPWwP/634Zy0pZXRw==)
+              redirect-uri: ENC(6Fut0MIbWly5sAtApLIVphFoyEyFgw3wgGo9iu24r7HmLuaS/IWUNrNMiRkitm2evkvIxlIpu2zOO3z0jYohOvA6M94W48LzGUH65YKLpGwgGKdkNNY1FZaK5Ptk9J9i)
+              authorization-grant-type: ENC(V6kwdUnoVuOOU/Xa/yxKp1Q9bHRZgHCc2WV1kbjDgmD7KJ6EFDZUa3dsy9MwByXfX3S0Rd8gld1/3mM7AYVHjQ==)
+              client-name: kakao
+              scope:
+                - profile_nickname
+                - profile_image
+                - account_email
+                - gender
+                - age_range
+            google:
+              client-id: ENC(3yLCaS91Tn+s1RZejez5sY50G3ZhLGvgS393RXFinFG2rLWuvxTskV0qpWXvw8R/V8BH21I1VrbrwR91VKojx9KKk8x6cMNOH/YP2JwfHAdoHF//t9Ut4M+gwR+PqPafXi1y/t7pU7xFZ1U6pB9b6g==)
+              client-secret: ENC(R0TjgohMkmTRTU5+WQHuzl0HronY9SRWbwI2WEixwi+MkQ4KSOxmiMQpNl1JuLohx1ZNTql18TzvU8dY+WI0W6jvXdEA4qQZcn4S6GB8Ulo=)
+              redirect-uri: ENC(i3xcQHLj9WGsbAMXZtSUY+pBSsLKtTV6Ipy6Icx09jNZxR6bxEJmGp2n7Hg5pM0nWgIfhXpc+O0B8eO9icCkNF3O3wTE6jYvPyKcE0EZsIk959aXqNzLWeEZC05+vZ/N)
+              scope:
+                - email
+                - profile
+            naver:
+              client-id: ENC(nLSf4y/SsZVsQJyDaEAhgDWn2EcrQTKSuBTUcwD6eJaSxdkzaZewSV8nyQiCWUC8TiH3+iJZPT2Y/XGwjYAPCQ==)
+              client-secret: ENC(GzzqKKQ+9avO16JF02njfLMeK5KX/bIsFge+zVvdLHbo6hE1gzbv1/wFzEh1aR6l)
+              redirect-uri: ENC(BgEyPI9YntKOGuf2FUsyIlnVskk4uOuKCp13PWYsTggbC+zV1hcFbPh605awnuHOQ0Lbw9J+ezUiRkESjK/fma4GWtx98k+E4UnX5XedWkbVTlU1SeJ9KPgi1YX+l/S3)
+              authorization-grant-type: authorization_code
+              client-name: naver
+              scope:
+                - name
+                - email
 
 redirectUrl: "https://i10b310.p.ssafy.io/app/workspace"
 #redirectUrl: "http://localhost:5173/app/workspace"
