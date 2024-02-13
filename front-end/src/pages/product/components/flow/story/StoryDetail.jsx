@@ -1,12 +1,31 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
 
 // const sample = Array.from({ length: 20 }, (_, index) => ({
 //   fshadowId: index + 1,
@@ -59,7 +78,9 @@ export default function StoryDetail() {
         <div className="flex justify-start ml-1">
           {/* 복선 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-sm font-bold">이 스토리에 사용된 복선</div>
+            <div className="my-2 text-sm font-bold">
+              이 스토리에 사용된 복선
+            </div>
             {/* <Popover onOpenChange={() => setSearchInput("")}>
               <PopoverTrigger asChild>
                 <PlusCircle size={15} className="mx-1" />
@@ -99,7 +120,9 @@ export default function StoryDetail() {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-              <div className="mx-2">{storyFshadowList?.length > 9 && <MoreHorizontal />}</div>
+              <div className="mx-2">
+                {storyFshadowList?.length > 9 && <MoreHorizontal />}
+              </div>
             </div>
           </div>
 
@@ -133,12 +156,18 @@ export default function StoryDetail() {
             </div>
             <div className="flex items-start justify-start space-x-2">
               {storyDetail.characters?.map((character) => (
-                <div className="flex flex-col items-center " key={character.characterId}>
+                <div
+                  className="flex flex-col items-center "
+                  key={character.characterId}
+                >
                   <TooltipProvider>
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Avatar>
-                          <AvatarImage src={character.characterImage} alt="@shadcn" />
+                          <AvatarImage
+                            src={character.characterImage}
+                            alt="@shadcn"
+                          />
                           <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                       </TooltipTrigger>
@@ -162,11 +191,16 @@ export default function StoryDetail() {
                 className="w-full text-lg h-72"
                 value={storyDetail.content.content}
                 onChange={(e) => {
-                  setStoryDetail({ ...storyDetail, content: { content: e.target.value } });
+                  setStoryDetail({
+                    ...storyDetail,
+                    content: { content: e.target.value },
+                  });
                 }}
               />
             ) : (
-              <div className="w-full h-full p-3 ">{storyDetail.content.content}</div>
+              <div className="w-full h-full p-3 ">
+                {storyDetail.content.content}
+              </div>
             )}
           </ScrollArea>
         </div>

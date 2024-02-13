@@ -1,13 +1,7 @@
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const useCommentQueryModule = (
-  teamId,
-  productId,
-  plotId,
-  storyId,
-  commentId
-) => {
+const useCommentQueryModule = (teamId, productId, plotId, storyId) => {
   const queryClient = useQueryClient();
   //댓글 조회
   const { data: commentData, isSuccess: getCommentDataIsSuccess } = useQuery({
@@ -39,7 +33,7 @@ const useCommentQueryModule = (
 
   // put(댓글 내용)
   const { mutate: updateComment } = useMutation({
-    mutationFn: async (updatedData) => {
+    mutationFn: async ({ commentId, updatedData }) => {
       const response = await privateApi.put(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/comment/${commentId}`,
         updatedData
@@ -57,7 +51,7 @@ const useCommentQueryModule = (
 
   //delete
   const { mutate: deleteComment } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (commentId) => {
       const response = await privateApi.delete(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/comment/${commentId}`
       );
