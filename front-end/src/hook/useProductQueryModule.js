@@ -30,7 +30,6 @@ const useProductQueryModule = (teamId, productId) => {
       setNodes([]);
       let idx = 0;
 
-      console.log(product);
       product.plots.map((plot) => {
         if (plot.stories.length === 0) {
           addEmptyStory(idx++, plot.plotId, plot.plotColor);

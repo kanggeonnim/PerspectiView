@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
-const useCharQueryModule = (teamId, productId) => {
+const useCharQueryModule = (teamId, productId, characterId) => {
   const queryClient = useQueryClient();
 
   const {
@@ -23,9 +23,9 @@ const useCharQueryModule = (teamId, productId) => {
   const { mutate: createChar } = useMutation({
     mutationFn: async (newData) => {
       const formData = new FormData();
-      const json = JSON.stringify(newData.characterRequestDto);
+      const json = JSON.stringify(newData.characPostRequestDto);
       const blob = new Blob([json], { type: "application/json" });
-      formData.append("characterRequestDto", blob);
+      formData.append("characPostRequestDto", blob);
       formData.append("uploadImage", newData.uploadImage);
       const response = await formApi.post(
         `/api/team/${teamId}/product/${productId}/character`,
@@ -41,7 +41,7 @@ const useCharQueryModule = (teamId, productId) => {
   const { mutate: updateChar } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}/character`,
+        `/api/team/${teamId}/product/${productId}/character/${characterId}`,
         updatedData
       );
       console.log(response);

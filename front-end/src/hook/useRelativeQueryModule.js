@@ -13,7 +13,7 @@ const useRelativeQueryModule = (teamId, productId) => {
     queryKey: ["relativeList",teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/relation`);
-      console.log(response);
+      // console.log(response);
       return response.data.response;
     },
   });

@@ -9,7 +9,8 @@ export default function CustomEdge({
   sourcePosition,
   targetPosition,
   markerEnd,
-  connectionLineStyle
+  connectionLineStyle,
+  data,
 }) {
   // function CustomEdge({ id, fromX, fromY, toX, toY, connectionLineStyle }) {
   const [edgePath, labelX, labelY] = getStraightPath({
@@ -19,7 +20,6 @@ export default function CustomEdge({
     targetX,
     targetY,
     targetPosition,
-    
   });
 
   return (
@@ -36,20 +36,36 @@ export default function CustomEdge({
       />
     </g> */}
       <path style={connectionLineStyle} fill="none" d={edgePath} />
-      <BaseEdge id={id} path={edgePath}  style={connectionLineStyle} markerEnd={markerEnd} />
+      <BaseEdge
+        id={id}
+        path={edgePath}
+        style={connectionLineStyle}
+        markerEnd={markerEnd}
+      />
       <EdgeLabelRenderer className="-z-20">
-        <input
-          style={{
-            position: "absolute",
-            pointerEvents:"all",
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-          }}
-          className="z-30 w-16 text-center bg-transparent text-sm"
-          defaultValue="관계"
-        />
-        
+        {data ? (
+          <div
+            style={{
+              position: "absolute",
+              pointerEvents: "all",
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            }}
+            className="z-30 w-16 text-center bg-transparent text-sm"
+          >
+            {data.label}
+          </div>
+        ) : (
+          <input
+            style={{
+              position: "absolute",
+              pointerEvents: "all",
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            }}
+            className="z-30 w-16 text-center bg-transparent text-sm"
+            defaultValue="관계"
+          />
+        )}
       </EdgeLabelRenderer>
     </>
   );
 }
-

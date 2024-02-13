@@ -19,6 +19,8 @@ import { useParams } from "react-router-dom";
 import useNodeStore from "@/store/useNodeStore";
 import useCharStore from "@/store/useCharStore";
 import useRelativeStore from "@/store/relative/useRelativeStore";
+import useCharQueryModule from "@/hook/useCharQueryModule";
+
 const flowKey = "relation";
 
 const selector = (store) => ({
@@ -28,8 +30,10 @@ const selector = (store) => ({
   onEdgesChange: store.onEdgesChange,
 });
 
-let id = 1;
-const getId = () => `${id++}`;
+
+
+
+
 
 const nodeTypes = {
   custom: CustomNode,
@@ -55,41 +59,67 @@ export default function DnD({ charDatas, idx }) {
   const { teamId, productId } = useParams();
   const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(
     teamId,
-    productId
+    productId,
   );
-  const [relativeData, setRelativeData] = useState("");
   
-  useEffect(() => {
-    if (relativeList) {
-      // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
-      setRelativeData(relativeList);
-      // console.log(relativeData)
-    }
-  });
-  //
+  // let id = 1;
+  // const getId = () => `${id++}`;
+  
+  console.log(relativeList)
+  // TODO 관계 조회 작성중
+  // relativeList?.map((relat) =>
+  // relat.
+  // )
+  
   const initialNodes = [
-    // {
-    //   id: "1",
-    //   data: { name: "Node 1" },
-    //   position: { x: 100, y: 100 },
-    //   type: "custom",
-    // },
-    // {
-    //   id: "2",
-    //   data: { name: "Node 2" },
-    //   position: { x: 100, y: 250 },
-    //   type: "custom",
-    // },
+    {
+      id: charDatas[1].characterId.toString(),
+      data: { name: charDatas[1].characterName, image: charDatas[1].characterImage },
+      position: { x: charDatas[1].characterPositionX , y: charDatas[1].characterPositionY },
+      type: "custom",
+    },
+    {
+      id: charDatas[2].characterId.toString(),
+      data: { name: charDatas[2].characterName, image: charDatas[2].characterImage },
+      position: { x: 400, y: 100 },
+      type: "custom",
+    },
+    {
+      id: charDatas[7].characterId.toString(),
+      data: { name: charDatas[7].characterName, image: charDatas[7].characterImage },
+      position: { x: 100, y: 400 },
+      type: "custom",
+    },
+    {
+      id: charDatas[4].characterId.toString(),
+      data: { name: charDatas[4].characterName, image: charDatas[4].characterImage },
+      position: { x: 400, y: 400 },
+      type: "custom",
+    },
   ];
+  
 
   const initialEdges = [
-    // {
-    //   id: "e1-2",
-    //   source: "1",
-    //   sourceHandle: "b",
-    //   target: "2",
-    //   targetHandle: "f",
-    // },
+    {
+      id: "e1-2",
+      data: {
+        label: '원수',
+      },
+      source: charDatas[2].characterId.toString(),
+      sourceHandle: "b",
+      target: charDatas[4].characterId.toString(),
+      targetHandle: "h",
+    },
+    {
+      id: `${charDatas[2].characterId}-${charDatas[4].characterId}`,
+      data: {
+        label: '불륜',
+      },
+      source: charDatas[2].characterId.toString(),
+      sourceHandle: "b",
+      target: charDatas[7].characterId.toString(),
+      targetHandle: "h",
+    }
   ];
 
   const reactFlowWrapper = useRef(null);
@@ -122,18 +152,6 @@ export default function DnD({ charDatas, idx }) {
     }
   }, [reactFlowInstance, setEdgedata]);
 
-  const edgePost = edgedata?.map((v) => Object.entries(v));
-  // console.log(edgePost)
-  const nodePost = nodedata?.map((v) => Object.entries(v));
-
-
-
-  let resultArr = []
-  for (let a = 3; a < 7; a++) {
-    // const edgeExac = edgePost?.map((v) => v[a]);
-    let value = edgePost?.map((v) => v[a][1])
-    resultArr.push(value)
-  }
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
@@ -169,7 +187,7 @@ export default function DnD({ charDatas, idx }) {
       if (!charDatas) return;
       // charDatas가 로딩 중이라면 빈 데이터를 반환하도록 처리
       const index = parseInt(idx);
-      const chardex = charDatas.map((chars) => chars.id);
+      const chardex = charDatas.map((chars) => chars.characterId);
 
       let findex = chardex.findIndex((v) => v === index);
       // 인덱스 추출
@@ -181,13 +199,15 @@ export default function DnD({ charDatas, idx }) {
         //
       });
 
+
       const newNode = {
-        id: getId(),
+        id: charDatas[findex].characterId.toString(),
         type,
         position,
         data: {
-          name: charDatas[findex].name,
-          charId: charDatas[findex].id,
+          name: charDatas[findex].characterName,
+          charId: charDatas[findex].characterId,
+          image: charDatas[findex].characterImage,
           label: (
             <>
               <input
@@ -200,7 +220,11 @@ export default function DnD({ charDatas, idx }) {
             </>
           ),
         },
+        
       };
+      
+      console.log(newNode.position.x)
+
 
       setNodes((nds) => nds.concat(newNode));
     },

@@ -16,30 +16,31 @@ export default function CustomNode({ id, data, isConnectable }) {
     setLabelInput(event.target.value);
   };
 
-  const [isHovered, setIsHovered] = useState(false);
+  // const [isHovered, setIsHovered] = useState(false);
 
-  const handleMouseEnter = () => {
-    setIsHovered(true);
-  };
+  // const handleMouseEnter = () => {
+  //   setIsHovered(true);
+  // };
 
-  const handleMouseLeave = () => {
-    setIsHovered(false);
-  };
+  // const handleMouseLeave = () => {
+  //   setIsHovered(false);
+  // };
 
-  const onNodeClick = () => {
-    console.log(id);
-    // navigate(`/team/${teamId}/product/${productId}/story/${id}`);
-  };
-
+  // const onNodeClick = () => {
+  //   console.log(id);
+  //   // navigate(`/team/${teamId}/product/${productId}/story/${id}`);
+  // };
+  // console.log(data)
   return (
     <>
       <div
-        className="flex w-28 h-28 border-2 items-center justify-center rounded-full"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        onClick={() => onNodeClick()}
+        className="flex flex-col w-28 h-28 border-2 items-center justify-center rounded-full z-20"
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
+        // onClick={() => onNodeClick()}
       >
-        <div
+        
+        {/* <div
           className={`absolute m-1 top-0 right-0  ${
             isHovered ? "visible" : "hidden"
           }`}
@@ -51,15 +52,9 @@ export default function CustomNode({ id, data, isConnectable }) {
           >
             <MinusCircle size={15} className="mx-auto text-foreground" />
           </Button>
-        </div>
-        <div className="flex flex-col items-center justify-center w-28 h-28">
-          <input
-            className="text-sm text-center !w-28 bg-transparent"
-            type="text"
-            onChange={handleLabelInputChange}
-            defaultValue={data.name}
-          />
-        </div>
+        </div> */}
+        <img src={data.image} alt="No Image" />
+
         <div className="flex justify-center">
           {/* 핸들 블록 */}
           <Handle
@@ -119,6 +114,9 @@ export default function CustomNode({ id, data, isConnectable }) {
             className="!left-16 hover:!bg-red-500 !bg-transparent !border-0 !w-3 !h-3 z-10"
           />
         </div>
+      </div>
+      <div className=" text-sm text-center">
+        {data.name}
       </div>
     </>
   );

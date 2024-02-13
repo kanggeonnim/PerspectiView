@@ -14,7 +14,7 @@ import CharInfo from "./CharInfo";
 import LabelAdd from "./reactflow/LabelAdd";
 import { useState } from "react";
 
-export default function CharList({ users, charDatas, onIdxChange }) {
+export default function CharList({ charDatas, onIdxChange }) {
   const onIdxContain = (idx) => {
     onIdxChange(idx);
     // console.log(idx)
@@ -40,8 +40,8 @@ export default function CharList({ users, charDatas, onIdxChange }) {
               <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full">
                 <img
                   className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full"
-                  src={charData.image}
-                  key={charData.id}
+                  src={charData.characterImage}
+                  key={charData.characterId}
                   alt=""
                 />
               </div>
@@ -50,7 +50,7 @@ export default function CharList({ users, charDatas, onIdxChange }) {
               <div className="flex flex-col justify-around w-full h-full">
                 <div className="flex flex-row w-full m-2 h-1/4">
                   <div className="box-border w-1/5 mr-3 text-xl">이름</div>
-                  <div className="box-border w-4/5">{charData.name}</div>
+                  <div className="box-border w-4/5">{charData.characterName}</div>
                 </div>
                 <div className="flex flex-row w-full m-2 h-1/4">
                   {/* <div className="box-border w-1/5 mr-3 text-xl">특징</div>
@@ -67,7 +67,7 @@ export default function CharList({ users, charDatas, onIdxChange }) {
                     세부 사항
                   </div>
                   <div className="box-border w-4/5 h-full">
-                    {charData.detail}
+                    {charData.characterDetail}
                   </div>
                 </div>
               </div>
@@ -84,7 +84,6 @@ export default function CharList({ users, charDatas, onIdxChange }) {
         </AlertDialogContent>
       </AlertDialog>
     ))}
-    <LabelAdd />
   </div>
   );
 }

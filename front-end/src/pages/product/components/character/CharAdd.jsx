@@ -15,13 +15,16 @@ import { useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useImageStore } from "@/store/useImageStore";
 
-export default function CharAdd() {
+export default function CharAdd({ name, description, url, onChange }) {
+  const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const [addChar, setAddChar] = useState({
-    uploadImage: "",
-    characterRequestDto: {
-      characterName: "",
-      characterDetail: "",
+    uploadImage: "string",
+    characPostRequestDto: {
+      characterName: "string",
+      characterDetail: "string",
+      characterPositionX: 0,
+      characterPositionY: 0,
     },
   });
   const [image, setImage] = useState(null);
@@ -129,12 +132,6 @@ export default function CharAdd() {
               <div className="flex flex-row w-full m-2 h-1/4">
                 <div className="box-border w-1/5 mr-3 text-xl">이름</div>
                 <div className="box-border w-4/5">
-                  {/* <input
-                    name="name"
-                    className="border"
-                    value={newCharName}
-                    onChange={(e) => setNewCharName(e.target.value)}
-                  /> */}
                   <input
                     type="text"
                     name="title"
@@ -142,9 +139,9 @@ export default function CharAdd() {
                     onChange={(e) => {
                       setAddChar({
                         ...addChar,
-                        characterRequestDto: {
-                          ...addChar.characterRequestDto,
-                          characName: e.target.value,
+                        characPostRequestDto: {
+                          ...addChar.characPostDto,
+                          characterName: e.target.value,
                         },
                       });
                     }}
@@ -167,9 +164,9 @@ export default function CharAdd() {
                     onChange={(e) => {
                       setAddChar({
                         ...addChar,
-                        characterRequestDto: {
-                          ...addChar.characterRequestDto,
-                          detail: e.target.value,
+                        characPostRequestDto: {
+                          ...addChar.characPostRequestDto,
+                          characterDetail: e.target.value,
                         },
                       });
                     }}
@@ -189,7 +186,7 @@ export default function CharAdd() {
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
-              console.log("여기", addChar);
+              // console.log("여기", addChar);
               createChar(addChar);
             }}
           >
