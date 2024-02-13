@@ -28,11 +28,7 @@ export default function CharTab() {
   const { teamId, productId } = useParams()
   const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
 
-  // const [searchParams] = useSearchParams();
-  // const [cookies, setCookie] = useCookies(["refresh token"]);
-  // const ACCESS_TOKEN = searchParams.get("accessToken");
-  // const REFRESH_TOKEN = searchParams.get("refreshToken");
-
+  console.log(charData)
   if (!getCharIsSuccess) {
     return <div>Loading...</div>
   }
@@ -48,7 +44,7 @@ export default function CharTab() {
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-2/3 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
-            <DnD users={users} charDatas={charData} idx={selectedIdx} />
+            <DnD charDatas={charData} idx={selectedIdx} />
           </div>
           <div className="flex flex-col w-1/3">
             <div className="flex justify-between">

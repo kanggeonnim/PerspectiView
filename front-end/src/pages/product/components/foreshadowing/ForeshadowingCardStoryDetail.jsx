@@ -39,11 +39,7 @@ export function ForeshadowingCardStoryDetail({ colFshadow, index }) {
         <CardTitle className="flex justify-between">
           <div className="flex flex-row gap-3">
             {isEditMode ? (
-              <input
-                type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-              />
+              <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
@@ -54,23 +50,16 @@ export function ForeshadowingCardStoryDetail({ colFshadow, index }) {
         <div className="flex p-1 space-y-1">
           <img src={book_icon} className="mr-2" />
           {isEditMode ? (
-            <textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-            />
+            <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
           ) : (
-            <p className="text-sm font-medium leading-none ">
-              {colFshadow.fshadowContent}
-            </p>
+            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
           )}
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">
-            언급한 스토리 ID:
-          </p>
+          <p className="mr-3 text-sm font-medium leading-none">언급한 스토리 ID:</p>
           <div className="flex ">
-            {colFshadow.storyIdList.map((storyOb, index) => (
+            {colFshadow.storyIdList?.map((storyOb, index) => (
               <div key={index} className="mr-3">
                 <Link
                   to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
@@ -83,9 +72,7 @@ export function ForeshadowingCardStoryDetail({ colFshadow, index }) {
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">
-            회수한 스토리 ID:
-          </p>
+          <p className="mr-3 text-sm font-medium leading-none">회수한 스토리 ID:</p>
           <div className="flex ">
             <Link
               to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}

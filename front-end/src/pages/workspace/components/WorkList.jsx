@@ -17,6 +17,7 @@ import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
 import axios from "axios";
+import { useImageStore } from "@/store/useImageStore";
 
 function CreateWork() {
   return (
@@ -33,13 +34,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       productTitle: "",
       productInfo: "",
       category: {
-        id: "1",
-        name: "웹소설",
+        categoryId: "1",
+        categoryName: "웹소설",
       },
       genres: [
         {
-          id: "1",
-          name: "SF",
+          categoryId: "1",
+          categoryName: "SF",
         },
       ],
     },
@@ -47,10 +48,20 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   });
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-
+  const {images, setImages} = useImageStore()
   const handleImageChange = (event) => {
+
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
+    setImages(selectedImage)
+    console.log(images)
+    console.log(event.target.files)
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+      },
+    ))
+
   };
 
   const handleUploadClick = () => {
@@ -65,23 +76,20 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
 
   const handleUploadImage = async () => {
     if (image) {
-      const formData = new FormData();
-      formData.append("uploadImage", image);
+      // const formData = new FormData();
+      // formData.append("uploadImage", image);
       console.log(formData);
-      try {
-        const response = await fetch("your-upload-url", {
-          method: "POST",
-          body: formData,
-        });
-        const data = await response.json();
-        console.log(data);
-        // 이미지 업로드 후 이미지 지우기
-        setImage(null);
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
+      console.log(image)
+      setProductDetail(ProductDetail => ({
+        ...ProductDetail,
+        uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
+        },
+      )
+      );
+      // 이미지 업로드 후 이미지 지우기
+      setImage(null);
     }
-  };
+  }
 
   const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
   const [teamNo, setTeamNo] = useState("");
@@ -127,7 +135,12 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         src={URL.createObjectURL(image)}
                         alt="Uploaded"
                         style={{ maxWidth: "300px" }}
-                        
+                        onChange={(e) => {
+                          setProductDetail({
+                            ...productDetail,
+                            uploadImage : URL.createObjectURL(image)
+                          });
+                        }}
                       />
                     </div>
                   ) : (
@@ -144,7 +157,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button onClick={handleUploadImage}>이미지 삭제</button>
+                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>이미지 삭제</button>
                   )}
                 </div>
               </div>

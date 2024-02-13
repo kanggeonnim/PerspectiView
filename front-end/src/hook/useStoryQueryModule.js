@@ -1,6 +1,6 @@
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
 import useNodeStore from "@/store/useNodeStore";
-import { useStoryDetail } from "@/store/useStoryDetailStore";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -9,29 +9,30 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   const queryClient = useQueryClient();
   const { plotList, setPlotList } = usePlotListStore();
   const { nodes, setNodes, addStory } = useNodeStore();
-  const { storyDetail, setStoryDetail, storyFshadowList, setStoryFshadowList } = useStoryDetail();
+  const { storyDetail, setStoryDetail, storyFshadowList, setStoryFshadowList } =
+    useStoryDetailStore();
 
-  //스토리 단일조회
-  const { data: getStoryDetail, isSuccess: getStoryDetailIsSuccess } = useQuery({
+  //스토리 단일 조회
+  const { data: getStoryDetailData, isSuccess: getStoryDetailDataIsSuccess } = useQuery({
     queryKey: ["eachStory"],
     queryFn: async () => {
       const response = await privateApi.get(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
       );
-      // console.log("스토리단일조회", response);
+      console.log("스토리단일조회", response);
       setStoryDetail(response.data.response);
       return response.data.response;
     },
   });
 
   useEffect(() => {
-    if (getStoryDetailIsSuccess) {
-      setStoryDetail(getStoryDetail);
+    if (getStoryDetailDataIsSuccess) {
+      setStoryDetail(getStoryDetailData);
     }
-  }, [getStoryDetailIsSuccess, getStoryDetail, setStoryDetail]);
+  }, [getStoryDetailDataIsSuccess, getStoryDetailData, setStoryDetail]);
 
   //스토리 연관 복선조회
-  const { data: getStoryFshadowList, isSuccess: getStoryFshadowListIsSuccess } = useQuery({
+  const { data: getStoryFshadowListData, isSuccess: getStoryFshadowListDataIsSuccess } = useQuery({
     queryKey: ["fshadowList"],
     queryFn: async () => {
       const response = await privateApi.get(
@@ -43,10 +44,10 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   });
 
   useEffect(() => {
-    if (getStoryFshadowListIsSuccess) {
-      setStoryFshadowList(getStoryFshadowList);
+    if (getStoryFshadowListDataIsSuccess) {
+      setStoryFshadowList(getStoryFshadowListData);
     }
-  }, [getStoryFshadowListIsSuccess, getStoryFshadowList, setStoryFshadowList]);
+  }, [getStoryFshadowListDataIsSuccess, getStoryFshadowListData, setStoryFshadowList]);
 
   const { mutate: createStory } = useMutation({
     mutationFn: async (newData) => {
@@ -102,6 +103,21 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
   });
 
+  const { mutate: updateStory } = useMutation({
+    mutationFn: async (updatedData) => {
+      console.log(updatedData);
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`,
+        updatedData
+      );
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+    },
+  });
+
   const { mutate: deleteStory } = useMutation({
     // mutationFn: async () => {
     //   console.log(teamId, productId, plotId);
@@ -125,14 +141,16 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
       return response.data.response;
     },
   });
+
   return {
     createStory,
     deleteStory,
+    updateStory,
     moveStory,
-    getStoryDetail,
-    getStoryDetailIsSuccess,
-    getStoryFshadowList,
-    getStoryFshadowListIsSuccess,
+    getStoryDetailData,
+    getStoryDetailDataIsSuccess,
+    getStoryFshadowListData,
+    getStoryFshadowListDataIsSuccess,
   };
 };
 

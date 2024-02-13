@@ -17,6 +17,7 @@ export default function Buttonselect() {
   return pick.map((item) => (
     <div key={item.id}>
       <Badge
+        className="cursor-pointer "
         onClick={() => {
           !select.includes(item)
             ? setSelect((select) => [...select, item])

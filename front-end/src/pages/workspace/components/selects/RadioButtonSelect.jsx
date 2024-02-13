@@ -21,7 +21,10 @@ export default function RadioButtonSelect() {
     <div className="box-border flex flex-wrap w-5/6 gap-2">
       {arrs.map((arr) => (
         <label key={arr.id}>
-          <Badge variant={selectedOption === `${arr.id}` ? "destructive" : "off"}>
+          <Badge
+            variant={selectedOption === `${arr.id}` ? "destructive" : "off"}
+            className="cursor-pointer"
+          >
             <input
               type="radio"
               value={`${arr.id}`}

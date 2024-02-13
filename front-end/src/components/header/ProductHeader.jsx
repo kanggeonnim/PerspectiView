@@ -49,7 +49,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {product?.genres?.map((genre, key) => (
-                    <Badge key={key} variant="destructive" radius="full">
+                    <Badge key={key} variant="destructive" radius="full" className="hover:none">
                       {genre.genreName}
                     </Badge>
                   ))}
@@ -63,7 +63,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   <Badge className="text-stone-100 bg-badge" radius="full">
-                    {product?.category?.name}
+                    {product?.category?.categoryName}
                   </Badge>
                 </div>
               </div>

@@ -1,4 +1,4 @@
-import { privateApi } from "@/util/api";
+import { formApi, privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
@@ -20,7 +20,13 @@ const useCharQueryModule = (teamId, productId) => {
 
   const { mutate: createChar } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.post(`/api/team/${teamId}/product/${productId}/character`, newData);
+      const formData = new FormData();
+      const json = JSON.stringify(newData.characterRequestDto);
+      const blob = new Blob([json], { type: "application/json" });
+      formData.append("characterRequestDto", blob);
+      formData.append("uploadImage", newData.uploadImage);
+      const response = await formApi.post(`/api/team/${teamId}/product/${productId}/character`,
+       formData);
       return response.data.response;
     },
     onSuccess: () => {

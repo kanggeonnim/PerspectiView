@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-export const useStoryDetail = create(
+export const useStoryDetailStore = create(
   devtools((set) => ({
     storyDetail: {},
     setStoryDetail: (newStoryDetail) => set({ storyDetail: newStoryDetail }),
