@@ -3,10 +3,7 @@ package com.example.backend.modules.productrelation;
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.product.Product;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
@@ -22,10 +19,12 @@ public class ProductRelation {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "from_character_id")
+    @Setter
     private Character fromCharacter;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "to_character_id")
+    @Setter
     private Character toCharacter;
 
     @Column(nullable = false)

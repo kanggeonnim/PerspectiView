@@ -2,9 +2,11 @@ package com.example.backend.modules.productrelation;
 
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
+import com.example.backend.modules.character.CharacterRepository;
 import com.example.backend.modules.product.ProductResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,14 +16,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("team/{teamId}/product/{productId}/relation")
+@Slf4j
 public class ProductRelationController {
 
     private final ProductRelationService productRelationService;
+    private final CharacterRepository characterRepository;
 
     @PostMapping
     public ApiResult<ProductRelationResponseDto> createProductRelation(@PathVariable("productId") Long productId,
                                                                        @RequestBody @Valid ProductRelationRequestDto productRelationRequestDto) {
-        ProductRelation productRelation = productRelationService.createProductRelation(productId, productRelationRequestDto.from(productRelationRequestDto));
+
+        ProductRelation productRelation = productRelationService.createProductRelation(productId, ProductRelationRequestDto.from(productRelationRequestDto));
         return ApiResult.OK(ProductRelationResponseDto.of(productRelation));
     }
 

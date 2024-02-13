@@ -5,9 +5,11 @@ import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.product.Product;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
+@ToString
 public class ProductRelationRequestDto {
     private CharacterRequestDto fromCharacter;
     private CharacterRequestDto toCharacter;

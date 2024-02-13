@@ -3,9 +3,11 @@ package com.example.backend.modules.character;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Builder
+@ToString
 public class CharacterRequestDto {
     private Long id;
     @NotNull
