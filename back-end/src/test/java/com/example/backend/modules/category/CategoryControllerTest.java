@@ -41,7 +41,7 @@ public class CategoryControllerTest {
     @Test
     public void 카테고리전체조회() throws Exception{
         //given
-        String expectByName = "$['response'].[?(@.name == '%s')]";
+        String expectByName = "$['response'].[?(@.categoryName == '%s')]";
         //when
         mockMvc.perform(MockMvcRequestBuilders.get("/category"))
         //then

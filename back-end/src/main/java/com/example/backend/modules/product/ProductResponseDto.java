@@ -1,6 +1,7 @@
 package com.example.backend.modules.product;
 
 import com.example.backend.modules.category.Category;
+import com.example.backend.modules.category.CategoryResponseDto;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreResponseDto;
 import com.example.backend.modules.plot.Plot;
@@ -18,7 +19,7 @@ public class ProductResponseDto {
     private String productTitle;
     private String productInfo;
     private String productImageUrl;
-    private Category category;
+    private CategoryResponseDto category;
     private List<GenreResponseDto> genres;
     private List<PlotResponseDto> plots;
     //플롯 hashset - 스토리까지 todo entitygraph
@@ -29,7 +30,7 @@ public class ProductResponseDto {
                 .productTitle(product.getTitle())
                 .productInfo(product.getInfo())
                 .productImageUrl(product.getProductImageuRL())
-                .category(product.getCategory())
+                .category(CategoryResponseDto.of(product.getCategory()))
                 .genres(genres)
                 .plots(plots)
                 .build();
