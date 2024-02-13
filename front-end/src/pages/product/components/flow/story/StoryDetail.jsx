@@ -6,111 +6,86 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
-import { useStoryDetail } from "@/store/useStoryDetailStore";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MoreHorizontal } from "lucide-react";
 
-const characListData = [
-  {
-    characId: "1",
-    characName: "whitedragon",
-    characDetail: "최강 드래곤. 하얀색 드래곤이다. 다 부술 수 있다.",
-    keywordList: [
-      {
-        keywordId: "1",
-        keyword: "드래곤",
-      },
-      {
-        keywordId: "2",
-        keyword: "최강",
-      },
-    ],
-  },
-  {
-    characId: "2",
-    characName: "whitedragon2",
-    characDetail: "최강 드래곤. 하얀색 드래곤이다. 다 부술 수 있다.",
-    keywordList: [
-      {
-        keywordId: "1",
-        keyword: "드래곤",
-      },
-      {
-        keywordId: "2",
-        keyword: "최강",
-      },
-    ],
-  },
-];
-
-// const storyData = {
-//   storyId: "111",
-//   plotId: "11",
-//   storyTitle: "주인공 등장",
-//   storyContent: "화이트 드래곤이 울부짖었다 크아아앙",
-//   characList: [
-//     {
-//       id: "1",
-//       imgUrl:
-//         "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80",
-//     },
-//     {
-//       id: "2",
-//       imgUrl: "https://github.com/shadcn.png",
-//     },
-//   ],
-//   position_x: 0.0,
-//   position_y: 10.0,
-// };
-
-const getCharacName = (characId) => {
-  const result = characListData.filter((charac) => charac.characId === characId);
-  return result[0].characName;
-};
+// const sample = Array.from({ length: 20 }, (_, index) => ({
+//   fshadowId: index + 1,
+//   fshadowName: "보물상자",
+//   fshadowContent:
+//     "화이트 드래곤이 놓고 간 보물상자 그 안에는 화이트 드래곤이 들어있고 블루 드래곤이 주워갔다.",
+// }));
 
 export default function StoryDetail() {
   const { teamId, productId, plotId, storyId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
-  const {
-    getStoryDetail,
-    getStoryDetailIsSuccess,
-    getStoryFshadowList,
-    getStoryFshadowListIsSuccess,
-  } = useStoryQueryModule(teamId, productId, plotId, storyId);
-  const { storyFshadowList, setStoryDetail, setStoryFshadowList } = useStoryDetail();
-  const { storyDetail } = useStoryDetail();
-  console.log("여기!!", getStoryFshadowList);
+  const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
+    useStoryDetailStore();
 
-  if (!getStoryDetailIsSuccess || !storyDetail) {
+  const {
+    getStoryDetailData,
+    getStoryDetailDataIsSuccess,
+    getStoryFshadowListData,
+    getStoryFshadowListDataIsSuccess,
+    updateStory,
+  } = useStoryQueryModule(teamId, productId, plotId, storyId);
+  console.log("여기!!", getStoryFshadowListData);
+
+  console.log("input", storyDetail);
+  if (!getStoryDetailDataIsSuccess || !storyDetail) {
     return <div>Loading...</div>;
   }
   return (
     <Card className="w-1/2 h-full m-5 ">
-      <form action="" method="" className="flex flex-col w-full h-full ">
-        <CardHeader>
-          {/* 스토리 제목 */}
-          <CardTitle className="flex w-full my-2 text-3xl">{storyDetail.storyTitle}</CardTitle>
+      <CardHeader className="min-w-full p-0">
+        {/* 스토리 제목 */}
+        <CardTitle className="flex w-full p-0 my-2 text-3xl ">
+          {isEdit ? (
+            <Input
+              type="text"
+              className="text-3xl"
+              value={storyDetail.storyTitle}
+              onChange={(e) => {
+                setStoryDetail({ ...storyDetail, storyTitle: e.target.value });
+                console.log(e.target.value);
+              }}
+            />
+          ) : (
+            <div>{storyDetail.storyTitle}</div>
+          )}
+        </CardTitle>
 
+        <div className="flex justify-start ml-1">
           {/* 복선 */}
-          <div className="flex flex-col justify-between">
+          <div className="flex flex-col justify-between w-1/2 ">
             <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
-            <div className="flex items-start justify-start space-x-2">
-              {storyFshadowList?.map((fshadow) => (
+            <div className="flex flex-wrap items-start justify-start ">
+              {storyFshadowList.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
-                  <HoverCardTrigger>
-                    <Badge>{fshadow.fshadowName}</Badge>
+                  <HoverCardTrigger className="mr-1">
+                    <Badge
+                      variant="destructive"
+                      className="cursor-pointer hover:bg-destructive-accent"
+                    >
+                      {fshadow.fshadowName}
+                    </Badge>
                   </HoverCardTrigger>
                   <HoverCardContent>
                     <ForeshadowingCardStoryDetail colFshadow={fshadow} />
                   </HoverCardContent>
                 </HoverCard>
               ))}
+              <div className="mx-2">{storyFshadowList.length > 9 && <MoreHorizontal />}</div>
             </div>
           </div>
 
           {/* 인물 목록 */}
-          <div className="flex flex-col justify-between ">
+          <div className="flex flex-col justify-between w-1/2 ">
             <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
             <div className="flex items-start justify-start space-x-2">
               {storyDetail.characters?.map((character) => (
@@ -132,47 +107,60 @@ export default function StoryDetail() {
               ))}
             </div>
           </div>
-        </CardHeader>
+        </div>
+      </CardHeader>
 
-        <CardContent className="flex w-full h-full">
-          <div className="flex flex-col justify-start w-full h-full ">
-            <Textarea className="w-full h-full text-lg" defaultValue={storyDetail.storyContent} />
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-end">
-          <div className="flex m-4 ">
+      <CardContent className="flex w-full p-0 my-5 border rounded-md h-fit">
+        <div className="flex flex-col justify-start w-full h-full ">
+          <ScrollArea className="h-72">
             {isEdit ? (
-              <>
-                <Button
-                  type="button"
-                  className="w-full mx-2 shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                  variant="outline"
-                  onClick={() => setIsEdit(false)}
-                >
-                  취소
-                </Button>
-                <Button
-                  className="w-full mx-2"
-                  variant="default"
-                  type="button"
-                  onClick={() => console.log("submit")}
-                >
-                  등록
-                </Button>
-              </>
+              <Textarea
+                className="w-full text-lg h-72"
+                value={storyDetail.storyContent}
+                onChange={(e) => {
+                  setStoryDetail({ ...storyDetail, storyContent: e.target.value });
+                }}
+              />
             ) : (
-              <Button
-                className="w-full mx-2"
-                variant="default"
-                type="button"
-                onClick={() => setIsEdit(true)}
-              >
-                수정
-              </Button>
+              <div className="w-full h-full p-3 ">{storyDetail.storyContent}</div>
             )}
-          </div>
-        </CardFooter>
-      </form>
+          </ScrollArea>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-end p-0 mr-2 ">
+        {isEdit ? (
+          <>
+            <Button
+              className="mx-2 shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+              variant="outline"
+              onClick={() => setIsEdit(false)}
+            >
+              취소
+            </Button>
+            <Button
+              className="mx-2 "
+              variant="default"
+              onClick={() => {
+                updateStory(storyDetail);
+                setIsEdit(false);
+              }}
+            >
+              등록
+            </Button>
+          </>
+        ) : (
+          <Button
+            className="mx-2 "
+            variant="default"
+            onClick={() => {
+              setIsEdit(true);
+              setStoryDetail(storyDetail);
+            }}
+          >
+            수정
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 }
