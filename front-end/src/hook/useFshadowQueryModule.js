@@ -89,7 +89,7 @@ const useFshadowQueryModule = (
   const { mutate: dropFshadow } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsStatus/${foreshadowingId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fstatus/${foreshadowingId}`
       );
       console.log(response);
       return response.data.response;
@@ -106,7 +106,7 @@ const useFshadowQueryModule = (
   const { mutate: undropFshadow } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.delete(
-        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsStatus/${foreshadowingId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fstatus/${foreshadowingId}`
       );
       console.log(response);
       return response.data.response;
@@ -123,7 +123,7 @@ const useFshadowQueryModule = (
   const { mutate: closeFshadow } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsClose/${foreshadowingId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fclose/${foreshadowingId}`
       );
       console.log(response);
       return response.data.response;
@@ -136,11 +136,11 @@ const useFshadowQueryModule = (
     },
   });
 
-  //복선 회수
+  //복선 회수 취소
   const { mutate: uncloseFshadow } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.delete(
-        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fsClose/${foreshadowingId}`
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fclose/${foreshadowingId}`
       );
       console.log(response);
       return response.data.response;

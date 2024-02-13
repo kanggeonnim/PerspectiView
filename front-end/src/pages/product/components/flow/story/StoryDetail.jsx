@@ -1,18 +1,33 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
-import { Textarea } from "@/components/ui/textarea";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import useStoryQueryModule from "@/hook/useStoryQueryModule";
-import { useStoryDetailStore } from "@/store/useStoryDetailStore";
-import { useNavigate, useParams } from "react-router-dom";
-import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
-import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { MoreHorizontal } from "lucide-react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
 
 // const sample = Array.from({ length: 20 }, (_, index) => ({
 //   fshadowId: index + 1,
@@ -63,9 +78,11 @@ export default function StoryDetail() {
         <div className="flex justify-start ml-1">
           {/* 복선 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
+            <div className="my-2 text-xs font-bold">
+              이 스토리에 사용된 복선
+            </div>
             <div className="flex flex-wrap items-start justify-start ">
-              {storyFshadowList.slice(0, 5)?.map((fshadow) => (
+              {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
                   <HoverCardTrigger className="mr-1">
                     <Badge
@@ -80,13 +97,17 @@ export default function StoryDetail() {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-              <div className="mx-2">{storyFshadowList.length > 9 && <MoreHorizontal />}</div>
+              <div className="mx-2">
+                {storyFshadowList?.length > 9 && <MoreHorizontal />}
+              </div>
             </div>
           </div>
 
           {/* 인물 목록 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
+            <div className="my-2 text-xs font-bold ">
+              이 스토리에 등장한 인물
+            </div>
             <div className="flex items-start justify-start space-x-2">
               {storyDetail.characters?.map((character) => (
                 <div className="flex flex-col items-center " key={character.id}>
@@ -118,11 +139,16 @@ export default function StoryDetail() {
                 className="w-full text-lg h-72"
                 value={storyDetail.storyContent}
                 onChange={(e) => {
-                  setStoryDetail({ ...storyDetail, storyContent: e.target.value });
+                  setStoryDetail({
+                    ...storyDetail,
+                    storyContent: e.target.value,
+                  });
                 }}
               />
             ) : (
-              <div className="w-full h-full p-3 ">{storyDetail.storyContent}</div>
+              <div className="w-full h-full p-3 ">
+                {storyDetail.storyContent}
+              </div>
             )}
           </ScrollArea>
         </div>
