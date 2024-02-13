@@ -1,6 +1,7 @@
 package com.example.backend.modules.comment;
 
 
+import com.example.backend.modules.user.UserCommentResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,7 +14,7 @@ public class CommentResponseDto {
     private Long commentId;
     private String commentContent;
     private Long storyId;
-    private Long userId;
+    private UserCommentResponseDto user;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
 
@@ -22,7 +23,7 @@ public class CommentResponseDto {
                 .commentId(comment.getId())
                 .commentContent(comment.getCommentContent())
                 .storyId(comment.getStory().getId())
-                .userId(comment.getUser().getId())
+                .user(UserCommentResponseDto.from(comment.getUser()))
                 .createdDate(comment.getCreatedDate())
                 .modifiedDate(comment.getModifiedDate())
                 .build();
