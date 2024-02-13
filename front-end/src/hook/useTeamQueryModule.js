@@ -1,8 +1,12 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 const useTeamQueryModule = (teamId) => {
+  const { user } = useAuthStore();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // 내 팀 조회
   const { data: teamData, isSuccess: getTeamsIsSuccess } = useQuery({
@@ -34,7 +38,38 @@ const useTeamQueryModule = (teamId) => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["teams"],
+        queryKey: ["teamData"],
+      });
+    },
+  });
+
+  // 팀 삭제
+  const { mutate: deleteTeam } = useMutation({
+    mutationFn: async () => {
+      const response = await privateApi.delete(`/api/team/${teamId}`);
+      navigate(`/workspace/team/${user.personalTeamId}`);
+      console.log("팀 삭제", response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["teamData"],
+      });
+    },
+  });
+
+  // 팀 정보 수정
+  const { mutate: updateTeamInfo } = useMutation({
+    mutationFn: async (updatedData) => {
+      const response = await privateApi.put(`/api/team/${teamId}`, updatedData);
+      console.log("팀정보수정", response);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({
+        queryKey: ["oneTeam"],
       });
     },
   });
@@ -64,6 +99,8 @@ const useTeamQueryModule = (teamId) => {
     oneTeam,
     getOneTeamIsSuccess,
     addMember,
+    deleteTeam,
+    updateTeamInfo,
   };
 };
 

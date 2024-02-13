@@ -49,9 +49,9 @@ export default function StoryDetail() {
     getStoryFshadowListDataIsSuccess,
     updateStory,
   } = useStoryQueryModule(teamId, productId, plotId, storyId);
-  console.log("여기!!", getStoryFshadowListData);
+  // console.log("여기!!", getStoryFshadowListData);
 
-  console.log("input", storyDetail);
+  // console.log("input", storyDetail);
   if (!getStoryDetailDataIsSuccess || !storyDetail) {
     return <div>Loading...</div>;
   }

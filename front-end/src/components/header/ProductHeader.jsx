@@ -18,11 +18,11 @@ export default function ProductHeader() {
     );
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", fileName); // 파일 이름 지정
+    link.setAttribute("download", fileName);
     document.body.appendChild(link);
     link.click();
-    window.URL.revokeObjectURL(url); // 사용이 끝난 URL을 메모리에서 해제
-    document.body.removeChild(link); // 사용이 끝난 링크를 DOM에서 제거
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(link);
   };
   return (
     <>
@@ -49,7 +49,12 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {product?.genres?.map((genre, key) => (
-                    <Badge key={key} variant="destructive" radius="full" className="hover:none">
+                    <Badge
+                      key={key}
+                      variant="destructive"
+                      radius="full"
+                      className="hover:none"
+                    >
                       {genre.genreName}
                     </Badge>
                   ))}
