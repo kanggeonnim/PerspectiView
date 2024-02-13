@@ -60,7 +60,7 @@ public class CharacterController {
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ApiResult<CharacterResponseDto> createCharacter(@PathVariable Long productId,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
-                                                           @RequestBody @Valid CharacterRequestDto characterRequestDto) throws IOException {
+                                                           @RequestPart @Valid CharacterRequestDto characterRequestDto) throws IOException {
         log.info("========create character contoller ======");
         Character reqCharacter = CharacterRequestDto.from(characterRequestDto);
 
