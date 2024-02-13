@@ -30,11 +30,6 @@ const selector = (store) => ({
   onEdgesChange: store.onEdgesChange,
 });
 
-
-
-
-
-
 const nodeTypes = {
   custom: CustomNode,
   label: LabelNode,
@@ -57,69 +52,65 @@ const defaultEdgeOptions = {
 export default function DnD({ charDatas, idx }) {
   // get 받은 데이터들을 아래
   const { teamId, productId } = useParams();
-  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(
-    teamId,
-    productId,
-  );
-  
+  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(teamId, productId);
+
   // let id = 1;
   // const getId = () => `${id++}`;
-  
-  console.log(relativeList)
+
+  console.log(relativeList);
   // TODO 관계 조회 작성중
   // relativeList?.map((relat) =>
   // relat.
   // )
-  
+
   const initialNodes = [
-    {
-      id: charDatas[1].characterId.toString(),
-      data: { name: charDatas[1].characterName, image: charDatas[1].characterImage },
-      position: { x: charDatas[1].characterPositionX , y: charDatas[1].characterPositionY },
-      type: "custom",
-    },
-    {
-      id: charDatas[2].characterId.toString(),
-      data: { name: charDatas[2].characterName, image: charDatas[2].characterImage },
-      position: { x: 400, y: 100 },
-      type: "custom",
-    },
-    {
-      id: charDatas[7].characterId.toString(),
-      data: { name: charDatas[7].characterName, image: charDatas[7].characterImage },
-      position: { x: 100, y: 400 },
-      type: "custom",
-    },
-    {
-      id: charDatas[4].characterId.toString(),
-      data: { name: charDatas[4].characterName, image: charDatas[4].characterImage },
-      position: { x: 400, y: 400 },
-      type: "custom",
-    },
+    // {
+    //   id: charDatas[1].characterId.toString(),
+    //   data: { name: charDatas[1].characterName, image: charDatas[1].characterImage },
+    //   position: { x: charDatas[1].characterPositionX, y: charDatas[1].characterPositionY },
+    //   type: "custom",
+    // },
+    // {
+    //   id: charDatas[2].characterId.toString(),
+    //   data: { name: charDatas[2].characterName, image: charDatas[2].characterImage },
+    //   position: { x: 400, y: 100 },
+    //   type: "custom",
+    // },
+    // {
+    //   id: charDatas[7].characterId.toString(),
+    //   data: { name: charDatas[7].characterName, image: charDatas[7].characterImage },
+    //   position: { x: 100, y: 400 },
+    //   type: "custom",
+    // },
+    // {
+    //   id: charDatas[4].characterId.toString(),
+    //   data: { name: charDatas[4].characterName, image: charDatas[4].characterImage },
+    //   position: { x: 400, y: 400 },
+    //   type: "custom",
+    // },
   ];
-  
 
   const initialEdges = [
-    {
-      id: "e1-2",
-      data: {
-        label: '원수',
-      },
-      source: charDatas[2].characterId.toString(),
-      sourceHandle: "b",
-      target: charDatas[4].characterId.toString(),
-      targetHandle: "h",
-    },
-    {
-      id: `${charDatas[2].characterId}-${charDatas[4].characterId}`,
-      data: {
-        label: '불륜',
-      },
-      source: charDatas[2].characterId.toString(),
-      sourceHandle: "b",
-      target: charDatas[7].characterId.toString(),
-      targetHandle: "h",
-    }
+    // {
+    //   id: "e1-2",
+    //   data: {
+    //     label: "원수",
+    //   },
+    //   source: charDatas[2].characterId.toString(),
+    //   sourceHandle: "b",
+    //   target: charDatas[4].characterId.toString(),
+    //   targetHandle: "h",
+    // },
+    // {
+    //   id: `${charDatas[2].characterId}-${charDatas[4].characterId}`,
+    //   data: {
+    //     label: "불륜",
+    //   },
+    //   source: charDatas[2].characterId.toString(),
+    //   sourceHandle: "b",
+    //   target: charDatas[7].characterId.toString(),
+    //   targetHandle: "h",
+    // },
   ];
 
   const reactFlowWrapper = useRef(null);
@@ -130,10 +121,7 @@ export default function DnD({ charDatas, idx }) {
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
   const { edgedata, setEdgedata, nodedata, setNodedata } = useRelativeStore();
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   const onSave = useCallback(() => {
     if (reactFlowInstance) {
@@ -151,7 +139,6 @@ export default function DnD({ charDatas, idx }) {
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance, setEdgedata]);
-
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
@@ -199,7 +186,6 @@ export default function DnD({ charDatas, idx }) {
         //
       });
 
-
       const newNode = {
         id: charDatas[findex].characterId.toString(),
         type,
@@ -220,11 +206,9 @@ export default function DnD({ charDatas, idx }) {
             </>
           ),
         },
-        
       };
-      
-      console.log(newNode.position.x)
 
+      console.log(newNode.position.x);
 
       setNodes((nds) => nds.concat(newNode));
     },

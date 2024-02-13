@@ -11,7 +11,7 @@ import { CardTitle } from "@/components/ui/card";
 import { PlusCircleIcon } from "lucide-react";
 import { Plus } from "lucide-react";
 import useCharQueryModule from "@/hook/useCharQueryModule";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useImageStore } from "@/store/useImageStore";
 

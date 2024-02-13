@@ -17,9 +17,7 @@ const teamInfoData = {
     userId: index,
     usernickName: `yasuo ${index + 1}`,
     userImage:
-      index % 2 == 0
-        ? "https://github.com/shadcn.png"
-        : "https://ui.shadcn.com/avatars/01.png",
+      index % 2 == 0 ? "https://github.com/shadcn.png" : "https://ui.shadcn.com/avatars/01.png",
     userEmail: "leageOfLegends@gmail.com",
   })),
 };
@@ -50,7 +48,7 @@ function TeamInfo() {
           <CardContent className="flex flex-col gap-3">
             <div>팀명</div>
             <div>{teamTitle}</div>
-            <diV>팀 소개</diV>
+            <div>팀 소개</div>
             <div>{teamInfo}</div>
 
             {/* <Editable.Root
@@ -111,9 +109,7 @@ function TeamInfo() {
                           </div>
 
                           <div className="flex flex-col items-start w-full text-sm font-bold">
-                            <div className="mx-1 text-xs ">
-                              {member.nickname}
-                            </div>
+                            <div className="mx-1 text-xs ">{member.nickname}</div>
                             <div className="mx-1 text-xs break-all text-zinc-600">
                               {member.email}
                             </div>
