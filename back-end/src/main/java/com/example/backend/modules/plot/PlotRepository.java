@@ -15,4 +15,7 @@ public interface PlotRepository extends JpaRepository<Plot, Long> {
 
     @EntityGraph(attributePaths = {"stories"})
     Optional<Plot> findWithStoryById(Long id);
+
+    @EntityGraph(attributePaths = {"stories.content"})
+    Optional<Plot> findWithStoryAndContentById(Long id);
 }

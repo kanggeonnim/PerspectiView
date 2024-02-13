@@ -1,5 +1,7 @@
 package com.example.backend.modules.user;
 
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.example.backend.infra.security.JwtUtil;
 import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.GeneratedToken;
@@ -9,9 +11,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
+import org.springframework.http.*;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,5 +65,30 @@ public class TestController {
                 .build()
                 .encode(StandardCharsets.UTF_8)
                 .toUriString());
+    }
+
+    @GetMapping("/word")
+    public ResponseEntity<byte[]> generateWord() {
+        try {
+            // 빈 워드 문서 생성
+            Document doc = new Document();
+
+            DocumentBuilder builder = new DocumentBuilder(doc);
+            builder.write("hello world");
+            // 워드 문서를 바이트 배열로 저장
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            doc.save(outputStream, com.aspose.words.SaveFormat.DOCX);
+
+            // HTTP 응답 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("filename", "generated_document.docx");
+
+            // 바이트 배열을 HTTP 응답 본문으로 설정하여 반환
+            return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

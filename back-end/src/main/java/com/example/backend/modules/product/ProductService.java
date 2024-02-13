@@ -7,6 +7,7 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.plot.PlotService;
 import com.example.backend.modules.productrelation.ProductRelation;
+import com.example.backend.modules.story.Story;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
@@ -128,6 +129,22 @@ public class ProductService {
         List<Plot> plots = plotService.findWithStoryRelationById(findProduct);
         findProduct.updatePlots(plots);
         return findProduct;
+    }
+
+    public StringBuffer findWithStoryContentByProductId(Long productId) {
+        Product findProduct = productRepository.findWithGenreCategoryById(productId).orElseThrow(() -> new NotFoundException());
+        StringBuffer sf = new StringBuffer();
+        for(Plot plot : findProduct.getPlots()){
+            List<Story> stories = plot.getStories();
+            Collections.sort(stories, (o1, o2)-> Integer.compare(o1.getPositionX(), o2.getPositionX()));
+            for(Story story : stories){
+                sf.append(story.getTitle());
+                sf.append("\n\n");
+                sf.append(story.getContent().getContent());
+                sf.append("\n\n");
+            }
+        }
+        return sf;
     }
 
     /**
