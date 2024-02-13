@@ -47,7 +47,7 @@ public class CommentService {
      */
     public List<Comment> findByStory(Long storyId){
         Story story = storyRepository.findById(storyId).orElseThrow(()->new NotFoundException());
-        return commentRepository.findByStory(story);
+        return commentRepository.findWithUserByStory(story);
     }
 
     /**
