@@ -2,31 +2,29 @@ package com.example.backend.modules.character;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class CharacterResponseDto {
-    private Long id;
-    private String name;
-    private String image;
-    private String detail;
-    private double positionX;
-    private double positionY;
+    private Long characterId;
+    private String characterName;
+    private String characterImage;
+    private String characterDetail;
+    private double characterPositionX;
+    private double characterPositionY;
 
     public static CharacterResponseDto of(Character character) {
         return CharacterResponseDto.builder()
-                .id(character.getId())
-                .image(character.getCharacterImageUrl())
-                .name(character.getCharacterName())
-                .detail(character.getCharacterDetail())
-                .positionX(character.getPositionX())
-                .positionY(character.getPositionY())
+                .characterId(character.getId())
+                .characterImage(character.getCharacterImageUrl())
+                .characterName(character.getCharacterName())
+                .characterDetail(character.getCharacterDetail())
+                .characterPositionX(character.getPositionX())
+                .characterPositionY(character.getPositionY())
                 .build();
     }
-
     @JsonCreator
     public CharacterResponseDto(@JsonProperty("id") Long id,
                                 @JsonProperty("name") String name,
@@ -34,11 +32,11 @@ public class CharacterResponseDto {
                                 @JsonProperty("detail") String detail,
                                 @JsonProperty("positionX") double positionX,
                                 @JsonProperty("positionY") double positionY) {
-        this.id = id;
-        this.name = name;
-        this.image = image;
-        this.detail = detail;
-        this.positionX = positionX;
-        this.positionY = positionY;
+        this.characterId = id;
+        this.characterName = name;
+        this.characterImage = image;
+        this.characterDetail = detail;
+        this.characterPositionX = positionX;
+        this.characterPositionY = positionY;
     }
 }
