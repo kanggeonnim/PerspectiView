@@ -13,11 +13,21 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import useCommentQueryModule from "@/hook/useCommentQueryModule";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 //TODO 마우스 호버시 색상 변하고 마우스 모양 변하는 것
 export default function Comment() {
+  const { teamId, productId, plotId, storyId } = useParams();
+  const { commentData } = useCommentQueryModule(
+    teamId,
+    productId,
+    plotId,
+    storyId
+  );
+  console.log(commentData);
   const [comment, setComment] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
@@ -84,12 +94,17 @@ export default function Comment() {
                 <CardTitle className="flex justify-between ">
                   <div className="flex items-center">
                     <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                      <AvatarImage
+                        src="https://github.com/shadcn.png"
+                        alt="@shadcn"
+                      />
                       <AvatarFallback>CN</AvatarFallback>
                     </Avatar>
                     <div className="flex flex-col gap-2">
                       <div className="mx-3">{comment.userId}</div>
-                      <div className="mx-3 text-sm text-gray-400">{comment.created}</div>
+                      <div className="mx-3 text-sm text-gray-400">
+                        {comment.created}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ">
@@ -107,11 +122,15 @@ export default function Comment() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>댓글을 삭제하시겠습니까?</AlertDialogTitle>
+                          <AlertDialogTitle>
+                            댓글을 삭제하시겠습니까?
+                          </AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
                           <AlertDialogCancel>취소</AlertDialogCancel>
-                          <AlertDialogAction onClick={handleDelete}>확인</AlertDialogAction>
+                          <AlertDialogAction onClick={handleDelete}>
+                            확인
+                          </AlertDialogAction>
                         </AlertDialogFooter>
                       </AlertDialogContent>
                     </AlertDialog>
@@ -140,7 +159,10 @@ export default function Comment() {
           ))}
         </div>
       </ScrollArea>
-      <form onSubmit={handleSubmit} className="flex flex-col w-full gap-3 p-3 h-1/4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col w-full gap-3 p-3 h-1/4"
+      >
         <Textarea
           placeholder="댓글을 입력하세요."
           value={comment}

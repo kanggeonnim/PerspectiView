@@ -7,9 +7,11 @@ import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 export function ForeshadowingCard({ colFshadow, index }) {
+  const location = useLocation();
+  const isFshadowMainTab = location.pathname.endsWith("/foreshadowing");
   const [isEditMode, setIsEditMode] = useState(false);
   const [editName, setEditName] = useState(colFshadow.fshadowName);
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
@@ -64,41 +66,45 @@ export function ForeshadowingCard({ colFshadow, index }) {
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
-            {!isDropped && colFshadow.columnId !== "column-3" && (
-              <Badge variant="outline" onClick={() => dropFshadow()}>
-                사용
-              </Badge>
-            )}
-            {isDropped &&
-              colFshadow.columnId !== "column-1" &&
-              colFshadow.columnId !== "column-3" && (
-                <Badge variant="outline" onClick={() => undropFshadow()}>
-                  사용취소
-                </Badge>
-              )}
-            {!isClose && colFshadow.columnId === "column-2" && (
-              <Badge variant="outline" onClick={() => closeFshadow()}>
-                회수
-              </Badge>
-            )}
-            {isClose && colFshadow.columnId === "column-3" && (
-              <Badge variant="outline" onClick={() => uncloseFshadow()}>
-                회수취소
-              </Badge>
+            {!isFshadowMainTab && (
+              <div className="flex flex-row">
+                {!isDropped && colFshadow.columnId !== "column-3" && (
+                  <Badge variant="outline" onClick={() => dropFshadow()}>
+                    사용
+                  </Badge>
+                )}
+                {isDropped &&
+                  colFshadow.columnId !== "column-1" &&
+                  colFshadow.columnId !== "column-3" && (
+                    <Badge variant="outline" onClick={() => undropFshadow()}>
+                      사용취소
+                    </Badge>
+                  )}
+                {!isClose && colFshadow.columnId === "column-2" && (
+                  <Badge variant="outline" onClick={() => closeFshadow()}>
+                    회수
+                  </Badge>
+                )}
+                {isClose && colFshadow.columnId === "column-3" && (
+                  <Badge variant="outline" onClick={() => uncloseFshadow()}>
+                    회수취소
+                  </Badge>
+                )}
+              </div>
             )}
           </div>
           {/* //TODO delete 더블체크화면 */}
           <div className="flex">
             {colFshadow.columnId === "column-1" && (
               <Trash2
-                class="cursor-pointer"
+                className="cursor-pointer"
                 size={16}
                 onClick={deleteFshadow}
               />
             )}
             {!isEditMode ? (
               <Pencil
-                class="cursor-pointer"
+                className="cursor-pointer"
                 size={16}
                 onClick={() => setIsEditMode(true)}
               />

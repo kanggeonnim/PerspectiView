@@ -127,7 +127,7 @@ export default function TeamCreate() {
             type="submit"
             onClick={() => {
               console.log(emailList);
-              const userEmails = emailList.value.map((email1) => ({
+              const userEmails = emailList.value?.map((email1) => ({
                 email: email1,
               }));
               console.log("useEmail", userEmails);

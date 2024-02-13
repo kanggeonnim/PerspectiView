@@ -1,10 +1,29 @@
-import { Badge } from "@/components/ui/badge";
 import ReadMore from "@/components/ReadMore";
+import { Badge } from "@/components/ui/badge";
+import useExportModule from "@/hook/useExportModule";
 import { useProductStore } from "@/store/useProductStore";
+import { useParams } from "react-router-dom";
+import { Button } from "../ui/button";
 
 export default function ProductHeader() {
   const { product } = useProductStore();
+  const { teamId, productId } = useParams();
+  const { exportWordData } = useExportModule(teamId, productId);
 
+  const onExportWord = (exportWordData, fileName = product?.productTitle) => {
+    const url = window.URL.createObjectURL(
+      new Blob([exportWordData], {
+        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      })
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", fileName);
+    document.body.appendChild(link);
+    link.click();
+    window.URL.revokeObjectURL(url);
+    document.body.removeChild(link);
+  };
   return (
     <>
       <header className="w-full border rounded shadow-md">
@@ -30,7 +49,12 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {product?.genres?.map((genre, key) => (
-                    <Badge key={key} variant="destructive" radius="full" className="hover:none">
+                    <Badge
+                      key={key}
+                      variant="destructive"
+                      radius="full"
+                      className="hover:none"
+                    >
                       {genre.genreName}
                     </Badge>
                   ))}
@@ -56,11 +80,13 @@ export default function ProductHeader() {
               <div className="px-6 text-sm font-semibold leading-6 text-gray-900 min-w-24">
                 설명
               </div>
-
               <div className="w-full ">
                 <ReadMore>{product?.productInfo}</ReadMore>
               </div>
             </div>
+            <Button onClick={() => onExportWord(exportWordData)}>
+              내보내기
+            </Button>
           </div>
         </nav>
       </header>
