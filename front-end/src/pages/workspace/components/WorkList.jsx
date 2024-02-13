@@ -50,13 +50,15 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const fileInputRef = useRef(null);
   const {images, setImages} = useImageStore()
   const handleImageChange = (event) => {
+
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
     setImages(selectedImage)
     console.log(images)
+    console.log(event.target.files)
     setProductDetail(ProductDetail => ({
       ...ProductDetail,
-      uploadImage: images, // 이미지 URL을 uploadImage 속성에 할당
+      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
       },
     ))
 

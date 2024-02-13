@@ -125,7 +125,6 @@ export default function DnD({ users, charDatas, idx }) {
   const edgePost = edgedata?.map((v) => Object.entries(v));
   // console.log(edgePost)
   const nodePost = nodedata?.map((v) => Object.entries(v));
-  console.log(nodePost)
 
 
 
@@ -135,7 +134,6 @@ export default function DnD({ users, charDatas, idx }) {
     let value = edgePost?.map((v) => v[a][1])
     resultArr.push(value)
   }
-  console.log(resultArr)
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {

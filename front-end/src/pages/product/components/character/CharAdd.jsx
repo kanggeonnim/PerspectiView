@@ -12,7 +12,8 @@ import { PlusCircleIcon } from "lucide-react";
 import { Plus } from "lucide-react";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useImageStore } from "@/store/useImageStore";
 import ImageUploader from "../ImageUploader/ImageUploader";
 // import CharTag from "./CharTag";
 // import CharTagAdd from "./CharTagAdd";
@@ -26,7 +27,62 @@ export default function CharAdd({
 }) {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
-  const [addChar, setAddChar] = useState(false);
+  const [addChar, setAddChar] = useState({
+    uploadImage: "string",
+    characterRequestDto: {
+      name: "string",
+      detail: "string",
+      positionX: 0,
+      positionY: 0
+    }
+  });
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
+  const {images, setImages} = useImageStore()
+  const handleImageChange = (event) => {
+
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    setImages(selectedImage)
+    console.log(images)
+    console.log(event.target.files)
+    setProductDetail(addChar => ({
+      ...addChar,
+      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+      },
+    ))
+
+  };
+
+  const handleUploadClick = () => {
+    if (image) {
+      // 이미지가 있는 경우 초기화
+      setImage(null);
+    } else {
+      // 이미지가 없는 경우 파일 업로드 창 열기
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleUploadImage = async () => {
+    if (image) {
+      // const formData = new FormData();
+      // formData.append("uploadImage", image);
+      console.log(formData);
+      console.log(image)
+      setProductDetail(addChar => ({
+        ...addChar,
+        uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
+        },
+      )
+      );
+      // 이미지 업로드 후 이미지 지우기
+      setImage(null);
+    }
+  }
+
+
+
   const [newCharName, setNewCharName] = useState("");
   const [newCharDescript, setNewCharDescript] = useState("");
   const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } =
@@ -45,7 +101,42 @@ export default function CharAdd({
         <div className="box-border flex flex-row w-full h-3/4 ">
           <AlertDialogHeader className="flex w-1/3 h-full items-center">
             <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full">
-              <ImageUploader />
+            <div className="flex flex-col items-center justify-center w-full h-full my-3 bg-gray-300 border h-2/3"
+                  onClick={handleUploadClick}
+                  style={{ cursor: "pointer" }}
+                >
+                  {image ? (
+                    <div className="w-full h-full">
+                      <img
+                        className="w-full h-full"
+                        src={URL.createObjectURL(image)}
+                        alt="Uploaded"
+                        style={{ maxWidth: "300px" }}
+                        onChange={(e) => {
+                          setProductDetail({
+                            ...productDetail,
+                            uploadImage : URL.createObjectURL(image)
+                          });
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <PlusCircleIcon />
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: "none" }}
+
+                      />
+                    </>
+                  )}
+                  {image && (
+                    <button onClick={handleUploadImage}>이미지 삭제</button>
+                  )}
+                </div>
             </div>
           </AlertDialogHeader>
           <div className="box-border flex flex-col w-2/3 h-full">
