@@ -1,11 +1,20 @@
 import UserSidebar from "@/components/sidebar/user/UserSidebar";
-import { MainLayout } from "@/layouts/MainLayout";
+import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import useUserQueryModule from "@/hook/useUserQueryModule";
+// import useUserQueryModule from "@/hook/useUserQueryModule";
+import { MainLayout } from "@/layouts/MainLayout";
+import { useAuthStore } from "@/store/useAuthStore";
+import { useState } from "react";
 
 export default function MyPage() {
+  const { user, setUser } = useAuthStore();
+  const [isEditing, setIsEditing] = useState(false);
+  const { updateUserInfo } = useUserQueryModule();
+
   return (
     <MainLayout variant="horizontal">
       <UserSidebar />
@@ -25,23 +34,64 @@ export default function MyPage() {
                       src="path-to-your-profile-image.jpg"
                       alt=""
                     />
-                    <div className="text-center">이름</div>
+                    <div className="text-center">{user.nickname}</div>
                     {/* FIXME 파라미터 설정중 */}
                   </div>
                   <div className="flex-col gap-10">
                     <div className="flex-col gap-1.5">
-                      <Label htmlFor="email">이메일</Label>
-                      <Input type="email" placeholder="" />
+                      <Label htmlFor="emailInput">이메일</Label>
+                      {!isEditing ? (
+                        <div>{user.email}</div>
+                      ) : (
+                        <Input
+                          id="emailInput"
+                          type="email"
+                          value={user.email} // 상태 값을 value로 지정
+                          onChange={(e) =>
+                            setUser({ ...user, email: e.target.value })
+                          }
+                          placeholder=""
+                        />
+                      )}
                     </div>
                     <div className="flex-col gap-1.5">
-                      <Label htmlFor="email">소개</Label>
-                      <Textarea />
+                      <Label htmlFor="infoInput">소개</Label>
+                      {!isEditing ? (
+                        <div>{user.info}</div>
+                      ) : (
+                        <Textarea
+                          id="infoInput"
+                          value={user.info} // 상태 값을 value로 지정
+                          onChange={(e) =>
+                            setUser({ ...user, info: e.target.value })
+                          }
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </Card>
+          {/* 수정 api */}
+          {!isEditing ? (
+            <Button
+              className="self-end w-16"
+              onClick={() => setIsEditing(true)}
+            >
+              수정
+            </Button>
+          ) : (
+            <Button
+              className="self-end w-16"
+              onClick={() => {
+                setIsEditing(false);
+                updateUserInfo(user);
+              }}
+            >
+              수정완료
+            </Button>
+          )}
           <div className="self-end underline">탈퇴하기</div>
         </div>
       </div>
