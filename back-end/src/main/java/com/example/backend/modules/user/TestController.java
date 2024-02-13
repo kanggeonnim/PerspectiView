@@ -14,6 +14,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -33,6 +34,7 @@ import java.time.Duration;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/test")
+@Slf4j
 public class TestController {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
@@ -106,6 +108,7 @@ public class TestController {
             Product product = productRepository.findById(9L).orElseThrow(()-> new NotFoundException());
             StringBuffer sf = productService.findWithStoryContentByProductId(9L);
 
+            log.info("문서 : {}", sf.toString());
             // 빈 워드 문서 생성
             Document doc = new Document();
 
