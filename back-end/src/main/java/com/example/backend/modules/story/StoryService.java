@@ -257,7 +257,9 @@ public class StoryService {
         //복선리스트에서 복선스토리 삭제
         StoryForeShadowing sfs = storyForeShadowingRepository.findByForeShadowingAndStory(fshadow, story);
         fshadow.deleteStoryFshadow(sfs);
+        if(sfs!=null){
         storyForeShadowingRepository.delete(sfs);
+        }
 
         StoryResponseDto storyResponseDto = findByStoryId(storyId);
         List<ForeShadowingPreviewDto> foreShadowings = storyResponseDto.getForeShadowings();
