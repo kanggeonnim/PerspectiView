@@ -1,27 +1,26 @@
 package com.example.backend.modules.character;
 
-import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class CharacterResponseDto {
-    private Long id;
-    private String name;
-    private String image;
-    private String detail;
-    private double positionX;
-    private double positionY;
+    private Long characterId;
+    private String characterName;
+    private String characterImage;
+    private String characterDetail;
+    private double characterPositionX;
+    private double characterPositionY;
 
     public static CharacterResponseDto of(Character character) {
         return CharacterResponseDto.builder()
-                .id(character.getId())
-                .image(character.getCharacterImageUrl())
-                .name(character.getCharacterName())
-                .detail(character.getCharacterDetail())
-                .positionX(character.getPositionX())
-                .positionY(character.getPositionY())
+                .characterId(character.getId())
+                .characterImage(character.getCharacterImageUrl())
+                .characterName(character.getCharacterName())
+                .characterDetail(character.getCharacterDetail())
+                .characterPositionX(character.getPositionX())
+                .characterPositionY(character.getPositionY())
                 .build();
     }
 }
