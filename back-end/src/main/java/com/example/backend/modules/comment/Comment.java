@@ -41,14 +41,17 @@ public class Comment {
     private User user;
 
     @Builder
-    public Comment(String commentContent, Story story, User user) {
+    public Comment(String commentContent, Story story, User user, LocalDateTime createdDate, LocalDateTime modifiedDate) {
         this.commentContent = commentContent;
         this.story = story;
         this.user = user;
+        this.createdDate =createdDate;
+        this.modifiedDate = modifiedDate;
     }
 
     //-----------수정 메서드-----------------//
     public void updateComment(String commentContent) {
         this.commentContent = commentContent;
+        this.modifiedDate = LocalDateTime.now();
     }
 }

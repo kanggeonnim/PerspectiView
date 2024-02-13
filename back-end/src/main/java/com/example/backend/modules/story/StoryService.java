@@ -257,6 +257,7 @@ public class StoryService {
         //복선리스트에서 복선스토리 삭제
         StoryForeShadowing sfs = storyForeShadowingRepository.findByForeShadowingAndStory(fshadow, story);
         fshadow.deleteStoryFshadow(sfs);
+        storyForeShadowingRepository.delete(sfs);
 
         StoryResponseDto storyResponseDto = findByStoryId(storyId);
         List<ForeShadowingPreviewDto> foreShadowings = storyResponseDto.getForeShadowings();
@@ -307,6 +308,42 @@ public class StoryService {
      */
     public List<StoryRelation> findWithCharacterByStory(Story story) {
         return storyRelationRepository.findWithCharacterByStory(story);
+    }
+
+    /**
+     * 스토리 등장인물 추가
+     */
+    @Transactional
+    public Character addStoryRelation(Long storyId, Long characterId){
+        Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
+        Character character = characterRepository.findById(characterId).orElseThrow(()-> new NotFoundException());
+        log.info("===============캐릭터 보기=====================");
+        log.info(character.getCharacterName());
+
+        StoryRelation makestoryRelation = StoryRelation.builder()
+                .story(story)
+                .character(character)
+                .build();
+
+        StoryRelation storyRelation = storyRelationRepository.save(makestoryRelation);
+
+        return character;
+    }
+
+    /**
+     * 스토리 등장인물 추가
+     *
+     * @return
+     */
+    @Transactional
+    public Character deleteStoryRelation(Long storyId, Long characterId){
+        //character와 story로 storyrelation찾기
+        Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
+        Character character = characterRepository.findById(characterId).orElseThrow(()-> new NotFoundException());
+
+        StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(()->new NotFoundException());
+        storyRelationRepository.delete(storyRelation);
+        return character;
     }
 
 

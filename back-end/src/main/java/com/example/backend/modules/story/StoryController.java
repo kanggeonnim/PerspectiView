@@ -1,6 +1,8 @@
 package com.example.backend.modules.story;
 
 import com.example.backend.modules.api.ApiResult;
+import com.example.backend.modules.character.Character;
+import com.example.backend.modules.character.CharacterIdOnlyResponseDto;
 import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.*;
@@ -104,6 +106,24 @@ public class StoryController {
         }
         return columnId;
     }
+
+    @PostMapping("/{storyId}/character/{characterId}")
+    public ApiResult<CharacterResponseDto> addStoryRelation(@PathVariable("storyId") Long storyId,
+                                                            @PathVariable("characterId") Long characterId) {
+        Character character = storyService.addStoryRelation(storyId, characterId);
+
+        return ApiResult.OK(CharacterResponseDto.of(character));
+    }
+
+    @DeleteMapping("/{storyId}/character/{characterId}")
+    public ApiResult<CharacterIdOnlyResponseDto> deleteStoryRelation(@PathVariable("storyId") Long storyId,
+                                                                     @PathVariable("characterId") Long characterId) {
+        Character character = storyService.deleteStoryRelation(storyId, characterId);
+
+        return ApiResult.OK(CharacterIdOnlyResponseDto.of(character));
+    }
+
+
 
     @PutMapping("/{storyId}/fstatus/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
