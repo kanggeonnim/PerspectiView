@@ -91,14 +91,14 @@ export function ForeshadowingCard({ colFshadow, index }) {
           <div className="flex">
             {colFshadow.columnId === "column-1" && (
               <Trash2
-                class="cursor-pointer"
+                className="cursor-pointer"
                 size={16}
                 onClick={deleteFshadow}
               />
             )}
             {!isEditMode ? (
               <Pencil
-                class="cursor-pointer"
+                className="cursor-pointer"
                 size={16}
                 onClick={() => setIsEditMode(true)}
               />
