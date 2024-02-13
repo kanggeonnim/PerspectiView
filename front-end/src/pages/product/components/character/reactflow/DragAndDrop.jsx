@@ -53,17 +53,18 @@ export default function DnD({ charDatas, idx }) {
   // get 받은 데이터들을 아래
   const { teamId, productId } = useParams();
   const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(teamId, productId);
-
   // let id = 1;
   // const getId = () => `${id++}`;
 
-  console.log(relativeList);
+  // console.log(relativeList);
   // TODO 관계 조회 작성중
   // relativeList?.map((relat) =>
   // relat.
   // )
 
   const initialNodes = [
+  
+    //
     // {
     //   id: charDatas[1].characterId.toString(),
     //   data: { name: charDatas[1].characterName, image: charDatas[1].characterImage },
@@ -88,6 +89,8 @@ export default function DnD({ charDatas, idx }) {
     //   position: { x: 400, y: 400 },
     //   type: "custom",
     // },
+
+
   ];
 
   const initialEdges = [
@@ -111,6 +114,8 @@ export default function DnD({ charDatas, idx }) {
     //   target: charDatas[7].characterId.toString(),
     //   targetHandle: "h",
     // },
+
+
   ];
 
   const reactFlowWrapper = useRef(null);
@@ -134,8 +139,10 @@ export default function DnD({ charDatas, idx }) {
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      setEdgedata(flow.edges);
+      setEdgedata(...flow.edges);
       setNodedata(flow.nodes);
+      console.log(nodedata)
+
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
   }, [reactFlowInstance, setEdgedata]);

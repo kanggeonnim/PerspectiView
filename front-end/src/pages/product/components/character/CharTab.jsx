@@ -25,7 +25,7 @@ export default function CharTab() {
   const { teamId, productId } = useParams()
   const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
 
-  console.log(charData)
+  // console.log(charData)
   if (!getCharIsSuccess) {
     return <div>Loading...</div>
   }

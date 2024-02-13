@@ -18,18 +18,33 @@ import { devtools } from "zustand/middleware";
 
 export const useRelativeStore = create(
   devtools((set) => ({
-    nodedata: null,
+    nodedata: 
+    {
+      id: "",
+      data: { name: "", image: "" },
+      position: { x: 0, y: 0 },
+      type: "custom",
+    },
     setNodedata: (nodedata) => {
       set({ nodedata: nodedata });
     },
-    edgedata: null,
+    edgedata: {
+        id: "",
+        data: {
+          label: "",
+        },
+        source: "",
+        sourceHandle: "",
+        target: "",
+        targetHandle: "",
+      },
     setEdgedata: (edgedata) => {
       set({ edgedata: edgedata });
     },
-    viewport: null,
-    setViewport: (viewport) => {
-      set({ viewport: v });
-    },
+    // viewport: null,
+    // setViewport: (viewport) => {
+    //   set({ viewport: v });
+    // },
   }))
 );
 

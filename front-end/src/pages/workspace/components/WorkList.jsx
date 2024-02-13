@@ -31,13 +31,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       productTitle: "",
       productInfo: "",
       category: {
-        categoryId: "1",
-        categoryName: "웹소설",
+        id: "1",
+        name: "웹소설",
       },
       genres: [
         {
-          categoryId: "1",
-          categoryName: "SF",
+          id: "1",
+          name: "SF",
         },
       ],
     },

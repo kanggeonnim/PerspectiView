@@ -70,7 +70,7 @@ const useProductQueryModule = (teamId, productId) => {
   const { mutate: updateProductData } = useMutation({
     mutationFn: async (newData) => {
       const response = await privateApi.put(
-        `/api/team/${teamId}/product`,
+        `/api/team/${teamId}/product/${productId}`,
         newData
       );
       return response.data.response;
