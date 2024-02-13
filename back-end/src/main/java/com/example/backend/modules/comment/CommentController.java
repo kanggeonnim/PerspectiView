@@ -4,6 +4,7 @@ import com.example.backend.modules.api.ApiResult;
 import com.example.backend.modules.auth.principal.PrincipalDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/team/{teamId}/product/{productId}/plot/{plotId}/story/{storyId}/comment")
 public class CommentController {
 
@@ -24,6 +26,7 @@ public class CommentController {
     public ApiResult<CommentResponseDto> createComment(@RequestBody @Valid CommentRequestDto commentRequestDto,
                                             @PathVariable("storyId") Long storyId,
                                             @AuthenticationPrincipal PrincipalDetails principalDetails){
+        log.info("-========requestDto 조차 못 알아보는데?==============");
         Comment madeComment=commentService.createComment(principalDetails.getUser(),storyId,CommentRequestDto.from(commentRequestDto));
         return ApiResult.OK(CommentResponseDto.of(madeComment));
     }
