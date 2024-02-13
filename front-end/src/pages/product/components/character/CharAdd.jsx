@@ -22,8 +22,7 @@ export default function CharAdd({
   name,
   description,
   url,
-  onChange,
-  onCreate,
+  onChange
 }) {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
@@ -144,12 +143,6 @@ export default function CharAdd({
               <div className="flex flex-row w-full m-2 h-1/4">
                 <div className="box-border w-1/5 mr-3 text-xl">이름</div>
                 <div className="box-border w-4/5">
-                  {/* <input
-                    name="name"
-                    className="border"
-                    value={newCharName}
-                    onChange={(e) => setNewCharName(e.target.value)}
-                  /> */}
                   <input
                     type="text"
                     name="title"
@@ -204,7 +197,7 @@ export default function CharAdd({
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
-              console.log("여기", addChar);
+              // console.log("여기", addChar);
               createChar(addChar);
             }}
           >

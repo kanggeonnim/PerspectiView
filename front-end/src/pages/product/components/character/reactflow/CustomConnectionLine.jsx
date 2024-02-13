@@ -44,6 +44,17 @@ export default function CustomEdge({
       />
       <EdgeLabelRenderer className="-z-20">
         {data ? (
+          <div
+            style={{
+              position: "absolute",
+              pointerEvents: "all",
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            }}
+            className="z-30 w-16 text-center bg-transparent text-sm"
+          >
+            {data.label}
+          </div>
+        ) : (
           <input
             style={{
               position: "absolute",
@@ -53,17 +64,6 @@ export default function CustomEdge({
             className="z-30 w-16 text-center bg-transparent text-sm"
             defaultValue="관계"
           />
-        ) : (
-          <div
-            style={{
-              position: "absolute",
-              pointerEvents: "all",
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            }}
-            className="z-30 w-16 text-center bg-transparent text-sm"
-          >
-            원수
-          </div>
         )}
       </EdgeLabelRenderer>
     </>

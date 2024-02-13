@@ -33,8 +33,7 @@ const selector = (store) => ({
 
 
 
-// let id = 1;
-// const getId = () => `${id++}`;
+
 
 const nodeTypes = {
   custom: CustomNode,
@@ -63,8 +62,15 @@ export default function DnD({ charDatas, idx }) {
     productId,
   );
   
+  // let id = 1;
+  // const getId = () => `${id++}`;
   
-  //
+  console.log(relativeList)
+  // TODO 관계 조회 작성중
+  // relativeList?.map((relat) =>
+  // relat.
+  // )
+  
   const initialNodes = [
     {
       id: charDatas[1].characterId.toString(),
@@ -79,8 +85,8 @@ export default function DnD({ charDatas, idx }) {
       type: "custom",
     },
     {
-      id: charDatas[3].characterId.toString(),
-      data: { name: charDatas[3].characterName, image: charDatas[3].characterImage },
+      id: charDatas[7].characterId.toString(),
+      data: { name: charDatas[7].characterName, image: charDatas[7].characterImage },
       position: { x: 100, y: 400 },
       type: "custom",
     },
@@ -92,8 +98,7 @@ export default function DnD({ charDatas, idx }) {
     },
   ];
   
-  console.log(relativeList)
-  
+
   const initialEdges = [
     {
       id: "e1-2",
@@ -102,14 +107,17 @@ export default function DnD({ charDatas, idx }) {
       },
       source: charDatas[2].characterId.toString(),
       sourceHandle: "b",
-      target: charDatas[3].characterId.toString(),
+      target: charDatas[4].characterId.toString(),
       targetHandle: "h",
     },
     {
       id: `${charDatas[2].characterId}-${charDatas[4].characterId}`,
+      data: {
+        label: '불륜',
+      },
       source: charDatas[2].characterId.toString(),
       sourceHandle: "b",
-      target: charDatas[4].characterId.toString(),
+      target: charDatas[7].characterId.toString(),
       targetHandle: "h",
     }
   ];

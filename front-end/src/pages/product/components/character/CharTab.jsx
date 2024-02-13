@@ -18,12 +18,9 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 export default function CharTab() {
   const {
     inputs,
-    users,
     selectedIdx,
     setInputs,
-    setUsers,
     setSelectedIdx,
-    onCreate
   } = useCharStore();
   const { teamId, productId } = useParams()
   const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
@@ -56,11 +53,11 @@ export default function CharTab() {
                 description={inputs.description}
                 url={inputs.url}
                 onChange={onChange}
-                onCreate={onCreate}
+                // onCreate={onCreate}
               />
             </div>
             <div className="box-border w-full h-full m-2">
-              <CharList users={users} charDatas={charData} onIdxChange={(idx) => setSelectedIdx(idx)} />
+              <CharList charDatas={charData} onIdxChange={(idx) => setSelectedIdx(idx)} />
             </div>
           </div>
         </div>

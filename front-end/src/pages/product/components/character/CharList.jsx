@@ -14,7 +14,7 @@ import CharInfo from "./CharInfo";
 import LabelAdd from "./reactflow/LabelAdd";
 import { useState } from "react";
 
-export default function CharList({ users, charDatas, onIdxChange }) {
+export default function CharList({ charDatas, onIdxChange }) {
   const onIdxContain = (idx) => {
     onIdxChange(idx);
     // console.log(idx)

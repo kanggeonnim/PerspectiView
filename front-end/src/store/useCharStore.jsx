@@ -9,8 +9,8 @@ const useCharStore = create(devtools((set) => ({
     characterPositionY: ""
 
   },
-  users: [
-  ],
+  // users: [
+  // ],
   selectedIdx: '',
   setInputs: (newInputs) => set((state) => ({ inputs: newInputs })),
   setUsers: (newUsers) => set((state) => ({ users: newUsers })),
@@ -26,7 +26,7 @@ const useCharStore = create(devtools((set) => ({
         characterPositionY: state.inputs.characterPositionY,
       };
       return {
-        users: [...state.users, user],
+        // users: [...state.users, user],
         inputs: { name: "", description: "", url: "", characterPositionX: "", characterPositionY: "" }
       };
     });
