@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,14 +27,17 @@ public class CommentService {
         //story 정보
         Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
 
+        //만들 때 현재 날짜 시간 전달
         Comment createComment = Comment.builder()
                 .commentContent(comment.getCommentContent())
                 .story(story)
                 .user(user)
+                .createdDate(LocalDateTime.now())
+                .modifiedDate(LocalDateTime.now())
                 .build();
 
         //save
-        Comment newComment = commentRepository.save(comment);
+        Comment newComment = commentRepository.save(createComment);
 
         return newComment;
     }
