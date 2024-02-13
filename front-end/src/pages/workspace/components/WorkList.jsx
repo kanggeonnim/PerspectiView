@@ -9,12 +9,12 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import { useTeamListStore } from "@/store/team/useTeamListStore";
 
 function CreateWork() {
   return (
@@ -45,9 +45,11 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   });
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-  const {images, setImages} = useImageStore()
-  const handleImageChange = (event) => {
+  const { images, setImages } = useImageStore();  
+  const { teamList } = useTeamListStore();
+  const [teamNo, setTeamNo] = useState("");
 
+  const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
     setImages(selectedImage)
@@ -58,7 +60,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
       },
     ))
-
   };
 
   const handleUploadClick = () => {
@@ -88,19 +89,16 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     }
   }
 
-  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
-  const [teamNo, setTeamNo] = useState("");
-
   useEffect(() => {
-    if (teamData) {
-      setTeamNo(() => teamData[0].id);
-      console.log(teamData);
+    if (teamList) {
+      setTeamNo(() => teamList[0].id);
+      console.log(teamList);
     }
-  }, [teamData, teamNo]);
-  console.log(teamNo);
+    console.log(teamNo);
+  }, [teamList, teamNo]);
+  
   // FIXME 팀 ID undefined 발생
   const { createProductData } = useProductQueryModule(teamNo);
-  // console.log(teamId)
 
   return (
     <form>

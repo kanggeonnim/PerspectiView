@@ -1,3 +1,4 @@
+import { useCharacterListStore } from "@/store/useCharacterListStore";
 import { formApi, privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -5,6 +6,7 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 
 const useCharQueryModule = (teamId, productId, characterId) => {
   const queryClient = useQueryClient();
+  const { setCharacterList } = useCharacterListStore();
 
   const {
     data: charData,
@@ -15,6 +17,7 @@ const useCharQueryModule = (teamId, productId, characterId) => {
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`);
       if (response) {
+        setCharacterList(response.data.response);
         return response.data.response;
       }
     },

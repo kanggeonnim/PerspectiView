@@ -1,18 +1,28 @@
 import UserSidebar from "@/components/sidebar/user/UserSidebar";
+import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useEffect } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate, useSearchParams } from "react-router-dom";
 
 export default function WorkspacePage() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const { getUserIsSuccess } = useUserQueryModule();
   const { user } = useAuthStore();
 
   useEffect(() => {
-    if (user) {
+    const accessToken = params.get("accessToken");
+
+    if (accessToken && user) {
       navigate(`/workspace/team/${user.personalTeamId}`);
+      console.log("user", user);
     }
-  }, [user, navigate]);
+  }, [params, user, navigate]);
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <MainLayout variant="horizontal">

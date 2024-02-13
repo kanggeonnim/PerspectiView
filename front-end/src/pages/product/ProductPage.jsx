@@ -4,20 +4,20 @@ import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useParams } from "react-router-dom";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useAuthStore } from "@/store/useAuthStore";
-import useUserQueryModule from "@/hook/useUserQueryModule";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProductStore } from "@/store/useProductStore";
 
 export default function ProductPage() {
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
   const { teamId, productId } = useParams();
-  console.log("ProductPage", teamId, productId);
-  const { productData, getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
+  const { getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
+  const { product } = useProductStore();
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // 초기값은 true로 설정
 
-  const { user } = useAuthStore();
-
-  if (!user) {
+  useEffect(() => {
+    console.log("render", teamId);
+    console.log(product);
+  }, [product, teamId]);
+  if (!getProductDataIsSuccess) {
     return <div>Loading...</div>;
   }
   return (

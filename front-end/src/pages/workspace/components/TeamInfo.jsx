@@ -15,26 +15,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductListCard from "./ProductListCard";
-
-// const teamInfoData = {
-//   teamTitle: "B310",
-//   teamInfo: "행복이 넘치는 팀",
-//   personal: false,
-//   members: Array.from({ length: 30 }, (_, index) => ({
-//     userId: index,
-//     usernickName: `yasuo ${index + 1}`,
-//     userImage:
-//       index % 2 == 0
-//         ? "https://github.com/shadcn.png"
-//         : "https://ui.shadcn.com/avatars/01.png",
-//     userEmail: "leageOfLegends@gmail.com",
-//   })),
-// };
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 function TeamInfo() {
   const { teamId } = useParams();
@@ -49,8 +34,9 @@ function TeamInfo() {
       setTeamTitle(oneTeam.title);
       setTeamInfo(oneTeam.info);
     }
+    console.log(oneTeam);
   }, [oneTeam]);
-  console.log(oneTeam);
+  
   return (
     <div className="flex w-full max-h-full min-h-full gap-3 m-2 ">
       {!oneTeam?.personal && (
