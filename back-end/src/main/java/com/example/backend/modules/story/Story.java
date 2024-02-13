@@ -17,7 +17,8 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Story {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -30,10 +31,10 @@ public class Story {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Content content;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "story")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
     private Set<StoryRelation> storyRelations = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "story")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "story")
     private Set<StoryForeShadowing> storyForeShadowings = new HashSet<>();
 
     //index번호
@@ -45,52 +46,53 @@ public class Story {
     private Double positionY;
 
     @Builder
-    public Story(Long id, String title, Content content, List<StoryRelation> storyRelations, List<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot){
+    public Story(Long id, String title, Content content, List<StoryRelation> storyRelations, List<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot) {
         this.id = id;
         this.title = title;
         this.content = content;
-        if(storyRelations!=null) storyRelations.addAll(storyRelations);
-        if(storyForeShadowings!=null) storyForeShadowings.addAll(storyForeShadowings);
+        if (storyRelations != null) storyRelations.addAll(storyRelations);
+        if (storyForeShadowings != null) storyForeShadowings.addAll(storyForeShadowings);
         this.positionX = positionX;
         this.positionY = positionY;
         this.plot = plot;
     }
 
     //------수정 메서드-----//
-    public void updateStory(String title, Content content, Set<StoryRelation> storyRelations,Set<StoryForeShadowing> storyForeShadowings, Double positionY){
+    public void updateStory(String title, Content content, Set<StoryRelation> storyRelations, Set<StoryForeShadowing> storyForeShadowings, Double positionY) {
         this.title = title;
         this.content = content;
         this.storyForeShadowings = storyForeShadowings;
         this.storyRelations = storyRelations;
-        this.positionY =positionY;
+        this.positionY = positionY;
     }
 
     //-----storyRelation에 추가----//
-    public void addStoryRelation(StoryRelation storyRelation){
+    public void addStoryRelation(StoryRelation storyRelation) {
         storyRelations.add(storyRelation);
     }
 
 
     //-----storyForeShadowing에 추가-----//
     public void addStoryForeShadowing(StoryForeShadowing storyForeShadowing) {
-        this.storyForeShadowings.add(storyForeShadowing);}
+        this.storyForeShadowings.add(storyForeShadowing);
+    }
 
     //-----y축 바꾸는 메서드-----//
-    public void updatePositionY(Double positionY){
+    public void updatePositionY(Double positionY) {
         this.positionY = positionY;
     }
 
     //-----content 바꾸는 메서드-----//
-    public void updateContent(Content content){
+    public void updateContent(Content content) {
         this.content = content;
     }
 
     //-----plot 설정하는 메서드-----//
-    public void updatePlot(Plot plot){
+    public void updatePlot(Plot plot) {
         this.plot = plot;
     }
 
     public void updateStoryRelation(List<StoryRelation> storyRelations) {
-        if(storyRelations!=null) storyRelations.addAll(storyRelations);
+        if (storyRelations != null) storyRelations.addAll(storyRelations);
     }
 }
