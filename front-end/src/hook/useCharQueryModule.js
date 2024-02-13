@@ -6,13 +6,15 @@ const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
 const useCharQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
 
-  const { data: charData, isSuccess: getCharIsSuccess, isLoading } = useQuery({
+  const {
+    data: charData,
+    isSuccess: getCharIsSuccess,
+    isLoading,
+  } = useQuery({
     queryKey: ["char", teamId, productId],
     queryFn: async () => {
-      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`
-      );
+      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/character`);
       if (response) {
-        
         return response.data.response;
       }
     },
@@ -25,8 +27,10 @@ const useCharQueryModule = (teamId, productId) => {
       const blob = new Blob([json], { type: "application/json" });
       formData.append("characterRequestDto", blob);
       formData.append("uploadImage", newData.uploadImage);
-      const response = await formApi.post(`/api/team/${teamId}/product/${productId}/character`,
-       formData);
+      const response = await formApi.post(
+        `/api/team/${teamId}/product/${productId}/character`,
+        formData
+      );
       return response.data.response;
     },
     onSuccess: () => {
@@ -62,7 +66,6 @@ const useCharQueryModule = (teamId, productId) => {
       queryClient.invalidateQueries({ queryKey: ["char"] });
     },
   });
-
 
   return { charData, getCharIsSuccess, createChar, updateChar, deleteChar };
 };

@@ -12,7 +12,8 @@ import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingC
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 // const sample = Array.from({ length: 20 }, (_, index) => ({
 //   fshadowId: index + 1,
@@ -26,7 +27,6 @@ export default function StoryDetail() {
   const [isEdit, setIsEdit] = useState(false);
   const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
     useStoryDetailStore();
-
   const {
     getStoryDetailData,
     getStoryDetailDataIsSuccess,
@@ -34,9 +34,12 @@ export default function StoryDetail() {
     getStoryFshadowListDataIsSuccess,
     updateStory,
   } = useStoryQueryModule(teamId, productId, plotId, storyId);
-  console.log("여기!!", getStoryFshadowListData);
 
-  console.log("input", storyDetail);
+  const [searchInput, setSearchInput] = useState("");
+
+  // console.log("여기!!", getStoryFshadowListData);
+  // console.log("input", storyDetail);
+
   if (!getStoryDetailDataIsSuccess || !storyDetail) {
     return <div>Loading...</div>;
   }
@@ -63,7 +66,30 @@ export default function StoryDetail() {
         <div className="flex justify-start ml-1">
           {/* 복선 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
+            <div className="my-2 text-sm font-bold">이 스토리에 사용된 복선</div>
+            {/* <Popover onOpenChange={() => setSearchInput("")}>
+              <PopoverTrigger asChild>
+                <PlusCircle size={15} className="mx-1" />
+              </PopoverTrigger>
+              <PopoverContent className="h-60 w-80" side="right">
+                <div className="grid gap-4">
+                  <div className="space-y-2">
+                    <h4 className="font-medium leading-none">인물 목록</h4>
+                    <div className="flex ">
+                      <Input
+                        className="w-4/5 mr-1 rounded-lg"
+                        value={searchInput}
+                        onChange={(event) => {
+                          setSearchInput(event.target.value);
+                        }}
+                      />
+                      <Button>검색</Button>
+                    </div>
+                    <ScrollArea className="border h-36"></ScrollArea>
+                  </div>
+                </div>
+              </PopoverContent>
+            </Popover> */}
             <div className="flex flex-wrap items-start justify-start ">
               {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
@@ -86,7 +112,32 @@ export default function StoryDetail() {
 
           {/* 인물 목록 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
+            <div className="flex items-center my-2 ">
+              <div className="text-sm font-bold ">이 스토리에 등장한 인물</div>
+              <Popover onOpenChange={() => setSearchInput("")}>
+                <PopoverTrigger asChild>
+                  <PlusCircle size={15} className="mx-1" />
+                </PopoverTrigger>
+                <PopoverContent className="h-60 w-80" side="right">
+                  <div className="grid gap-4">
+                    <div className="space-y-2">
+                      <h4 className="font-medium leading-none">인물 목록</h4>
+                      <div className="flex ">
+                        <Input
+                          className="w-4/5 mr-1 rounded-lg"
+                          value={searchInput}
+                          onChange={(event) => {
+                            setSearchInput(event.target.value);
+                          }}
+                        />
+                        <Button>검색</Button>
+                      </div>
+                      <ScrollArea className="border h-36"></ScrollArea>
+                    </div>
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
             <div className="flex items-start justify-start space-x-2">
               {storyDetail.characters?.map((character) => (
                 <div className="flex flex-col items-center " key={character.characterId}>
@@ -116,13 +167,13 @@ export default function StoryDetail() {
             {isEdit ? (
               <Textarea
                 className="w-full text-lg h-72"
-                value={storyDetail.storyContent}
+                value={storyDetail.content.content}
                 onChange={(e) => {
-                  setStoryDetail({ ...storyDetail, storyContent: e.target.value });
+                  setStoryDetail({ ...storyDetail, content: { content: e.target.value } });
                 }}
               />
             ) : (
-              <div className="w-full h-full p-3 ">{storyDetail.storyContent}</div>
+              <div className="w-full h-full p-3 ">{storyDetail.content.content}</div>
             )}
           </ScrollArea>
         </div>

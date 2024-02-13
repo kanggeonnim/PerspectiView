@@ -71,7 +71,9 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
             onClick={() => {
               createStory({
                 storyTitle: "",
-                storyContent: "",
+                content: {
+                  content: "",
+                },
                 characters: [],
                 foreShadowings: [],
                 positionX: 1,
