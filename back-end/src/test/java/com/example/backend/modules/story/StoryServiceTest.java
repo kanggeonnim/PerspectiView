@@ -284,6 +284,7 @@ class StoryServiceTest {
         List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
         checkQuery.get(0).getPlot().getClass();
         checkQuery.get(0).getPlot().getName();
+        log.info(checkQuery.get(0).getTitle());
 
         //then
         Assertions.assertEquals(updatedStory.getTitle(), newStory.getTitle());

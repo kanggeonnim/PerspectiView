@@ -135,7 +135,7 @@ public class StoryService {
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
 
-        redisTemplate.opsForValue().set("story:" + story.getId(), StoryResponseDto.of(findStory, characters, foreShadowings));
+        redisTemplate.opsForValue().set("story:" + story.getId(), StoryResponseDto.of(story, characters, foreShadowings));
         return findStory;
     }
 
