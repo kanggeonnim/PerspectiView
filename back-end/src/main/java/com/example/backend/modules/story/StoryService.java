@@ -156,7 +156,6 @@ public class StoryService {
      * @param storyId
      * @return
      */
-    @Transactional
     public StoryResponseDto findByStoryId(Long storyId) {
         StoryResponseDto storyResponseDto = (StoryResponseDto) redisTemplate.opsForValue().get("story:" + storyId);
         if (storyResponseDto == null) {
