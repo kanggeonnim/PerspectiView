@@ -41,7 +41,6 @@ public class Story {
     @Column(nullable = false)
     private int positionX;
 
-
     @Column(nullable = false)
     private Double positionY;
 
