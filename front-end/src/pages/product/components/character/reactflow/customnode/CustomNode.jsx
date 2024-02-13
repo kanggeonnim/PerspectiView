@@ -34,7 +34,7 @@ export default function CustomNode({ id, data, isConnectable }) {
   return (
     <>
       <div
-        className="flex w-28 h-28 border-2 items-center justify-center"
+        className="flex w-28 h-28 border-2 items-center justify-center rounded-full"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         onClick={() => onNodeClick()}
