@@ -7,9 +7,11 @@ import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 
 export function ForeshadowingCard({ colFshadow, index }) {
+  const location = useLocation();
+  const isFshadowMainTab = location.pathname.endsWith("/foreshadowing");
   const [isEditMode, setIsEditMode] = useState(false);
   const [editName, setEditName] = useState(colFshadow.fshadowName);
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
