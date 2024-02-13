@@ -14,11 +14,16 @@ spring:
 
   data:
     redis:
-      host: my-redis
+      host: 172.17.0.1
       port: 6379
       password: ENC(QY5uK+t5CcE+BXGp0ZfvfkvE4GhlM5aUO5zwcH5I+/eS7COcjWkjSzXNRa9joPRn)
     rest:
       base-path: /api
+
+  cache:
+    type: redis
+    redis:
+      cache-null-values: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
