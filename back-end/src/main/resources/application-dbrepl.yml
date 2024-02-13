@@ -35,11 +35,6 @@ spring:
       rest:
         base-path: /api
 
-    cache:
-      type: redis
-      redis:
-        cache-null-values: true
-
     security:
       oauth2:
         client:
