@@ -1,5 +1,7 @@
 package com.example.backend.modules.character;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
@@ -22,5 +24,19 @@ public class CharacterResponseDto {
                 .characterPositionX(character.getPositionX())
                 .characterPositionY(character.getPositionY())
                 .build();
+    }
+    @JsonCreator
+    public CharacterResponseDto(@JsonProperty("id") Long id,
+                                @JsonProperty("name") String name,
+                                @JsonProperty("image") String image,
+                                @JsonProperty("detail") String detail,
+                                @JsonProperty("positionX") double positionX,
+                                @JsonProperty("positionY") double positionY) {
+        this.characterId = id;
+        this.characterName = name;
+        this.characterImage = image;
+        this.characterDetail = detail;
+        this.characterPositionX = positionX;
+        this.characterPositionY = positionY;
     }
 }
