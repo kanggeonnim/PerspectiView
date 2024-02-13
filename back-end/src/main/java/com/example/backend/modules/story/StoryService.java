@@ -2,7 +2,6 @@ package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.character.CharacterRepository;
-import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
