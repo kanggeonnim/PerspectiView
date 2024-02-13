@@ -10,14 +10,15 @@ const useProductQueryModule = (teamId, productId) => {
   const { setPlotList } = usePlotListStore();
   const { setNodes, arrangeStory, addEmptyStory } = useNodeStore();
 
-  const { data: productListData, isSuccess: getProductListDataIsSuccess } = useQuery({
-    queryKey: ["productListData", teamId],
-    queryFn: async () => {
-      console.log(teamId);
-      const response = await privateApi.get(`/api/team/${teamId}/product`);
-      return response.data.response;
-    },
-  });
+  const { data: productListData, isSuccess: getProductListDataIsSuccess } =
+    useQuery({
+      queryKey: ["productListData", teamId],
+      queryFn: async () => {
+        console.log(teamId);
+        const response = await privateApi.get(`/api/team/${teamId}/product`);
+        return response.data.response;
+      },
+    });
 
   const { data: productData, isSuccess: getProductDataIsSuccess } = useQuery({
     queryKey: ["productData", teamId, productId],
@@ -45,17 +46,21 @@ const useProductQueryModule = (teamId, productId) => {
 
   const { mutate: createProductData } = useMutation({
     mutationFn: async (newData) => {
-    const formData = new FormData();
-    // formData.append('productRequestDto', JSON.stringify(newData.productRequestDto));
-    const json = JSON.stringify(newData.productRequestDto)
-    const blob = new Blob([json], { type : "application/json"})
-    formData.append('productRequestDto', blob)
-    formData.append('uploadImage', newData.uploadImage);
-      const response = await formApi.post(`/api/team/${teamId}/product`, formData, {
-        // headers: {
-        //   'Content-Type': 'multipart/form-data',
-        // },
-      } );
+      const formData = new FormData();
+      // formData.append('productRequestDto', JSON.stringify(newData.productRequestDto));
+      const json = JSON.stringify(newData.productRequestDto);
+      const blob = new Blob([json], { type: "application/json" });
+      formData.append("productRequestDto", blob);
+      formData.append("uploadImage", newData.uploadImage);
+      const response = await formApi.post(
+        `/api/team/${teamId}/product`,
+        formData,
+        {
+          // headers: {
+          //   'Content-Type': 'multipart/form-data',
+          // },
+        }
+      );
       return response.data.response;
     },
     onSuccess: () => {
@@ -65,7 +70,10 @@ const useProductQueryModule = (teamId, productId) => {
   });
   const { mutate: updateProductData } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.put(`/api/team/${teamId}/product`, newData);
+      const response = await privateApi.put(
+        `/api/team/${teamId}/product`,
+        newData
+      );
       return response.data.response;
     },
     onSuccess: () => {

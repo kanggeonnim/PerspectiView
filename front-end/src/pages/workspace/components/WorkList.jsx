@@ -157,7 +157,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button onClick={handleUploadImage}>이미지 삭제</button>
+                    <button className=" bg-red-500 w-full" onClick={handleUploadImage}>이미지 삭제</button>
                   )}
                 </div>
               </div>

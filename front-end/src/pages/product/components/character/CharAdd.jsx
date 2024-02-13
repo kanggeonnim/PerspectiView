@@ -46,7 +46,7 @@ export default function CharAdd({
     setImages(selectedImage)
     console.log(images)
     console.log(event.target.files)
-    setProductDetail(addChar => ({
+    setAddChar(addChar => ({
       ...addChar,
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
       },
@@ -70,7 +70,7 @@ export default function CharAdd({
       // formData.append("uploadImage", image);
       console.log(formData);
       console.log(image)
-      setProductDetail(addChar => ({
+      setAddChar(addChar => ({
         ...addChar,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
         },
@@ -113,8 +113,8 @@ export default function CharAdd({
                         alt="Uploaded"
                         style={{ maxWidth: "300px" }}
                         onChange={(e) => {
-                          setProductDetail({
-                            ...productDetail,
+                          setAddChar({
+                            ...addChar,
                             uploadImage : URL.createObjectURL(image)
                           });
                         }}
@@ -134,7 +134,7 @@ export default function CharAdd({
                     </>
                   )}
                   {image && (
-                    <button onClick={handleUploadImage}>이미지 삭제</button>
+                    <button className=" bg-red-500 w-full" onClick={handleUploadImage}>이미지 삭제</button>
                   )}
                 </div>
             </div>
@@ -144,11 +144,25 @@ export default function CharAdd({
               <div className="flex flex-row w-full m-2 h-1/4">
                 <div className="box-border w-1/5 mr-3 text-xl">이름</div>
                 <div className="box-border w-4/5">
-                  <input
+                  {/* <input
                     name="name"
                     className="border"
                     value={newCharName}
                     onChange={(e) => setNewCharName(e.target.value)}
+                  /> */}
+                  <input
+                    type="text"
+                    name="title"
+                    className="border"
+                    onChange={(e) => {
+                      setAddChar({
+                        ...addChar,
+                        characterRequestDto: {
+                          ...addChar.characterRequestDto,
+                          name: e.target.value,
+                        },
+                      });
+                    }}
                   />
                 </div>
               </div>
@@ -163,11 +177,18 @@ export default function CharAdd({
               <div className="flex flex-row w-full m-2 h-2/3">
                 <div className="box-border w-1/5 mr-3 text-xl">세부 사항</div>
                 <div className="box-border w-4/5 h-full">
-                  <input
-                    className="w-4/5 h-full border z-30"
-                    name="description"
-                    value={newCharDescript}
-                    onChange={(e) => setNewCharDescript(e.target.value)}
+                <input
+                    name="info"
+                    onChange={(e) => {
+                      setAddChar({
+                        ...addChar,
+                        characterRequestDto: {
+                          ...addChar.characterRequestDto,
+                          detail: e.target.value,
+                        },
+                      });
+                    }}
+                    className="w-4/5 border"
                   />
                 </div>
               </div>
@@ -175,22 +196,16 @@ export default function CharAdd({
           </div>
         </div>
         <div className="h-1/4 border-t box-border p-3">
-          <h2 className=" text-xl font-semibold">인물이 등장한 스토리</h2>
-          <div>등장 스토리 추가 위치</div>
+          {/* <h2 className=" text-xl font-semibold">인물이 등장한 스토리</h2>
+          <div>등장 스토리 추가 위치</div> */}
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>취소하기</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
-              console.log("여기",{
-                name: newCharName,
-                detail: newCharDescript,
-              });
-              createChar({
-                name: newCharName,
-                detail: newCharDescript,
-              });
+              console.log("여기", addChar);
+              createChar(addChar);
             }}
           >
             생성하기

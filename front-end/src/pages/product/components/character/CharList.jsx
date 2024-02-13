@@ -29,7 +29,7 @@ export default function CharList({ users, charDatas, onIdxChange }) {
     {charDatas?.map((charData, index) => (
       <AlertDialog key={index}>
         <AlertDialogTrigger>
-          <CharInfo user={charData} onIdxChange={(idx) => onIdxContain(idx)} />
+          <CharInfo charData={charData} onIdxChange={(idx) => onIdxContain(idx)} />
         </AlertDialogTrigger>
         <AlertDialogContent className="flex flex-col w-2/3 max-w-2/3 h-2/3 ">
           <CardTitle className="text-2xl box-border">
@@ -40,7 +40,7 @@ export default function CharList({ users, charDatas, onIdxChange }) {
               <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full">
                 <img
                   className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full"
-                  src={charData.url}
+                  src={charData.image}
                   key={charData.id}
                   alt=""
                 />

@@ -28,11 +28,7 @@ export default function CharTab() {
   const { teamId, productId } = useParams()
   const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
 
-  // const [searchParams] = useSearchParams();
-  // const [cookies, setCookie] = useCookies(["refresh token"]);
-  // const ACCESS_TOKEN = searchParams.get("accessToken");
-  // const REFRESH_TOKEN = searchParams.get("refreshToken");
-
+  console.log(charData)
   if (!getCharIsSuccess) {
     return <div>Loading...</div>
   }
