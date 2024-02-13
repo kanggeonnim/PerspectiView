@@ -138,7 +138,8 @@ public class ProductService {
             List<Story> stories = plot.getStories();
             Collections.sort(stories, (o1, o2)-> Integer.compare(o1.getPositionX(), o2.getPositionX()));
             for(Story story : stories){
-                sf.append(story.getTitle());
+                sf.append("제목 : " + story.getTitle());
+                sf.append("\n\n");
                 sf.append("\n\n");
                 sf.append(story.getContent().getContent());
                 sf.append("\n\n");

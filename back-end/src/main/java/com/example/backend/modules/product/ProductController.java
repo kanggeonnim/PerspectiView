@@ -92,7 +92,7 @@ public class ProductController {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 
-            headers.setContentDispositionFormData("filename", "product");
+            headers.setContentDispositionFormData("filename", "product.docx");
 
             // 바이트 배열을 HTTP 응답 본문으로 설정하여 반환
             return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
