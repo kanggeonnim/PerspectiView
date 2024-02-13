@@ -29,11 +29,11 @@ export default function CharAdd({
   const { teamId, productId } = useParams();
   const [addChar, setAddChar] = useState({
     uploadImage: "string",
-    characterRequestDto: {
-      name: "string",
-      detail: "string",
-      positionX: 0,
-      positionY: 0
+    characPostRequestDto: {
+      characterName: "string",
+      characterDetail: "string",
+      characterPositionX: 0,
+      characterPositionY: 0
     }
   });
   const [image, setImage] = useState(null);
@@ -157,9 +157,9 @@ export default function CharAdd({
                     onChange={(e) => {
                       setAddChar({
                         ...addChar,
-                        characterRequestDto: {
-                          ...addChar.characterRequestDto,
-                          name: e.target.value,
+                        characPostRequestDto: {
+                          ...addChar.characPostDto,
+                          characterName: e.target.value,
                         },
                       });
                     }}
@@ -182,9 +182,9 @@ export default function CharAdd({
                     onChange={(e) => {
                       setAddChar({
                         ...addChar,
-                        characterRequestDto: {
-                          ...addChar.characterRequestDto,
-                          detail: e.target.value,
+                        characPostRequestDto: {
+                          ...addChar.characPostRequestDto,
+                          characterDetail: e.target.value,
                         },
                       });
                     }}

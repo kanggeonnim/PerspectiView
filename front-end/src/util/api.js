@@ -16,7 +16,7 @@ export const privateApi = axios.create({
   headers: {
     // Authorization: getCookie("accessToken"),
     Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3Nzk4MDQ3LCJleHAiOjE3MDc4MDUyNDd9.62lXAKzj9B7o-GJ9Q5txnPX285Nlb1DFLfQaoi4hMLE",
+    "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA3ODA1NDgxLCJleHAiOjE3MDc4MTI2ODF9.9VqXg6tkeq1nDqreFLZS1CiSTXetfu6GKl737dtpjXI",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",
