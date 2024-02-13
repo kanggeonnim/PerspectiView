@@ -227,10 +227,7 @@ export default useNodeStore;
     "storyTitle": "",
     "characters": [],
     "foreShadowings": [],
-    "content": {
-        "id": 62,
-        "content": ""
-    },
+    "storyContent": "",
     "positionX": 1,
     "positionY": 0
 }

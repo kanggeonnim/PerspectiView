@@ -34,13 +34,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       productTitle: "",
       productInfo: "",
       category: {
-        id: "1",
-        name: "웹소설",
+        categoryId: "1",
+        categoryName: "웹소설",
       },
       genres: [
         {
-          id: "1",
-          name: "SF",
+          categoryId: "1",
+          categoryName: "SF",
         },
       ],
     },
@@ -157,7 +157,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button className=" bg-red-500 w-full" onClick={handleUploadImage}>이미지 삭제</button>
+                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>이미지 삭제</button>
                   )}
                 </div>
               </div>
