@@ -100,8 +100,8 @@ export default function CharAdd({
         </CardTitle>
         <div className="box-border flex flex-row w-full h-3/4 ">
           <AlertDialogHeader className="flex w-1/3 h-full items-center">
-            <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border rounded-full">
-            <div className="flex flex-col items-center justify-center w-full h-full my-3 bg-gray-300 border h-2/3"
+            <div className="flex items-center justify-center w-40 h-40 my-3 bg-gray-300 border">
+            <div className="flex flex-col items-center justify-center w-full my-3 border bg-gray-300"
                   onClick={handleUploadClick}
                   style={{ cursor: "pointer" }}
                 >

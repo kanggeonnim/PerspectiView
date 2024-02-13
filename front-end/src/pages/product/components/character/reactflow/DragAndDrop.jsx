@@ -50,7 +50,7 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnD({ users, charDatas, idx }) {
+export default function DnD({ charDatas, idx }) {
   // get 받은 데이터들을 아래
   const { teamId, productId } = useParams();
   const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(
