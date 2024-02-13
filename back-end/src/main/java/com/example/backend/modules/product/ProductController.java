@@ -75,15 +75,9 @@ public class ProductController {
     @GetMapping("/{productId}/word")
     public ResponseEntity<byte[]> generateWord(@PathVariable("productId") Long productId) {
         try {
+            Document doc = productService.findWithStoryContentByProductId(productId);
 
-            Product product = productRepository.findById(productId).orElseThrow(()-> new NotFoundException());
-            StringBuffer sf = productService.findWithStoryContentByProductId(productId);
 
-            // 빈 워드 문서 생성
-            Document doc = new Document();
-
-            DocumentBuilder builder = new DocumentBuilder(doc);
-            builder.write(sf.toString());
             // 워드 문서를 바이트 배열로 저장
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             doc.save(outputStream, com.aspose.words.SaveFormat.DOCX);
