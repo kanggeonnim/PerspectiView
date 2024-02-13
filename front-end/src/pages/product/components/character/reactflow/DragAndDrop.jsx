@@ -58,7 +58,6 @@ export default function DnD({ charDatas, idx }) {
     productId
   );
   const [relativeData, setRelativeData] = useState("");
-  
   useEffect(() => {
     if (relativeList) {
       // console.log(getRelativeListIsSuccess, relativeList[relativeList.length-1]);
@@ -68,28 +67,28 @@ export default function DnD({ charDatas, idx }) {
   });
   //
   const initialNodes = [
-    // {
-    //   id: "1",
-    //   data: { name: "Node 1" },
-    //   position: { x: 100, y: 100 },
-    //   type: "custom",
-    // },
-    // {
-    //   id: "2",
-    //   data: { name: "Node 2" },
-    //   position: { x: 100, y: 250 },
-    //   type: "custom",
-    // },
+    {
+      id: charDatas[2].id.toString(),
+      data: { name: "Node 1", image: charDatas[2].image, },
+      position: { x: 100, y: 50 },
+      type: "custom",
+    },
+    {
+      id: charDatas[3].id.toString(),
+      data: { name: "Node 2", image: charDatas[3].image, },
+      position: { x: 100, y: 250 },
+      type: "custom",
+    },
   ];
-
+  console.log(charDatas[2].id)
   const initialEdges = [
-    // {
-    //   id: "e1-2",
-    //   source: "1",
-    //   sourceHandle: "b",
-    //   target: "2",
-    //   targetHandle: "f",
-    // },
+    {
+      id: "e1-2",
+      source: "3",
+      sourceHandle: "b",
+      target: "4",
+      targetHandle: "h",
+    },
   ];
 
   const reactFlowWrapper = useRef(null);
@@ -125,8 +124,6 @@ export default function DnD({ charDatas, idx }) {
   const edgePost = edgedata?.map((v) => Object.entries(v));
   // console.log(edgePost)
   const nodePost = nodedata?.map((v) => Object.entries(v));
-
-
 
   let resultArr = []
   for (let a = 3; a < 7; a++) {
@@ -188,6 +185,7 @@ export default function DnD({ charDatas, idx }) {
         data: {
           name: charDatas[findex].name,
           charId: charDatas[findex].id,
+          image: charDatas[findex].image,
           label: (
             <>
               <input
