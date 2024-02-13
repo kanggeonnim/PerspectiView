@@ -135,7 +135,10 @@ public class StoryService {
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
 
-        redisTemplate.opsForValue().set("story:" + storyId, StoryResponseDto.of(story, characters, foreShadowings));
+        StoryResponseDto storyResponseDto = StoryResponseDto.of(story, characters, foreShadowings);
+        storyResponseDto.setStoryId(storyId);
+
+        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto);
         return findStory;
     }
 
@@ -167,7 +170,7 @@ public class StoryService {
             List<ForeShadowing> foreShadowingList = story.getStoryForeShadowings().stream()
                     .map(StoryForeShadowing::getForeShadowing)
                     .collect(Collectors.toList());
-            
+
             redisTemplate.opsForValue().set("story:" + storyId, StoryResponseDto.of(story, characterList, foreShadowingList));
             return StoryResponseDto.of(story, characterList, foreShadowingList);
         } else {
