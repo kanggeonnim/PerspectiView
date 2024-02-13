@@ -15,19 +15,16 @@ import java.util.List;
 @Builder
 @DynamicInsert
 public class ContentDto implements Serializable {
-    private Long id;
     private String content;
 
-    public static ContentDto of(Content content){
+    public static ContentDto of(Content content) {
         return ContentDto.builder()
-                .id(content.getId())
                 .content(content.getContent())
                 .build();
     }
 
     @JsonCreator
-    public ContentDto(@JsonProperty("id") Long id, @JsonProperty("content") String content) {
-        this.id = id;
+    public ContentDto(@JsonProperty("content") String content) {
         this.content = content;
     }
 }

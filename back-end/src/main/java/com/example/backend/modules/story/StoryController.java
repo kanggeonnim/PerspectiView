@@ -58,7 +58,7 @@ public class StoryController {
     public ApiResult<StoryResponseDto> getStory(@PathVariable("storyId") Long storyId) {
         StoryResponseDto storyResponseDto = storyService.findByStoryId(storyId);
         //storyResponseDto 복선에 제대로 된 값 넣기
-        List<ForeShadowingPreviewDto> foreShadowingResponseDtos = storyResponseDto.getForeShadowings();
+//        List<ForeShadowingPreviewDto> foreShadowingResponseDtos = storyResponseDto.getForeShadowings();
 
         return ApiResult.OK(storyResponseDto);
     }
