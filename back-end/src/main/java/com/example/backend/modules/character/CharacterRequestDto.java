@@ -11,8 +11,6 @@ public class CharacterRequestDto {
     @NotNull
     private String name;
 
-    private String image;
-
     private String detail;
 
     private double positionX;
@@ -22,7 +20,6 @@ public class CharacterRequestDto {
     public static Character from(CharacterRequestDto characterRequestDto){
         return Character.builder()
                 .id(characterRequestDto.getId())
-                .characterImageUrl(characterRequestDto.getImage())
                 .characterName(characterRequestDto.getName())
                 .characterDetail(characterRequestDto.getDetail())
                 .positionX(characterRequestDto.getPositionX())

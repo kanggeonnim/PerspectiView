@@ -1,5 +1,8 @@
 package com.example.backend.modules.product;
 
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
+import com.aspose.words.Font;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRepository;
@@ -7,6 +10,7 @@ import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import com.example.backend.modules.plot.PlotService;
 import com.example.backend.modules.productrelation.ProductRelation;
+import com.example.backend.modules.story.Story;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamRepository;
 import com.example.backend.modules.team.TeamService;
@@ -16,6 +20,7 @@ import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -128,6 +133,35 @@ public class ProductService {
         List<Plot> plots = plotService.findWithStoryRelationById(findProduct);
         findProduct.updatePlots(plots);
         return findProduct;
+    }
+
+    public Document findWithStoryContentByProductId(Long productId) throws Exception {
+        Document doc = new Document();
+        DocumentBuilder builder = new DocumentBuilder(doc);
+
+        Font font = builder.getFont();
+        font.setColor(Color.BLACK);
+        font.setName("Arial");
+
+        Product findProduct = productRepository.findWithGenreCategoryById(productId).orElseThrow(() -> new NotFoundException());
+
+        for(Plot plot : findProduct.getPlots()){
+            List<Story> stories = plot.getStories();
+            Collections.sort(stories, (o1, o2)-> Integer.compare(o1.getPositionX(), o2.getPositionX()));
+            for(Story story : stories){
+
+                font.setSize(25);
+                font.setBold(true);
+                builder.writeln(story.getTitle());
+                builder.writeln();
+
+                font.setSize(12);
+                font.setBold(false);
+                builder.writeln(story.getContent().getContent());
+                builder.writeln();
+            }
+        }
+        return doc;
     }
 
     /**

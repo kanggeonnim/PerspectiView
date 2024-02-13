@@ -1,16 +1,24 @@
 package com.example.backend.modules.product;
 
+import com.aspose.words.Document;
+import com.aspose.words.DocumentBuilder;
 import com.example.backend.infra.s3.S3Uploader;
 import com.example.backend.modules.api.ApiResult;
+import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.genre.Genre;
 import com.example.backend.modules.genre.GenreRequestDto;
 import com.example.backend.modules.genre.GenreResponseDto;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotResponseDto;
+import com.example.backend.modules.story.Story;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.tomcat.util.http.fileupload.ByteArrayOutputStream;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,9 +34,10 @@ public class ProductController {
 
     private final ProductService productService;
     private final S3Uploader s3Uploader;
+    private final ProductRepository productRepository;
 
     @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ApiResult<ProductResponseDto> creatTeamProject(@RequestPart(value = "productRequestDto") @Valid ProductRequestDto productRequestDto,
+    public ApiResult<ProductResponseDto> creatTeamProject(@RequestPart @Valid ProductRequestDto productRequestDto,
                                                           @RequestPart(value = "uploadImage",required = false) MultipartFile uploadImage,
                                                           @PathVariable("teamId")Long teamId) throws IOException {
 
@@ -61,6 +70,30 @@ public class ProductController {
         return ApiResult.OK(ProductResponseDto.of(product,
                 genres.stream().map(GenreResponseDto::of).collect(Collectors.toList()),
                 plots.stream().map(PlotResponseDto::of).collect(Collectors.toList())));
+    }
+
+    @GetMapping("/{productId}/word")
+    public ResponseEntity<byte[]> generateWord(@PathVariable("productId") Long productId) {
+        try {
+            Document doc = productService.findWithStoryContentByProductId(productId);
+
+
+            // 워드 문서를 바이트 배열로 저장
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            doc.save(outputStream, com.aspose.words.SaveFormat.DOCX);
+
+            // HTTP 응답 헤더 설정
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+
+            headers.setContentDispositionFormData("filename", "product.docx");
+
+            // 바이트 배열을 HTTP 응답 본문으로 설정하여 반환
+            return new ResponseEntity<>(outputStream.toByteArray(), headers, HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping

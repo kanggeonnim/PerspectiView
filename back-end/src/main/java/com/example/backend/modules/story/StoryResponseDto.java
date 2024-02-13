@@ -4,6 +4,7 @@ import com.example.backend.modules.character.Character;
 import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingPreviewDto;
+import com.example.backend.modules.foreshadowing.ForeShadowingResponseDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;

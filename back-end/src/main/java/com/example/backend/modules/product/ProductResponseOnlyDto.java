@@ -1,6 +1,6 @@
 package com.example.backend.modules.product;
 
-import com.example.backend.modules.category.Category;
+import com.example.backend.modules.category.CategoryResponseDto;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +11,7 @@ public class ProductResponseOnlyDto {
     private String productTitle;
     private String productInfo;
     private String productImageUrl;
-    private Category category;
+    private CategoryResponseDto category;
 
     //플롯 hashset - 스토리까지 todo entitygraph
 
@@ -21,7 +21,7 @@ public class ProductResponseOnlyDto {
                 .productTitle(product.getTitle())
                 .productInfo(product.getInfo())
                 .productImageUrl(product.getProductImageuRL())
-                .category(product.getCategory())
+                .category(CategoryResponseDto.of(product.getCategory()))
                 .build();
     }
 }

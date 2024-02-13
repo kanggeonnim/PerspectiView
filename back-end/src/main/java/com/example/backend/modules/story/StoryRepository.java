@@ -28,4 +28,5 @@ public interface StoryRepository extends JpaRepository<Story,Long> {
 
     @EntityGraph(attributePaths = {"storyRelations"})
     List<Story> findWithStoryRelationByPlot(Plot plot);
+
 }

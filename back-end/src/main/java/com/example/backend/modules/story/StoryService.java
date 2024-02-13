@@ -2,7 +2,6 @@ package com.example.backend.modules.story;
 
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.character.CharacterRepository;
-import com.example.backend.modules.character.CharacterService;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
 import com.example.backend.modules.foreshadowing.ForeShadowingPreviewDto;
@@ -78,8 +77,8 @@ public class StoryService {
             StoryForeShadowing storyForeShadowing = StoryForeShadowing.builder()
                     .foreShadowing(foreShadowing)
                     .story(madeStory).build();
-            StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
-            madeStory.addStoryForeShadowing(makeStoryForeShadowing);
+//            StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
+//            madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
 
         redisTemplate.opsForValue().set("story:" + story.getId(), StoryResponseDto.of(madeStory, characters, foreShadowings));
@@ -132,6 +131,7 @@ public class StoryService {
 
         //Content를 가져와서 수정
         Content content = contentRepository.findById(findStory.getContent().getId()).orElseThrow(() -> new NotFoundException());
+        content.updateContent(story.getContent().getContent());
 
         findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
 
