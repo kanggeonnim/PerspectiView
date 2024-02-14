@@ -343,7 +343,9 @@ public class StoryService {
         Character character = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
 
         StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(() -> new NotFoundException());
+
         storyRelationRepository.delete(storyRelation);
+//        story.deleteStoryRelation(storyRelation);
 
 //        cacheAdapter.delete("story:" + storyId);
         return character;
