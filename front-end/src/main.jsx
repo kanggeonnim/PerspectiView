@@ -18,29 +18,32 @@ import ForeshadowingTab from "./pages/product/components/foreshadowing/Foreshado
 
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
-
-const isAuthenticated = () => {
-  console.log(sessionStorage.getItem("userInfo"));
-  if (sessionStorage.getItem("userInfo")) return true;
-  else false;
-};
+import { useAuthStore } from "./store/auth/useAuthStore.jsx";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function PrivateRoute({ element }) {
   const location = useLocation();
-
-  // if (!isAuthenticated()) {
-  //   if (location.pathname === "/login" || location.pathname === "/") {
-  //     return element;
-  //   } else {
-  //     return <Navigate to="/login" replace />;
-  //   }
-  // } else {
-  //   if (location.pathname === "/login" || location.pathname === "/") {
-  //     return <Navigate to="/workspace" replace />;
-  //   }
-  // }
-  return element;
+  const { user } = useAuthStore();
+  console.log(user);
+  if (!user) {
+    // 비로그인
+    if (location.pathname === "/login" || location.pathname === "/") {
+      return element;
+    } else {
+      return <Navigate to="/login" replace />;
+    }
+  } else {
+    // 로그인
+    if (
+      location.pathname === "/login" ||
+      location.pathname === "/" ||
+      location.pathname === "/workspace"
+    ) {
+      return <Navigate to={`/workspace/team/${user.personalTeamId}`} />;
+    } else {
+      return element;
+    }
+  }
 }
 
 const router = createBrowserRouter(
@@ -73,7 +76,7 @@ const router = createBrowserRouter(
           children: [
             {
               path: "team/:teamId",
-              element: <TeamInfo />,
+              element: <PrivateRoute element={<TeamInfo />} />,
             },
           ],
         },

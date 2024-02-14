@@ -80,7 +80,7 @@ function UserSidebar() {
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
                       <SelectValue className="font-bold truncatew-34">
-                        {selectedTeam.title}
+                        {selectedTeam && selectedTeam.title}
                       </SelectValue>
                     )}
                   </SelectTrigger>
