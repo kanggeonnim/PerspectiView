@@ -23,27 +23,27 @@ const useProductQueryModule = (teamId, productId) => {
     queryKey: ["productData", teamId, productId],
     queryFn: async () => {
       // if (!product) {
-        console.log("get product api call");
-        const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
-        const product = response.data.response;
-        setProduct(product);
-        setPlotList(product.plots);
-        setNodes([]);
-        let idx = 0;
+      console.log("get product api call");
+      const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
+      const product = response.data.response;
+      setProduct(product);
+      setPlotList(product.plots);
+      setNodes([]);
+      let idx = 0;
 
-        product.plots.map((plot) => {
-          if (plot.stories.length === 0) {
-            addEmptyStory(idx++, plot.plotId, plot.plotColor);
-          } else {
-            plot.stories.map((story) => {
-              arrangeStory(story, plot.plotId, idx++, plot.plotColor);
-            });
-          }
-        });
-        return response.data.response;
-      }
-      // return null;
+      product.plots.map((plot) => {
+        if (plot.stories.length === 0) {
+          addEmptyStory(idx++, plot.plotId, plot.plotColor);
+        } else {
+          plot.stories.map((story) => {
+            arrangeStory(story, plot.plotId, idx++, plot.plotColor);
+          });
+        }
+      });
+      return response.data.response;
     },
+    // return null;
+    // },
   });
 
   const { mutate: createProductData } = useMutation({
