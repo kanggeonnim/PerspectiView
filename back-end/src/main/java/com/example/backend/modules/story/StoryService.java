@@ -35,7 +35,7 @@ public class StoryService {
     private final CharacterRepository characterRepository;
 
 //    private final RedisTemplate redisTemplate;
-    private final CacheAdapter cacheAdapter;
+//    private final CacheAdapter cacheAdapter;
 
     /**
      * 스토리 생성
@@ -84,8 +84,7 @@ public class StoryService {
             madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
 
-//        redisTemplate.opsForValue().set("story:" + story.getId(), StoryResponseDto.of(madeStory, characters, foreShadowings));
-        cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(madeStory, characters, foreShadowings));
+//        cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(madeStory, characters, foreShadowings));
         return madeStory;
     }
 
@@ -141,8 +140,8 @@ public class StoryService {
         StoryResponseDto storyResponseDto = StoryResponseDto.of(story, characters, foreShadowings);
         storyResponseDto.setStoryId(storyId);
 
-//        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto);
-        cacheAdapter.put("story:" + story.getId(), storyResponseDto);
+//        cacheAdapter.delete("story" + story.getId());
+//        cacheAdapter.put("story:" + story.getId(), storyResponseDto);
         return findStory;
     }
 
@@ -154,8 +153,7 @@ public class StoryService {
     @Transactional
     public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
     }
 
     /**
@@ -165,9 +163,8 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-//        StoryResponseDto storyResponseDto = (StoryResponseDto) redisTemplate.opsForValue().get("story:" + storyId);
-        StoryResponseDto storyResponseDto = (StoryResponseDto) cacheAdapter.get("story:" + storyId);
-        if (storyResponseDto == null) {
+//        StoryResponseDto storyResponseDto = (StoryResponseDto) cacheAdapter.get("story:" + storyId);
+//        if (storyResponseDto == null) {
         Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
         List<Character> characterList = story.getStoryRelations().stream()
                 .map(StoryRelation::getCharacter)
@@ -177,12 +174,11 @@ public class StoryService {
                 .map(StoryForeShadowing::getForeShadowing)
                 .collect(Collectors.toList());
 
-//            redisTemplate.opsForValue().set("story:" + storyId, StoryResponseDto.of(story, characterList, foreShadowingList));
-            cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(story, characterList, foreShadowingList));
+//            cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(story, characterList, foreShadowingList));
         return StoryResponseDto.of(story, characterList, foreShadowingList);
-        } else {
-            return storyResponseDto;
-        }
+//        } else {
+//            return storyResponseDto;
+//        }
     }
 
     /**
@@ -215,8 +211,7 @@ public class StoryService {
 
 //        StoryResponseDto storyResponseDto = findByStoryId(storyId);
 //        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto.updateStoryResponseDto(findStory, storyResponseDto.getCharacters(), storyResponseDto.getForeShadowings()));
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
         return findStory;
     }
 
@@ -246,8 +241,7 @@ public class StoryService {
         story.addStoryForeShadowing(storyForeShadowing);
         fshadow.addStoryFshadow(storyForeShadowing);
 
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -267,8 +261,7 @@ public class StoryService {
             storyForeShadowingRepository.delete(sfs);
         }
 
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -284,8 +277,7 @@ public class StoryService {
 
         foreShadowing.updateFshadowClose(closeStoryId);
 
-//        redisTemplate.delete("story:" + closeStoryId);
-        cacheAdapter.delete("story:" + closeStoryId);
+//        cacheAdapter.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -297,8 +289,7 @@ public class StoryService {
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(() -> new NotFoundException());
         foreShadowing.updateFshadowClose(null);
 
-//        redisTemplate.delete("story:" + closeStoryId);
-        cacheAdapter.delete("story:" + closeStoryId);
+//        cacheAdapter.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -338,8 +329,7 @@ public class StoryService {
 
         StoryRelation storyRelation = storyRelationRepository.save(makestoryRelation);
 
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
         return character;
     }
 
@@ -357,8 +347,7 @@ public class StoryService {
         StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(() -> new NotFoundException());
         storyRelationRepository.delete(storyRelation);
 
-//        redisTemplate.delete("story:" + storyId);
-        cacheAdapter.delete("story:" + storyId);
+//        cacheAdapter.delete("story:" + storyId);
         return character;
     }
 
