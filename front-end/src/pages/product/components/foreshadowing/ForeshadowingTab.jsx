@@ -55,7 +55,7 @@ export default function ForeshadowingTab() {
 
   return (
     <Card className="w-full h-full">
-      <CardHeader className="flex flex-row items-center justify-end h-10 ">
+      <CardHeader className="flex flex-row items-center justify-end h-4 ">
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <PlusCircle className="cursor-pointer" size={24} />
@@ -116,7 +116,7 @@ export default function ForeshadowingTab() {
           </AlertDialogContent>
         </AlertDialog>
       </CardHeader>
-      <CardContent className="box-border flex flex-row items-center justify-between w-full p-0 border border-red-500 h-5/6">
+      <CardContent className="box-border flex flex-row items-center justify-between w-full p-0 h-5/6">
         {["column-1", "column-2", "column-3"].map((columnId) => {
           const column = columns[columnId];
           const colFshadows = column.fshadowsIds.map(

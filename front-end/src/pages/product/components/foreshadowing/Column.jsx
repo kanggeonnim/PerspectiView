@@ -4,9 +4,9 @@ import { ForeshadowingCard } from "./ForeshadowingCard";
 
 export default function Column({ column, colFshadows }) {
   return (
-    <div className="flex flex-col items-center w-full h-full mx-1 border border-green-500 min-w-40">
+    <div className="flex flex-col items-center w-full h-full mx-1 min-w-40">
       <div className="box-border flex justify-start w-full my-1">
-        <h3 className="mx-2 text-lg font-semibold">{column.title}</h3>
+        <h3 className="mx-2 ml-5 text-lg font-semibold">{column.title}</h3>
         <Badge className="text-yellow-700 bg-yellow-300 rounded-full">
           {column.fshadowsIds.length}
         </Badge>

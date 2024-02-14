@@ -1,11 +1,12 @@
 import check_icon from "@/assets/check_icon.svg";
 import book_icon from "@/assets/opened_book.svg";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
-import { Pencil, Trash2 } from "lucide-react";
+import { CheckCircle, Goal, Pencil, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 
@@ -17,8 +18,14 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
   const { teamId, productId, plotId, storyId } = useParams();
   const fshadowId = colFshadow.fshadowId;
-  const { deleteFshadow, updateFshadow, dropFshadow, undropFshadow, closeFshadow, uncloseFshadow } =
-    useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
+  const {
+    deleteFshadow,
+    updateFshadow,
+    dropFshadow,
+    undropFshadow,
+    closeFshadow,
+    uncloseFshadow,
+  } = useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
@@ -47,51 +54,87 @@ export function ForeshadowingCard({ colFshadow, index }) {
   };
 
   return (
-    <Card className="box-border flex flex-col w-full p-2 my-2">
+    <Card className="box-border flex flex-col w-full my-2 border border-inherit">
       <CardHeader>
-        <CardTitle className="flex justify-between">
-          <div className="flex flex-row gap-3">
-            {isEditMode ? (
-              <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
-            ) : (
-              <div>{colFshadow.fshadowName}</div>
-            )}
+        <CardTitle>
+          <div className="flex flex-col gap-3 ">
+            <div className="flex flex-row items-center justify-between">
+              {isEditMode ? (
+                <Input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="w-full"
+                />
+              ) : (
+                <div>{colFshadow.fshadowName}</div>
+              )}
+              <div className="flex">
+                {!isEditMode ? (
+                  <Pencil
+                    className="mx-2 cursor-pointer"
+                    size={16}
+                    onClick={() => setIsEditMode(true)}
+                  />
+                ) : (
+                  // <Button onClick={handleEditSubmit}>수정 완료</Button>
+                  <CheckCircle
+                    size={16}
+                    strokeWidth={1.25}
+                    className="mx-1"
+                    onClick={handleEditSubmit}
+                  />
+                )}
+                {colFshadow.columnId === "column-1" && (
+                  <Trash2
+                    className="cursor-pointer"
+                    size={16}
+                    onClick={deleteFshadow}
+                  />
+                )}
+              </div>
+            </div>
             {!isFshadowMainTab && (
-              <div className="flex flex-row">
+              <div className="flex flex-row gap-2">
                 {!isDropped && colFshadow.columnId !== "column-3" && (
-                  <Badge variant="outline" onClick={() => dropFshadow()}>
+                  <Badge
+                    className="cursor-pointer hover:bg-indigo-300"
+                    variant="outline"
+                    onClick={() => dropFshadow()}
+                  >
                     사용
                   </Badge>
                 )}
                 {isDropped &&
                   colFshadow.columnId !== "column-1" &&
                   colFshadow.columnId !== "column-3" && (
-                    <Badge variant="outline" onClick={() => undropFshadow()}>
+                    <Badge
+                      className="cursor-pointer hover:bg-indigo-300"
+                      variant="outline"
+                      onClick={() => undropFshadow()}
+                    >
                       사용취소
                     </Badge>
                   )}
                 {!isClose && colFshadow.columnId === "column-2" && (
-                  <Badge variant="outline" onClick={() => closeFshadow()}>
+                  <Badge
+                    className="cursor-pointer hover:bg-indigo-300"
+                    variant="outline"
+                    onClick={() => closeFshadow()}
+                  >
                     회수
                   </Badge>
                 )}
                 {isClose && colFshadow.columnId === "column-3" && (
-                  <Badge variant="outline" onClick={() => uncloseFshadow()}>
+                  <Badge
+                    className="cursor-pointer hover:bg-indigo-300"
+                    variant="outline"
+                    onClick={() => uncloseFshadow()}
+                  >
                     회수취소
                   </Badge>
                 )}
               </div>
-            )}
-          </div>
-          {/* //TODO delete 더블체크화면 */}
-          <div className="flex">
-            {colFshadow.columnId === "column-1" && (
-              <Trash2 className="cursor-pointer" size={16} onClick={deleteFshadow} />
-            )}
-            {!isEditMode ? (
-              <Pencil className="cursor-pointer" size={16} onClick={() => setIsEditMode(true)} />
-            ) : (
-              <Button onClick={handleEditSubmit}>수정 완료</Button>
             )}
           </div>
         </CardTitle>
@@ -100,37 +143,61 @@ export function ForeshadowingCard({ colFshadow, index }) {
         <div className="flex p-1 space-y-1">
           <img src={book_icon} className="mr-2" />
           {isEditMode ? (
-            <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
+            <Textarea
+              value={editContent}
+              className="w-full"
+              onChange={(e) => setEditContent(e.target.value)}
+            />
           ) : (
-            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
+            <p className="text-sm font-medium leading-none ">
+              {colFshadow.fshadowContent}
+            </p>
           )}
         </div>
-        <div className="flex items-center p-1 space-y-1">
-          <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">언급한 스토리 ID:</p>
-          <div className="flex ">
+        <div className="flex flex-col space-y-2">
+          <div className="flex flex-row items-center justify-start">
+            <img src={check_icon} className="mr-2" />
+            <p className="mr-3 text-sm font-medium leading-none">
+              언급한 스토리 ID
+            </p>
+          </div>
+          <div className="flex ml-8 ">
             {colFshadow.storyIdList?.map((storyOb, index) => (
-              <div key={index} className="mr-3">
+              <Badge
+                key={index}
+                variant="destructive"
+                className="mr-1 cursor-pointer hover:bg-destructive-accent"
+              >
                 <Link
                   to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
                 >
                   {storyOb.storyId}
                 </Link>
-              </div>
+              </Badge>
             ))}
           </div>
         </div>
-        <div className="flex items-center p-1 space-y-1">
-          <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">회수 스토리 ID:</p>
-          <div className="flex ">
-            <Link
-              to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
+        {!(colFshadow.fshadowClose == null) && (
+          <div className="flex flex-col items-start space-y-1">
+            <div className="flex flex-row items-center">
+              <Goal color="#19ae2a" strokeWidth={2} className="mr-2" />
+              <p className="mr-3 text-sm font-medium leading-none">
+                회수 스토리 ID
+              </p>
+            </div>
+            <Badge
+              key={index}
+              variant="destructive"
+              className="ml-8 cursor-pointer hover:bg-destructive-accent"
             >
-              {colFshadow.fshadowClose}
-            </Link>
+              <Link
+                to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
+              >
+                {colFshadow.fshadowClose}
+              </Link>
+            </Badge>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   );
