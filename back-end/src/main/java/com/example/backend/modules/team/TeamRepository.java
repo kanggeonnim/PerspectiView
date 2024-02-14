@@ -21,8 +21,9 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     @EntityGraph(attributePaths = "products")
     List<Team> findWithProductByManagersContainingAndPersonal(User user, boolean personal);
-    List<Team> findByMembersContaining(User user);
 
-    @Query("SELECT DISTINCT t FROM Team t JOIN t.managers m JOIN t.members mb WHERE (m = :user OR mb = :user) AND t.personal = false")
-    List<Team> findTeamsByMemberOrManagerAndNotPersonal(User user);
+    @EntityGraph(attributePaths = {"managers", "members"})
+    List<Team> findByMembersContainingOrManagersContainingAndPersonal(User members, User manager, boolean personal);
+
+
 }

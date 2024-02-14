@@ -75,6 +75,7 @@ public class TeamController {
 
     @GetMapping
     public ApiResult<List<TeamResponseDto>> getTeams(@AuthenticationPrincipal PrincipalDetails principalDetails){
+        log.info("=== controller team get ==");
         List<Team> myTeams = new ArrayList<>();
         myTeams.add(teamService.getMyTeam(principalDetails.getUser()));
 
