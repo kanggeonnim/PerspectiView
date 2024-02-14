@@ -63,7 +63,11 @@ export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
   const { updateProductData } = useProductQueryModule(teamId);
   const navigate = useNavigate();
-  
+  const [selectedGenres, setSelectedGenres] = useState([]);
+
+  const handleGenreSelect = (genres) => {
+    setSelectedGenres(genres);
+  };
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const {images, setImages} = useImageStore()
