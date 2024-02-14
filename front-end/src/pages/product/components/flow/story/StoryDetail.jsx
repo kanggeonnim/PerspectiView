@@ -29,11 +29,11 @@ export default function StoryDetail() {
   const [isEdit, setIsEdit] = useState(false);
   const { storyDetail, storyFshadowList, setStoryDetail } = useStoryDetailStore();
   const {
-    getStoryDetailData,
-    getStoryDetailDataIsSuccess,
-    isStoryDetailDataLoading,
-    getStoryFshadowListData,
-    getStoryFshadowListDataIsSuccess,
+    // getStoryDetailData,
+    // getStoryDetailDataIsSuccess,
+    // isStoryDetailDataLoading,
+    // getStoryFshadowListData,
+    // getStoryFshadowListDataIsSuccess,
     updateStory,
     addCharacter,
     removeCharacter,
@@ -50,7 +50,10 @@ export default function StoryDetail() {
     console.log("detail render", storyDetail);
   }, [storyDetail, storyDetail?.characters, characterList]);
 
-  console.log("in story", characterListInStory);
+  useEffect(() => {
+    console.log("in story", characterListInStory);
+  }, [characterListInStory]);
+
   if (!storyDetail) {
     return <div>Loading...</div>;
   }
@@ -180,12 +183,7 @@ export default function StoryDetail() {
                           size={13}
                           className="absolute right-0 mr-1 text-red-500 "
                           onClick={() => {
-                            console.log("delete", [
-                              ...characterListInStory.filter(
-                                (_, index) => index !== character.characterId
-                              ),
-                            ]);
-                            removeCharacter(storyDetail.plotId, storyId, character.characterId);
+                            removeCharacter(character.characterId);
                             setCharacterListInStory([
                               ...characterListInStory.filter(
                                 (charac) => charac.characterId !== character.characterId

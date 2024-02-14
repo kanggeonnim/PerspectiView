@@ -155,8 +155,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   });
 
   const { mutate: addCharacter } = useMutation({
-    mutationFn: async (updatedData, storyId) => {
-      console.log(updatedData);
+    mutationFn: async (updatedData) => {
       const response = await privateApi.post(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`,
         updatedData
@@ -167,12 +166,12 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
     },
   });
 
   const { mutate: removeCharacter } = useMutation({
-    mutationFn: async (plotId, storyId, characterId) => {
-      console.log(storyId, characterId);
+    mutationFn: async (characterId) => {
       const response = await privateApi.delete(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${characterId}`
       );
