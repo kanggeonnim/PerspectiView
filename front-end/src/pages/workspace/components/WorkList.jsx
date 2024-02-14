@@ -16,6 +16,7 @@ import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import useGenreQueryModule from "@/hook/useGenreQueryModule";
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
