@@ -29,7 +29,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
     (storyIdObject) => storyIdObject.storyId == storyId
   );
 
-  console.log("여기", colFshadow.columnId);
+  // console.log("여기", colFshadow.columnId);
 
   //해당 스토리 내에서 회수되었는지 여부
   const isClose = colFshadow.fshadowClose == storyId;
@@ -42,7 +42,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
       fshadowName: editName,
       fshadowContent: editContent,
     });
-    console.log("수정 요청:", fshadowId, editName, editContent);
+    // console.log("수정 요청:", fshadowId, editName, editContent);
     setIsEditMode(false);
   };
 

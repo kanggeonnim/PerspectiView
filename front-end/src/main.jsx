@@ -16,6 +16,7 @@ import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
 import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
 
+import ForeshadowingMain from "./pages/product/components/foreshadowing/ForeshadowingMain.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
 import { useAuthStore } from "./store/auth/useAuthStore.jsx";

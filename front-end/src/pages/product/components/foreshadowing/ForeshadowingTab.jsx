@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -54,7 +54,7 @@ export default function ForeshadowingTab() {
   });
 
   return (
-    <Card className="box-border max-h-full p-0 ">
+    <Card className="w-full h-full">
       <CardHeader className="flex flex-row items-center justify-end h-10 ">
         <AlertDialog>
           <AlertDialogTrigger asChild>
@@ -116,11 +116,15 @@ export default function ForeshadowingTab() {
           </AlertDialogContent>
         </AlertDialog>
       </CardHeader>
-      <CardContent className="box-border flex flex-row items-center justify-between p-0 ">
+      <CardContent className="box-border flex flex-row items-center justify-between w-full border border-red-500 h-5/6">
         {["column-1", "column-2", "column-3"].map((columnId) => {
           const column = columns[columnId];
-          const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
-          return <Column key={column.id} column={column} colFshadows={colFshadows} />;
+          const colFshadows = column.fshadowsIds.map(
+            (fshadowsId) => fshadows[fshadowsId]
+          );
+          return (
+            <Column key={column.id} column={column} colFshadows={colFshadows} />
+          );
         })}
       </CardContent>
     </Card>

@@ -9,17 +9,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductQueryModule from "@/hook/useProductQueryModule";
+import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import { useTeamListStore } from "@/store/team/useTeamListStore";
-import { useParams } from "react-router-dom";
-
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
@@ -49,8 +49,8 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    setImages(selectedImage)
-    setProductDetail(ProductDetail => ({
+    setImages(selectedImage);
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
     }));
@@ -97,7 +97,10 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       <AlertDialog className="w-full h-full">
         <div>
           <AlertDialogTrigger>
-            <Card className="flex items-center justify-center w-32 border h-36">
+            <Card
+              onClick={() => setIsEditing(true)}
+              className="flex items-center justify-center w-32 border h-36"
+            >
               <BookPlus color="#909090" />
             </Card>
           </AlertDialogTrigger>
@@ -175,13 +178,17 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <Buttonselect className="w-full" onSelect={setSelectedGenres} selectedGenres={selectedGenres} />
+                  <Buttonselect
+                    className="w-full"
+                    onSelect={setSelectedGenres}
+                    selectedGenres={selectedGenres}
+                  />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect />
+                  <RadioButtonSelect isEditing={isEditing} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">

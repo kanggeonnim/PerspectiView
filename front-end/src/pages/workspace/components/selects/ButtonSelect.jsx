@@ -1,7 +1,9 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
-export default function Buttonselect({ onSelect, selectedGenres }) {
+export default function Buttonselect({ isEditing, onSelect, selectedGenres }) {
+  // 체크 버튼
+  // 장르
   const arr = [
     { id: 1, name: "SF" },
     { id: 2, name: "액션" },
@@ -23,6 +25,14 @@ export default function Buttonselect({ onSelect, selectedGenres }) {
         className="cursor-pointer"
         onClick={() => handleSelect(item)}
         variant={selectedGenres?.some((genre) => genre.id === item.id) ? "destructive" : "off"}
+        // onClick={() => {
+        //   if (isEditing) {
+        //     !select.includes(item)
+        //       ? setSelect((select) => [...select, item])
+        //       : setSelect(select.filter((button) => button !== item));
+        //   }
+        // }}
+        // variant={select.includes(item) ? "destructive" : "off"}
       >
         {item.name}
       </Badge>

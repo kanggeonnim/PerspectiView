@@ -108,7 +108,7 @@ const useFshadowQueryModule = (
       const response = await privateApi.delete(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fstatus/${foreshadowingId}`
       );
-      console.log(response);
+      console.log("사용취소", response);
       return response.data.response;
     },
     onSuccess: () => {
