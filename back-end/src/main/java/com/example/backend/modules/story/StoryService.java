@@ -106,39 +106,37 @@ public class StoryService {
      * 스토리 수정
      *
      * @param story
-     * @param characters
-     * @param foreShadowings
      * @return
      */
     @Transactional
-    public Story updateStory(Long storyId, Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
+    public Story updateStory(Long storyId, Story story) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
-        storyRelationRepository.deleteAll(story.getStoryRelations());
-        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
+//        storyRelationRepository.deleteAll(story.getStoryRelations());
+//        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
         log.info("=============스토리를 찾는다.=============");
         Story findStory = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
 
-        Set<StoryRelation> storyRelations;
-        Set<StoryForeShadowing> storyForeShadowings;
-
-        storyRelations = characters.stream()
-                .map(c -> StoryRelation.builder().story(findStory).character(c).build())
-                .map(storyRelationRepository::save)
-                .collect(Collectors.toSet());
-
-        storyForeShadowings = foreShadowings.stream()
-                .map(fs -> StoryForeShadowing.builder().story(findStory).foreShadowing(fs).build())
-                .map(storyForeShadowingRepository::save)
-                .collect(Collectors.toSet());
+//        Set<StoryRelation> storyRelations;
+//        Set<StoryForeShadowing> storyForeShadowings;
+//        storyRelations = characters.stream()
+//                .map(c -> StoryRelation.builder().story(findStory).character(c).build())
+//                .map(storyRelationRepository::save)
+//                .collect(Collectors.toSet());
+//
+//        storyForeShadowings = foreShadowings.stream()
+//                .map(fs -> StoryForeShadowing.builder().story(findStory).foreShadowing(fs).build())
+//                .map(storyForeShadowingRepository::save)
+//                .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
         Content content = contentRepository.findById(findStory.getContent().getId()).orElseThrow(() -> new NotFoundException());
         content.updateContent(story.getContent().getContent());
 
-        findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
+//        findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
+        findStory.updateStory(story.getTitle(), content);
 
-        StoryResponseDto storyResponseDto = StoryResponseDto.of(story, characters, foreShadowings);
-        storyResponseDto.setStoryId(storyId);
+//        StoryResponseDto storyResponseDto = StoryResponseDto.of(story, characters, foreShadowings);
+//        storyResponseDto.setStoryId(storyId);
 
 //        cacheAdapter.delete("story" + story.getId());
 //        cacheAdapter.put("story:" + story.getId(), storyResponseDto);
