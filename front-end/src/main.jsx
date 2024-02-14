@@ -25,25 +25,26 @@ function PrivateRoute({ element }) {
   const location = useLocation();
   const { user } = useAuthStore();
   console.log(user);
-  if (!user) {
-    // 비로그인
-    if (location.pathname === "/login" || location.pathname === "/") {
-      return element;
-    } else {
-      return <Navigate to="/login" replace />;
-    }
-  } else {
-    // 로그인
-    if (
-      location.pathname === "/login" ||
-      location.pathname === "/" ||
-      location.pathname === "/workspace"
-    ) {
-      return <Navigate to={`/workspace/team/${user.personalTeamId}`} />;
-    } else {
-      return element;
-    }
-  }
+  // if (!user) {
+  //   // 비로그인
+  //   if (location.pathname === "/login" || location.pathname === "/") {
+  //     return element;
+  //   } else {
+  //     return <Navigate to="/login" replace />;
+  //   }
+  // } else {
+  //   // 로그인
+  //   if (
+  //     location.pathname === "/login" ||
+  //     location.pathname === "/" ||
+  //     location.pathname === "/workspace"
+  //   ) {
+  //     return <Navigate to={`/workspace/team/${user.personalTeamId}`} />;
+  //   } else {
+  //     return element;
+  //   }
+  // }
+  return element;
 }
 
 const router = createBrowserRouter(
