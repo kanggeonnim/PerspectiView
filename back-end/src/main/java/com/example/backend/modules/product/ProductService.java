@@ -157,8 +157,10 @@ public class ProductService {
 
                 font.setSize(12);
                 font.setBold(false);
-                builder.writeln(story.getContent().getContent());
-                builder.writeln();
+                if(story.getContent().getContent() != null){
+                    builder.writeln(story.getContent().getContent());
+                    builder.writeln();
+                }
             }
         }
         return doc;
