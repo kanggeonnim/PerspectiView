@@ -30,13 +30,14 @@ public class TeamService {
 
         return newTeam;
     }
+
     public Team createTeam(Team team, User user, List<User> findUsers) {
 
         Team newTeam = teamRepository.save(team);
         newTeam.addManager(user);
 
         log.info("========== add member =================");
-        for(User member : findUsers){
+        for (User member : findUsers) {
             newTeam.addMember(member);
             log.info("========== add member =================");
         }
@@ -45,7 +46,7 @@ public class TeamService {
     }
 
     // 본인 팀
-    public Team getMyTeam(User user){
+    public Team getMyTeam(User user) {
         User me = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new NotFoundException());
         return teamRepository.findWithProductByManagersContainingAndPersonal(me, true).get(0);
     }
@@ -53,21 +54,21 @@ public class TeamService {
     // 본인이 속한 팀
     public List<Team> getTeams(User user) {
         User me = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new NotFoundException());
-        return teamRepository.findByManagersContainingAndPersonal(user, false);
+        return teamRepository.findByManagersContainingAndPersonal(me, false);
     }
 
     public Team getTeam(Long id, User user) {
 
         Team team = teamRepository.findWithMemberAndManagerAndProductById(id).orElseThrow(() -> new NotFoundException());
 
-        if(team.ifManager(user) || team.ifMember(user)){
+        if (team.ifManager(user) || team.ifMember(user)) {
             return team;
         }
 
         throw new ForbiddenException("not in team");
     }
 
-    public List<Team> searchTeams(String keyword){
+    public List<Team> searchTeams(String keyword) {
         return teamRepository.findByTitleContains(keyword);
     }
 
