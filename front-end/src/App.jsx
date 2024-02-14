@@ -4,8 +4,6 @@ function App() {
   return (
     <>
       <Outlet />
-      {/* <ProductDetail isDetail={true} /> */}
-      {/* <ProductEdit /> */}
     </>
   );
 }

@@ -1,6 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
-import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter, useLocation } from "react-router-dom";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import App from "./App.jsx";
@@ -15,10 +15,33 @@ import CharTab from "./pages/product/components/character/CharTab.jsx";
 import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
 import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
-// import ForeshadowingTabProduct from "./pages/product/components/foreshadowing/ForeshadowingTabProduct.jsx";
 
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
+
+const isAuthenticated = () => {
+  console.log(sessionStorage.getItem("userInfo"));
+  if (sessionStorage.getItem("userInfo")) return true;
+  else false;
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+function PrivateRoute({ element }) {
+  const location = useLocation();
+
+  if (!isAuthenticated()) {
+    if (location.pathname === "/login" || location.pathname === "/") {
+      return element;
+    } else {
+      return <Navigate to="/login" replace />;
+    }
+  } else {
+    if (location.pathname === "/login" || location.pathname === "/") {
+      return <Navigate to="/workspace" replace />;
+    }
+  }
+  return element;
+}
 
 const router = createBrowserRouter(
   [
@@ -34,19 +57,19 @@ const router = createBrowserRouter(
       children: [
         {
           path: "",
-          element: <IndexPage />,
+          element: <PrivateRoute element={<IndexPage />} />,
         },
         {
           path: "login",
-          element: <LoginPage />,
+          element: <PrivateRoute element={<LoginPage />} />,
         },
         {
           path: "settings/profile",
-          element: <MyPage />,
+          element: <PrivateRoute element={<MyPage />} />,
         },
         {
           path: "workspace",
-          element: <WorkspacePage />,
+          element: <PrivateRoute element={<WorkspacePage />} />,
           children: [
             {
               path: "team/:teamId",
@@ -56,7 +79,7 @@ const router = createBrowserRouter(
         },
         {
           path: "team/:teamId/product/:productId",
-          element: <ProductPage />,
+          element: <PrivateRoute element={<ProductPage />} />,
           children: [
             {
               path: "",
@@ -69,7 +92,6 @@ const router = createBrowserRouter(
             {
               path: "foreshadowing",
               element: <ForeshadowingTab />,
-              // element: <ForeshadowingTabProduct />,
             },
             {
               path: "flow",

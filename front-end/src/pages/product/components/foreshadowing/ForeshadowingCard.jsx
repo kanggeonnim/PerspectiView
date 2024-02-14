@@ -17,14 +17,8 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
   const { teamId, productId, plotId, storyId } = useParams();
   const fshadowId = colFshadow.fshadowId;
-  const {
-    deleteFshadow,
-    updateFshadow,
-    dropFshadow,
-    undropFshadow,
-    closeFshadow,
-    uncloseFshadow,
-  } = useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
+  const { deleteFshadow, updateFshadow, dropFshadow, undropFshadow, closeFshadow, uncloseFshadow } =
+    useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
@@ -58,11 +52,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
         <CardTitle className="flex justify-between">
           <div className="flex flex-row gap-3">
             {isEditMode ? (
-              <input
-                type="text"
-                value={editName}
-                onChange={(e) => setEditName(e.target.value)}
-              />
+              <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
             ) : (
               <div>{colFshadow.fshadowName}</div>
             )}
@@ -96,18 +86,10 @@ export function ForeshadowingCard({ colFshadow, index }) {
           {/* //TODO delete 더블체크화면 */}
           <div className="flex">
             {colFshadow.columnId === "column-1" && (
-              <Trash2
-                className="cursor-pointer"
-                size={16}
-                onClick={deleteFshadow}
-              />
+              <Trash2 className="cursor-pointer" size={16} onClick={deleteFshadow} />
             )}
             {!isEditMode ? (
-              <Pencil
-                className="cursor-pointer"
-                size={16}
-                onClick={() => setIsEditMode(true)}
-              />
+              <Pencil className="cursor-pointer" size={16} onClick={() => setIsEditMode(true)} />
             ) : (
               <Button onClick={handleEditSubmit}>수정 완료</Button>
             )}
@@ -118,21 +100,14 @@ export function ForeshadowingCard({ colFshadow, index }) {
         <div className="flex p-1 space-y-1">
           <img src={book_icon} className="mr-2" />
           {isEditMode ? (
-            <textarea
-              value={editContent}
-              onChange={(e) => setEditContent(e.target.value)}
-            />
+            <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
           ) : (
-            <p className="text-sm font-medium leading-none ">
-              {colFshadow.fshadowContent}
-            </p>
+            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
           )}
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">
-            언급한 스토리 ID:
-          </p>
+          <p className="mr-3 text-sm font-medium leading-none">언급한 스토리 ID:</p>
           <div className="flex ">
             {colFshadow.storyIdList?.map((storyOb, index) => (
               <div key={index} className="mr-3">
@@ -147,9 +122,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
         </div>
         <div className="flex items-center p-1 space-y-1">
           <img src={check_icon} className="mr-2" />
-          <p className="mr-3 text-sm font-medium leading-none">
-            회수 스토리 ID:
-          </p>
+          <p className="mr-3 text-sm font-medium leading-none">회수 스토리 ID:</p>
           <div className="flex ">
             <Link
               to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
