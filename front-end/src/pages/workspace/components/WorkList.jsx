@@ -16,15 +16,9 @@ import { useEffect, useRef, useState } from "react";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 
-function CreateWork() {
-  return (
-    <Card className="flex items-center justify-center w-32 border-dashed h-36">
-      <BookPlus color="#909090" />
-    </Card>
-  );
-}
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
+  const [selectedGenres, setSelectedGenres] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
@@ -51,8 +45,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
     setImages(selectedImage)
-    console.log(images)
-    console.log(event.target.files)
     setProductDetail(ProductDetail => ({
       ...ProductDetail,
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
@@ -184,7 +176,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <Buttonselect className="w-full" />
+                  <Buttonselect className="w-full" onSelect={setSelectedGenres} selectedGenres={selectedGenres} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">

@@ -31,7 +31,7 @@ export default function RefContents() {
       {/* 전체 인물 관계도 */}
       <TabsContent value="relation" className="h-full">
         {/* <Card className="h-full "></Card> */}
-        <DnD></DnD>
+        <DnD/>
       </TabsContent>
 
       {/* 복선 목록 */}
