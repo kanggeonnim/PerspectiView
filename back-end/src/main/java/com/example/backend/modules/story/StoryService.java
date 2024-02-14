@@ -237,11 +237,7 @@ public class StoryService {
         story.addStoryForeShadowing(storyForeShadowing);
         fshadow.addStoryFshadow(storyForeShadowing);
 
-        StoryResponseDto storyResponseDto = findByStoryId(storyId);
-        List<ForeShadowingPreviewDto> foreShadowings = storyResponseDto.getForeShadowings();
-        foreShadowings.add(ForeShadowingPreviewDto.of(fshadow));
-        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto.updateStoryResponseDto(story, storyResponseDto.getCharacters(), foreShadowings));
-
+        redisTemplate.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -257,14 +253,11 @@ public class StoryService {
         //복선리스트에서 복선스토리 삭제
         StoryForeShadowing sfs = storyForeShadowingRepository.findByForeShadowingAndStory(fshadow, story);
         fshadow.deleteStoryFshadow(sfs);
-        if(sfs!=null){
-        storyForeShadowingRepository.delete(sfs);
+        if (sfs != null) {
+            storyForeShadowingRepository.delete(sfs);
         }
 
-        StoryResponseDto storyResponseDto = findByStoryId(storyId);
-        List<ForeShadowingPreviewDto> foreShadowings = storyResponseDto.getForeShadowings();
-        foreShadowings.remove(ForeShadowingPreviewDto.of(fshadow));
-        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto.updateStoryResponseDto(story, storyResponseDto.getCharacters(), foreShadowings));
+        redisTemplate.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -280,6 +273,7 @@ public class StoryService {
 
         foreShadowing.updateFshadowClose(closeStoryId);
 
+        redisTemplate.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -290,6 +284,8 @@ public class StoryService {
     public ForeShadowing deleteFshadowClose(Long fshadowId, Long closeStoryId) {
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(() -> new NotFoundException());
         foreShadowing.updateFshadowClose(null);
+
+        redisTemplate.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -316,9 +312,9 @@ public class StoryService {
      * 스토리 등장인물 추가
      */
     @Transactional
-    public Character addStoryRelation(Long storyId, Long characterId){
-        Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
-        Character character = characterRepository.findById(characterId).orElseThrow(()-> new NotFoundException());
+    public Character addStoryRelation(Long storyId, Long characterId) {
+        Story story = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
+        Character character = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
         log.info("===============캐릭터 보기=====================");
         log.info(character.getCharacterName());
 
@@ -329,6 +325,7 @@ public class StoryService {
 
         StoryRelation storyRelation = storyRelationRepository.save(makestoryRelation);
 
+        redisTemplate.delete("story:" + storyId);
         return character;
     }
 
@@ -338,13 +335,15 @@ public class StoryService {
      * @return
      */
     @Transactional
-    public Character deleteStoryRelation(Long storyId, Long characterId){
+    public Character deleteStoryRelation(Long storyId, Long characterId) {
         //character와 story로 storyrelation찾기
-        Story story = storyRepository.findById(storyId).orElseThrow(()-> new NotFoundException());
-        Character character = characterRepository.findById(characterId).orElseThrow(()-> new NotFoundException());
+        Story story = storyRepository.findById(storyId).orElseThrow(() -> new NotFoundException());
+        Character character = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
 
-        StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(()->new NotFoundException());
+        StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(() -> new NotFoundException());
         storyRelationRepository.delete(storyRelation);
+
+        redisTemplate.delete("story:" + storyId);
         return character;
     }
 
