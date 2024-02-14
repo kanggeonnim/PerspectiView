@@ -47,13 +47,22 @@ export default function DnD({ charDatas, idx }) {
   const { relativeList, getRelativeListIsSuccess, relativeListIsLoading } =
     useRelativeQueryModule(teamId, productId);
 
+  
+  const setTable = JSON.parse(localStorage.getItem(flowKey))
+  const reactFlowWrapper = useRef(null);
   const initialNodes = [];
   const initialEdges = [];
-
-  const reactFlowWrapper = useRef(null);
-
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    setNodes(setTable.nodes || []);
+  }, []);
+  
+  useEffect(() => {
+    setEdges(setTable.edges || []);
+  }, []);
+  
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
@@ -64,21 +73,21 @@ export default function DnD({ charDatas, idx }) {
     [setEdges]
   );
 
-  const onSave = useCallback(() => {
-    const datas = JSON.parse(localStorage.getItem(flowKey))
-    const nodeInfo = datas.nodes
-    const edgeInfo = edges.nodes
-    if (nodeInfo) {
-      nodeInfo.map((data) => (
-        charDatas.map((charData) => (
-          ( data.id === charData.characterId ) ? console.log('yes') : console.log('NaN') 
-        ))
-      ))
-    }
-    if (edgeInfo) {
-      edgeInfo.map((data)=> console.log(data))
-    }
-  }, [reactFlowInstance]);
+  // const onSave = useCallback(() => {
+  //   const datas = JSON.parse(localStorage.getItem(flowKey))
+  //   // const nodeInfo = datas.nodes
+  //   // const edgeInfo = edges.nodes
+  //   // if (nodeInfo) {
+  //   //   nodeInfo.map((data) => (
+  //   //     charDatas.map((charData) => (
+  //   //       ( data.id === charData.characterId ) ? console.log('yes') : console.log('NaN') 
+  //   //     ))
+  //   //   ))
+  //   // }
+  //   // if (edgeInfo) {
+  //   //   edgeInfo.map((data)=> console.log(data))
+  //   // }
+  // }, [reactFlowInstance]);
 
   // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
 
@@ -100,7 +109,6 @@ export default function DnD({ charDatas, idx }) {
       if (flow) {
         // 받을 값이 있다면
 
-        console.log("플로우 노드 : ", flow.nodes);
 
         setNodes(flow.nodes || []);
         // 해당 콘솔 참조하고, 해당 파일의 포맷과 같이 바꾸면 될 것
@@ -111,6 +119,7 @@ export default function DnD({ charDatas, idx }) {
     restoreFlow();
   }, [setNodes, setViewport]);
 
+  
   const onDragOver = useCallback((event) => {
     event.preventDefault();
   }, []);
@@ -184,15 +193,15 @@ export default function DnD({ charDatas, idx }) {
           <Controls />
           {/* <DownloadButton /> */}
           <Panel position="top-right">
-            <Button className="mr-2 bg-green-400" onClick={
+            {/* <Button className="mr-2 bg-green-400" onClick={
               // () => {
               //     createRelative(relations);
               //   }
 
-              onSave }>저장</Button>
+              onSave }>저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}
             <Button className="mr-2" onClick={onTempoSave}>
-              임시저장
+              저장
             </Button>
             <Button variant="outline" onClick={onRestore}>
               불러오기
