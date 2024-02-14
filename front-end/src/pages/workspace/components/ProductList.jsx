@@ -57,6 +57,7 @@ function Product({ productImg, productName }) {
 
 export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
+  console.log(productsdata)
   const { updateProductData } = useProductQueryModule(teamId);
   const navigate = useNavigate();
   
@@ -121,7 +122,6 @@ export default function ProductList({ productsdata, teamNo }) {
     },
     uploadImage: "",
   });
-  // console.log(productDetail);
   return (
 
     

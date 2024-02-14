@@ -9,7 +9,7 @@ const useRelativeQueryModule = (teamId, productId) => {
   const { setProduct } = useProductStore();
   const { setNodes } = useNodeStore();
 
-  const { data: relativeList, isSuccess: getRelativeListIsSuccess } = useQuery({
+  const { data: relativeList, isSuccess: getRelativeListIsSuccess, isLoading: relativeListIsLoading } = useQuery({
     queryKey: ["relativeList",teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/relation`);

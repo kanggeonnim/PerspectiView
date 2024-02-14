@@ -11,7 +11,6 @@ import { useState } from "react";
 export default function ProductPage() {
   const { getUser, getUserIsSuccess } = useUserQueryModule();
   const { teamId, productId } = useParams();
-  console.log("ProductPage", teamId, productId);
   const { productData, getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // 초기값은 true로 설정
 

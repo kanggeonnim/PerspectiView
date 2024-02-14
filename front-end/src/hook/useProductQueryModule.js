@@ -14,7 +14,6 @@ const useProductQueryModule = (teamId, productId) => {
     useQuery({
       queryKey: ["productListData", teamId],
       queryFn: async () => {
-        console.log(teamId);
         const response = await privateApi.get(`/api/team/${teamId}/product`);
         return response.data.response;
       },

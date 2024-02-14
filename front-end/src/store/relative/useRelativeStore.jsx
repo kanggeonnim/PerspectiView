@@ -1,58 +1,57 @@
-// import { applyEdgeChanges } from "reactflow";
-// import { create } from "zustand";
-// import { devtools } from "zustand/middleware";
-
-// const useRelativeStore = create(
-//   devtools((set, get) => ({
-//     // nodes: [],
-//     relatives: [],
-//     // setNodes: (newNodes) => set((state) => ({ nodes: newNodes }))
-//     // ,
-//     setRelatives: (newEdges) => set((state) => ({ relatives: newRelatives }))
-//     ,
-//   }))
-// );
-
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 export const useRelativeStore = create(
   devtools((set) => ({
-    nodedata: 
-    {
+    nodedatas: {
       id: "",
+      width: 112, // 너비 픽스
+      height: 132, // 높이 픽스
+      type: "custom", // 커스텀 픽스
       data: { name: "", image: "" },
       position: { x: 0, y: 0 },
-      type: "custom",
     },
-    setNodedata: (nodedata) => {
-      set({ nodedata: nodedata });
+    setNodedatas: (nodedatas) => {
+      set({ nodedatas: nodedatas });
     },
-    edgedata: {
-        id: "",
-        data: {
-          label: "",
-        },
-        source: "",
-        sourceHandle: "",
-        target: "",
-        targetHandle: "",
+    edgedatas: {
+      id: "",
+      source: "",
+      sourceHandle: "",
+      target: "",
+      targetHandle: "",
+      markerEnd: { type: "arrowclosed", color: "black" }, //픽스
+      style: { strokeWidth: 2, stroke: "black" }, //픽스
+      type: "custom", //픽스
+    },
+    setEdgedatas: (edgedatas) => {
+      set({ edgedatas: edgedatas });
+    },
+    relations: {
+      fromCharacter: {
+        id: 0,
+        name: "string",
+        detail: "string",
+        positionX: 0,
+        positionY: 0,
       },
-    setEdgedata: (edgedata) => {
-      set({ edgedata: edgedata });
+      toCharacter: {
+        id: 0,
+        name: "string",
+        detail: "string",
+        positionX: 0,
+        positionY: 0,
+      },
+      productRelationInfo: "string",
+      sourceId: 0,
+      targetId: 0,
+      sourceHandle: "string",
+      targetHandle: "string",
     },
-    // viewport: null,
-    // setViewport: (viewport) => {
-    //   set({ viewport: v });
-    // },
+    setRelations: (relations) => {
+      set({ relations: relations });
+    },
   }))
 );
 
 export default useRelativeStore;
-
-// const initialNodes = [
-//   { id: '1', data: { label: 'Node 1' }, position: { x: 100, y: 100 } },
-//   { id: '2', data: { label: 'Node 2' }, position: { x: 100, y: 200 } },
-// ];
-
-// const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
