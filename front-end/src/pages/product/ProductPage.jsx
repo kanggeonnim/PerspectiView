@@ -29,7 +29,7 @@ export default function ProductPage() {
     <MainLayout variant="horizontal">
       <ProductSidebar />
       <PageLayout>
-        {/* {isHeaderVisible && <ProductHeader />} */}
+        {isHeaderVisible && <ProductHeader />}
         <div className="flex flex-col items-center justify-center w-full h-full max-h-full ">
           <Outlet context={{ setIsHeaderVisible }} />
         </div>
