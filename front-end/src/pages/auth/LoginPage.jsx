@@ -1,23 +1,44 @@
 import { MainLayout } from "@/layouts/MainLayout";
-import { LoginBox } from "./components/LoginBox";
 import { GoogleButton } from "./components/button/GoogleButton";
 import { KakaoButton } from "./components/button/KakaoButton";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import logo from "@/assets/main_logo.svg";
+import { NaverButton } from "./components/button/NaverButton";
 
 export default function LoginPage() {
   return (
     <MainLayout variant="vertical">
-      {/* TODO: 크기 수정, 로고 추가*/}
-      <div className="flex items-center justify-center w-full h-full">
-        <LoginBox>
-          <Link to={`/workspace`}>
-            <GoogleButton />
-          </Link>
-          <Link to={`/workspace`}>
-            <KakaoButton />
-          </Link>
-          {/* FIXME 상기 버튼 누르기만 해도 워크스페이스로 이동하게 설정, 차후 수정할 것 */}
-        </LoginBox>
+      <div className="flex items-center justify-center w-full h-full bg-gradient-to-r from-violet-200 to-pink-200">
+        <Card className="w-1/3 drop-shadow-2xl">
+          <CardHeader className="items-center mb-3">
+            <CardTitle>
+              <Link to={`/`}>
+                <div className="my-6 mr-3">
+                  <img className="w-auto h-20" src={logo} alt="logo" />
+                </div>
+              </Link>
+            </CardTitle>
+            <CardDescription className="text-lg font-black ">
+              로그인 후 서비스를 이용해보세요.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="mt-4 mb-2 space-y-2">
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/google">
+              <GoogleButton />
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/kakao">
+              <KakaoButton />
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/oauth2/authorization/naver">
+              <NaverButton />
+            </Link>
+            <Link to="https://i10b310.p.ssafy.io/api/test?username=test_username">
+              <Button className="w-full"> 테스트 </Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     </MainLayout>
   );

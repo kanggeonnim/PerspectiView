@@ -1,128 +1,290 @@
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MinusCircle, MoreHorizontal, PlusCircle } from "lucide-react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
+import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { Textarea } from "@/components/ui/textarea";
+import { useCharacterListStore } from "@/store/useCharacterListStore";
+import { Separator } from "@/components/ui/separator";
 
-const characListData = [
-  {
-    characId: "1",
-    characName: "whitedragon",
-    characDetail: "최강 드래곤. 하얀색 드래곤이다. 다 부술 수 있다.",
-    keywordList: [
-      {
-        keywordId: "1",
-        keyword: "드래곤",
-      },
-      {
-        keywordId: "2",
-        keyword: "최강",
-      },
-    ],
-  },
-  {
-    characId: "2",
-    characName: "whitedragon2",
-    characDetail: "최강 드래곤. 하얀색 드래곤이다. 다 부술 수 있다.",
-    keywordList: [
-      {
-        keywordId: "1",
-        keyword: "드래곤",
-      },
-      {
-        keywordId: "2",
-        keyword: "최강",
-      },
-    ],
-  },
-];
-
-const storyData = {
-  storyId: "111",
-  plotId: "11",
-  storyTitle: "주인공 등장",
-  storyContent: "화이트 드래곤이 울부짖었다 크아아앙",
-  characList: [
-    {
-      id: "1",
-      imgUrl:
-        "https://images.unsplash.com/photo-1492633423870-43d1cd2775eb?&w=128&h=128&dpr=2&q=80",
-    },
-    {
-      id: "2",
-      imgUrl: "https://github.com/shadcn.png",
-    },
-  ],
-  position_x: 0.0,
-  position_y: 10.0,
-};
-
-const getCharacName = (characId) => {
-  const result = characListData.filter((charac) => charac.characId === characId);
-  return result[0].characName;
-};
+// const sample = Array.from({ length: 20 }, (_, index) => ({
+//   fshadowId: index + 1,
+//   fshadowName: "보물상자",
+//   fshadowContent:
+//     "화이트 드래곤이 놓고 간 보물상자 그 안에는 화이트 드래곤이 들어있고 블루 드래곤이 주워갔다.",
+// }));
 
 export default function StoryDetail() {
+  const { teamId, productId, plotId, storyId } = useParams();
+  const [isEdit, setIsEdit] = useState(false);
+  const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
+    useStoryDetailStore();
+  const {
+    getStoryDetailData,
+    getStoryDetailDataIsSuccess,
+    isStoryDetailDataLoading,
+    getStoryFshadowListData,
+    getStoryFshadowListDataIsSuccess,
+    updateStory,
+    addCharacter,
+    removeCharacter,
+  } = useStoryQueryModule(teamId, productId, plotId, storyId);
+
+  const [searchInput, setSearchInput] = useState("");
+  const [characterListInStory, setCharacterListInStory] = useState();
+  const { characterList } = useCharacterListStore();
+  // console.log("여기!!", getStoryFshadowListData);
+
+  useEffect(() => {
+    console.log("character", characterList);
+    if (storyDetail && storyDetail.characters) setCharacterListInStory([...storyDetail.characters]);
+    console.log("detail render", storyDetail);
+  }, [storyDetail, storyDetail?.characters, characterList]);
+
+  console.log("in story", characterListInStory);
+  if (!storyDetail) {
+    return <div>Loading...</div>;
+  }
   return (
     <Card className="w-1/2 h-full m-5 ">
-      <form action="" method="" className="flex flex-col w-full h-full ">
-        <CardHeader>
-          {/* 스토리 제목 */}
-          <CardTitle className="flex w-full my-2 text-3xl">{storyData.storyTitle}</CardTitle>
+      <CardHeader className="min-w-full p-0">
+        {/* 스토리 제목 */}
+        <CardTitle className="flex w-full p-0 my-2 text-3xl ">
+          {isEdit ? (
+            <Input
+              type="text"
+              className="text-3xl"
+              value={storyDetail.storyTitle}
+              onChange={(e) => {
+                setStoryDetail({ ...storyDetail, storyTitle: e.target.value });
+                console.log(e.target.value);
+              }}
+            />
+          ) : (
+            <div>{storyDetail.storyTitle}</div>
+          )}
+        </CardTitle>
 
+        <div className="flex justify-start ml-1">
           {/* 복선 */}
-          <div className="flex flex-col justify-between">
-            <div className="my-2 text-xs font-bold">이 스토리에 사용된 복선</div>
-            <div className="flex items-start justify-start space-x-2">
-              {/* TODO: 스토리에 해당하는 복선 조회 api */}
-              <Badge className=" bg-progress text-foreground" radius="full">
-                복선 제목
-              </Badge>
+          <div className="flex flex-col justify-between w-1/2 ">
+            <div className="my-2 text-sm font-bold">이 스토리에 사용된 복선</div>
+            <div className="flex flex-wrap items-start justify-start ">
+              {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
+                <HoverCard key={fshadow.fshadowId}>
+                  <HoverCardTrigger className="mr-1">
+                    <Badge
+                      variant="destructive"
+                      className="cursor-pointer hover:bg-destructive-accent"
+                    >
+                      {fshadow.fshadowName}
+                    </Badge>
+                  </HoverCardTrigger>
+                  <HoverCardContent>
+                    <ForeshadowingCardStoryDetail colFshadow={fshadow} />
+                  </HoverCardContent>
+                </HoverCard>
+              ))}
+              <div className="mx-2">{storyFshadowList?.length > 9 && <MoreHorizontal />}</div>
             </div>
           </div>
 
           {/* 인물 목록 */}
-          <div className="flex flex-col justify-between ">
-            <div className="my-2 text-xs font-bold ">이 스토리에 등장한 인물</div>
+          <div className="flex flex-col justify-between w-1/2 ">
+            <div className="flex items-center my-2 ">
+              <div className="text-sm font-bold ">이 스토리에 등장한 인물</div>
+              {isEdit && (
+                <Popover onOpenChange={() => setSearchInput("")}>
+                  <PopoverTrigger asChild>
+                    <PlusCircle size={15} className="mx-1 text-primary" />
+                  </PopoverTrigger>
+                  <PopoverContent className="h-60 w-80" side="right">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">인물 목록</h4>
+                        <div className="flex ">
+                          <Input
+                            className="w-4/5 mr-1 rounded-lg"
+                            value={searchInput}
+                            onChange={(event) => {
+                              setSearchInput(event.target.value);
+                            }}
+                          />
+                          <Button>검색</Button>
+                        </div>
+                        <ScrollArea className="border rounded h-36">
+                          {characterList?.map((character) => (
+                            <div
+                              key={character.characterId}
+                              className="m-1 cursor-pointer"
+                              onClick={() => {
+                                addCharacter(character);
+                                characterListInStory.push(character);
+                                setCharacterListInStory([...characterListInStory]);
+                              }}
+                            >
+                              <div className="text-sm">
+                                <div
+                                  className="flex items-center justify-between"
+                                  key={character.characterId}
+                                >
+                                  <div className="">
+                                    <Avatar>
+                                      <AvatarImage src={character.characImage} alt="@shadcn" />
+                                      <AvatarFallback>
+                                        {character.characterName?.slice(0, 2)}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                  </div>
+                                  <div className="flex flex-col items-start w-full font-regular">
+                                    <div className="mx-3 text-lg ">{character.characterName}</div>
+                                  </div>
+                                </div>
+                              </div>
+                              <Separator className="my-2" />
+                            </div>
+                          ))}
+                        </ScrollArea>
+                      </div>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+              )}
+            </div>
             <div className="flex items-start justify-start space-x-2">
-              {storyData.characList.map((character, key) => (
-                <div className="flex flex-col items-center " key={key}>
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
+              {isEdit ? (
+                <>
+                  {characterListInStory &&
+                    characterListInStory.map((character) => (
+                      <div
+                        className="relative flex flex-col items-center "
+                        key={character.characterId}
+                      >
                         <Avatar>
-                          <AvatarImage src={character.imgUrl} alt="@shadcn" />
-                          <AvatarFallback>CN</AvatarFallback>
+                          <AvatarImage src={character.characterImage} alt="@shadcn" />
+                          <AvatarFallback>{character.characterName?.slice(0, 2)}</AvatarFallback>
                         </Avatar>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p> {getCharacName(character.id)}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              ))}
+                        <Badge variant="secondary" radius="sm">
+                          {character.characterName}
+                        </Badge>
+                        <MinusCircle
+                          size={13}
+                          className="absolute right-0 mr-1 text-red-500 "
+                          onClick={() => {
+                            console.log("delete", [
+                              ...characterListInStory.filter(
+                                (_, index) => index !== character.characterId
+                              ),
+                            ]);
+                            removeCharacter(storyId, character.characterId);
+                            setCharacterListInStory([
+                              ...characterListInStory.filter(
+                                (charac) => charac.characterId !== character.characterId
+                              ),
+                            ]);
+                          }}
+                        />
+                      </div>
+                    ))}
+                </>
+              ) : (
+                <>
+                  {characterListInStory &&
+                    characterListInStory.map((character) => (
+                      <div className="flex flex-col items-center" key={character.characterId}>
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Avatar>
+                                <AvatarImage src={character.characterImage} alt="@shadcn" />
+                                <AvatarFallback>
+                                  {character.characterName?.slice(0, 2)}
+                                </AvatarFallback>
+                              </Avatar>
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom">
+                              <p> {character.characterName}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    ))}
+                </>
+              )}
             </div>
           </div>
-        </CardHeader>
+        </div>
+      </CardHeader>
 
-        <CardContent className="flex w-full h-full">
-          <div className="flex flex-col justify-start w-full h-full ">
-            <Textarea className="w-full h-full text-lg" defaultValue={storyData.storyContent} />
-          </div>
-        </CardContent>
-        <CardFooter className="flex justify-end">
-          <div className="flex m-4 ">
-            <Button className="w-full mx-2" variant="outline">
-              취소하기
+      <CardContent className="flex w-full p-0 my-5 border rounded-md h-fit">
+        <div className="flex flex-col justify-start w-full h-full ">
+          <ScrollArea className="h-72">
+            {isEdit ? (
+              <Textarea
+                className="w-full text-lg h-72"
+                value={storyDetail.content?.content ? storyDetail.content.content : ""}
+                onChange={(e) => {
+                  setStoryDetail({ ...storyDetail, content: { content: e.target.value } });
+                }}
+              />
+            ) : (
+              <div className="w-full h-full p-3 ">{storyDetail.content?.content}</div>
+            )}
+          </ScrollArea>
+        </div>
+      </CardContent>
+      <CardFooter className="flex justify-end p-0 mr-2 ">
+        {isEdit ? (
+          <>
+            <Button
+              className="mx-2 shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+              variant="outline"
+              onClick={() => setIsEdit(false)}
+            >
+              취소
             </Button>
-            <Button className="w-full mx-2" variant="default">
-              등록하기
+            <Button
+              className="mx-2 "
+              variant="default"
+              onClick={() => {
+                console.log({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
+
+                updateStory({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
+                setIsEdit(false);
+              }}
+            >
+              등록
             </Button>
-          </div>
-        </CardFooter>
-      </form>
+          </>
+        ) : (
+          <Button
+            className="mx-2 "
+            variant="default"
+            onClick={() => {
+              setIsEdit(true);
+              setStoryDetail(storyDetail);
+            }}
+          >
+            수정
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 }

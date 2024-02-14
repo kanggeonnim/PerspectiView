@@ -8,9 +8,14 @@ export default function ReadMore({ children }) {
   };
   return (
     <div>
-      {isReadMore ? text.slice(0, 90) : text}
+      {isReadMore ? text?.slice(0, 90) : text}
 
-      <span onClick={toggleReadMore} className="pl-1 font-bold read-or-hide text-primary-accent">
+      <span
+        onClick={toggleReadMore}
+        className={`pl-1 font-bold read-or-hide text-primary-accent ${
+          text?.length > 90 ? "" : "hidden"
+        }`}
+      >
         {isReadMore ? "...더보기" : " 접기"}
       </span>
     </div>

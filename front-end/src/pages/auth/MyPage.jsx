@@ -1,4 +1,4 @@
-import UserSidebar from "@/components/sidebar/UserSidebar";
+import UserSidebar from "@/components/sidebar/user/UserSidebar";
 import { MainLayout } from "@/layouts/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";

@@ -1,65 +1,127 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ForeshadowingCard } from "@/pages/product/components/foreshadowing/ForeshadowingCard";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
+import { useFshadow } from "@/store/useFshadow";
+import { PlusCircle } from "lucide-react";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+import Column from "./Column";
 
 export default function ForeshadowingTab() {
+  const { teamId, productId } = useParams();
+  const { createFshadow } = useFshadowQueryModule(teamId, productId);
+
+  const { fshadows } = useFshadow((state) => ({
+    fshadows: state.fshadows,
+  }));
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const columns = {
+    "column-1": {
+      id: "column-1",
+      title: "미사용",
+      fshadowsIds: [],
+    },
+    "column-2": {
+      id: "column-2",
+      title: "사용 중",
+      fshadowsIds: [],
+    },
+    "column-3": {
+      id: "column-3",
+      title: "회수 완료",
+      fshadowsIds: [],
+    },
+  };
+
+  //컬럼 taskIds 채우기
+  Object.keys(fshadows).forEach((key) => {
+    const fshadow = fshadows[key];
+    columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
+  });
+
   return (
-    // TODO: 복선 tab contents 크기 수정
-    <Card className="box-border h-full p-3">
-      <CardTitle className="box-border m-4 text-3xl">복선 목록</CardTitle>
-      <CardContent className="box-border flex flex-row justify-around gap-4 px-12 h-5/6">
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">미 회수 복선</h3>
-            <Badge className="text-yellow-700 bg-yellow-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea className="flex flex-col items-center w-full h-full m-2 overflow-y-auto">
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">사용 중인 복선</h3>
-            <Badge className="text-red-700 bg-red-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea
-            id="while"
-            className="flex flex-col items-center w-full h-full m-2 overflow-y-auto"
-          >
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
-        <div className="flex flex-col items-center w-1/3">
-          <div className="box-border flex justify-start w-full gap-3 m-4">
-            <h3 className="text-xl font-semibold">회수 된 복선</h3>
-            <Badge className="text-purple-700 bg-purple-300 rounded-full">
-              2{/* FIXME 임시 입력 숫자 */}
-            </Badge>
-          </div>
-          <ScrollArea
-            id="done"
-            className="flex flex-col items-center w-full h-full m-2 overflow-y-auto"
-          >
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-            <ForeshadowingCard />
-          </ScrollArea>
-        </div>
+    <Card className="box-border max-h-full p-0 ">
+      <CardHeader className="flex flex-row items-center justify-end h-10 ">
+        <AlertDialog>
+          <AlertDialogTrigger asChild>
+            <PlusCircle className="cursor-pointer" size={24} />
+          </AlertDialogTrigger>
+          <AlertDialogContent className="">
+            <AlertDialogHeader>
+              <div className="font-bold">복선 생성</div>
+            </AlertDialogHeader>
+            <div className="flex flex-col items-center w-full gap-5">
+              <div className="flex flex-col w-full space-y-1.5">
+                <Label htmlFor="title">복선 제목</Label>
+                <Input
+                  id="title"
+                  value={title}
+                  placeholder="복선의 제목을 입력하세요"
+                  onChange={(e) => setTitle(e.target.value)}
+                />
+              </div>
+              <div className="flex flex-col w-full space-y-1.5">
+                <Label htmlFor="content">복선 내용</Label>
+                <Textarea
+                  id="content"
+                  value={content}
+                  placeholder="복선에 대해 간략히 입력하세요"
+                  onChange={(e) => setContent(e.target.value)}
+                />
+              </div>
+            </div>
+            <AlertDialogFooter>
+              <AlertDialogCancel
+                className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                onClick={() => {
+                  setTitle("");
+                  setContent("");
+                }}
+              >
+                취소
+              </AlertDialogCancel>
+              <AlertDialogAction
+                // type="submit"
+                onClick={() => {
+                  console.log({
+                    fshadowName: title,
+                    fshadowContent: content,
+                  });
+                  // create
+                  createFshadow({
+                    fshadowName: title,
+                    fshadowContent: content,
+                  });
+                  setTitle("");
+                  setContent("");
+                }}
+              >
+                생성
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </CardHeader>
+      <CardContent className="box-border flex flex-row items-center justify-between p-0 ">
+        {["column-1", "column-2", "column-3"].map((columnId) => {
+          const column = columns[columnId];
+          const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
+          return <Column key={column.id} column={column} colFshadows={colFshadows} />;
+        })}
       </CardContent>
     </Card>
   );
