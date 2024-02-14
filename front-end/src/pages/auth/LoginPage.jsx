@@ -11,7 +11,7 @@ export default function LoginPage() {
   return (
     <MainLayout variant="vertical">
       <div className="flex items-center justify-center w-full h-full bg-gradient-to-r from-violet-200 to-pink-200">
-        <Card className="w-1/3 shadow-sm drop-shadow-3xl">
+        <Card className="w-1/3 drop-shadow-2xl">
           <CardHeader className="items-center mb-3">
             <CardTitle>
               <Link to={`/`}>
