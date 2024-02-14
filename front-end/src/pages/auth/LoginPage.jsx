@@ -10,8 +10,8 @@ import { NaverButton } from "./components/button/NaverButton";
 export default function LoginPage() {
   return (
     <MainLayout variant="vertical">
-      <div className="flex items-center justify-center w-full h-full bg-gradient-to-r from-purple-500 to-pink-500">
-        <Card className="w-1/3 shadow-sm drop-shadow-4xl">
+      <div className="flex items-center justify-center w-full h-full bg-gradient-to-r from-violet-200 to-pink-200">
+        <Card className="w-1/3 shadow-sm drop-shadow-3xl">
           <CardHeader className="items-center mb-3">
             <CardTitle>
               <Link to={`/`}>
