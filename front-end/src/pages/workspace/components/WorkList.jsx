@@ -20,12 +20,14 @@ import useGenreQueryModule from "@/hook/useGenreQueryModule";
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedCates, setSelectedCates] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
+  console.log(selectedCates)
 
   useEffect(() => {
-    selectedGenres.sort((a,b) => a.id - b.id)
+    selectedGenres?.sort((a,b) => a.id - b.id)
     setProductDetail(ProductDetail => ({
       ...ProductDetail,
       productRequestDto: {
@@ -34,6 +36,18 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       }
     }));
   }, [selectedGenres]);
+
+  useEffect(() => {
+    selectedCates
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        category : selectedCates
+      }
+    }));
+  }, [selectedGenres]);
+
 
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
@@ -92,15 +106,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     }
   };
 
-  const addGenres = () =>{
-    console.log("!")
-    setProductDetail(prevState => ({
-      ...prevState,
-      productRequestDto: {
-        ...prevState.productRequestDto,
-        genres: selectedGenres
-        }}))
-      }
 
 
   // FIXME 팀 ID undefined 발생
@@ -195,15 +200,16 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                   <Buttonselect
                     className="w-full"
                     onSelect={setSelectedGenres}
-                    selectedGenres={selectedGenres}
-                    onChange={addGenres}
+                    // selectedGenres={selectedGenres}
                   />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect isEditing={isEditing} />
+                  <RadioButtonSelect 
+                  isEditing={isEditing} 
+                  onSelectRadio={setSelectedCates} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">

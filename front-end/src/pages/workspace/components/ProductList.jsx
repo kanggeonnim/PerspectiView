@@ -62,9 +62,10 @@ export default function ProductList({ productsdata, teamNo }) {
   const [isEditing, setIsEditing] = useState(false);
   const { teamId } = useParams();
   const { updateProductData } = useProductQueryModule(teamId);
+  console.log(productsdata)
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
-
+  const [selectedCates, setSelectedCates] = useState("");
   const handleGenreSelect = (genres) => {
     setSelectedGenres(genres);
   };
@@ -72,8 +73,6 @@ export default function ProductList({ productsdata, teamNo }) {
   const fileInputRef = useRef(null);
   const {images, setImages} = useImageStore()
   const handleImageChange = (event) => {
-  const [isEdit, setIsEdit] = useState(false);
-    // TODO 수정 해야되는지 아닌지 분기
   const selectedImage = event.target.files[0];
   setImage(selectedImage);
   setImages(selectedImage)
@@ -237,13 +236,16 @@ export default function ProductList({ productsdata, teamNo }) {
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <Buttonselect isEditing={isEditing} className="w-full" />
+                      <Buttonselect isEditing={isEditing} className="w-full"
+                      onSelect={setSelectedGenres}
+                      // selectedGenres={selectedGenres}
+                      />
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <RadioButtonSelect isEditing={isEditing} />
+                      <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
