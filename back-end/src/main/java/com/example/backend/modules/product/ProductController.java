@@ -105,8 +105,8 @@ public class ProductController {
     
     //todo 팀에 있는 작품 이름으로 검색
 
-    @PutMapping("/{productId}")
-    public ApiResult<ProductResponseOnlyDto> updateTeamProject(@RequestBody @Valid ProductRequestDto productRequestDto,
+    @PutMapping(value = "/{productId}", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ApiResult<ProductResponseOnlyDto> updateTeamProject(@RequestPart @Valid ProductRequestDto productRequestDto,
                                                            @RequestPart(required = false) MultipartFile uploadImage,
                                                            @PathVariable("productId") Long productId) throws IOException {
 
