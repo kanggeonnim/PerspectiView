@@ -55,23 +55,24 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
         }}
       >
         <div className={`absolute m-1 top-0 right-0  ${isHovered ? "visible" : "hidden"}`}>
-          <Button
-            size="sm"
-            className="h-full p-1 rounded-full bg-secondary-accent hover:bg-secondary"
-            onClick={(e) => {
-              e.stopPropagation();
-              console.log(data);
-              deleteStory(data.storyId);
-            }}
-          >
-            <MinusCircle size={15} className="mx-auto text-foreground" />
-          </Button>
+          {type === "story" && (
+            <Button
+              size="sm"
+              className="h-full p-1 bg-transparent rounded-full shadow-none hover:bg-transparent hover:shadow-sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteStory(data.storyId);
+              }}
+            >
+              <MinusCircle size={15} className="mx-auto text-destructive" />
+            </Button>
+          )}
         </div>
         {showContent && <div className="text-center">{data.title}</div>}
 
         {type === "empty" && (
           <Button
-            className="w-full h-full p-0 m-0 bg-transparent border shadow-none hover:bg-transparent"
+            className="w-full h-full p-0 m-0 bg-transparent shadow-none hover:bg-transparent"
             onClick={() => {
               createStory({
                 storyTitle: "스토리 제목을 입력하세요.",

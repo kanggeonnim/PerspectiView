@@ -20,7 +20,7 @@ const useProductQueryModule = (teamId, productId) => {
   });
 
   const { data: productData, isSuccess: getProductDataIsSuccess } = useQuery({
-    queryKey: ["productData", teamId, productId],
+    queryKey: ["productData", productId],
     queryFn: async () => {
       // if (!product) {
       console.log("get product api call");
@@ -64,10 +64,7 @@ const useProductQueryModule = (teamId, productId) => {
   });
   const { mutate: updateProductData } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.put(
-        `/api/team/${teamId}/product/${productId}`,
-        newData
-      );
+      const response = await privateApi.put(`/api/team/${teamId}/product/${productId}`, newData);
       return response.data.response;
     },
     onSuccess: () => {
