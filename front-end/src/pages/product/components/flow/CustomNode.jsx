@@ -57,9 +57,11 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
         <div className={`absolute m-1 top-0 right-0  ${isHovered ? "visible" : "hidden"}`}>
           <Button
             size="sm"
-            className="h-full p-1 rounded-full bg-secondary-accent"
-            onClick={() => {
-              deleteStory();
+            className="h-full p-1 rounded-full bg-secondary-accent hover:bg-secondary"
+            onClick={(e) => {
+              e.stopPropagation();
+              console.log(data);
+              deleteStory(data.storyId);
             }}
           >
             <MinusCircle size={15} className="mx-auto text-foreground" />
@@ -73,9 +75,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
             onClick={() => {
               createStory({
                 storyTitle: "스토리 제목을 입력하세요.",
-                content: {
-                  content: "",
-                },
+                storyContent: { content: "" },
                 characters: [],
                 foreShadowings: [],
                 positionX: 1,

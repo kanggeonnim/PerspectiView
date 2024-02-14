@@ -128,7 +128,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   });
 
   const { mutate: deleteStory } = useMutation({
-    mutationFn: async () => {
+    mutationFn: async (storyId) => {
       console.log(teamId, productId, plotId, storyId);
       // const response = await privateApi.delete(
       //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`

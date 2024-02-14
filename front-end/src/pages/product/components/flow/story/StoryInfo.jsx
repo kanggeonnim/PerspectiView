@@ -13,7 +13,7 @@ export default function StoryInfo() {
     setIsHeaderVisible(false);
 
     return () => setIsHeaderVisible(true);
-  }, []);
+  }, [setIsHeaderVisible]);
 
   return (
     <div className="flex flex-col items-center justify-between w-full h-full border rounded shadow-md">

@@ -1,33 +1,14 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
 import { useCharacterListStore } from "@/store/useCharacterListStore";
 import { useStoryDetailStore } from "@/store/useStoryDetailStore";
@@ -46,8 +27,7 @@ import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingC
 export default function StoryDetail() {
   const { teamId, productId, plotId, storyId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
-  const { storyDetail, storyFshadowList, setStoryDetail } =
-    useStoryDetailStore();
+  const { storyDetail, storyFshadowList, setStoryDetail } = useStoryDetailStore();
   const {
     getStoryDetailData,
     getStoryDetailDataIsSuccess,
@@ -66,8 +46,7 @@ export default function StoryDetail() {
 
   useEffect(() => {
     console.log("character", characterList);
-    if (storyDetail && storyDetail.characters)
-      setCharacterListInStory([...storyDetail.characters]);
+    if (storyDetail && storyDetail.characters) setCharacterListInStory([...storyDetail.characters]);
     console.log("detail render", storyDetail);
   }, [storyDetail, storyDetail?.characters, characterList]);
 
@@ -98,9 +77,7 @@ export default function StoryDetail() {
         <div className="flex justify-start ml-1">
           {/* 복선 */}
           <div className="flex flex-col justify-between w-1/2 ">
-            <div className="my-2 text-sm font-bold">
-              이 스토리에 사용된 복선
-            </div>
+            <div className="my-2 text-sm font-bold">이 스토리에 사용된 복선</div>
             <div className="flex flex-wrap items-start justify-start ">
               {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
@@ -117,12 +94,9 @@ export default function StoryDetail() {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-              <div className="mx-2">
-                {storyFshadowList?.length > 9 && <MoreHorizontal />}
-              </div>
+              <div className="mx-2">{storyFshadowList?.length > 9 && <MoreHorizontal />}</div>
             </div>
           </div>
-
           {/* 인물 목록 */}
           <div className="flex flex-col justify-between w-1/2 ">
             <div className="flex items-center my-2 ">
@@ -155,9 +129,7 @@ export default function StoryDetail() {
                                 console.log(character, storyId);
                                 addCharacter(character, storyId);
                                 characterListInStory.push(character);
-                                setCharacterListInStory([
-                                  ...characterListInStory,
-                                ]);
+                                setCharacterListInStory([...characterListInStory]);
                               }}
                             >
                               <div className="text-sm">
@@ -167,19 +139,14 @@ export default function StoryDetail() {
                                 >
                                   <div className="">
                                     <Avatar>
-                                      <AvatarImage
-                                        src={character.characImage}
-                                        alt="@shadcn"
-                                      />
+                                      <AvatarImage src={character.characImage} alt="@shadcn" />
                                       <AvatarFallback>
                                         {character.characterName?.slice(0, 2)}
                                       </AvatarFallback>
                                     </Avatar>
                                   </div>
                                   <div className="flex flex-col items-start w-full font-regular">
-                                    <div className="mx-3 text-lg ">
-                                      {character.characterName}
-                                    </div>
+                                    <div className="mx-3 text-lg ">{character.characterName}</div>
                                   </div>
                                 </div>
                               </div>
@@ -203,13 +170,8 @@ export default function StoryDetail() {
                         key={character.characterId}
                       >
                         <Avatar>
-                          <AvatarImage
-                            src={character.characterImage}
-                            alt="@shadcn"
-                          />
-                          <AvatarFallback>
-                            {character.characterName?.slice(0, 2)}
-                          </AvatarFallback>
+                          <AvatarImage src={character.characterImage} alt="@shadcn" />
+                          <AvatarFallback>{character.characterName?.slice(0, 2)}</AvatarFallback>
                         </Avatar>
                         <Badge variant="secondary" radius="sm">
                           {character.characterName}
@@ -226,8 +188,7 @@ export default function StoryDetail() {
                             removeCharacter(storyDetail.plotId, storyId, character.characterId);
                             setCharacterListInStory([
                               ...characterListInStory.filter(
-                                (charac) =>
-                                  charac.characterId !== character.characterId
+                                (charac) => charac.characterId !== character.characterId
                               ),
                             ]);
                           }}
@@ -239,18 +200,12 @@ export default function StoryDetail() {
                 <>
                   {characterListInStory &&
                     characterListInStory.map((character) => (
-                      <div
-                        className="flex flex-col items-center"
-                        key={character.characterId}
-                      >
+                      <div className="flex flex-col items-center" key={character.characterId}>
                         <TooltipProvider>
                           <Tooltip>
                             <TooltipTrigger asChild>
                               <Avatar>
-                                <AvatarImage
-                                  src={character.characterImage}
-                                  alt="@shadcn"
-                                />
+                                <AvatarImage src={character.characterImage} alt="@shadcn" />
                                 <AvatarFallback>
                                   {character.characterName?.slice(0, 2)}
                                 </AvatarFallback>
@@ -276,22 +231,13 @@ export default function StoryDetail() {
             {isEdit ? (
               <Textarea
                 className="w-full text-lg h-72"
-                value={
-                  storyDetail.content?.content
-                    ? storyDetail.content.content
-                    : ""
-                }
+                value={storyDetail.storyContent.content ? storyDetail.storyContent.content : ""}
                 onChange={(e) => {
-                  setStoryDetail({
-                    ...storyDetail,
-                    content: { content: e.target.value },
-                  });
+                  setStoryDetail({ ...storyDetail, storyContent: { content: e.target.value } });
                 }}
               />
             ) : (
-              <div className="w-full h-full p-3 ">
-                {storyDetail.content?.content}
-              </div>
+              <div className="w-full h-full p-3 ">{storyDetail.storyContent?.content}</div>
             )}
           </ScrollArea>
         </div>
@@ -312,12 +258,12 @@ export default function StoryDetail() {
               onClick={() => {
                 console.log({
                   storyTitle: storyDetail.storyTitle,
-                  storyContent: storyDetail.content.content,
+                  storyContent: { content: storyDetail.storyContent.content },
                 });
 
                 updateStory({
                   storyTitle: storyDetail.storyTitle,
-                  storyContent: storyDetail.content.content,
+                  storyContent: { content: storyDetail.storyContent.content },
                 });
                 setIsEdit(false);
               }}
