@@ -145,6 +145,7 @@ class ProductRelationServiceTest {
                 .title("storyTitle")
                 .positionX(1)
                 .positionY(1.0)
+                .content(new Content("Content"))
                 .plot(plot)
                 .storyForeShadowings(new ArrayList<>())
                 .storyRelations(new ArrayList<>())
@@ -152,7 +153,7 @@ class ProductRelationServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, plot.getId(),"dd", characters,foreShadowings);
+        storyService.createStory(story, plot.getId(), characters,foreShadowings);
 
         fromCharacter = Character.builder()
                 .product(product)

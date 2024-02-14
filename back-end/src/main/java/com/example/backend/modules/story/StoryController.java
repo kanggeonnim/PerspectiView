@@ -28,9 +28,8 @@ public class StoryController {
                                                    @PathVariable("plotId") Long plotId) {
         //story 등록
         Story story = storyService.createStory(
-                StoryRequestDto.of(storyRequestDto, null, null),
+                StoryRequestDto.of(storyRequestDto),
                 plotId,
-                storyRequestDto.getStoryContent(),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
                 storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
 
@@ -42,7 +41,7 @@ public class StoryController {
     public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto,
                                                    @PathVariable("storyId") Long storyId) {
         Story story = storyService.updateStory(storyId,
-                StoryRequestDto.of(storyRequestDto, null, null),
+                StoryRequestDto.of(storyRequestDto),
                 storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
                 storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
         log.info("==========story update 완료=============");

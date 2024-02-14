@@ -137,7 +137,7 @@ class StoryServiceTest {
         plotRepository.save(plot);
 
         content = Content.builder()
-                .content("SibalContents: StartContents")
+                .content("Contents: StartContents")
                 .build();
         contentRepository.save(content);
 
@@ -153,7 +153,7 @@ class StoryServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, plot.getId(), "", characters, foreShadowings);
+        storyService.createStory(story, plot.getId(), characters, foreShadowings);
 
         fromCharacter = Character.builder()
                 .product(product)
@@ -224,7 +224,8 @@ class StoryServiceTest {
         Story s = Story.builder()
                 .title("생성테스트 story")
                 .positionX(1)
-                .positionY(1.0)
+                .positionY(1.1)
+                .content(new Content("Content"))
                 .plot(plot)
                 .storyForeShadowings(new ArrayList<>())
                 .storyRelations(new ArrayList<>())
@@ -235,7 +236,7 @@ class StoryServiceTest {
 
 
         //when
-        Story result = storyService.createStory(s, plot.getId(), content, characters, foreShadowings);
+        Story result = storyService.createStory(s, plot.getId(), characters, foreShadowings);
         em.flush();
         em.clear();
 
@@ -271,7 +272,7 @@ class StoryServiceTest {
                 .id(story.getId())
                 .title("changedStoryTitle")
                 .positionX(1)
-                .content(content)
+                .content(new Content("content"))
                 .positionY(1.0)
                 .plot(plot)
                 .storyForeShadowings(new ArrayList<>())
@@ -297,11 +298,12 @@ class StoryServiceTest {
                 .title("삭제테스트 story")
                 .positionX(1)
                 .positionY(1.0)
+                .content(new Content("Content"))
                 .plot(plot)
                 .storyForeShadowings(new ArrayList<>())
                 .storyRelations(new ArrayList<>())
                 .build();
-        storyService.createStory(delStory, plot.getId(), "스토리 내용", characters, foreShadowings);
+        storyService.createStory(delStory, plot.getId(), characters, foreShadowings);
         //when
         storyService.deleteStory(delStory.getId());
         //then

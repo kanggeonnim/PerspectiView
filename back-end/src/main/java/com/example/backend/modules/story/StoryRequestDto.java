@@ -14,19 +14,16 @@ import java.util.List;
 @Builder
 public class StoryRequestDto {
     private String storyTitle;
-    private String storyContent;
+    private ContentDto storyContent;
     private List<CharacterRequestDto> characters;
     private List<ForeShadowingRequestDto> foreShadowings;
     private int positionX;
     private Double positionY;
 
-//    public static Story of(StoryRequestDto storyRequestDto) {
-    public static Story of(StoryRequestDto storyRequestDto,List<StoryRelation> storyRelations,List<StoryForeShadowing> storyForeShadowings) {
+    public static Story of(StoryRequestDto storyRequestDto) {
         return Story.builder()
                 .title(storyRequestDto.getStoryTitle())
-                .storyRelations(storyRelations)
-                .content(new Content(storyRequestDto.getStoryContent()))
-                .storyForeShadowings(storyForeShadowings)
+                .content(ContentDto.from(storyRequestDto.getStoryContent()))
                 .positionX(storyRequestDto.getPositionX())
                 .positionY(storyRequestDto.getPositionY())
                 .build();

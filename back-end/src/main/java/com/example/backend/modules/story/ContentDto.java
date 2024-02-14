@@ -23,6 +23,12 @@ public class ContentDto implements Serializable {
                 .build();
     }
 
+    public static Content from(ContentDto contentDto){
+        return Content.builder()
+                .content(contentDto.getContent())
+                .build();
+    }
+
     @JsonCreator
     public ContentDto(@JsonProperty("content") String content) {
         this.content = content;

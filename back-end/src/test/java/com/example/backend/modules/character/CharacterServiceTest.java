@@ -149,6 +149,7 @@ class CharacterServiceTest {
                 .title("storyTitle")
                 .positionX(1)
                 .positionY(1.0)
+                .content(content)
                 .plot(plot)
                 .storyForeShadowings(new ArrayList<>())
                 .storyRelations(new ArrayList<>())
@@ -156,7 +157,7 @@ class CharacterServiceTest {
 
         characters = new ArrayList<>();
         foreShadowings = new ArrayList<>();
-        storyService.createStory(story, plot.getId(),"", characters,foreShadowings);
+        storyService.createStory(story, plot.getId(), characters,foreShadowings);
 
         fromCharacter = Character.builder()
                 .product(product)
