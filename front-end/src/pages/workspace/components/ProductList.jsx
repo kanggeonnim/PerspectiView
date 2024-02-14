@@ -99,7 +99,6 @@ export default function ProductList({ productsdata, teamNo }) {
     if (image) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
-      console.log(formData);
       console.log(image)
       setProductDetail(ProductDetail => ({
         ...ProductDetail,
@@ -171,11 +170,11 @@ export default function ProductList({ productsdata, teamNo }) {
                       onClick={handleUploadClick}
                       style={{ cursor: "pointer" }}
                     >
-                      {image ? (
+                      {product.productImageUrl ? (
                         <div className="w-full h-full">
                           <img
                             className="w-full h-full"
-                            src={URL.createObjectURL(image)}
+                            src={product.productImageUrl}
                             alt="Uploaded"
                             style={{ maxWidth: "300px" }}
                             onChange={(e) => {
@@ -198,7 +197,7 @@ export default function ProductList({ productsdata, teamNo }) {
                           />
                         </>
                       )}
-                      {image && (
+                      {product.productImageUrl && (
                         <button
                           className="w-full bg-red-500 "
                           onClick={handleUploadImage}
