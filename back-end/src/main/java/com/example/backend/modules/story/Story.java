@@ -57,12 +57,9 @@ public class Story {
     }
 
     //------수정 메서드-----//
-    public void updateStory(String title, Content content, Set<StoryRelation> storyRelations, Set<StoryForeShadowing> storyForeShadowings, Double positionY) {
+    public void updateStory(String title, Content content) {
         this.title = title;
         this.content = content;
-        this.storyForeShadowings = storyForeShadowings;
-        this.storyRelations = storyRelations;
-        this.positionY = positionY;
     }
 
     //-----storyRelation에 추가----//
