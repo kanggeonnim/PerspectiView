@@ -54,7 +54,7 @@ public class TeamService {
     // 본인이 속한 팀
     public List<Team> getTeams(User user) {
         User me = userRepository.findByUsername(user.getUsername()).orElseThrow(() -> new NotFoundException());
-        return teamRepository.findByManagersContainingAndPersonal(me, false);
+        return teamRepository.findTeamsByMemberOrManagerAndNotPersonal(me);
     }
 
     public Team getTeam(Long id, User user) {
