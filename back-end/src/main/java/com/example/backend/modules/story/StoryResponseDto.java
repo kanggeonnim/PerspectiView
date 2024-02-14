@@ -53,14 +53,14 @@ public class StoryResponseDto {
                             @JsonProperty("storyTitle") String storyTitle,
                             @JsonProperty("characters") List<CharacterResponseDto> characters,
                             @JsonProperty("foreShadowings") List<ForeShadowingPreviewDto> foreShadowings,
-                            @JsonProperty("content") ContentDto content,
+                            @JsonProperty("storyContent") ContentDto storyContent,
                             @JsonProperty("positionX") int positionX,
                             @JsonProperty("positionY") Double positionY) {
         this.storyId = storyId;
         this.storyTitle = storyTitle;
         this.characters = characters;
         this.foreShadowings = foreShadowings;
-        this.storyContent = content;
+        this.storyContent = storyContent;
         this.positionX = positionX;
         this.positionY = positionY;
     }
