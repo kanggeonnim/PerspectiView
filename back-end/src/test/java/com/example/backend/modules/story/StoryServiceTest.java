@@ -279,7 +279,7 @@ class StoryServiceTest {
                 .storyRelations(new ArrayList<>())
                 .build();
         //when
-        Story updatedStory = storyService.updateStory(story.getId(), newStory, characters, foreShadowings);
+        Story updatedStory = storyService.updateStory(story.getId(), newStory);
         em.flush();
         em.clear();
         List<Story> checkQuery = storyRepository.findWithPlotByPlot(plot);
@@ -317,7 +317,7 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story.getId(), story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(), story);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -332,11 +332,11 @@ class StoryServiceTest {
         List<Character> characters1 = new ArrayList<>();
         characters1.add(toCharacter);
         characters1.add(fromCharacter);
-        storyService.updateStory(story.getId(), story, characters1, foreShadowings);
+        storyService.updateStory(story.getId(), story);
 
         List<Character> characters2 = new ArrayList<>();
         characters2.add(toCharacter);
-        storyService.updateStory(story.getId(), story, characters2, foreShadowings);
+        storyService.updateStory(story.getId(), story);
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
