@@ -25,6 +25,7 @@ function CreateWork() {
 }
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
+  const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
@@ -55,8 +56,8 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     console.log(event.target.files)
     setProductDetail(ProductDetail => ({
       ...ProductDetail,
-      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
-      },
+      uploadImage: selectedImage // 이미지 URL을 uploadImage 속성에 할당
+      }
     ))
 
   };
@@ -106,8 +107,8 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     <form>
       <AlertDialog className="w-full h-full">
         <div>
-          <AlertDialogTrigger>
-            <Card className="flex items-center justify-center w-32 border h-36">
+          <AlertDialogTrigger >
+            <Card onClick={()=>setIsEditing(true)} className="flex items-center justify-center w-32 border h-36">
               <BookPlus color="#909090" />
             </Card>
           </AlertDialogTrigger>
@@ -184,13 +185,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <Buttonselect className="w-full" />
+                  <Buttonselect isEditing={isEditing} className="w-full" />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect />
+                  <RadioButtonSelect isEditing={isEditing}/>
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">

@@ -43,8 +43,8 @@ const useUserQueryModule = () => {
   const { mutate: deleteUser } = useMutation({
     mutationFn: async () => {
       const response = await privateApi.delete(`/api/user`);
-      navigate(`/workspace`);
-      console.log("회원 삭제", response);
+      // navigate(`/workspace`);
+      console.log("회원 삭제 실행", response);
       return response.data.response;
     },
     onSuccess: () => {

@@ -111,7 +111,7 @@ export default function Comment() {
                       <Button onClick={handleCancelEdit}>취소</Button>
                       <Button
                         onClick={() => {
-                          console.log(editText);
+                          // console.log(editText);
                           handleSaveEdit({
                             commentId: comment.commentId,
                             updatedData: { commentContent: editText },

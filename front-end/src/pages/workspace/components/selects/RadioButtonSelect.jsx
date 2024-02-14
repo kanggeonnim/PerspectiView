@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
-export default function RadioButtonSelect() {
+export default function RadioButtonSelect({ isEditing }) {
   // 라디오 버튼
   // 카테고리
   const arrs = [
@@ -30,6 +30,7 @@ export default function RadioButtonSelect() {
               value={`${arr.id}`}
               checked={selectedOption === `${arr.id}`}
               onChange={handleOptionChange}
+              disabled={!isEditing}
               className="hidden"
             />
             {arr.name}

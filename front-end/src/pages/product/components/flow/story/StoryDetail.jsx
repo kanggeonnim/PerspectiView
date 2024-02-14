@@ -20,6 +20,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Textarea } from "@/components/ui/textarea";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
 import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
@@ -37,7 +38,7 @@ import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingC
 export default function StoryDetail() {
   const { teamId, productId, plotId, storyId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
-  const { storyDetail, storyFshadowList, setStoryDetail, setStoryFshadowList } =
+  const { storyDetail, storyFshadowList, setStoryDetail } =
     useStoryDetailStore();
   const {
     getStoryDetailData,
@@ -81,29 +82,6 @@ export default function StoryDetail() {
             <div className="my-2 text-sm font-bold">
               이 스토리에 사용된 복선
             </div>
-            {/* <Popover onOpenChange={() => setSearchInput("")}>
-              <PopoverTrigger asChild>
-                <PlusCircle size={15} className="mx-1" />
-              </PopoverTrigger>
-              <PopoverContent className="h-60 w-80" side="right">
-                <div className="grid gap-4">
-                  <div className="space-y-2">
-                    <h4 className="font-medium leading-none">인물 목록</h4>
-                    <div className="flex ">
-                      <Input
-                        className="w-4/5 mr-1 rounded-lg"
-                        value={searchInput}
-                        onChange={(event) => {
-                          setSearchInput(event.target.value);
-                        }}
-                      />
-                      <Button>검색</Button>
-                    </div>
-                    <ScrollArea className="border h-36"></ScrollArea>
-                  </div>
-                </div>
-              </PopoverContent>
-            </Popover> */}
             <div className="flex flex-wrap items-start justify-start ">
               {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>

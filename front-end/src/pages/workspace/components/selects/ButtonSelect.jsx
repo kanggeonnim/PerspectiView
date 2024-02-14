@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useState } from "react";
 
-export default function Buttonselect() {
+export default function Buttonselect({ isEditing }) {
   // 체크 버튼
   // 장르
   const arr = [
@@ -19,9 +19,11 @@ export default function Buttonselect() {
       <Badge
         className="cursor-pointer "
         onClick={() => {
-          !select.includes(item)
-            ? setSelect((select) => [...select, item])
-            : setSelect(select.filter((button) => button !== item));
+          if (isEditing) {
+            !select.includes(item)
+              ? setSelect((select) => [...select, item])
+              : setSelect(select.filter((button) => button !== item));
+          }
         }}
         variant={select.includes(item) ? "destructive" : "off"}
       >
