@@ -30,7 +30,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     isSuccess: async (data) => {
       console.log("스토리단일조회 success", data);
-      // setStoryDetail(response.data.res ponse);
+      // setStoryDetail(response.data.response);
     },
   });
 
@@ -59,7 +59,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   }, [getStoryFshadowListDataIsSuccess, getStoryFshadowListData, setStoryFshadowList]);
 
   const { mutate: createStory } = useMutation({
-    mutationFn: async (newData) => {
+    mutationFn: async (newData, plotId, productId) => {
       const response = await privateApi.post(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story`,
         newData
@@ -152,27 +152,28 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   });
 
   const { mutate: addCharacter } = useMutation({
-    mutationFn: async (updatedData) => {
+    mutationFn: async (updatedData, storyId) => {
       console.log(updatedData);
-      // const response = await privateApi.post(
-      //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`,
-      //   updatedData
-      // );
-      // return response.data.response;
+      const response = await privateApi.post(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`,
+        updatedData
+      );
+      console.log(response);
+      return response.data.response;
     },
     onSuccess: () => {
       // Invalidate and refetch
-      // queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
     },
   });
 
   const { mutate: removeCharacter } = useMutation({
-    mutationFn: async (storyId, characterId) => {
+    mutationFn: async (plotId, storyId, characterId) => {
       console.log(storyId, characterId);
-      // const response = await privateApi.delete(
-      //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`
-      // );
-      // return response.data.response;
+      const response = await privateApi.delete(
+        `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${characterId}`
+      );
+      return response.data.response;
     },
     onSuccess: () => {
       // Invalidate and refetch

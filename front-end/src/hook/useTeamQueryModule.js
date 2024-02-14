@@ -14,14 +14,15 @@ const useTeamQueryModule = (teamId) => {
   const { data: teamListData, isSuccess: getTeamListsIsSuccess } = useQuery({
     queryKey: ["teamListData"],
     queryFn: async () => {
-      // console.log(teamList);
-      if (!teamList) {
-        const response = await privateApi.get(`/api/team`);
-        setTeamList(response.data.response);
-        return response.data.response;
-      }
-      return null;
+      console.log(teamList);
+      // if (!teamList) {
+      const response = await privateApi.get(`/api/team`);
+      setTeamList(response.data.response);
+      console.log(response);
+      return response.data.response;
     },
+    // return null;
+    // },
   });
 
   //단일 팀 조회

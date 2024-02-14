@@ -128,7 +128,8 @@ export default function StoryDetail() {
                               key={character.characterId}
                               className="m-1 cursor-pointer"
                               onClick={() => {
-                                addCharacter(character);
+                                console.log(character, storyId);
+                                addCharacter(character, storyId);
                                 characterListInStory.push(character);
                                 setCharacterListInStory([...characterListInStory]);
                               }}
@@ -186,7 +187,7 @@ export default function StoryDetail() {
                                 (_, index) => index !== character.characterId
                               ),
                             ]);
-                            removeCharacter(storyId, character.characterId);
+                            removeCharacter(storyDetail.plotId, storyId, character.characterId);
                             setCharacterListInStory([
                               ...characterListInStory.filter(
                                 (charac) => charac.characterId !== character.characterId

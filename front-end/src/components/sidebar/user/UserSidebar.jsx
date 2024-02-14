@@ -1,7 +1,7 @@
 import logo from "@/assets/main_logo.svg";
 import logo_icon from "@/assets/main_logo_icon.svg";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
-import { ArrowLeftToLine, ArrowRightToLine, Users } from "lucide-react";
+import { ArrowLeftToLine, ArrowRightToLine, LogOut, Users } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
@@ -154,27 +154,30 @@ function UserSidebar() {
           </div>
 
           {/* user profile */}
-          <Link to="/settings/profile">
-            <div className="mx-2 my-2">
-              <div className="flex items-center justify-between">
-                <div className="px-1 mx-1">
+          <div className="mx-2 my-2">
+            <div className="flex items-center justify-between ">
+              <Link to="/settings/profile">
+                <div className="flex items-center px-1 mx-1 ">
                   <Avatar>
                     <AvatarImage src={user.userImageUrl} alt="user_image" />
                     <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
-                </div>
 
-                <div
-                  className={
-                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
-                  }
-                >
-                  <div className="mx-1 text-xs break-words">{user.nickname}</div>
-                  <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
+                  <div
+                    className={
+                      isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
+                    }
+                  >
+                    <div className="mx-2 text-xs break-words">{user.nickname}</div>
+                    <div className="mx-2 text-xs break-all text-zinc-600">{user.email}</div>
+                  </div>
                 </div>
-              </div>
+              </Link>
+              <Link to="/logout">
+                <LogOut size={15} className="font-extrabold text-destructive-accent" />
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

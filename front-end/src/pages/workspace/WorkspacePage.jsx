@@ -16,8 +16,10 @@ export default function WorkspacePage() {
     const accessToken = params.get("accessToken");
 
     if (accessToken && user) {
-      navigate(`/workspace/team/${user.personalTeamId}`);
-      console.log("user", user);
+      if (user) {
+        navigate(`/workspace/team/${user.personalTeamId}`);
+        console.log("user", user);
+      }
     }
   }, [params, user, navigate]);
 
