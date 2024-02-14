@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 
 export default function IndexPage() {
   return (
-    <div className="bg-[url('public/images/background_image.png')] bg-center">
+    <div className="bg-[url('assets/images/background_image.png')] bg-center">
       <MainLayout variants="horizon">
         <DefaultHeader />
         <div className="flex flex-col items-center justify-center w-full h-full ">

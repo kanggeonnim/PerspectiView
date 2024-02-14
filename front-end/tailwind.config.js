@@ -17,7 +17,7 @@ export const theme = {
   },
   extend: {
     backgroundImage: {
-      backgroundImage: "url('public/images/background_image.png')",
+      backgroundImage: "url('assets/images/background_image.png')",
     },
     keyframes: {
       "accordion-down": {
