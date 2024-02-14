@@ -1,13 +1,14 @@
-import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,18 +30,20 @@ export default function TeamCreate() {
   }, [emailList]);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <AlertDialog>
+      <AlertDialogTrigger asChild>
         <PlusCircle
           strokeWidth={2.5}
           className="p-1 rounded-sm text-primary hover:bg-secondary-accent"
         />
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
-        <DialogHeader className="my-3">
-          <DialogTitle>팀 생성하기</DialogTitle>
-          <DialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</DialogDescription>
-        </DialogHeader>
+      </AlertDialogTrigger>
+      <AlertDialogContent className="sm:max-w-[800px]">
+        <AlertDialogHeader className="my-3">
+          <AlertDialogTitle>팀 생성하기</AlertDialogTitle>
+          <AlertDialogDescription>
+            작품을 공유할 수 있는 팀을 생성해보세요.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
             <Label htmlFor="teamName" className="">
@@ -66,23 +69,6 @@ export default function TeamCreate() {
               onChange={(e) => setInfo(e.target.value)}
             />
           </div>
-          {/* //TODO 엔터치면 배지만들어지는것 */}
-          {/* <div className="flex flex-col gap-y-2">
-            <Label htmlFor="addMemember" className="">
-              팀원 추가
-            </Label>
-            <div>
-            <Input
-              id="addMemember"
-              placeholder="팀원 추가"
-              className=""
-            />
-            <Badge className="flex items-center justify-between">
-              gkdrhd6788@gmail.com
-              <X size={16} strokeWidth={1} className="" />
-            </Badge>
-            </div>
-          </div> */}
           {/* //TODO 폰트맞추기, 수정기능이상한거고치기 중복일때 */}
           <TagsInput.Root
             value={emailList}
@@ -104,7 +90,9 @@ export default function TeamCreate() {
                         index={index}
                         value={value}
                       >
-                        <TagsInput.ItemText className="p-1">{value}</TagsInput.ItemText>
+                        <TagsInput.ItemText className="p-1">
+                          {value}
+                        </TagsInput.ItemText>
                         <TagsInput.ItemDeleteTrigger className="p-1">
                           <X size={20} strokeWidth={1} />
                         </TagsInput.ItemDeleteTrigger>
@@ -122,15 +110,14 @@ export default function TeamCreate() {
             )}
           </TagsInput.Root>
         </div>
-        <DialogFooter>
-          <Button
-            type="submit"
+        <AlertDialogFooter>
+          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogAction
             onClick={() => {
               console.log(emailList);
               const userEmails = emailList.value?.map((email1) => ({
                 email: email1,
               }));
-              console.log("useEmail", userEmails);
               createTeam({
                 title: title,
                 info: info,
@@ -139,9 +126,9 @@ export default function TeamCreate() {
             }}
           >
             팀 생성
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

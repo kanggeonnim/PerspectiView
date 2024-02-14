@@ -146,7 +146,10 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                    <button
+                      className="w-full bg-red-500 "
+                      onClick={handleUploadImage}
+                    >
                       이미지 삭제
                     </button>
                   )}
@@ -182,6 +185,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     className="w-full"
                     onSelect={setSelectedGenres}
                     selectedGenres={selectedGenres}
+                    isEditing={isEditing}
                   />
                 </div>
               </div>
