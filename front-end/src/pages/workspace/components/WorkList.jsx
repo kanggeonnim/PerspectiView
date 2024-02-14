@@ -12,7 +12,7 @@ import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
@@ -22,6 +22,19 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+
+
+  useEffect(() => {
+    selectedGenres.sort((a,b) => a.id - b.id)
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        genres: selectedGenres
+      }
+    }));
+  }, [selectedGenres]);
+
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
       productTitle: "",
@@ -30,12 +43,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
         id: "1",
         name: "웹소설",
       },
-      genres: [
-        {
-          id: "1",
-          name: "SF",
-        },
-      ],
+      genres: selectedGenres
     },
     uploadImage: "",
   });
@@ -46,6 +54,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const { teamId } = useParams();
 
   // const [teamNo, setTeamNo] = useState("");
+  
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -56,6 +65,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
     }));
   };
+
 
   const handleUploadClick = () => {
     if (image) {
@@ -82,13 +92,16 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (teamList) {
-  //     setTeamNo(() => teamList[0].id);
-  //     console.log(teamList);
-  //   }
-  //   console.log(teamNo);
-  // }, [teamList, teamNo]);
+  const addGenres = () =>{
+    console.log("!")
+    setProductDetail(prevState => ({
+      ...prevState,
+      productRequestDto: {
+        ...prevState.productRequestDto,
+        genres: selectedGenres
+        }}))
+      }
+
 
   // FIXME 팀 ID undefined 발생
   const { createProductData } = useProductQueryModule(teamId);
@@ -183,6 +196,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     className="w-full"
                     onSelect={setSelectedGenres}
                     selectedGenres={selectedGenres}
+                    onChange={addGenres}
                   />
                 </div>
               </div>

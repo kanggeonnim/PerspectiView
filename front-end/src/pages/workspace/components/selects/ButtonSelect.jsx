@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useGenreStore } from "@/store/useGenreStore";
 
-export default function Buttonselect() {
+export default function Buttonselect({ onSelect }) {
   const arr = [
     { id: 1, name: "SF" },
     { id: 2, name: "액션" },
@@ -12,12 +12,13 @@ export default function Buttonselect() {
 
   const [pick, setPick] = useState(arr);
   const [select, setSelect] = useState([]);
-  const { setGenres } = useGenreStore();
-
+  const { genres, setGenres } = useGenreStore();
+  
   useEffect(() => {
-    setGenres(select);
-  }, [select, setGenres]);
-  console.log(select)
+    onSelect(select); // 선택된 장르들을 상위 컴포넌트로 전달
+    setGenres(select); // 선택된 장르들을 상태로 저장
+  }, [select, onSelect, setGenres]);
+  // console.log(select)
   return pick.map((item) => (
     <div key={item.id}>
       <Badge
