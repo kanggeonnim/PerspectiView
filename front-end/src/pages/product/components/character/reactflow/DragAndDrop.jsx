@@ -66,8 +66,17 @@ export default function DnD({ charDatas, idx }) {
 
   const onSave = useCallback(() => {
     const datas = JSON.parse(localStorage.getItem(flowKey))
-    if (datas) {
-      datas.map((data)=> (data))
+    const nodeInfo = datas.nodes
+    const edgeInfo = edges.nodes
+    if (nodeInfo) {
+      nodeInfo.map((data) => (
+        charDatas.map((charData) => (
+          ( data.id === charData.characterId ) ? console.log('yes') : console.log('NaN') 
+        ))
+      ))
+    }
+    if (edgeInfo) {
+      edgeInfo.map((data)=> console.log(data))
     }
   }, [reactFlowInstance]);
 

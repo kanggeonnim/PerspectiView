@@ -1,6 +1,6 @@
 
 
-.download-image .download-btn {
+/* .download-image .download-btn {
   border: 1px solid #000000;
   background: #ededed;
   padding: 2px 10px;
@@ -8,10 +8,10 @@
   font-weight: 700;
   cursor: pointer;
   font-size: medium;
-}
+} */
 
 .download-image .download-btn:hover {
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .react-flow__node-zoom {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Panel, useReactFlow, getRectOfNodes, getTransformForBounds } from 'reactflow';
 import { toPng } from 'html-to-image';
+import { Button } from '@/components/ui/button';
 
 function downloadImage(dataUrl) {
   const a = document.createElement('a');
@@ -34,9 +35,9 @@ function DownloadButton() {
 
   return (
     <Panel position="">
-      <button className="download-btn" onClick={onClick}>
+      <Button className="download-btn font-bold" variant="outline" onClick={onClick}>
         이미지로 저장
-      </button>
+      </Button>
     </Panel>
   );
 }
