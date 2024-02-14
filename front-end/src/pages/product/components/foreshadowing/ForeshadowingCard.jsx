@@ -158,7 +158,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
           <div className="flex flex-row items-center justify-start">
             <img src={check_icon} className="mr-2" />
             <p className="mr-3 text-sm font-medium leading-none">
-              언급한 스토리 ID
+              사용한 스토리
             </p>
           </div>
           <div className="flex ml-8 ">
@@ -182,7 +182,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
             <div className="flex flex-row items-center">
               <Goal color="#19ae2a" strokeWidth={2} className="mr-2" />
               <p className="mr-3 text-sm font-medium leading-none">
-                회수 스토리 ID
+                회수한 스토리
               </p>
             </div>
             <Badge
