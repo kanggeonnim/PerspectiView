@@ -87,7 +87,13 @@ public class Story {
         this.plot = plot;
     }
 
+    //-----등장인물 추가하는 메서드-----//
     public void updateStoryRelation(List<StoryRelation> storyRelations) {
         if (storyRelations != null) storyRelations.addAll(storyRelations);
+    }
+
+    //-----등장인물 삭제하는 메서드-----//
+    public void deleteStoryRelation(List<StoryRelation> storyRelations) {
+        storyRelations.removeAll(storyRelations);
     }
 }
