@@ -5,9 +5,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useUserQueryModule from "@/hook/useUserQueryModule";
-// import useUserQueryModule from "@/hook/useUserQueryModule";
 import { MainLayout } from "@/layouts/MainLayout";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 import { PlusCircleIcon } from "lucide-react";
 
 import { useRef, useState } from "react";
@@ -16,29 +15,31 @@ export default function MyPage() {
   const { user, setUser } = useAuthStore();
   const [isEditing, setIsEditing] = useState(false);
   const [userNickname, setUserNickname] = useState(user?.nickname);
-  console.log("test", user);
-  console.log("test", userNickname);
   const [userInfo, setUserInfo] = useState(user?.info);
   // const [UserImage, setUserImage] = useState(user?.image);
   const { updateUserInfo, deleteUser } = useUserQueryModule();
   // 여기
+  const [mypageInfo, setMypageInfo] = useState({
+    userRequestDto: {
+      nickname: userNickname,
+      email: user.email,
+      userPhone: user.phone,
+      userInfo: userInfo,
+    },
+    uploadImage: user.image,
+  });
   const [image, setImage] = useState(user?.image);
   const fileInputRef = useRef(null);
-  // const {images, setImages} = useImageStore()
 
   //이미지
-  const handleImageChange = (event) => {
+  const uploadImage = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    // setImages(selectedImage)
-    // console.log("이미지",image)
-    // console.log("이미지s",images)
     console.log("여기", event.target.files);
-    // setProductDetail(ProductDetail => ({
-    //   ...ProductDetail,
-    //   uploadImage: selectedImage // 이미지 URL을 uploadImage 속성에 할당
-    //   }
-    // ))
+    setMypageInfo((mypageInfo) => ({
+      ...mypageInfo,
+      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+    }));
   };
 
   // 파일 열리는 기능
@@ -52,22 +53,20 @@ export default function MyPage() {
     }
   };
 
-  // const handleUploadImage = async () => {
-  //   if (image) {
-  //     // const formData = new FormData();
-  //     // formData.append("uploadImage", image);
-  //     // console.log(formData);
-  //     console.log(image);
-  //     // setProductDetail(ProductDetail => ({
-  //     //   ...ProductDetail,
-  //     //   uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
-  //     //   },
-  //     // )
-  //     // );
-  //     // 이미지 업로드 후 이미지 지우기
-  //     setImage(null);
-  //   }
-  // };
+  const handleUploadImage = async () => {
+    if (image) {
+      // const formData = new FormData();
+      // formData.append("uploadImage", image);
+      // console.log(formData);
+      console.log(image);
+      setMypageInfo((mypageInfo) => ({
+        ...mypageInfo,
+        uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
+      }));
+      // 이미지 업로드 후 이미지 지우기
+      setImage(null);
+    }
+  };
 
   return (
     <MainLayout variant="horizontal">
@@ -98,12 +97,6 @@ export default function MyPage() {
                               src={URL.createObjectURL(image)}
                               alt="Uploaded"
                               style={{ maxWidth: "300px" }}
-                              onChange={(e) => {
-                                // setProductDetail({
-                                //   ...productDetail,
-                                //   uploadImage: URL.createObjectURL(image),
-                                // });
-                              }}
                             />
                           </div>
                         ) : (
@@ -113,7 +106,7 @@ export default function MyPage() {
                               ref={fileInputRef}
                               type="file"
                               accept="image/*"
-                              onChange={handleImageChange}
+                              onChange={uploadImage}
                               style={{ display: "none" }}
                             />
                           </>
@@ -121,7 +114,7 @@ export default function MyPage() {
                         {image && (
                           <button
                             className="w-full bg-red-500 "
-                            // onClick={handleUploadImage}
+                            onClick={handleUploadImage}
                           >
                             이미지 삭제
                           </button>
@@ -179,16 +172,7 @@ export default function MyPage() {
               className="self-end w-16"
               onClick={() => {
                 setIsEditing(false);
-                updateUserInfo({
-                  userRequestDto: {
-                    nickname: userNickname,
-                    email: user.email,
-                    userPhone: user.phone,
-                    userInfo: userInfo,
-                  },
-                  uploadImage: image,
-                  // uploadImage: UserImage,
-                });
+                updateUserInfo(mypageInfo);
               }}
             >
               수정완료
@@ -198,7 +182,7 @@ export default function MyPage() {
             className="self-end underline"
             onClick={() => {
               // console.log("회원탈퇴클릭");
-              deleteUser();
+              deleteUser(mypageInfo);
             }}
           >
             탈퇴하기

@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { privateApi } from "@/util/api";
+import { formApi, privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useUserQueryModule = () => {
@@ -20,8 +20,13 @@ const useUserQueryModule = () => {
 
   // 수정
   const { mutate: updateUserInfo } = useMutation({
-    mutationFn: async (updatedData) => {
-      const response = await privateApi.put(`/api/user`, updatedData);
+    mutationFn: async (newData) => {
+      const formData = new FormData();
+      const json = JSON.stringify(newData.userRequestDto);
+      const blob = new Blob([json], { type: "application/json" });
+      formData.append("userRequestDto", blob);
+      formData.append("uploadImage", newData.uploadImage);
+      const response = await formApi.put(`/api/user`, formData);
       console.log("회원정보수정", response);
       return response.data.response;
     },

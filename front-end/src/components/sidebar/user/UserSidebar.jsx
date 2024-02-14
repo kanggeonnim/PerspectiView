@@ -20,9 +20,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 function UserSidebar() {
   const navigate = useNavigate();
@@ -56,7 +56,11 @@ function UserSidebar() {
           {/* 로고 */}
           <Link to={`/`}>
             <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
-              <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
+              <img
+                className="h-8 "
+                src={isCollapsed ? logo_icon : logo}
+                alt="logo"
+              />
             </div>
           </Link>
           {/* 워크스페이스 nav */}
@@ -66,7 +70,10 @@ function UserSidebar() {
                 <Select
                   defaultValue={selectedTeam}
                   onValueChange={(team) => {
-                    console.log(team, "team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
+                    console.log(
+                      team,
+                      "team_여기서 전역으로 관리하는 workspace 이름 바꾸기"
+                    );
                     setSelectedTeam(
                       team
                       // team.title.length > 10 ? team?.title.slice(0, 10) + "..." : team.title
@@ -76,11 +83,13 @@ function UserSidebar() {
                   }}
                   className="block truncate w-44"
                 >
-                  <SelectTrigger className={isCollapsed ? "" : "font-bold truncate w-full "}>
+                  <SelectTrigger
+                    className={isCollapsed ? "" : "font-bold truncate w-full "}
+                  >
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
                       <SelectValue className="font-bold truncatew-34">
-                        {selectedTeam.title}
+                        {selectedTeam?.title}
                       </SelectValue>
                     )}
                   </SelectTrigger>
@@ -95,7 +104,9 @@ function UserSidebar() {
 
                       {/* api 호출 시 */}
                       <SelectGroup className="my-1">
-                        <SelectLabel className="font-extrabold">개인 워크 스페이스</SelectLabel>
+                        <SelectLabel className="font-extrabold">
+                          개인 워크 스페이스
+                        </SelectLabel>
                         {teamList?.map(
                           (team, index) =>
                             team.personal && (
@@ -136,7 +147,10 @@ function UserSidebar() {
         <div className="flex flex-col justify-end w-full ">
           {/* collapse */}
           <div className="mx-5 my-2">
-            <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
+            <div
+              className="flex items-center justify-start w-full px-1 "
+              onClick={toggleSidebar}
+            >
               {isCollapsed ? (
                 <ArrowRightToLine size={20} className="text-primary" />
               ) : (
@@ -145,7 +159,9 @@ function UserSidebar() {
 
               <div
                 className={
-                  isCollapsed ? "hidden" : "mx-3 text-xs font-bold text-left text-slate-700"
+                  isCollapsed
+                    ? "hidden"
+                    : "mx-3 text-xs font-bold text-left text-slate-700"
                 }
               >
                 닫기
@@ -166,11 +182,17 @@ function UserSidebar() {
 
                 <div
                   className={
-                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
+                    isCollapsed
+                      ? "hidden"
+                      : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
-                  <div className="mx-1 text-xs break-words">{user.nickname}</div>
-                  <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
+                  <div className="mx-1 text-xs break-words">
+                    {user.nickname}
+                  </div>
+                  <div className="mx-1 text-xs break-all text-zinc-600">
+                    {user.email}
+                  </div>
                 </div>
               </div>
             </div>

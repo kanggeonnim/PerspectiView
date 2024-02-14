@@ -14,7 +14,11 @@ export default function Column({ column, colFshadows }) {
       <ScrollArea className="flex flex-col items-center w-full h-64 m-2 overflow-y-auto ">
         <div className="p-2 min-h-24">
           {colFshadows.map((colFshadow, index) => (
-            <ForeshadowingCard key={colFshadow.fshadowId} colFshadow={colFshadow} index={index} />
+            <ForeshadowingCard
+              key={colFshadow.fshadowId}
+              colFshadow={colFshadow}
+              index={index}
+            />
           ))}
         </div>
       </ScrollArea>
