@@ -22,7 +22,7 @@ const useProductQueryModule = (teamId, productId) => {
   const { data: productData, isSuccess: getProductDataIsSuccess } = useQuery({
     queryKey: ["productData", teamId, productId],
     queryFn: async () => {
-      if (!product) {
+      // if (!product) {
         console.log("get product api call");
         const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
         const product = response.data.response;
@@ -42,7 +42,7 @@ const useProductQueryModule = (teamId, productId) => {
         });
         return response.data.response;
       }
-      return null;
+      // return null;
     },
   });
 
