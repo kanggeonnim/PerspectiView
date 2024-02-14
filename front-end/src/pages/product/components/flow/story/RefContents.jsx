@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MessageCircleMore } from "lucide-react";
 import ForeshadowingTab from "../../foreshadowing/ForeshadowingTab";
 import Comment from "./Comment";
+import DnD from "../../character/reactflow/DragAndDrop";
 
 export default function RefContents() {
   return (
@@ -29,7 +30,8 @@ export default function RefContents() {
       </TabsList>
       {/* 전체 인물 관계도 */}
       <TabsContent value="relation" className="h-full">
-        <Card className="h-full "></Card>
+        {/* <Card className="h-full "></Card> */}
+        <DnD/>
       </TabsContent>
 
       {/* 복선 목록 */}

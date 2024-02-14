@@ -18,6 +18,7 @@ export default function CharTab() {
   //   console.log(charData);
   // }, [charData]);
 
+  // console.log(charData)
   if (!getCharIsSuccess) {
     return <div>Loading...</div>;
   }
