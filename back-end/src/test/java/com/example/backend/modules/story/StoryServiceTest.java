@@ -328,21 +328,19 @@ class StoryServiceTest {
     @Test
     public void 스토리등장인물삭제() throws Exception {
         //given
-        List<Character> characters1 = new ArrayList<>();
-        characters1.add(toCharacter);
-        characters1.add(fromCharacter);
-        storyService.updateStory(story.getId(), story);
+        storyService.addStoryRelation(story.getId(), toCharacter.getId());
 
-        List<Character> characters2 = new ArrayList<>();
-        characters2.add(toCharacter);
-        storyService.updateStory(story.getId(), story);
+        storyService.addStoryRelation(story.getId(),fromCharacter.getId());
 
+        em.flush();
+        em.clear();
+
+        storyService.deleteStoryRelation(story.getId(),toCharacter.getId());
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
 
-
         //then
-        assertEquals(result, 1);
+        assertEquals(1,result);
     }
 
     @Test
