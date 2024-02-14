@@ -38,12 +38,9 @@ public class StoryController {
     }
 
     @PutMapping("/{storyId}")
-    public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryRequestDto storyRequestDto,
+    public ApiResult<StoryResponseDto> updateStory(@RequestBody StoryUpdateRequestDto storyUpdateRequestDto,
                                                    @PathVariable("storyId") Long storyId) {
-        Story story = storyService.updateStory(storyId,
-                StoryRequestDto.of(storyRequestDto),
-                storyRequestDto.getCharacters().stream().map(CharacterRequestDto::from).collect(Collectors.toList()),
-                storyRequestDto.getForeShadowings().stream().map(ForeShadowingRequestDto::from).collect(Collectors.toList()));
+        Story story = storyService.updateStory(storyId, storyUpdateRequestDto.from(storyUpdateRequestDto));
         log.info("==========story update 완료=============");
         StoryResponseDto storyResponseDto = storyService.findByStoryId(story.getId());
         return ApiResult.OK(storyResponseDto);
