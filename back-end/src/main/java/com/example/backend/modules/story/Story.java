@@ -45,8 +45,7 @@ public class Story {
     private Double positionY;
 
     @Builder
-    public Story(Long id, String title, Content content, List<StoryRelation> storyRelations, List<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot) {
-        this.id = id;
+    public Story(String title, Content content, List<StoryRelation> storyRelations, List<StoryForeShadowing> storyForeShadowings, int positionX, Double positionY, Plot plot) {
         this.title = title;
         this.content = content;
         if (storyRelations != null) storyRelations.addAll(storyRelations);

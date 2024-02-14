@@ -269,7 +269,6 @@ class StoryServiceTest {
     void 스토리수정테스트() throws Exception {
         //given
         Story newStory = Story.builder()
-                .id(story.getId())
                 .title("changedStoryTitle")
                 .positionX(1)
                 .content(new Content("content"))
@@ -351,9 +350,16 @@ class StoryServiceTest {
     public void 스토리Y축변경() throws Exception {
         //given
         Story newStory = Story.builder()
-                .id(story.getId())
+                .title("storyTitle")
+                .content(new Content("content"))
+                .positionX(1)
                 .positionY(3.0)
+                .plot(plot)
+                .storyForeShadowings(new ArrayList<>())
+                .storyRelations(new ArrayList<>())
                 .build();
+
+        storyRepository.save(newStory);
         //when
         storyService.updatePositionY(newStory.getId(), newStory.getPositionY());
         StoryResponseDto findStory = storyService.findByStoryId(newStory.getId());
