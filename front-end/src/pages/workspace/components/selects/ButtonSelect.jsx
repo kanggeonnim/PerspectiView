@@ -9,7 +9,6 @@ export default function Buttonselect() {
     { id: 2, name: "액션" },
     { id: 3, name: "로맨스" },
     { id: 4, name: "드라마" },
-    // { id: 5, name: "SF" },
   ];
   const [pick, setPick] = useState(arr);
   const [select, setSelect] = useState([]);
