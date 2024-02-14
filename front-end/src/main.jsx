@@ -29,17 +29,17 @@ const isAuthenticated = () => {
 function PrivateRoute({ element }) {
   const location = useLocation();
 
-  if (!isAuthenticated()) {
-    if (location.pathname === "/login" || location.pathname === "/") {
-      return element;
-    } else {
-      return <Navigate to="/login" replace />;
-    }
-  } else {
-    if (location.pathname === "/login" || location.pathname === "/") {
-      return <Navigate to="/workspace" replace />;
-    }
-  }
+  // if (!isAuthenticated()) {
+  //   if (location.pathname === "/login" || location.pathname === "/") {
+  //     return element;
+  //   } else {
+  //     return <Navigate to="/login" replace />;
+  //   }
+  // } else {
+  //   if (location.pathname === "/login" || location.pathname === "/") {
+  //     return <Navigate to="/workspace" replace />;
+  //   }
+  // }
   return element;
 }
 
