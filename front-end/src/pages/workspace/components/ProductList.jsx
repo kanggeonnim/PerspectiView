@@ -59,7 +59,11 @@ export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
   const { updateProductData } = useProductQueryModule(teamId);
   const navigate = useNavigate();
-  
+  const [selectedGenres, setSelectedGenres] = useState([]);
+
+  const handleGenreSelect = (genres) => {
+    setSelectedGenres(genres);
+  };
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const {images, setImages} = useImageStore()
@@ -219,7 +223,8 @@ export default function ProductList({ productsdata, teamNo }) {
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <Buttonselect className="w-full"  />
+                      <Buttonselect className="w-full" onSelect={handleGenreSelect}
+                        selectedGenres={selectedGenres} product={product} />
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
