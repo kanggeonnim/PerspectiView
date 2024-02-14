@@ -20,10 +20,10 @@ spring:
     rest:
       base-path: /api
 
-  cache:
-    type: redis
-    redis:
-      cache-null-values: true
+#  cache:
+#    type: redis
+#    redis:
+#      cache-null-values: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
