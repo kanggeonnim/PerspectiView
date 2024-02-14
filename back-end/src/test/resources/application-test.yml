@@ -1,22 +1,17 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  #  datasource:
-  #    master:
-  #      hikari:
-  #        jdbc-url: jdbc:h2:mem:test
-  #        username: sa
-  #        password:
-  #        driver-class-name: org.h2.Driver
-  #      slave:
-  #        hikari:
-  #          jdbc-url: jdbc:h2:mem:test
-  #          username: sa
-  #          password:
-  #          driver-class-name: org.h2.Driver
+    master:
+      hikari:
+        jdbc-url: jdbc:h2:mem:test
+        username: sa
+        password:
+        driver-class-name: org.h2.Driver
+      slave:
+        hikari:
+          jdbc-url: jdbc:h2:mem:test
+          username: sa
+          password:
+          driver-class-name: org.h2.Driver
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -80,7 +75,7 @@ logging:
     org.hibernate.sql: debug
 
 jasypt:
-  password : ${JASYPT_PASSWORD}
+  password: ${JASYPT_PASSWORD}
   encryptor:
     bean: jasyptEncryptor
 redirectUrl: "http://localhost:5173/app/workspace"
