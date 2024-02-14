@@ -46,9 +46,10 @@ export default function FlowCard() {
       nodes={nodes}
       edges={edges}
       onNodeClick={() => {
-        navigate(
-          `/team/${teamId}/product/${productId}/plot/${movedNode.plotId}/story/${movedNode.storyId}`
-        );
+        if (movedNode.type === "story")
+          navigate(
+            `/team/${teamId}/product/${productId}/plot/${movedNode.plotId}/story/${movedNode.storyId}`
+          );
       }}
       onNodeDragStop={() => {
         if (movedNode && movedNode.dragging && !movedNode.selected && movedNode.type === "story") {
@@ -116,7 +117,7 @@ export default function FlowCard() {
           <Plus className="w-4 h-4 mr-2" /> 스토리 추가
         </Button> */}
       </Panel>
-      <MiniMap />
+      <MiniMap className="bg-primary-accent-light " nodeColor="#402785" nodeStrokeColor="#000000" />
     </ReactFlow>
   );
 }

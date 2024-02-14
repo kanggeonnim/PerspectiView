@@ -196,7 +196,7 @@ export default function DnD({ charDatas, idx }) {
             <Button className="mr-2" onClick={onTempoSave}>
               저장
             </Button>
-            <Button variant="outline" onClick={onRestore}>
+            <Button variant="secondary" className="border" onClick={onRestore}>
               불러오기
             </Button>
           </Panel>

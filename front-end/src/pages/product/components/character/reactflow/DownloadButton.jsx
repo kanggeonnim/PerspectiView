@@ -1,13 +1,13 @@
-import React from 'react';
-import { Panel, useReactFlow, getRectOfNodes, getTransformForBounds } from 'reactflow';
-import { toPng } from 'html-to-image';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { Panel, useReactFlow, getRectOfNodes, getTransformForBounds } from "reactflow";
+import { toPng } from "html-to-image";
+import { Button } from "@/components/ui/button";
 
 function downloadImage(dataUrl) {
-  const a = document.createElement('a');
+  const a = document.createElement("a");
 
-  a.setAttribute('download', 'reactflow.png');
-  a.setAttribute('href', dataUrl);
+  a.setAttribute("download", "reactflow.png");
+  a.setAttribute("href", dataUrl);
   a.click();
 }
 
@@ -17,12 +17,11 @@ const imageHeight = 768;
 function DownloadButton() {
   const { getNodes } = useReactFlow();
   const onClick = () => {
-   
     const nodesBounds = getRectOfNodes(getNodes());
     const transform = getTransformForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2);
 
-    toPng(document.querySelector('.react-flow__viewport'), {
-      backgroundColor: '#fff',
+    toPng(document.querySelector(".react-flow__viewport"), {
+      backgroundColor: "#fff",
       width: imageWidth,
       height: imageHeight,
       style: {
@@ -35,7 +34,7 @@ function DownloadButton() {
 
   return (
     <Panel position="">
-      <Button className="download-btn font-bold" variant="outline" onClick={onClick}>
+      <Button className="font-bold download-btn" variant="destructive" onClick={onClick}>
         이미지로 저장
       </Button>
     </Panel>

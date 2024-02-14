@@ -42,10 +42,10 @@ function TeamInfo() {
       {!oneTeam?.personal && (
         <div className="flex flex-col w-1/3 h-full gap-3">
           <Card className="w-full border rounded shadow-md h-2/5">
-            <CardHeader className="flex flex-row justify-between p-4">
-              <CardTitle className="text-xl font-bold">팀 정보</CardTitle>
-              <div className="flex flex-row">
-                {!isEditing && <Pencil onClick={() => setIsEditing(true)} />}
+            <CardHeader className="flex flex-row justify-between p-4 my-1">
+              <CardTitle className="text-xl font-bold text-primary">팀</CardTitle>
+              <div className="flex flex-row my-1">
+                {!isEditing && <Pencil className="mx-2" onClick={() => setIsEditing(true)} />}
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <Trash2 />
@@ -55,20 +55,23 @@ function TeamInfo() {
                       <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>취소</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>
-                        삭제하기
-                      </AlertDialogAction>
+                      <AlertDialogCancel className="border shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent">
+                        취소
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>삭제</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3">
-              <div>팀명: {teamTitle}</div>
+            <CardContent className="flex flex-col justify-center gap-3 ">
+              <div className="flex justify-between">
+                <div className="font-extrabold">팀명</div>
+                <div>{teamTitle}</div>
+              </div>
               {isEditing ? (
                 <>
-                  <label htmlFor="teamInfo">팀 소개:</label>
+                  <label htmlFor="teamInfo">팀 소개</label>
                   <Textarea
                     id="teamInfo"
                     type="text"
@@ -87,13 +90,16 @@ function TeamInfo() {
                   </Button>
                 </>
               ) : (
-                <div>팀 소개: {teamInfo}</div>
+                <div className="flex justify-between">
+                  <div className="font-extrabold">팀 소개</div>
+                  <div>{teamInfo}</div>
+                </div>
               )}
             </CardContent>
           </Card>
           <Card className="flex flex-col w-full h-full border rounded shadow-md">
             <CardHeader className="p-4">
-              <CardTitle className="text-xl font-bold ">팀원 정보</CardTitle>
+              <CardTitle className="text-xl font-bold text-primary">팀원</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col h-full ">
               <div className="flex flex-row items-center">
@@ -104,7 +110,7 @@ function TeamInfo() {
                   }}
                   type="email"
                   placeholder="팀원 이메일을 입력하세요"
-                  className="my-4"
+                  className="my-4 mr-2"
                 />
                 <Button onClick={() => addMember(email)}>추가</Button>
               </div>

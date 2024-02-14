@@ -1,12 +1,13 @@
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { formApi, privateApi } from "@/util/api";
+import { getCookie, removeCookie, setCookie } from "@/util/cookie";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useUserQueryModule = () => {
   const { user, setUser } = useAuthStore();
   const queryClient = useQueryClient();
   const { data: getUser, isSuccess: getUserIsSuccess } = useQuery({
-    queryKey: ["login"],
+    queryKey: ["login", user],
     queryFn: async () => {
       if (!user) {
         console.log("login api call");

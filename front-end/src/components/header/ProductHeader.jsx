@@ -4,6 +4,7 @@ import useExportModule from "@/hook/useExportModule";
 import { useProductStore } from "@/store/useProductStore";
 import { useParams } from "react-router-dom";
 import { Button } from "../ui/button";
+import { FileDown } from "lucide-react";
 
 export default function ProductHeader() {
   const { product } = useProductStore();
@@ -49,12 +50,7 @@ export default function ProductHeader() {
                 </div>
                 <div className="flex items-center justify-between mx-auto space-x-2">
                   {product?.genres?.map((genre, key) => (
-                    <Badge
-                      key={key}
-                      variant="destructive"
-                      radius="full"
-                      className="hover:none"
-                    >
+                    <Badge key={key} variant="destructive" radius="full" className="hover:none">
                       {genre.genreName}
                     </Badge>
                   ))}
@@ -84,7 +80,12 @@ export default function ProductHeader() {
                 <ReadMore>{product?.productInfo}</ReadMore>
               </div>
             </div>
-            <Button onClick={() => onExportWord(exportWordData)}>
+            <Button
+              onClick={() => onExportWord(exportWordData)}
+              size="sm"
+              className="bg-progress-foreground"
+            >
+              <FileDown size={15} className="mr-1" />
               내보내기
             </Button>
           </div>

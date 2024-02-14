@@ -30,7 +30,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
   const { teamId, productId } = useParams();
   const showContent = useStore(zoomSelector);
 
-  const { createStory } = useStoryQueryModule(teamId, productId, data.plotId);
+  const { createStory, deleteStory } = useStoryQueryModule(teamId, productId, data.plotId);
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -58,7 +58,9 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
           <Button
             size="sm"
             className="h-full p-1 rounded-full bg-secondary-accent"
-            onClick={() => {}}
+            onClick={() => {
+              deleteStory();
+            }}
           >
             <MinusCircle size={15} className="mx-auto text-foreground" />
           </Button>
@@ -67,9 +69,8 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
 
         {type === "empty" && (
           <Button
-            className="bg-transparent border-none shadow-none hover:bg-transparent"
-            onClick={(e) => {
-              e.stopPropagation();
+            className="w-full h-full p-0 m-0 bg-transparent border shadow-none hover:bg-transparent"
+            onClick={() => {
               createStory({
                 storyTitle: "스토리 제목을 입력하세요.",
                 content: {

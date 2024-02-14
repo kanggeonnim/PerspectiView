@@ -59,7 +59,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   }, [getStoryFshadowListDataIsSuccess, getStoryFshadowListData, setStoryFshadowList]);
 
   const { mutate: createStory } = useMutation({
-    mutationFn: async (newData, plotId, productId) => {
+    mutationFn: async (newData) => {
       const response = await privateApi.post(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story`,
         newData
@@ -128,17 +128,17 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
   });
 
   const { mutate: deleteStory } = useMutation({
-    // mutationFn: async () => {
-    //   console.log(teamId, productId, plotId);
-    //   const response = await privateApi.delete(
-    //     `/api/team/${teamId}/product/${productId}/plot/${plotId}`
-    //   );
-    //   console.log(response);
-    //   return response.data.response;
-    // },
-    // onSuccess: () => {
-    //   setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
-    // },
+    mutationFn: async () => {
+      console.log(teamId, productId, plotId, storyId);
+      // const response = await privateApi.delete(
+      //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}`
+      // );
+      // console.log(response);
+      // return response.data.response;
+    },
+    onSuccess: () => {
+      setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
+    },
   });
 
   const { mutate: moveStory } = useMutation({

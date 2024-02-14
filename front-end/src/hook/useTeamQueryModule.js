@@ -71,7 +71,7 @@ const useTeamQueryModule = (teamId) => {
   const { mutate: updateTeamInfo } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(`/api/team/${teamId}`, updatedData);
-      console.log("팀정보수정", response);
+      // console.log("팀정보수정", response);
       return response.data.response;
     },
     onSuccess: () => {
