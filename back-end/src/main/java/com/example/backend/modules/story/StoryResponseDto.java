@@ -20,7 +20,7 @@ public class StoryResponseDto {
     private String storyTitle;
     private List<CharacterResponseDto> characters;
     private List<ForeShadowingPreviewDto> foreShadowings;
-    private ContentDto content;
+    private ContentDto storyContent;
     private int positionX;
     private Double positionY;
 
@@ -30,7 +30,7 @@ public class StoryResponseDto {
                 .storyTitle(story.getTitle())
                 .characters(characters.stream().map(CharacterResponseDto::of).collect(Collectors.toList()))
                 .foreShadowings(foreShadowings.stream().map(foreShadowing -> ForeShadowingPreviewDto.of(foreShadowing)).collect(Collectors.toList()))
-                .content(ContentDto.of(story.getContent()))
+                .storyContent(ContentDto.of(story.getContent()))
                 .positionX(story.getPositionX())
                 .positionY(story.getPositionY())
                 .build();
@@ -41,7 +41,7 @@ public class StoryResponseDto {
         this.storyTitle = story.getTitle();
         this.characters = characters;
         this.foreShadowings = foreShadowings;
-        this.content = ContentDto.of(story.getContent());
+        this.storyContent = ContentDto.of(story.getContent());
         this.positionX = story.getPositionX();
         this.positionY = story.getPositionY();
 
@@ -60,7 +60,7 @@ public class StoryResponseDto {
         this.storyTitle = storyTitle;
         this.characters = characters;
         this.foreShadowings = foreShadowings;
-        this.content = content;
+        this.storyContent = content;
         this.positionX = positionX;
         this.positionY = positionY;
     }
