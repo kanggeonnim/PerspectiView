@@ -12,55 +12,31 @@ import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
-import { useAuthStore } from "@/store/useAuthStore";
 import { useParams } from "react-router-dom";
-
-// 속한 팀 작품 목록 데이터
-const teamProductInfoData = Array.from({ length: 220 }, (_, index) => ({
-  productId: index + 1,
-  productImg: `https://picsum.photos/${((index % 15) + 1) * 100}/300`,
-  productName: `팀 싸피 생활 ${index + 1}`,
-  // category: {
-  //   categoryId: "1",
-  //   categoryName: "웹툰",
-  // },
-  // genreList: [
-  //   {
-  //     genreId: "1",
-  //     genreName: "SF",
-  //   },
-  //   {
-  //     genreId: "2",
-  //     genreName: "액션",
-  //   },
-  //   {
-  //     genreId: "3",
-  //     genreName: "드라마",
-  //   },
-  // ],
-}));
+import { useTeamListStore } from "@/store/team/useTeamListStore";
+import { useProductStore } from "@/store/useProductStore";
 
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
   const itemsPerPage = 9;
   // const totalItems = teamProductInfoData.length;
   // const totalPages = Math.ceil(totalItems / itemsPerPage);
-  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
-  const [teamNo, setTeamNo] = useState("");
-
+  const { teamList } = useTeamListStore();
+  // const [teamNo, setTeamNo] = useState("");
   const { teamId } = useParams();
-  useEffect(() => {
-    if (teamData) {
-      // console.log("team?", getProductIsSuccess, teamData);
-      setTeamNo(() => teamData[0].id);
-    }
-  }, [teamData]);
+
+  // useEffect(() => {
+  //   if (teamList) {
+  //     // console.log("team?", getProductIsSuccess, teamList);
+  //     setTeamNo(() => teamList[0].id);
+  //   }
+  // }, [teamList]);
 
   const { productListData, getProductListDataIsSuccess } = useProductQueryModule(teamId);
   const [totalItems, setTotalItems] = useState("0");
   const [totalPages, setTotalPages] = useState("1");
   const [productInfo, setProductInfo] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (productListData) {
@@ -71,7 +47,9 @@ function ProductListCard() {
     }
   }, [productListData, totalItems]);
 
-  const [currentPage, setCurrentPage] = useState(1);
+  // useEffect(() => {
+  //   console.log("render productlistcard", productListData);
+  // }, [productListData]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -150,7 +128,7 @@ function ProductListCard() {
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
-              teamNo={teamNo}
+              teamNo={teamId}
             />
             <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}

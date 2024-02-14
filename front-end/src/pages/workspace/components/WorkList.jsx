@@ -9,10 +9,11 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
+import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 
@@ -46,20 +47,22 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   });
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-  const {images, setImages} = useImageStore()
-  const handleImageChange = (event) => {
+  const { images, setImages } = useImageStore();
+  const { teamList } = useTeamListStore();
+  const { teamId } = useParams();
 
+  // const [teamNo, setTeamNo] = useState("");
+
+  const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    setImages(selectedImage)
-    console.log(images)
-    console.log(event.target.files)
-    setProductDetail(ProductDetail => ({
+    setImages(selectedImage);
+    console.log(images);
+    console.log(event.target.files);
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
-      uploadImage: selectedImage // 이미지 URL을 uploadImage 속성에 할당
-      }
-    ))
-
+      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+    }));
   };
 
   const handleUploadClick = () => {
@@ -77,38 +80,36 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
       console.log(formData);
-      console.log(image)
-      setProductDetail(ProductDetail => ({
+      console.log(image);
+      setProductDetail((ProductDetail) => ({
         ...ProductDetail,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
-        },
-      )
-      );
+      }));
       // 이미지 업로드 후 이미지 지우기
       setImage(null);
     }
-  }
+  };
 
-  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
-  const [teamNo, setTeamNo] = useState("");
+  // useEffect(() => {
+  //   if (teamList) {
+  //     setTeamNo(() => teamList[0].id);
+  //     console.log(teamList);
+  //   }
+  //   console.log(teamNo);
+  // }, [teamList, teamNo]);
 
-  useEffect(() => {
-    if (teamData) {
-      setTeamNo(() => teamData[0].id);
-      console.log(teamData);
-    }
-  }, [teamData, teamNo]);
-  console.log(teamNo);
   // FIXME 팀 ID undefined 발생
-  const { createProductData } = useProductQueryModule(teamNo);
-  // console.log(teamId)
+  const { createProductData } = useProductQueryModule(teamId);
 
   return (
     <form>
       <AlertDialog className="w-full h-full">
         <div>
-          <AlertDialogTrigger >
-            <Card onClick={()=>setIsEditing(true)} className="flex items-center justify-center w-32 border h-36">
+          <AlertDialogTrigger>
+            <Card
+              onClick={() => setIsEditing(true)}
+              className="flex items-center justify-center w-32 border h-36"
+            >
               <BookPlus color="#909090" />
             </Card>
           </AlertDialogTrigger>
@@ -136,7 +137,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         onChange={(e) => {
                           setProductDetail({
                             ...productDetail,
-                            uploadImage : URL.createObjectURL(image)
+                            uploadImage: URL.createObjectURL(image),
                           });
                         }}
                       />
@@ -150,12 +151,16 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         accept="image/*"
                         onChange={handleImageChange}
                         style={{ display: "none" }}
-
                       />
                     </>
                   )}
                   {image && (
-                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>이미지 삭제</button>
+                    <button
+                      className="w-full bg-red-500 "
+                      onClick={handleUploadImage}
+                    >
+                      이미지 삭제
+                    </button>
                   )}
                 </div>
               </div>
@@ -191,7 +196,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect isEditing={isEditing}/>
+                  <RadioButtonSelect isEditing={isEditing} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">

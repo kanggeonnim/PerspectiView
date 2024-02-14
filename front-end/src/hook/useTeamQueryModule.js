@@ -1,20 +1,26 @@
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
+import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 const useTeamQueryModule = (teamId) => {
   const { user } = useAuthStore();
+  const { teamList, setTeamList } = useTeamListStore();
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
   // 내 팀 조회
-  const { data: teamData, isSuccess: getTeamsIsSuccess } = useQuery({
-    queryKey: ["teamData"],
+  const { data: teamListData, isSuccess: getTeamListsIsSuccess } = useQuery({
+    queryKey: ["teamListData"],
     queryFn: async () => {
-      const response = await privateApi.get(`/api/team`);
-      // console.log(response);
-      return response.data.response;
+      // console.log(teamList);
+      if (!teamList) {
+        const response = await privateApi.get(`/api/team`);
+        setTeamList(response.data.response);
+        return response.data.response;
+      }
+      return null;
     },
   });
 
@@ -22,6 +28,7 @@ const useTeamQueryModule = (teamId) => {
   const { data: oneTeam, isSuccess: getOneTeamIsSuccess } = useQuery({
     queryKey: ["oneTeam", teamId],
     queryFn: async () => {
+      // console.log(team);
       const response = await privateApi.get(`/api/team/${teamId}`);
       // console.log("단일 팀조회", response);
       return response.data.response;
@@ -77,10 +84,7 @@ const useTeamQueryModule = (teamId) => {
   //팀정보 페이지에서 팀원 추가
   const { mutate: addMember } = useMutation({
     mutationFn: async (email) => {
-      const response = await privateApi.post(
-        `/api/team/${teamId}/recruit`,
-        email
-      );
+      const response = await privateApi.post(`/api/team/${teamId}/recruit`, email);
       console.log("멤버 추가", response);
       return response.data.response;
     },
@@ -93,8 +97,8 @@ const useTeamQueryModule = (teamId) => {
   });
 
   return {
-    teamData,
-    getTeamsIsSuccess,
+    teamListData,
+    getTeamListsIsSuccess,
     createTeam,
     oneTeam,
     getOneTeamIsSuccess,

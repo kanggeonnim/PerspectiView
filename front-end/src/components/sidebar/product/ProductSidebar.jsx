@@ -33,12 +33,13 @@ import { Input } from "@/components/ui/input";
 import { GradientPicker } from "./GradientPicker";
 import { Button } from "../../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useProductStore } from "@/store/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
 
 function ProductSidebar() {
   const navigate = useNavigate();
+  const { user } = useAuthStore();
   const { teamId, productId } = useParams();
 
   const { createPlot } = usePlotQueryModule(teamId, productId);
@@ -47,7 +48,6 @@ function ProductSidebar() {
 
   const [newPlotName, setNewPlotName] = useState("");
   const [newPlotColor, setNewPlotColor] = useState("#ff75c3");
-  const { user } = useAuthStore();
   const { product } = useProductStore();
   const { plotList, setPlotList } = usePlotListStore();
 

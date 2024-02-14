@@ -4,32 +4,34 @@ import { MainLayout } from "@/layouts/MainLayout";
 import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useParams } from "react-router-dom";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useAuthStore } from "@/store/useAuthStore";
-import useUserQueryModule from "@/hook/useUserQueryModule";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useProductStore } from "@/store/useProductStore";
+import useCharQueryModule from "@/hook/useCharQueryModule";
 
 export default function ProductPage() {
-  const { getUser, getUserIsSuccess } = useUserQueryModule();
   const { teamId, productId } = useParams();
-  console.log("ProductPage", teamId, productId);
-  const { productData, getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
+  const { getProductDataIsSuccess } = useProductQueryModule(teamId, productId);
+  const { charData, getCharIsSuccess } = useCharQueryModule(teamId, productId);
+  const [charList, setCharList] = useState();
+  const { product } = useProductStore();
   const [isHeaderVisible, setIsHeaderVisible] = useState(true); // 초기값은 true로 설정
 
-  const { user } = useAuthStore();
+  useEffect(() => {
+    console.log("render", teamId);
+    console.log(product);
+    console.log(charData);
+  }, [product, teamId, charData]);
 
-  if (!user) {
+  if (!getProductDataIsSuccess && !getCharIsSuccess) {
     return <div>Loading...</div>;
   }
   return (
     <MainLayout variant="horizontal">
       <ProductSidebar />
       <PageLayout>
-        {/* <ProductHeader /> */}
-        {/* ProductHeader를 isStoryInfoVisible이 true일 때만 렌더링 */}
-        {isHeaderVisible && <ProductHeader />}
+        {/* {isHeaderVisible && <ProductHeader />} */}
         <div className="flex flex-col items-center justify-center w-full h-full max-h-full ">
           <Outlet context={{ setIsHeaderVisible }} />
-          {/* Outlet에 상태 변경 함수 전달 */}
         </div>
       </PageLayout>
     </MainLayout>

@@ -20,11 +20,19 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
+import { useCharacterListStore } from "@/store/useCharacterListStore";
 import { useStoryDetailStore } from "@/store/useStoryDetailStore";
-import { MoreHorizontal, PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { MinusCircle, MoreHorizontal, PlusCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
 
@@ -43,17 +51,28 @@ export default function StoryDetail() {
   const {
     getStoryDetailData,
     getStoryDetailDataIsSuccess,
+    isStoryDetailDataLoading,
     getStoryFshadowListData,
     getStoryFshadowListDataIsSuccess,
     updateStory,
+    addCharacter,
+    removeCharacter,
   } = useStoryQueryModule(teamId, productId, plotId, storyId);
 
   const [searchInput, setSearchInput] = useState("");
-
+  const [characterListInStory, setCharacterListInStory] = useState();
+  const { characterList } = useCharacterListStore();
   // console.log("여기!!", getStoryFshadowListData);
-  // console.log("input", storyDetail);
 
-  if (!getStoryDetailDataIsSuccess || !storyDetail) {
+  useEffect(() => {
+    console.log("character", characterList);
+    if (storyDetail && storyDetail.characters)
+      setCharacterListInStory([...storyDetail.characters]);
+    console.log("detail render", storyDetail);
+  }, [storyDetail, storyDetail?.characters, characterList]);
+
+  console.log("in story", characterListInStory);
+  if (!storyDetail) {
     return <div>Loading...</div>;
   }
   return (
@@ -108,54 +127,143 @@ export default function StoryDetail() {
           <div className="flex flex-col justify-between w-1/2 ">
             <div className="flex items-center my-2 ">
               <div className="text-sm font-bold ">이 스토리에 등장한 인물</div>
-              <Popover onOpenChange={() => setSearchInput("")}>
-                <PopoverTrigger asChild>
-                  <PlusCircle size={15} className="mx-1" />
-                </PopoverTrigger>
-                <PopoverContent className="h-60 w-80" side="right">
-                  <div className="grid gap-4">
-                    <div className="space-y-2">
-                      <h4 className="font-medium leading-none">인물 목록</h4>
-                      <div className="flex ">
-                        <Input
-                          className="w-4/5 mr-1 rounded-lg"
-                          value={searchInput}
-                          onChange={(event) => {
-                            setSearchInput(event.target.value);
-                          }}
-                        />
-                        <Button>검색</Button>
+              {isEdit && (
+                <Popover onOpenChange={() => setSearchInput("")}>
+                  <PopoverTrigger asChild>
+                    <PlusCircle size={15} className="mx-1 text-primary" />
+                  </PopoverTrigger>
+                  <PopoverContent className="h-60 w-80" side="right">
+                    <div className="grid gap-4">
+                      <div className="space-y-2">
+                        <h4 className="font-medium leading-none">인물 목록</h4>
+                        <div className="flex ">
+                          <Input
+                            className="w-4/5 mr-1 rounded-lg"
+                            value={searchInput}
+                            onChange={(event) => {
+                              setSearchInput(event.target.value);
+                            }}
+                          />
+                          <Button>검색</Button>
+                        </div>
+                        <ScrollArea className="border rounded h-36">
+                          {characterList?.map((character) => (
+                            <div
+                              key={character.characterId}
+                              className="m-1 cursor-pointer"
+                              onClick={() => {
+                                addCharacter(character);
+                                characterListInStory.push(character);
+                                setCharacterListInStory([
+                                  ...characterListInStory,
+                                ]);
+                              }}
+                            >
+                              <div className="text-sm">
+                                <div
+                                  className="flex items-center justify-between"
+                                  key={character.characterId}
+                                >
+                                  <div className="">
+                                    <Avatar>
+                                      <AvatarImage
+                                        src={character.characImage}
+                                        alt="@shadcn"
+                                      />
+                                      <AvatarFallback>
+                                        {character.characterName?.slice(0, 2)}
+                                      </AvatarFallback>
+                                    </Avatar>
+                                  </div>
+                                  <div className="flex flex-col items-start w-full font-regular">
+                                    <div className="mx-3 text-lg ">
+                                      {character.characterName}
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <Separator className="my-2" />
+                            </div>
+                          ))}
+                        </ScrollArea>
                       </div>
-                      <ScrollArea className="border h-36"></ScrollArea>
                     </div>
-                  </div>
-                </PopoverContent>
-              </Popover>
+                  </PopoverContent>
+                </Popover>
+              )}
             </div>
             <div className="flex items-start justify-start space-x-2">
-              {storyDetail.characters?.map((character) => (
-                <div
-                  className="flex flex-col items-center "
-                  key={character.characterId}
-                >
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
+              {isEdit ? (
+                <>
+                  {characterListInStory &&
+                    characterListInStory.map((character) => (
+                      <div
+                        className="relative flex flex-col items-center "
+                        key={character.characterId}
+                      >
                         <Avatar>
                           <AvatarImage
                             src={character.characterImage}
                             alt="@shadcn"
                           />
-                          <AvatarFallback>CN</AvatarFallback>
+                          <AvatarFallback>
+                            {character.characterName?.slice(0, 2)}
+                          </AvatarFallback>
                         </Avatar>
-                      </TooltipTrigger>
-                      <TooltipContent side="bottom">
-                        <p> {character.characterName}</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                </div>
-              ))}
+                        <Badge variant="secondary" radius="sm">
+                          {character.characterName}
+                        </Badge>
+                        <MinusCircle
+                          size={13}
+                          className="absolute right-0 mr-1 text-red-500 "
+                          onClick={() => {
+                            console.log("delete", [
+                              ...characterListInStory.filter(
+                                (_, index) => index !== character.characterId
+                              ),
+                            ]);
+                            removeCharacter(storyId, character.characterId);
+                            setCharacterListInStory([
+                              ...characterListInStory.filter(
+                                (charac) =>
+                                  charac.characterId !== character.characterId
+                              ),
+                            ]);
+                          }}
+                        />
+                      </div>
+                    ))}
+                </>
+              ) : (
+                <>
+                  {characterListInStory &&
+                    characterListInStory.map((character) => (
+                      <div
+                        className="flex flex-col items-center"
+                        key={character.characterId}
+                      >
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Avatar>
+                                <AvatarImage
+                                  src={character.characterImage}
+                                  alt="@shadcn"
+                                />
+                                <AvatarFallback>
+                                  {character.characterName?.slice(0, 2)}
+                                </AvatarFallback>
+                              </Avatar>
+                            </TooltipTrigger>
+                            <TooltipContent side="bottom">
+                              <p> {character.characterName}</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      </div>
+                    ))}
+                </>
+              )}
             </div>
           </div>
         </div>
@@ -167,7 +275,11 @@ export default function StoryDetail() {
             {isEdit ? (
               <Textarea
                 className="w-full text-lg h-72"
-                value={storyDetail.content.content}
+                value={
+                  storyDetail.content?.content
+                    ? storyDetail.content.content
+                    : ""
+                }
                 onChange={(e) => {
                   setStoryDetail({
                     ...storyDetail,
@@ -177,7 +289,7 @@ export default function StoryDetail() {
               />
             ) : (
               <div className="w-full h-full p-3 ">
-                {storyDetail.content.content}
+                {storyDetail.content?.content}
               </div>
             )}
           </ScrollArea>
@@ -197,7 +309,15 @@ export default function StoryDetail() {
               className="mx-2 "
               variant="default"
               onClick={() => {
-                updateStory(storyDetail);
+                console.log({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
+
+                updateStory({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
                 setIsEdit(false);
               }}
             >

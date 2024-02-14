@@ -2,8 +2,8 @@ import logo from "@/assets/main_logo.svg";
 import logo_icon from "@/assets/main_logo_icon.svg";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
 import { ArrowLeftToLine, ArrowRightToLine, Users } from "lucide-react";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import {
@@ -20,32 +20,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useAuthStore } from "@/store/auth/useAuthStore";
+import { useTeamListStore } from "@/store/team/useTeamListStore";
 import useTeamQueryModule from "@/hook/useTeamQueryModule";
-import useUserQueryModule from "@/hook/useUserQueryModule";
-import { useAuthStore } from "@/store/useAuthStore";
 
 function UserSidebar() {
   const navigate = useNavigate();
-
-  // API 호출 시 사용
-  const { teamData, getTeamsIsSuccess } = useTeamQueryModule();
-  console.log("getTeam", getTeamsIsSuccess, teamData);
-
-  const { getUserIsSuccess } = useUserQueryModule();
-
   const { user } = useAuthStore();
-  console.log("usersidebar", user);
-
+  const { getTeamListsIsSuccess } = useTeamQueryModule();
+  const { teamList } = useTeamListStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState(
-    teamData ? teamData[0]?.title : ""
-  );
+  const { teamId } = useParams();
+  const [selectedTeam, setSelectedTeam] = useState(null);
+
+  useEffect(() => {
+    if (teamList) {
+      const team = teamList.filter((team) => team.id === Number(teamId));
+      setSelectedTeam(team[0]);
+    }
+  }, [teamId, teamList]);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  if (!getUserIsSuccess || !user) {
+  if (!getTeamListsIsSuccess || !user || !teamList) {
     return <div>Loading...</div>;
   }
 
@@ -57,11 +56,7 @@ function UserSidebar() {
           {/* 로고 */}
           <Link to={`/`}>
             <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
-              <img
-                className="h-8 "
-                src={isCollapsed ? logo_icon : logo}
-                alt="logo"
-              />
+              <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
             </div>
           </Link>
           {/* 워크스페이스 nav */}
@@ -69,23 +64,19 @@ function UserSidebar() {
             <NavigationMenuList className="flex-col items-baseline">
               <NavigationMenuItem className="w-full">
                 <Select
-                  defaultValue={teamData && teamData[0]}
+                  defaultValue={selectedTeam}
                   onValueChange={(team) => {
-                    console.log(
-                      "team_여기서 전역으로 관리하는 workspace 이름 바꾸기"
-                    );
+                    console.log(team, "team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
                     setSelectedTeam(
-                      team.title.length > 10
-                        ? team?.title.slice(0, 10) + "..."
-                        : team.title
+                      team
+                      // team.title.length > 10 ? team?.title.slice(0, 10) + "..." : team.title
                     );
+                    console.log("select change", team.id);
                     navigate(`/workspace/team/${team.id}`);
                   }}
                   className="block truncate w-44"
                 >
-                  <SelectTrigger
-                    className={isCollapsed ? "" : "font-bold truncate w-full "}
-                  >
+                  <SelectTrigger className={isCollapsed ? "" : "font-bold truncate w-full "}>
                     <Users className="mr-2 text-primary" size={20} />
                     {!isCollapsed && (
                       <SelectValue className="font-bold truncatew-34">
@@ -104,10 +95,8 @@ function UserSidebar() {
 
                       {/* api 호출 시 */}
                       <SelectGroup className="my-1">
-                        <SelectLabel className="font-extrabold">
-                          개인 워크 스페이스
-                        </SelectLabel>
-                        {teamData?.map(
+                        <SelectLabel className="font-extrabold">개인 워크 스페이스</SelectLabel>
+                        {teamList?.map(
                           (team, index) =>
                             team.personal && (
                               <SelectItem
@@ -123,7 +112,7 @@ function UserSidebar() {
 
                       <SelectGroup className="my-1">
                         <SelectLabel>팀 워크 스페이스</SelectLabel>
-                        {teamData?.map(
+                        {teamList?.map(
                           (team, index) =>
                             !team.personal && (
                               <SelectItem
@@ -147,10 +136,7 @@ function UserSidebar() {
         <div className="flex flex-col justify-end w-full ">
           {/* collapse */}
           <div className="mx-5 my-2">
-            <div
-              className="flex items-center justify-start w-full px-1 "
-              onClick={toggleSidebar}
-            >
+            <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
               {isCollapsed ? (
                 <ArrowRightToLine size={20} className="text-primary" />
               ) : (
@@ -159,9 +145,7 @@ function UserSidebar() {
 
               <div
                 className={
-                  isCollapsed
-                    ? "hidden"
-                    : "mx-3 text-xs font-bold text-left text-slate-700"
+                  isCollapsed ? "hidden" : "mx-3 text-xs font-bold text-left text-slate-700"
                 }
               >
                 닫기
@@ -176,15 +160,13 @@ function UserSidebar() {
                 <div className="px-1 mx-1">
                   <Avatar>
                     <AvatarImage src={user.userImageUrl} alt="user_image" />
-                    <AvatarFallback>{user?.email.slice(0, 2)}</AvatarFallback>
+                    <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 </div>
 
                 <div
                   className={
-                    isCollapsed
-                      ? "hidden"
-                      : "flex flex-col items-start w-full text-sm font-bold"
+                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
                   }
                 >
                   <div className="mx-1 text-xs break-words">{user.nickname}</div>

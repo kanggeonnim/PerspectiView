@@ -68,9 +68,10 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
         {type === "empty" && (
           <Button
             className="bg-transparent border-none shadow-none hover:bg-transparent"
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               createStory({
-                storyTitle: "",
+                storyTitle: "스토리 제목을 입력하세요.",
                 content: {
                   content: "",
                 },
