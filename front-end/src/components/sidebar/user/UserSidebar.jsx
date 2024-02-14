@@ -3,7 +3,7 @@ import logo_icon from "@/assets/main_logo_icon.svg";
 import TeamCreate from "@/pages/workspace/components/TeamCreate";
 import { ArrowLeftToLine, ArrowRightToLine, Users } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
 
 import {
@@ -30,13 +30,21 @@ function UserSidebar() {
   const { getTeamListsIsSuccess } = useTeamQueryModule();
   const { teamList } = useTeamListStore();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState(teamList ? teamList[0]?.title : "");
+  const { teamId } = useParams();
+  const [selectedTeam, setSelectedTeam] = useState(null);
+
+  useEffect(() => {
+    if (teamList) {
+      const team = teamList.filter((team) => team.id === Number(teamId));
+      setSelectedTeam(team[0]);
+    }
+  }, [teamId, teamList]);
 
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
-  if (!getTeamListsIsSuccess || !user) {
+  if (!getTeamListsIsSuccess || !user || !teamList) {
     return <div>Loading...</div>;
   }
 
@@ -56,12 +64,14 @@ function UserSidebar() {
             <NavigationMenuList className="flex-col items-baseline">
               <NavigationMenuItem className="w-full">
                 <Select
-                  defaultValue={teamList && teamList[0]}
+                  defaultValue={selectedTeam}
                   onValueChange={(team) => {
-                    console.log("team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
+                    console.log(team, "team_여기서 전역으로 관리하는 workspace 이름 바꾸기");
                     setSelectedTeam(
-                      team.title.length > 10 ? team?.title.slice(0, 10) + "..." : team.title
+                      team
+                      // team.title.length > 10 ? team?.title.slice(0, 10) + "..." : team.title
                     );
+                    console.log("select change", team.id);
                     navigate(`/workspace/team/${team.id}`);
                   }}
                   className="block truncate w-44"

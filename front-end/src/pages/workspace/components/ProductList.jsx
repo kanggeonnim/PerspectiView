@@ -7,10 +7,9 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductAddStore from "@/store/useProductAddStore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
@@ -24,6 +23,7 @@ function CreateProduct() {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
+
   return (
     <div className="flex flex-col items-center a">
       <WorkList
@@ -51,7 +51,7 @@ function Product({ productImg, productName }) {
 
 export default function ProductList({ productsdata, teamNo }) {
   const { teamId } = useParams();
-  const { updateProduct } = useProductQueryModule(teamNo);
+  const { updateProduct } = useProductQueryModule(teamId);
   const navigate = useNavigate();
   // const [isEdit, setIsEdit] = useState(false);
   const [productDetail, setProductDetail] = useState({
@@ -62,6 +62,10 @@ export default function ProductList({ productsdata, teamNo }) {
     // uploadImage: "",
   });
   // console.log(productDetail);
+
+  // useEffect(() => {
+  //   console.log("render productList", teamId);
+  // }, [teamId]);
 
   return (
     <div className="flex flex-wrap h-full ">

@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useParams } from "react-router-dom";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
+import { useProductStore } from "@/store/useProductStore";
 
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
@@ -21,15 +22,15 @@ function ProductListCard() {
   // const totalItems = teamProductInfoData.length;
   // const totalPages = Math.ceil(totalItems / itemsPerPage);
   const { teamList } = useTeamListStore();
-  const [teamNo, setTeamNo] = useState("");
+  // const [teamNo, setTeamNo] = useState("");
   const { teamId } = useParams();
 
-  useEffect(() => {
-    if (teamList) {
-      // console.log("team?", getProductIsSuccess, teamList);
-      setTeamNo(() => teamList[0].id);
-    }
-  }, [teamList]);
+  // useEffect(() => {
+  //   if (teamList) {
+  //     // console.log("team?", getProductIsSuccess, teamList);
+  //     setTeamNo(() => teamList[0].id);
+  //   }
+  // }, [teamList]);
 
   const { productListData, getProductListDataIsSuccess } = useProductQueryModule(teamId);
   const [totalItems, setTotalItems] = useState("0");
@@ -45,6 +46,10 @@ function ProductListCard() {
       setProductInfo(() => productListData);
     }
   }, [productListData, totalItems]);
+
+  // useEffect(() => {
+  //   console.log("render productlistcard", productListData);
+  // }, [productListData]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -123,7 +128,7 @@ function ProductListCard() {
                 (currentPage - 1) * itemsPerPage,
                 Math.min(currentPage * itemsPerPage, totalItems)
               )}
-              teamNo={teamNo}
+              teamNo={teamId}
             />
             <div className="flex items-center">
               {/* 페이지네이션 버튼들 */}

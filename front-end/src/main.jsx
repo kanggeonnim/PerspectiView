@@ -1,10 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ReactDOM from "react-dom/client";
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import { Navigate, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ReactFlowProvider } from "reactflow";
 import "reactflow/dist/style.css";
 import App from "./App.jsx";
@@ -68,7 +64,7 @@ const router = createBrowserRouter(
             },
             {
               path: "character",
-              element: <CharTab onId />,
+              element: <CharTab />,
             },
             {
               path: "foreshadowing",

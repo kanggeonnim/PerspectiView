@@ -2,8 +2,6 @@ import { useCharacterListStore } from "@/store/useCharacterListStore";
 import { formApi, privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
 const useCharQueryModule = (teamId, productId, characterId) => {
   const queryClient = useQueryClient();
   const { setCharacterList } = useCharacterListStore();

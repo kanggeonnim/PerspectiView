@@ -151,11 +151,42 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
   });
 
+  const { mutate: addCharacter } = useMutation({
+    mutationFn: async (updatedData) => {
+      console.log(updatedData);
+      // const response = await privateApi.post(
+      //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`,
+      //   updatedData
+      // );
+      // return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      // queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+    },
+  });
+
+  const { mutate: removeCharacter } = useMutation({
+    mutationFn: async (storyId, characterId) => {
+      console.log(storyId, characterId);
+      // const response = await privateApi.delete(
+      //   `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/character/${updatedData.characterId}`
+      // );
+      // return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+    },
+  });
+
   return {
     createStory,
     deleteStory,
     updateStory,
     moveStory,
+    addCharacter,
+    removeCharacter,
     getStoryDetailData,
     isStoryDetailDataLoading,
     getStoryDetailDataIsSuccess,

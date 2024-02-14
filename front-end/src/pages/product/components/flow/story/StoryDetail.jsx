@@ -36,6 +36,8 @@ export default function StoryDetail() {
     getStoryFshadowListData,
     getStoryFshadowListDataIsSuccess,
     updateStory,
+    addCharacter,
+    removeCharacter,
   } = useStoryQueryModule(teamId, productId, plotId, storyId);
 
   const [searchInput, setSearchInput] = useState("");
@@ -44,9 +46,10 @@ export default function StoryDetail() {
   // console.log("여기!!", getStoryFshadowListData);
 
   useEffect(() => {
+    console.log("character", characterList);
     if (storyDetail && storyDetail.characters) setCharacterListInStory([...storyDetail.characters]);
     console.log("detail render", storyDetail);
-  }, [storyDetail, storyDetail?.characters]);
+  }, [storyDetail, storyDetail?.characters, characterList]);
 
   console.log("in story", characterListInStory);
   if (!storyDetail) {
@@ -103,7 +106,7 @@ export default function StoryDetail() {
               {isEdit && (
                 <Popover onOpenChange={() => setSearchInput("")}>
                   <PopoverTrigger asChild>
-                    <PlusCircle size={15} className="mx-1" />
+                    <PlusCircle size={15} className="mx-1 text-primary" />
                   </PopoverTrigger>
                   <PopoverContent className="h-60 w-80" side="right">
                     <div className="grid gap-4">
@@ -125,6 +128,7 @@ export default function StoryDetail() {
                               key={character.characterId}
                               className="m-1 cursor-pointer"
                               onClick={() => {
+                                addCharacter(character);
                                 characterListInStory.push(character);
                                 setCharacterListInStory([...characterListInStory]);
                               }}
@@ -162,7 +166,10 @@ export default function StoryDetail() {
                 <>
                   {characterListInStory &&
                     characterListInStory.map((character) => (
-                      <div className="flex flex-col items-center" key={character.characterId}>
+                      <div
+                        className="relative flex flex-col items-center "
+                        key={character.characterId}
+                      >
                         <Avatar>
                           <AvatarImage src={character.characterImage} alt="@shadcn" />
                           <AvatarFallback>{character.characterName?.slice(0, 2)}</AvatarFallback>
@@ -170,24 +177,25 @@ export default function StoryDetail() {
                         <Badge variant="secondary" radius="sm">
                           {character.characterName}
                         </Badge>
+                        <MinusCircle
+                          size={13}
+                          className="absolute right-0 mr-1 text-red-500 "
+                          onClick={() => {
+                            console.log("delete", [
+                              ...characterListInStory.filter(
+                                (_, index) => index !== character.characterId
+                              ),
+                            ]);
+                            removeCharacter(storyId, character.characterId);
+                            setCharacterListInStory([
+                              ...characterListInStory.filter(
+                                (charac) => charac.characterId !== character.characterId
+                              ),
+                            ]);
+                          }}
+                        />
                       </div>
                     ))}
-                  <div className="relative flex flex-col items-center ">
-                    <Avatar>
-                      <AvatarImage src="" alt="@shadcn" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <Badge variant="secondary" radius="sm">
-                      임서정
-                    </Badge>
-                    <MinusCircle
-                      size={13}
-                      className="absolute right-0 mr-1 text-red-500 "
-                      onClick={() => {
-                        console.log("delete");
-                      }}
-                    />
-                  </div>
                 </>
               ) : (
                 <>
@@ -249,8 +257,15 @@ export default function StoryDetail() {
               className="mx-2 "
               variant="default"
               onClick={() => {
-                console.log({ ...storyDetail, characters: [...characterListInStory] });
-                updateStory({ ...storyDetail, characters: [...characterListInStory] });
+                console.log({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
+
+                updateStory({
+                  storyTitle: storyDetail.storyTitle,
+                  storyContent: storyDetail.content.content,
+                });
                 setIsEdit(false);
               }}
             >

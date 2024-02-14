@@ -7,27 +7,19 @@ import CharList from "./CharList";
 import CharAdd from "./CharAdd";
 import useCharStore from "@/store/useCharStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
-import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { privateApi } from "@/util/api";
-import { CodeSandboxLogoIcon } from "@radix-ui/react-icons";
-const VITE_BASE_URL = import.meta.env.VITE_BASE_URL;
-
-
-// zustand 完
+import { useParams } from "react-router-dom";
 
 export default function CharTab() {
-  const {
-    inputs,
-    selectedIdx,
-    setInputs,
-    setSelectedIdx,
-  } = useCharStore();
-  const { teamId, productId } = useParams()
-  const { charData, getCharIsSuccess} = useCharQueryModule(teamId, productId);
+  const { inputs, selectedIdx, setInputs, setSelectedIdx } = useCharStore();
+  const { teamId, productId } = useParams();
+  const { charData, getCharIsSuccess } = useCharQueryModule(teamId, productId);
 
-  console.log(charData)
+  // useEffect(() => {
+  //   console.log(charData);
+  // }, [charData]);
+
   if (!getCharIsSuccess) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   const onChange = (e) => {
@@ -45,9 +37,7 @@ export default function CharTab() {
           </div>
           <div className="flex flex-col w-1/3">
             <div className="flex justify-between">
-              <div className="box-border w-1/2 m-2 text-2xl font-semibold h-11/12">
-                인물 목록
-              </div>
+              <div className="box-border w-1/2 m-2 text-2xl font-semibold h-11/12">인물 목록</div>
               <CharAdd
                 name={inputs.name}
                 description={inputs.description}

@@ -15,6 +15,7 @@ import { useEffect, useRef, useState } from "react";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
+import { useParams } from "react-router-dom";
 
 function CreateWork() {
   return (
@@ -45,21 +46,22 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   });
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-  const { images, setImages } = useImageStore();  
+  const { images, setImages } = useImageStore();
   const { teamList } = useTeamListStore();
-  const [teamNo, setTeamNo] = useState("");
+  const { teamId } = useParams();
+
+  // const [teamNo, setTeamNo] = useState("");
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    setImages(selectedImage)
-    console.log(images)
-    console.log(event.target.files)
-    setProductDetail(ProductDetail => ({
+    setImages(selectedImage);
+    console.log(images);
+    console.log(event.target.files);
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
-      },
-    ))
+    }));
   };
 
   const handleUploadClick = () => {
@@ -77,28 +79,26 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
       console.log(formData);
-      console.log(image)
-      setProductDetail(ProductDetail => ({
+      console.log(image);
+      setProductDetail((ProductDetail) => ({
         ...ProductDetail,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
-        },
-      )
-      );
+      }));
       // 이미지 업로드 후 이미지 지우기
       setImage(null);
     }
-  }
+  };
 
-  useEffect(() => {
-    if (teamList) {
-      setTeamNo(() => teamList[0].id);
-      console.log(teamList);
-    }
-    console.log(teamNo);
-  }, [teamList, teamNo]);
-  
+  // useEffect(() => {
+  //   if (teamList) {
+  //     setTeamNo(() => teamList[0].id);
+  //     console.log(teamList);
+  //   }
+  //   console.log(teamNo);
+  // }, [teamList, teamNo]);
+
   // FIXME 팀 ID undefined 발생
-  const { createProductData } = useProductQueryModule(teamNo);
+  const { createProductData } = useProductQueryModule(teamId);
 
   return (
     <form>
@@ -133,7 +133,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         onChange={(e) => {
                           setProductDetail({
                             ...productDetail,
-                            uploadImage : URL.createObjectURL(image)
+                            uploadImage: URL.createObjectURL(image),
                           });
                         }}
                       />
@@ -147,12 +147,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                         accept="image/*"
                         onChange={handleImageChange}
                         style={{ display: "none" }}
-
                       />
                     </>
                   )}
                   {image && (
-                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>이미지 삭제</button>
+                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                      이미지 삭제
+                    </button>
                   )}
                 </div>
               </div>

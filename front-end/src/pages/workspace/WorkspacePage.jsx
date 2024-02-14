@@ -9,6 +9,7 @@ export default function WorkspacePage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
   const { getUserIsSuccess } = useUserQueryModule();
+
   const { user } = useAuthStore();
 
   useEffect(() => {

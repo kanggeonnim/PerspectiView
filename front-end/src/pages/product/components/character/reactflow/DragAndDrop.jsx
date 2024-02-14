@@ -57,7 +57,7 @@ export default function DnD({ charDatas, idx }) {
   // let id = 1;
   // const getId = () => `${id++}`;
 
-  console.log(relativeList);
+  // console.log(relativeList);
   // TODO 관계 조회 작성중
   // relativeList?.map((relat) =>
   // relat.

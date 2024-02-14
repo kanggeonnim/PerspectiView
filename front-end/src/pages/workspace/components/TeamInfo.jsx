@@ -36,7 +36,7 @@ function TeamInfo() {
     }
     console.log(oneTeam);
   }, [oneTeam]);
-  
+
   return (
     <div className="flex w-full max-h-full min-h-full gap-3 m-2 ">
       {!oneTeam?.personal && (
