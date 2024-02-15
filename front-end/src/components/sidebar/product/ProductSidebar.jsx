@@ -193,7 +193,7 @@ function ProductSidebar() {
                           <div className="relative flex items-center">
                             <Input
                               placeholder="플롯 이름"
-                              className="w-24 rounded-sm "
+                              className="w-32 rounded-sm "
                               value={newPlotName}
                               onChange={(e) => setNewPlotName(e.target.value)}
                             />
