@@ -1,4 +1,5 @@
 import { BaseEdge, EdgeLabelRenderer, getStraightPath } from "reactflow";
+import { useState } from "react";
 
 export default function CustomEdge({
   id,
@@ -22,6 +23,21 @@ export default function CustomEdge({
     targetPosition,
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState("Click to edit");
+
+  const handleDoubleClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleChange = (e) => {
+    setValue(e.target.value);
+  };
+
+  const handleBlur = () => {
+    setIsEditing(false);
+  };
+
   return (
     <>
       {/* <g>
@@ -43,28 +59,44 @@ export default function CustomEdge({
         markerEnd={markerEnd}
       />
       <EdgeLabelRenderer className="-z-20">
-        {data ? (
-          <div
-            style={{
-              position: "absolute",
-              pointerEvents: "all",
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            }}
-            className="z-30 w-16 text-center bg-transparent text-sm"
-          >
-            {data.label}
-          </div>
-        ) : (
-          <input
-            style={{
-              position: "absolute",
-              pointerEvents: "all",
-              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-            }}
-            className="z-30 w-16 text-center bg-transparent text-sm"
-            defaultValue="관계"
-          />
-        )}
+        {/* <input
+          style={{
+            position: "absolute",
+            pointerEvents: "all",
+            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+          }}
+          className="z-30 w-16 text-center bg-transparent text-sm"
+          defaultValue="관계"
+        /> */}
+        <div>
+          {isEditing ? (
+            <input
+              type="text"
+              value={value}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              style={{
+                position: "absolute",
+                pointerEvents: "all",
+                transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              }}
+              className="z-30 w-16 text-center bg-transparent text-sm"
+              autoFocus
+            />
+          ) : (
+            <div
+              onClick={handleDoubleClick}
+              style={{
+                position: "absolute",
+                pointerEvents: "all",
+                transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+              }}
+              className="z-30 w-16 text-center bg-transparent text-sm"
+            >
+              {value}
+            </div>
+          )}
+        </div>
       </EdgeLabelRenderer>
     </>
   );
