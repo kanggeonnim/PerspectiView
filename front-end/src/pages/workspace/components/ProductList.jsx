@@ -235,7 +235,8 @@ export default function ProductList({ productsdata, teamNo }) {
                       {isEditing ? (
                         <Buttonselect isEditing={isEditing} 
                         className="w-full" onSelect={setSelectedGenres}/>
-                        ) : (<></>)}
+                        ) : (<Buttonselect isEditing={isEditing} 
+                          className="w-full" onSelect={setSelectedGenres}/>)}
                       {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
                   </div>
@@ -244,7 +245,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
                       <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
-                      ) : (<></>)}
+                      ) : (<RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />)}
                       
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
                     </div>
