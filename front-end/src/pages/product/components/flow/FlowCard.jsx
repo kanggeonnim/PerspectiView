@@ -38,7 +38,7 @@ export default function FlowCard() {
   const { teamId, productId } = useParams();
   const { moveStory } = useStoryQueryModule(teamId, productId);
   const { nodes, edges, onNodesChange, onEdgesChange, addStory } = useNodeStore(selector);
-  const [movedNode, setMovedNode] = useState();
+  const [movedNode, setMovedNode] = useState(null);
 
   // console.log("nodes", nodes);
   return (
