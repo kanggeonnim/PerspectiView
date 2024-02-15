@@ -19,9 +19,6 @@ import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import useProductAddStore from "@/store/useProductAddStore";
 
-
-
-
 function CreateProduct() {
   const { inputs, setInputs, products, onCreate } = useProductAddStore();
   const onChange = (e) => {
@@ -47,7 +44,11 @@ function Product({ productImg, productName }) {
   return (
     <div className="flex flex-col items-center">
       <Card className="w-32 mx-3 my-1 h-36">
-        <img className="w-full h-full rounded-xl" src={productImg} alt="cover of work" />
+        <img
+          className="w-full h-full rounded-xl"
+          src={productImg}
+          alt="cover of work"
+        />
       </Card>
       <div className="m-2">{productName}</div>
     </div>
@@ -57,24 +58,27 @@ function Product({ productImg, productName }) {
 export default function ProductList({ productsdata, teamNo }) {
   const [isEditing, setIsEditing] = useState(false);
   const { teamId } = useParams();
-  const [prodId, setProdId] = useState(false)
+  const [prodId, setProdId] = useState(false);
   const handleEditProduct = (productId) => {
-    setProdId(productId)
+    setProdId(productId);
   };
-  console.log(prodId)
-  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
-  console.log(productsdata)
+  console.log(prodId);
+  const { updateProductData, deleteProductData } = useProductQueryModule(
+    teamId,
+    prodId
+  );
+  console.log(productsdata);
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedCates, setSelectedCates] = useState("");
   const handleGenreSelect = (genres) => {
     setSelectedGenres(genres);
   };
-  
+
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const handleImageChange = (event) => {
-      const selectedImage = event.target.files[0];
+    const selectedImage = event.target.files[0];
     setImage(selectedImage);
     // productid를 따오면...?
     setProductDetail((ProductDetail) => ({
@@ -97,8 +101,8 @@ export default function ProductList({ productsdata, teamNo }) {
     if (image) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
-      console.log(image)
-      setProductDetail(ProductDetail => ({
+      console.log(image);
+      setProductDetail((ProductDetail) => ({
         ...ProductDetail,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
       }));
@@ -125,10 +129,6 @@ export default function ProductList({ productsdata, teamNo }) {
     uploadImage: "",
   });
 
-
-
- 
-
   return (
     <div className="flex flex-wrap items-start h-full ">
       <div className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
@@ -144,7 +144,10 @@ export default function ProductList({ productsdata, teamNo }) {
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
-                <Product productImg={product.productImageUrl} productName={product.productTitle} />
+                <Product
+                  productImg={product.productImageUrl}
+                  productName={product.productTitle}
+                />
               </AlertDialogTrigger>
             </div>
             <AlertDialogContent className="flex flex-row w-2/3 max-w-2/3 h-2/3">
@@ -189,7 +192,9 @@ export default function ProductList({ productsdata, teamNo }) {
                       {product.productImageUrl && isEditing && (
                         <button
                           className="w-full bg-red-500 "
-                          onClick={handleUploadImage}
+                          onClick={(e) => {
+                            setImage("");
+                          }}
                         >
                           이미지 삭제
                         </button>
@@ -219,7 +224,10 @@ export default function ProductList({ productsdata, teamNo }) {
                           onChange={(e) => {
                             setProductDetail({
                               ...productDetail,
-                              productTitle: e.target.value,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productTitle: e.target.value,
+                              },
                             });
                           }}
                           defaultValue={product.productTitle}
@@ -233,10 +241,18 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                        <Buttonselect isEditing={isEditing} 
-                        className="w-full" onSelect={setSelectedGenres}/>
-                        ) : (<Buttonselect isEditing={isEditing} 
-                          className="w-full" onSelect={setSelectedGenres}/>)}
+                        <Buttonselect
+                          isEditing={isEditing}
+                          className="w-full"
+                          onSelect={setSelectedGenres}
+                        />
+                      ) : (
+                        <Buttonselect
+                          isEditing={isEditing}
+                          className="w-full"
+                          onSelect={setSelectedGenres}
+                        />
+                      )}
                       {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
                   </div>
@@ -244,9 +260,17 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                      <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
-                      ) : (<RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />)}
-                      
+                        <RadioButtonSelect
+                          isEditing={isEditing}
+                          onSelectRadio={setSelectedCates}
+                        />
+                      ) : (
+                        <RadioButtonSelect
+                          isEditing={isEditing}
+                          onSelectRadio={setSelectedCates}
+                        />
+                      )}
+
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
                     </div>
                   </div>
@@ -260,7 +284,10 @@ export default function ProductList({ productsdata, teamNo }) {
                           onChange={(e) => {
                             setProductDetail({
                               ...productDetail,
-                              productInfo: e.target.value,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productInfo: e.target.value,
+                              },
                             });
                           }}
                           className="w-4/5 border"
@@ -280,7 +307,7 @@ export default function ProductList({ productsdata, teamNo }) {
                         className="border"
                         onClick={() => {
                           setIsEditing(true);
-                          handleEditProduct(product.productId)
+                          handleEditProduct(product.productId);
                           // 추가 동작
                         }}
                       >
@@ -294,8 +321,8 @@ export default function ProductList({ productsdata, teamNo }) {
                         >
                           취소
                         </Button>
-                        <Button 
-                          className ="bg-red-400 right-0 border-none shadow-none hover:bg-red-700"
+                        <Button
+                          className="bg-red-400 right-0 border-none shadow-none hover:bg-red-700"
                           onClick={() => {
                             setIsEditing(false);
                             // setImage("")
@@ -309,7 +336,7 @@ export default function ProductList({ productsdata, teamNo }) {
                             setIsEditing(false);
                             // setImage("")
                             console.log(productDetail);
-                            // updateProductData(productDetail);
+                            updateProductData(productDetail);
                           }}
                         >
                           완료
@@ -319,7 +346,9 @@ export default function ProductList({ productsdata, teamNo }) {
                     {!isEditing && (
                       <AlertDialogAction
                         onClick={() => {
-                          navigate(`/team/${teamNo}/product/${product.productId}`);
+                          navigate(
+                            `/team/${teamNo}/product/${product.productId}`
+                          );
                         }}
                       >
                         상세 보기
