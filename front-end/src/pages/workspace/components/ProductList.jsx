@@ -12,11 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
+import { Badge } from "@/components/ui/badge";
 import useProductAddStore from "@/store/product/useProductAddStore";
 
 function CreateProduct() {
@@ -44,7 +45,11 @@ function Product({ productImg, productName }) {
   return (
     <div className="flex flex-col items-center">
       <Card className="w-32 mx-3 my-1 h-36">
-        <img className="w-full h-full rounded-xl" src={productImg} alt="cover of work" />
+        <img
+          className="w-full h-full rounded-xl"
+          src={productImg}
+          alt="cover of work"
+        />
       </Card>
       <div className="m-2">{productName}</div>
     </div>
@@ -58,25 +63,48 @@ export default function ProductList({ productsdata, teamNo }) {
   const handleEditProduct = (productId) => {
     setProdId(productId);
   };
-  console.log(prodId);
-  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
-  console.log(productsdata);
+  // console.log(prodId);
+  const { updateProductData, deleteProductData } = useProductQueryModule(
+    teamId,
+    prodId
+  );
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedCates, setSelectedCates] = useState("");
   const handleGenreSelect = (genres) => {
     setSelectedGenres(genres);
   };
+  useEffect(() => {
+    selectedGenres?.sort((a, b) => a.id - b.id);
+    setProductDetail((ProductDetail) => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        genres: selectedGenres,
+      },
+    }));
+  }, [selectedGenres]);
 
-  const [image, setImage] = useState(null);
+  useEffect(() => {
+    selectedCates;
+    setProductDetail((ProductDetail) => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        category: selectedCates,
+      },
+    }));
+  }, [selectedCates]);
+
+  const [image, setImage] = useState("");
   const fileInputRef = useRef(null);
+
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    // productid를 따오면...?
     setProductDetail((ProductDetail) => ({
       ...ProductDetail,
-      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+      uploadImage: selectedImage,
     }));
   };
 
@@ -108,16 +136,8 @@ export default function ProductList({ productsdata, teamNo }) {
     productRequestDto: {
       productTitle: "",
       productInfo: "",
-      category: {
-        id: "1",
-        name: "웹소설",
-      },
-      genres: [
-        {
-          id: "1",
-          name: "SF",
-        },
-      ],
+      genres: selectedGenres,
+      category: selectedCates,
     },
     uploadImage: "",
   });
@@ -137,7 +157,10 @@ export default function ProductList({ productsdata, teamNo }) {
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
-                <Product productImg={product.productImageUrl} productName={product.productTitle} />
+                <Product
+                  productImg={product.productImageUrl}
+                  productName={product.productTitle}
+                />
               </AlertDialogTrigger>
             </div>
             <AlertDialogContent className="flex flex-row w-2/3 max-w-2/3 h-2/3">
@@ -153,20 +176,35 @@ export default function ProductList({ productsdata, teamNo }) {
                       style={{ cursor: "pointer" }}
                     >
                       {product.productImageUrl ? (
-                        <div className="w-full h-full">
-                          <img
-                            className="w-full h-full"
-                            src={product.productImageUrl}
-                            alt="Uploaded"
-                            style={{ maxWidth: "300px" }}
-                            onChange={(e) => {
-                              setProductDetail({
-                                ...productDetail,
-                                uploadImage: URL.createObjectURL(image),
-                              });
-                            }}
-                          />
-                        </div>
+                        <>
+                          {isEditing ? (
+                            <>
+                              <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: "none" }}
+                              />
+                              <div>이미지 첨부</div>
+                            </>
+                          ) : (
+                            <div className="w-full h-full">
+                              <img
+                                className="w-full h-full"
+                                src={product.productImageUrl}
+                                alt="Uploaded"
+                                style={{ maxWidth: "300px" }}
+                                onChange={(e) => {
+                                  setProductDetail({
+                                    ...productDetail,
+                                    uploadImage: product.productImageUrl,
+                                  });
+                                }}
+                              />
+                            </div>
+                          )}
+                        </>
                       ) : (
                         <>
                           <PlusCircleIcon />
@@ -178,16 +216,6 @@ export default function ProductList({ productsdata, teamNo }) {
                             style={{ display: "none" }}
                           />
                         </>
-                      )}
-                      {product.productImageUrl && isEditing && (
-                        <button
-                          className="w-full bg-red-500 "
-                          onClick={(e) => {
-                            setImage("");
-                          }}
-                        >
-                          이미지 삭제
-                        </button>
                       )}
                     </div>
                   </div>
@@ -237,11 +265,19 @@ export default function ProductList({ productsdata, teamNo }) {
                           onSelect={setSelectedGenres}
                         />
                       ) : (
-                        <Buttonselect
-                          isEditing={isEditing}
-                          className="w-full"
-                          onSelect={setSelectedGenres}
-                        />
+                        <>
+                          {product?.genres?.map((genre, key) => (
+                            <Badge
+                              key={key}
+                              variant="destructive"
+                              radius="full"
+                              className="hover:none h-5"
+                            >
+                              {genre.genreName}
+                            </Badge>
+                          ))}
+                        </>
+                        // 선택된 장르 띄우기
                       )}
                       {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
@@ -250,9 +286,18 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                        <RadioButtonSelect
+                          isEditing={isEditing}
+                          onSelectRadio={setSelectedCates}
+                        />
                       ) : (
-                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                        <Badge
+                          variant="destructive"
+                          radius="full"
+                          className="hover:none h-5"
+                        >
+                          {product.category.categoryName}
+                        </Badge>
                       )}
 
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
@@ -330,7 +375,9 @@ export default function ProductList({ productsdata, teamNo }) {
                     {!isEditing && (
                       <AlertDialogAction
                         onClick={() => {
-                          navigate(`/team/${teamNo}/product/${product.productId}`);
+                          navigate(
+                            `/team/${teamNo}/product/${product.productId}`
+                          );
                         }}
                       >
                         상세 보기
