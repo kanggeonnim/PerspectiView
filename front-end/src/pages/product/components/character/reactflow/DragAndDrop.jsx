@@ -51,15 +51,15 @@ export default function DnD({ charDatas, idx, isSave }) {
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
   useEffect(() => {
-    if (!isSave) {
-      setNodes(setTable?.nodes || []);
-      setEdges(setTable?.edges || []);
-    }
-  }, [isSave, setNodes, setTable?.nodes, setEdges, setTable?.edges]);
+    setNodes(setTable?.nodes || []);
+  }, []);
+
+  useEffect(() => {
+    setEdges(setTable?.edges || []);
+  }, []);
+
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [labelInput, setLabelInput] = useState("");
-  // const { setViewport } = useReactFlow();
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
   // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
