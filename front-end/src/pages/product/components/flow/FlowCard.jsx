@@ -1,6 +1,6 @@
 import ReactFlow, { Controls, Panel, ConnectionLineType, Background, MiniMap } from "reactflow";
 import CustomEdge from "./CustomEdge";
-import useNodeStore from "@/store/useNodeStore";
+import useNodeStore from "@/store/story/useNodeStore";
 
 // We need to import the React Flow styles to make it work
 import "reactflow/dist/style.css";
@@ -92,8 +92,8 @@ export default function FlowCard() {
       </Panel>
       <Panel position="top-right">
         {/* <Button
-          onClick={() =>
-            console.log("last index")
+          onClick={
+            () => console.log("last index")
             // addStory({
             //   // id: data.storyId,
             //   type: "story",
