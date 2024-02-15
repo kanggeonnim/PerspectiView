@@ -13,9 +13,10 @@ import useStoryQueryModule from "@/hook/useStoryQueryModule";
 import { useCharacterListStore } from "@/store/useCharacterListStore";
 import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { MinusCircle, MoreHorizontal, PlusCircle } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingCardStoryDetail";
+import { useFshadow } from "@/store/useFshadow";
 
 // const sample = Array.from({ length: 20 }, (_, index) => ({
 //   fshadowId: index + 1,
@@ -27,12 +28,14 @@ import { ForeshadowingCardStoryDetail } from "../../foreshadowing/ForeshadowingC
 export default function StoryDetail() {
   const { teamId, productId, plotId, storyId } = useParams();
   const [isEdit, setIsEdit] = useState(false);
+  const { fshadows, setFshadows } = useFshadow();
+
   const { storyDetail, storyFshadowList, setStoryDetail } = useStoryDetailStore();
   const {
     // getStoryDetailData,
     // getStoryDetailDataIsSuccess,
     // isStoryDetailDataLoading,
-    // getStoryFshadowListData,
+    getStoryFshadowListData,
     // getStoryFshadowListDataIsSuccess,
     updateStory,
     addCharacter,
@@ -44,6 +47,16 @@ export default function StoryDetail() {
   const { characterList } = useCharacterListStore();
   // console.log("여기!!", getStoryFshadowListData);
 
+  const memoizedSetCharacterListInStory = useMemo(() => setCharacterListInStory, []);
+
+  const handleChange = useMemo(() => {
+    console.log("eeee");
+    return (event) => {
+      setSearchInput(event.target.value);
+      console.log("input", event.target.value);
+    };
+  }, []);
+
   useEffect(() => {
     console.log("character", characterList);
     if (storyDetail && storyDetail.characters) setCharacterListInStory([...storyDetail.characters]);
@@ -52,7 +65,8 @@ export default function StoryDetail() {
 
   useEffect(() => {
     console.log("in story", characterListInStory);
-  }, [characterListInStory]);
+    console.log("fsadow", storyDetail.foreShadowings);
+  }, [characterListInStory, storyFshadowList]);
 
   if (!storyDetail) {
     return <div>Loading...</div>;
@@ -82,7 +96,7 @@ export default function StoryDetail() {
           <div className="flex flex-col justify-between w-1/2 ">
             <div className="my-2 text-sm font-bold">이 스토리에 사용된 복선</div>
             <div className="flex flex-wrap items-start justify-start ">
-              {storyFshadowList?.slice(0, 5)?.map((fshadow) => (
+              {getStoryFshadowListData?.slice(0, 5)?.map((fshadow) => (
                 <HoverCard key={fshadow.fshadowId}>
                   <HoverCardTrigger className="mr-1">
                     <Badge
@@ -97,7 +111,9 @@ export default function StoryDetail() {
                   </HoverCardContent>
                 </HoverCard>
               ))}
-              <div className="mx-2">{storyFshadowList?.length > 9 && <MoreHorizontal />}</div>
+              <div className="mx-2">
+                {storyDetail.foreShadowings?.length > 9 && <MoreHorizontal />}
+              </div>
             </div>
           </div>
           {/* 인물 목록 */}
@@ -117,9 +133,7 @@ export default function StoryDetail() {
                           <Input
                             className="w-4/5 mr-1 rounded-lg"
                             value={searchInput}
-                            onChange={(event) => {
-                              setSearchInput(event.target.value);
-                            }}
+                            onChange={handleChange}
                           />
                           <Button>검색</Button>
                         </div>
@@ -129,8 +143,6 @@ export default function StoryDetail() {
                               key={character.characterId}
                               className="m-1 cursor-pointer"
                               onClick={() => {
-                                console.log(character, storyId);
-                                addCharacter(character, storyId);
                                 characterListInStory.push(character);
                                 setCharacterListInStory([...characterListInStory]);
                               }}
@@ -183,7 +195,6 @@ export default function StoryDetail() {
                           size={13}
                           className="absolute right-0 mr-1 text-red-500 "
                           onClick={() => {
-                            removeCharacter(character.characterId);
                             setCharacterListInStory([
                               ...characterListInStory.filter(
                                 (charac) => charac.characterId !== character.characterId
@@ -254,11 +265,23 @@ export default function StoryDetail() {
               className="mx-2 "
               variant="default"
               onClick={() => {
-                console.log({
-                  storyTitle: storyDetail.storyTitle,
-                  storyContent: { content: storyDetail.storyContent.content },
+                const addedValues = characterListInStory.filter(
+                  (item) => !storyDetail.characters.includes(item)
+                );
+                const removedValues = storyDetail.characters.filter(
+                  (item) => !characterListInStory.includes(item)
+                );
+
+                console.log("added", addedValues);
+                console.log("removed", removedValues);
+
+                addedValues.map((value) => {
+                  addCharacter(value);
                 });
 
+                removedValues.map((value) => {
+                  removeCharacter(value.characterId);
+                });
                 updateStory({
                   storyTitle: storyDetail.storyTitle,
                   storyContent: { content: storyDetail.storyContent.content },
