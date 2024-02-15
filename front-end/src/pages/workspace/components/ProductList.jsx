@@ -178,14 +178,7 @@ export default function ProductList({ productsdata, teamNo }) {
                       {product.productImageUrl ? (
                         <>
                           {isEditing ? (
-                            <button
-                              className="w-full bg-red-500"
-                              onClick={(e) => {
-                                setImage("");
-                              }}
-                            >
-                              이미지 삭제
-                            </button>
+                            <></>
                           ) : (
                             <div className="w-full h-full">
                               <img
@@ -193,6 +186,12 @@ export default function ProductList({ productsdata, teamNo }) {
                                 src={product.productImageUrl}
                                 alt="Uploaded"
                                 style={{ maxWidth: "300px" }}
+                                onChange={(e) => {
+                                  setProductDetail({
+                                    ...productDetail,
+                                    uploadImage: URL.createObjectURL(image),
+                                  });
+                                }}
                               />
                             </div>
                           )}
