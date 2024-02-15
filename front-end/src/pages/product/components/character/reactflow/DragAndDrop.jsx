@@ -62,23 +62,6 @@ export default function DnD({ charDatas, idx, isSave }) {
   // const { setViewport } = useReactFlow();
 
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
-
-  // const onSave = useCallback(() => {
-  //   const datas = JSON.parse(localStorage.getItem(flowKey))
-  //   // const nodeInfo = datas.nodes
-  //   // const edgeInfo = edges.nodes
-  //   // if (nodeInfo) {
-  //   //   nodeInfo.map((data) => (
-  //   //     charDatas.map((charData) => (
-  //   //       ( data.id === charData.characterId ) ? console.log('yes') : console.log('NaN')
-  //   //     ))
-  //   //   ))
-  //   // }
-  //   // if (edgeInfo) {
-  //   //   edgeInfo.map((data)=> console.log(data))
-  //   // }
-  // }, [reactFlowInstance]);
-
   // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
 
   const onTempoSave = useCallback(() => {
@@ -147,10 +130,6 @@ export default function DnD({ charDatas, idx, isSave }) {
     [reactFlowInstance, idx, charDatas, setNodes]
   );
 
-  const handleLabelInputChange = (event) => {
-    setLabelInput(event.target.value);
-  };
-
   return (
     <div className="dndflow">
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -179,9 +158,13 @@ export default function DnD({ charDatas, idx, isSave }) {
                 <Button className="mr-2" onClick={onTempoSave}>
                   저장
                 </Button>
-                <Button variant="secondary" className="border" onClick={onRestore}>
+                {/* <Button
+                  variant="secondary"
+                  className="border"
+                  onClick={onRestore}
+                >
                   불러오기
-                </Button>
+                </Button> */}
               </>
             ) : (
               <></>

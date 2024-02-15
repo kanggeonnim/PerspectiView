@@ -180,7 +180,12 @@ export default function ProductList({ productsdata, teamNo }) {
                         </>
                       )}
                       {product.productImageUrl && isEditing && (
-                        <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                        <button
+                          className="w-full bg-red-500 "
+                          onClick={(e) => {
+                            setImage("");
+                          }}
+                        >
                           이미지 삭제
                         </button>
                       )}
@@ -209,7 +214,10 @@ export default function ProductList({ productsdata, teamNo }) {
                           onChange={(e) => {
                             setProductDetail({
                               ...productDetail,
-                              productTitle: e.target.value,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productTitle: e.target.value,
+                              },
                             });
                           }}
                           defaultValue={product.productTitle}
@@ -260,7 +268,10 @@ export default function ProductList({ productsdata, teamNo }) {
                           onChange={(e) => {
                             setProductDetail({
                               ...productDetail,
-                              productInfo: e.target.value,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productInfo: e.target.value,
+                              },
                             });
                           }}
                           className="w-4/5 border"
@@ -289,12 +300,13 @@ export default function ProductList({ productsdata, teamNo }) {
                     ) : (
                       <>
                         <Button
-                          className="right-0 border-none shadow-none bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                          className="right-0 bg-white border-2 text-secondary-foreground hover:bg-gray-200"
                           onClick={() => setIsEditing(false)}
                         >
                           취소
                         </Button>
                         <Button
+                          className="right-0 bg-red-400 border-none shadow-none hover:bg-red-700"
                           onClick={() => {
                             setIsEditing(false);
                             // setImage("")
@@ -308,7 +320,7 @@ export default function ProductList({ productsdata, teamNo }) {
                             setIsEditing(false);
                             // setImage("")
                             console.log(productDetail);
-                            // updateProductData(productDetail);
+                            updateProductData(productDetail);
                           }}
                         >
                           완료

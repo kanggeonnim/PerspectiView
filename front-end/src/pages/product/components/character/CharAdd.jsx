@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useImageStore } from "@/store/useImageStore";
 
-export default function CharAdd({ name, description, url, onChange }) {
+export default function CharAdd() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const [addChar, setAddChar] = useState({
@@ -67,12 +67,8 @@ export default function CharAdd({ name, description, url, onChange }) {
     }
   };
 
-  const [newCharName, setNewCharName] = useState("");
-  const [newCharDescript, setNewCharDescript] = useState("");
-  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } = useCharQueryModule(
-    teamId,
-    productId
-  );
+  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } =
+    useCharQueryModule(teamId, productId);
 
   // console.log(charData);
   return (
@@ -120,7 +116,10 @@ export default function CharAdd({ name, description, url, onChange }) {
                   </>
                 )}
                 {image && (
-                  <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                  <button
+                    className="w-full bg-red-500 "
+                    onClick={handleUploadImage}
+                  >
                     이미지 삭제
                   </button>
                 )}
@@ -182,11 +181,15 @@ export default function CharAdd({ name, description, url, onChange }) {
           <div>등장 스토리 추가 위치</div> */}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel>취소하기</AlertDialogCancel>
+          <AlertDialogCancel onClick={() => {
+                  // // create product
+                  setImage("");
+                }}>취소하기</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
               // console.log("여기", addChar);
+              setImage("");
               createChar(addChar);
             }}
           >
