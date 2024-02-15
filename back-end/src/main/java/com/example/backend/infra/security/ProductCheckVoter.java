@@ -120,7 +120,13 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
 
         // 매니저가 아니면 예외
         log.info("매니저가 아니면 예외");
-        if(!team.ifManager(principal.getUser())) return ACCESS_DENIED;
+        if(!team.ifManager(principal.getUser())) {
+            if(request.getServletPath().contains("comment")){
+                log.info("코멘트는 통과");
+                return ACCESS_GRANTED;
+            }
+            return ACCESS_DENIED;
+        }
 
         return ACCESS_GRANTED;
     }
