@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
 import { useGenreStore } from "@/store/useGenreStore";
 
-export default function Buttonselect({ isEditing, onSelect, selectedGenres }) {
-  // 체크 버튼
-  // 장르
+export default function Buttonselect({ onSelect, isEditing }) {
   const arr = [
     { id: 1, name: "SF" },
     { id: 2, name: "액션" },
@@ -12,28 +10,27 @@ export default function Buttonselect({ isEditing, onSelect, selectedGenres }) {
     { id: 4, name: "드라마" },
   ];
 
-  const handleSelect = (item) => {
-    const isSelected = selectedGenres?.some((genre) => genre.id === item.id);
-    const updatedGenres = isSelected
-      ? selectedGenres.filter((genre) => genre.id !== item.id)
-      : [...selectedGenres, item];
-    onSelect(updatedGenres);
-  };
-
-  return arr.map((item) => (
+  const [pick, setPick] = useState(arr);
+  const [select, setSelect] = useState([]);
+  const { genres, setGenres } = useGenreStore();
+  
+  useEffect(() => {
+    onSelect(select); // 선택된 장르들을 상위 컴포넌트로 전달
+    setGenres(select); // 선택된 장르들을 상태로 저장
+  }, [select, onSelect, setGenres]);
+  // console.log(select)
+  return pick.map((item) => (
     <div key={item.id}>
       <Badge
         className="cursor-pointer"
-        onClick={() => handleSelect(item)}
-        variant={selectedGenres?.some((genre) => genre.id === item.id) ? "destructive" : "off"}
-        // onClick={() => {
-        //   if (isEditing) {
-        //     !select.includes(item)
-        //       ? setSelect((select) => [...select, item])
-        //       : setSelect(select.filter((button) => button !== item));
-        //   }
-        // }}
-        // variant={select.includes(item) ? "destructive" : "off"}
+        onClick={() => {
+          !select.includes(item)
+            ? setSelect((prevSelect) => [...prevSelect, item])
+            : setSelect((prevSelect) =>
+                prevSelect.filter((button) => button !== item)
+              );
+        }}
+        variant={select.includes(item) ? "destructive" : "off"}
       >
         {item.name}
       </Badge>

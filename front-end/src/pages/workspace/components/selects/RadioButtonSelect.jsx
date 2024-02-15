@@ -34,7 +34,8 @@ export default function RadioButtonSelect({ isEditing, onSelectRadio }) {
               value={`${arr.id}`}
               checked={selectedOption === `${arr.id}`}
               onChange={handleOptionChange}
-              disabled={!isEditing}
+              // disabled={!isEditing}
+              // disabled는 별도 분기를 두고 작동하도록
               className="hidden"
             />
             {arr.name}
