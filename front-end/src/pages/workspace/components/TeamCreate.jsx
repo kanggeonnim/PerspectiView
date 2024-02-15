@@ -104,6 +104,7 @@ export default function TeamCreate() {
                       className="flex w-full px-3 py-1 text-sm transition-colors bg-transparent border rounded-md shadow-sm h-9 border-input file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                       placeholder="ssafy@ssafy.com"
                     />
+                    {/* <Button>추가</Button> */}
                   </div>
                 </div>
               </div>
@@ -112,6 +113,7 @@ export default function TeamCreate() {
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
+          {/* <Link to={`/workspace/team/${}`}> */}
           <AlertDialogAction
             onClick={() => {
               console.log(emailList);
@@ -127,6 +129,7 @@ export default function TeamCreate() {
           >
             팀 생성
           </AlertDialogAction>
+          {/* </Link> */}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
