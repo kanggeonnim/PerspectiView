@@ -9,42 +9,58 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedCates, setSelectedCates] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-  const [productDetail, setProductDetail] = useState({
-    productRequestDto: {
-      productTitle: "",
-      productInfo: "",
-      category: {
-        id: "1",
-        name: "웹소설",
-      },
-      genres: [
-        {
-          id: "1",
-          name: "SF",
-        },
-      ],
-    },
-    uploadImage: "",
-  });
+
+  console.log(selectedCates)
+
+  useEffect(() => {
+    selectedGenres?.sort((a,b) => a.id - b.id)
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        genres: selectedGenres
+      }
+    }));
+  }, [selectedGenres]);
+
+  useEffect(() => {
+    selectedCates
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        category : selectedCates
+      }
+    }));
+  }, [selectedCates]);
+
+
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const { images, setImages } = useImageStore();
-  const { teamList } = useTeamListStore();
   const { teamId } = useParams();
+  const [productDetail, setProductDetail] = useState({
+    productRequestDto: {
+      productTitle: "",
+      genres: selectedGenres,
+      category: selectedCates,
+      productInfo: "",
+    },
+    uploadImage: "",
+  });
 
-  // const [teamNo, setTeamNo] = useState("");
+  
 
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
@@ -55,6 +71,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
     }));
   };
+
 
   const handleUploadClick = () => {
     if (image) {
@@ -81,13 +98,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     }
   };
 
-  // useEffect(() => {
-  //   if (teamList) {
-  //     setTeamNo(() => teamList[0].id);
-  //     console.log(teamList);
-  //   }
-  //   console.log(teamNo);
-  // }, [teamList, teamNo]);
+
 
   // FIXME 팀 ID undefined 발생
   const { createProductData } = useProductQueryModule(teamId);
@@ -184,15 +195,17 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                   <Buttonselect
                     className="w-full"
                     onSelect={setSelectedGenres}
-                    selectedGenres={selectedGenres}
-                    isEditing={isEditing}
+                    // selectedGenres={selectedGenres}
+                    // isEditing={isEditing}
                   />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect isEditing={isEditing} />
+                  <RadioButtonSelect 
+                  isEditing={isEditing} 
+                  onSelectRadio={setSelectedCates} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
@@ -219,6 +232,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <AlertDialogAction
                 onClick={() => {
                   console.log(productDetail);
+                  console.log(productDetail.productRequestDto)
                   // // create product
                   createProductData(productDetail);
                 }}
