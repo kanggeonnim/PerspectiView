@@ -127,7 +127,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+      queryClient.invalidateQueries({ queryKey: ["eachStory", "productData"] });
     },
   });
 
