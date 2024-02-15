@@ -14,9 +14,9 @@ export const privateApi = axios.create({
   baseURL: VITE_BASE_URL,
   //TODO 머지할떄 조심
   headers: {
-    Authorization: getCookie("accessToken"),
-    // Authorization:
-    // "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA4MDA2NjQwLCJleHAiOjE3MDgwMTM4NDB9.eaiflytFfDXUg5ArxPOpBAGRH3v_YkaZDpgW-3g5Qe4",
+    // Authorization: getCookie("accessToken"),
+    Authorization:
+    "Bearer+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnb29nbGVfMTEyMTY1ODc3Njg3MTk0MDM1MDU3Iiwicm9sZSI6Ilt7XCJpZFwiOjMsXCJyb2xlXCI6XCJST0xFX1VTRVJcIn1dIiwiaWF0IjoxNzA4MDA2NjQwLCJleHAiOjE3MDgwMTM4NDB9.eaiflytFfDXUg5ArxPOpBAGRH3v_YkaZDpgW-3g5Qe4",
     "Access-Control-Allow-Origin": "http://localhost:5173",
     "Access-Control-Allow-Credentials": true,
     "Content-Type": "application/json",

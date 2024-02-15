@@ -12,12 +12,13 @@ import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
 import useProductAddStore from "@/store/useProductAddStore";
+import { Badge } from "@/components/ui/badge";
 
 function CreateProduct() {
   const { inputs, setInputs, products, onCreate } = useProductAddStore();
@@ -74,16 +75,37 @@ export default function ProductList({ productsdata, teamNo }) {
   const handleGenreSelect = (genres) => {
     setSelectedGenres(genres);
   };
+  useEffect(() => {
+    selectedGenres?.sort((a,b) => a.id - b.id)
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        genres: selectedGenres
+      }
+    }));
+  }, [selectedGenres]);
 
+  useEffect(() => {
+    selectedCates
+    setProductDetail(ProductDetail => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        category : selectedCates
+      }
+    }));
+  }, [selectedCates]);
+  
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
+
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    // productid를 따오면...?
     setProductDetail((ProductDetail) => ({
       ...ProductDetail,
-      uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
+      uploadImage: selectedImage,
     }));
   };
 
@@ -115,16 +137,8 @@ export default function ProductList({ productsdata, teamNo }) {
     productRequestDto: {
       productTitle: "",
       productInfo: "",
-      category: {
-        id: "1",
-        name: "웹소설",
-      },
-      genres: [
-        {
-          id: "1",
-          name: "SF",
-        },
-      ],
+      genres: selectedGenres,
+      category: selectedCates,
     },
     uploadImage: "",
   });
@@ -247,11 +261,16 @@ export default function ProductList({ productsdata, teamNo }) {
                           onSelect={setSelectedGenres}
                         />
                       ) : (
-                        <Buttonselect
-                          isEditing={isEditing}
-                          className="w-full"
-                          onSelect={setSelectedGenres}
-                        />
+                        <>
+
+                        {/* // {products?.genres?.map((genre, key) => (
+                        //   <Badge key={key} variant="destructive" radius="full" className="hover:none">
+                        //     {genre.genreName}
+                        //   </Badge>
+                        // ))} */}
+
+                        </>
+                        // 선택된 장르 띄우기
                       )}
                       {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
@@ -265,10 +284,12 @@ export default function ProductList({ productsdata, teamNo }) {
                           onSelectRadio={setSelectedCates}
                         />
                       ) : (
-                        <RadioButtonSelect
-                          isEditing={isEditing}
-                          onSelectRadio={setSelectedCates}
-                        />
+                        <>
+                          <Badge variant="destructive" radius="full" className="hover:none h-5">
+                            {product.category.categoryName}
+                          </Badge>
+                        </>
+                        // 비편집, 선택된 카테 띄우기?
                       )}
 
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
