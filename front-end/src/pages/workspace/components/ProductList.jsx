@@ -274,10 +274,14 @@ export default function ProductList({ productsdata, teamNo }) {
                       {isEditing ? (
                         <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
                       ) : (
-                        <RadioButtonSelect
-                          isEditing={isEditing}
-                          onSelectRadio={setSelectedCates}
-                        />
+                        <Badge
+                        variant="destructive"
+                        radius="full"
+                        className="hover:none h-5"
+                      >
+                        {product.category.categoryName}
+                      </Badge>
+
                       )}
 
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
