@@ -1,6 +1,5 @@
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { formApi, privateApi } from "@/util/api";
-import { getCookie, removeCookie, setCookie } from "@/util/cookie";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const useUserQueryModule = () => {

@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { PlusCircle } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Column from "./Column";
 
@@ -29,36 +29,29 @@ export default function ForeshadowingTab() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const columns = useMemo(
-    () => ({
-      "column-1": {
-        id: "column-1",
-        title: "미사용",
-        fshadowsIds: [],
-      },
-      "column-2": {
-        id: "column-2",
-        title: "사용 중",
-        fshadowsIds: [],
-      },
-      "column-3": {
-        id: "column-3",
-        title: "회수 완료",
-        fshadowsIds: [],
-      },
-    }),
-    []
-  );
+  const columns = {
+    "column-1": {
+      id: "column-1",
+      title: "미사용",
+      fshadowsIds: [],
+    },
+    "column-2": {
+      id: "column-2",
+      title: "사용 중",
+      fshadowsIds: [],
+    },
+    "column-3": {
+      id: "column-3",
+      title: "회수 완료",
+      fshadowsIds: [],
+    },
+  };
 
   //컬럼 taskIds 채우기
-  useEffect(() => {
-    if (fshadows) {
-      Object.keys(fshadows).forEach((key) => {
-        const fshadow = fshadows[key];
-        columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
-      });
-    }
-  }, [columns, fshadows]);
+  Object.keys(fshadows).forEach((key) => {
+    const fshadow = fshadows[key];
+    columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
+  });
 
   return (
     <Card className="w-full h-[90%] ">
