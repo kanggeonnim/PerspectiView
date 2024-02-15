@@ -55,7 +55,7 @@ function UserSidebar() {
       <div className="flex flex-col justify-between h-full my-2 ml-2 mr-8 bg-white border rounded shadow-md w-max">
         <div className="mx-2 my-3 ">
           {/* 로고 */}
-          <Link to={`/`}>
+          <Link to={user ? `/workspace/team/${user.personalTeamId}` : "/"}>
             <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
               <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
             </div>
@@ -181,7 +181,7 @@ function UserSidebar() {
               <Link
                 onClick={() => {
                   navigate("/logout");
-                  removeCookie("token");
+                  removeCookie("accessToken");
                   setUser(null);
                 }}
               >
