@@ -1,35 +1,32 @@
 import { useFshadow } from "@/store/useFshadow";
+import { useStoryDetailStore } from "@/store/useStoryDetailStore";
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 
 //복선 전체 조회 & useFshadow에 반영
-const useFshadowQueryModule = (
-  teamId,
-  productId,
-  foreshadowingId,
-  plotId,
-  storyId
-) => {
+const useFshadowQueryModule = (teamId, productId, foreshadowingId, plotId, storyId) => {
   const queryClient = useQueryClient();
 
-  const { fshadows, setFshadows } = useFshadow();
-
+  const { setFshadows } = useFshadow();
   const { data: fshadowList, isSuccess: getFshadowIsSuccess } = useQuery({
     queryKey: ["foreshadowing", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(
         `/api/team/${teamId}/product/${productId}/foreshadowing`
       );
+      console.log(response.data.response);
+      setFshadows(response.data.response);
+
       return response.data.response;
     },
   });
 
-  useEffect(() => {
-    if (getFshadowIsSuccess) {
-      setFshadows(fshadowList);
-    }
-  }, [getFshadowIsSuccess, fshadowList, setFshadows]);
+  // useEffect(() => {
+  //   if (getFshadowIsSuccess) {
+  //     setFshadows(fshadowList);
+  //   }
+  // }, [getFshadowIsSuccess, fshadowList, setFshadows]);
 
   //post
   const { mutate: createFshadow } = useMutation({
@@ -92,12 +89,15 @@ const useFshadowQueryModule = (
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fstatus/${foreshadowingId}`
       );
       console.log(response);
+
       return response.data.response;
     },
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["foreshadowing", teamId, productId],
+        queryKey: ["foreshadowing"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["fshadowList"],
       });
     },
   });
@@ -114,7 +114,10 @@ const useFshadowQueryModule = (
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["foreshadowing", teamId, productId],
+        queryKey: ["foreshadowing"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["fshadowList"],
       });
     },
   });
@@ -131,7 +134,10 @@ const useFshadowQueryModule = (
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["foreshadowing", teamId, productId],
+        queryKey: ["foreshadowing"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["fshadowList"],
       });
     },
   });
@@ -148,7 +154,10 @@ const useFshadowQueryModule = (
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["foreshadowing", teamId, productId],
+        queryKey: ["foreshadowing"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["fshadowList"],
       });
     },
   });

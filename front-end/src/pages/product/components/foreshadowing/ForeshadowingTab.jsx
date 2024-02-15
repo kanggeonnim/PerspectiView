@@ -21,7 +21,7 @@ import Column from "./Column";
 export default function ForeshadowingTab() {
   const { teamId, productId } = useParams();
   const { createFshadow } = useFshadowQueryModule(teamId, productId);
-
+  const { fshadowList, getFshadowIsSuccess } = useFshadowQueryModule(teamId, productId);
   const { fshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
   }));
@@ -119,12 +119,8 @@ export default function ForeshadowingTab() {
       <CardContent className="box-border flex flex-row items-center justify-between w-full p-0 h-5/6">
         {["column-1", "column-2", "column-3"].map((columnId) => {
           const column = columns[columnId];
-          const colFshadows = column.fshadowsIds.map(
-            (fshadowsId) => fshadows[fshadowsId]
-          );
-          return (
-            <Column key={column.id} column={column} colFshadows={colFshadows} />
-          );
+          const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
+          return <Column key={column.id} column={column} colFshadows={colFshadows} />;
         })}
       </CardContent>
     </Card>

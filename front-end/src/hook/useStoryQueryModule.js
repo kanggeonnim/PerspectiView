@@ -27,12 +27,12 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
       );
 
       console.log("스토리단일조회", response);
+      setStoryDetail(response.data.response);
 
       return response.data.response;
     },
     isSuccess: async (data) => {
       console.log("스토리단일조회 success", data);
-      // setStoryDetail(response.data.response);
     },
     enabled: Boolean(storyId),
   });
@@ -45,12 +45,13 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
 
   //스토리 연관 복선조회
   const { data: getStoryFshadowListData, isSuccess: getStoryFshadowListDataIsSuccess } = useQuery({
-    queryKey: ["fshadowList"],
+    queryKey: ["fshadowList", storyFshadowList],
     queryFn: async () => {
       const response = await privateApi.get(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
       );
       console.log("스토리 연관 복선조회", response);
+      setStoryFshadowList(response.data.response);
       return response.data.response;
     },
     enabled: Boolean(storyId),
@@ -127,7 +128,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["eachStory", "productData"] });
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
     },
   });
 
@@ -165,7 +166,6 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
       queryClient.invalidateQueries({ queryKey: ["productData"] });
     },
   });
@@ -179,7 +179,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
     },
     onSuccess: () => {
       // Invalidate and refetch
-      queryClient.invalidateQueries({ queryKey: ["eachStory"] });
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
     },
   });
 

@@ -18,14 +18,8 @@ export function ForeshadowingCard({ colFshadow, index }) {
   const [editContent, setEditContent] = useState(colFshadow.fshadowContent);
   const { teamId, productId, plotId, storyId } = useParams();
   const fshadowId = colFshadow.fshadowId;
-  const {
-    deleteFshadow,
-    updateFshadow,
-    dropFshadow,
-    undropFshadow,
-    closeFshadow,
-    uncloseFshadow,
-  } = useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
+  const { deleteFshadow, updateFshadow, dropFshadow, undropFshadow, closeFshadow, uncloseFshadow } =
+    useFshadowQueryModule(teamId, productId, fshadowId, plotId, storyId);
   const { fshadows, setFshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
     setFshadows: state.setFshadows,
@@ -86,11 +80,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   />
                 )}
                 {colFshadow.columnId === "column-1" && (
-                  <Trash2
-                    className="cursor-pointer"
-                    size={16}
-                    onClick={deleteFshadow}
-                  />
+                  <Trash2 className="cursor-pointer" size={16} onClick={deleteFshadow} />
                 )}
               </div>
             </div>
@@ -98,7 +88,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
               <div className="flex flex-row gap-2">
                 {!isDropped && colFshadow.columnId !== "column-3" && (
                   <Badge
-                    className="cursor-pointer hover:bg-indigo-300"
+                    className="cursor-pointer hover:bg-unused"
                     variant="outline"
                     onClick={() => dropFshadow()}
                   >
@@ -109,7 +99,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   colFshadow.columnId !== "column-1" &&
                   colFshadow.columnId !== "column-3" && (
                     <Badge
-                      className="cursor-pointer hover:bg-indigo-300"
+                      className="border cursor-pointer hover:bg-secondary-accent"
                       variant="outline"
                       onClick={() => undropFshadow()}
                     >
@@ -118,7 +108,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   )}
                 {!isClose && colFshadow.columnId === "column-2" && (
                   <Badge
-                    className="cursor-pointer hover:bg-indigo-300"
+                    className="cursor-pointer hover:bg-accent"
                     variant="outline"
                     onClick={() => closeFshadow()}
                   >
@@ -127,7 +117,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
                 )}
                 {isClose && colFshadow.columnId === "column-3" && (
                   <Badge
-                    className="cursor-pointer hover:bg-indigo-300"
+                    className="cursor-pointer hover:bg-secondary-accent"
                     variant="outline"
                     onClick={() => uncloseFshadow()}
                   >
@@ -149,9 +139,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
               onChange={(e) => setEditContent(e.target.value)}
             />
           ) : (
-            <p className="text-sm font-medium leading-none ">
-              {colFshadow.fshadowContent}
-            </p>
+            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
           )}
         </div>
         <div className="flex flex-col space-y-2">
