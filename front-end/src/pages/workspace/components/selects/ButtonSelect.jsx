@@ -10,7 +10,6 @@ export default function Buttonselect({ onSelect, isEditing }) {
     { id: 4, name: "드라마" },
   ];
 
-  const [pick, setPick] = useState(arr);
   const [select, setSelect] = useState([]);
   const { genres, setGenres } = useGenreStore();
   
@@ -19,7 +18,7 @@ export default function Buttonselect({ onSelect, isEditing }) {
     setGenres(select); // 선택된 장르들을 상태로 저장
   }, [select, onSelect, setGenres]);
   // console.log(select)
-  return pick.map((item) => (
+  return arr.map((item) => (
     <div key={item.id}>
       <Badge
         className="cursor-pointer"

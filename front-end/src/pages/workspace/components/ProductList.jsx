@@ -289,7 +289,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     ) : (
                       <>
                         <Button
-                          className="right-0 border-none shadow-none bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                          className="right-0 border-none shadow-none bg-red-400 text-secondary-foreground hover:bg-red-700"
                           onClick={() => setIsEditing(false)}
                         >
                           취소
