@@ -99,7 +99,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
               <div className="flex items-center">
                 {data.characters?.slice(0, 3).map((charac) => (
                   <Avatar key={charac.characterId} className="-ml-3">
-                    <AvatarImage src={charac.characImage} alt="@shadcn" />
+                    <AvatarImage src={charac.characterImage} alt="@shadcn" />
                     <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 ))}
@@ -119,7 +119,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
                         <div className="flex items-center justify-between" key={charac.characterId}>
                           <div className="">
                             <Avatar>
-                              <AvatarImage src={charac.characImage} alt="@shadcn" />
+                              <AvatarImage src={charac.characterImage} alt="@shadcn" />
                               <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                             </Avatar>
                           </div>
