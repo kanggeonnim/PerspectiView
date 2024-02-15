@@ -53,10 +53,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     productRequestDto: {
       productTitle: "",
       productInfo: "",
-      category: {
-        id: "1",
-        name: "웹소설",
-      },
+      category: selectedCates,
       genres: selectedGenres
     },
     uploadImage: "",
@@ -236,6 +233,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <AlertDialogAction
                 onClick={() => {
                   console.log(productDetail);
+                  console.log(productDetail.productRequestDto)
                   // // create product
                   createProductData(productDetail);
                 }}
