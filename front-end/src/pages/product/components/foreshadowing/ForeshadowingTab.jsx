@@ -14,7 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useFshadowQueryModule from "@/hook/useFshadowQueryModule";
 import { useFshadow } from "@/store/useFshadow";
 import { PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Column from "./Column";
 
@@ -48,10 +48,14 @@ export default function ForeshadowingTab() {
   };
 
   //컬럼 taskIds 채우기
-  Object.keys(fshadows).forEach((key) => {
-    const fshadow = fshadows[key];
-    columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
-  });
+  useEffect(() => {
+    if (fshadows) {
+      Object.keys(fshadows).forEach((key) => {
+        const fshadow = fshadows[key];
+        columns[fshadow.columnId].fshadowsIds.push(fshadow.fshadowId);
+      });
+    }
+  }, [columns, fshadows]);
 
   return (
     <Card className="w-full h-[90%] ">
