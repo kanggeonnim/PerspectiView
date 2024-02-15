@@ -6,7 +6,7 @@ import { useProductStore } from "@/store/product/useProductStore";
 
 const useProductQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
-  const { product, setProduct } = useProductStore();
+  const { setProduct } = useProductStore();
   const { setPlotList } = usePlotListStore();
   const { setNodes, arrangeStory, addEmptyStory } = useNodeStore();
 
