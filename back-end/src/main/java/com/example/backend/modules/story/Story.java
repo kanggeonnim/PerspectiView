@@ -56,12 +56,9 @@ public class Story {
     }
 
     //------수정 메서드-----//
-    public void updateStory(String title, Content content, Set<StoryRelation> storyRelations, Set<StoryForeShadowing> storyForeShadowings, Double positionY) {
+    public void updateStory(String title, Content content) {
         this.title = title;
         this.content = content;
-        this.storyForeShadowings = storyForeShadowings;
-        this.storyRelations = storyRelations;
-        this.positionY = positionY;
     }
 
     //-----storyRelation에 추가----//
@@ -90,7 +87,13 @@ public class Story {
         this.plot = plot;
     }
 
+    //-----등장인물 추가하는 메서드-----//
     public void updateStoryRelation(List<StoryRelation> storyRelations) {
         if (storyRelations != null) storyRelations.addAll(storyRelations);
+    }
+
+    //-----등장인물 삭제하는 메서드-----//
+    public void deleteStoryRelation(List<StoryRelation> storyRelations) {
+        storyRelations.removeAll(storyRelations);
     }
 }

@@ -1,18 +1,15 @@
 package com.example.backend.modules.story;
 
-//import com.example.backend.infra.config.CacheAdapter;
+import com.example.backend.infra.config.CacheAdapter;
 import com.example.backend.modules.character.Character;
 import com.example.backend.modules.character.CharacterRepository;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.foreshadowing.ForeShadowing;
-import com.example.backend.modules.foreshadowing.ForeShadowingPreviewDto;
 import com.example.backend.modules.foreshadowing.ForeShadowingRepository;
 import com.example.backend.modules.plot.Plot;
 import com.example.backend.modules.plot.PlotRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,14 +31,13 @@ public class StoryService {
     private final PlotRepository plotRepository;
     private final CharacterRepository characterRepository;
 
-//    private final RedisTemplate redisTemplate;
-//    private final CacheAdapter cacheAdapter;
+    private final CacheAdapter cacheAdapter;
 
     /**
      * 스토리 생성
      */
     @Transactional
-    public Story createStory(Story story, Long plotId,List<Character> characters, List<ForeShadowing> foreShadowings) {
+    public Story createStory(Story story, Long plotId, List<Character> characters, List<ForeShadowing> foreShadowings) {
         /**
          * 순서는 플롯 안에서의 순서는 따진다.
          * update story s left join plot p
@@ -51,8 +47,6 @@ public class StoryService {
          */
         //content 등록
         contentRepository.save(story.getContent());
-//        Content content = createContent(Content);
-//        story.updateContent(content);
 
         //먼저 index뒤로 미루기
         storyRepository.updatePositionX(plotId, story.getPositionX());
@@ -83,8 +77,6 @@ public class StoryService {
             StoryForeShadowing makeStoryForeShadowing = storyForeShadowingRepository.save(storyForeShadowing);
             madeStory.addStoryForeShadowing(makeStoryForeShadowing);
         }
-
-//        cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(madeStory, characters, foreShadowings));
         return madeStory;
     }
 
@@ -106,42 +98,20 @@ public class StoryService {
      * 스토리 수정
      *
      * @param story
-     * @param characters
-     * @param foreShadowings
      * @return
      */
     @Transactional
-    public Story updateStory(Long storyId, Story story, List<Character> characters, List<ForeShadowing> foreShadowings) {
+    public Story updateStory(Long storyId, Story story) {
         //먼저 있던 리스트를 없애고 새로운 리스트 넣기
-        storyRelationRepository.deleteAll(story.getStoryRelations());
-        storyForeShadowingRepository.deleteAll(story.getStoryForeShadowings());
         log.info("=============스토리를 찾는다.=============");
         Story findStory = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
-
-        Set<StoryRelation> storyRelations;
-        Set<StoryForeShadowing> storyForeShadowings;
-
-        storyRelations = characters.stream()
-                .map(c -> StoryRelation.builder().story(findStory).character(c).build())
-                .map(storyRelationRepository::save)
-                .collect(Collectors.toSet());
-
-        storyForeShadowings = foreShadowings.stream()
-                .map(fs -> StoryForeShadowing.builder().story(findStory).foreShadowing(fs).build())
-                .map(storyForeShadowingRepository::save)
-                .collect(Collectors.toSet());
 
         //Content를 가져와서 수정
         Content content = contentRepository.findById(findStory.getContent().getId()).orElseThrow(() -> new NotFoundException());
         content.updateContent(story.getContent().getContent());
 
-        findStory.updateStory(story.getTitle(), content, storyRelations, storyForeShadowings, story.getPositionY());
-
-        StoryResponseDto storyResponseDto = StoryResponseDto.of(story, characters, foreShadowings);
-        storyResponseDto.setStoryId(storyId);
-
-//        cacheAdapter.delete("story" + story.getId());
-//        cacheAdapter.put("story:" + story.getId(), storyResponseDto);
+        findStory.updateStory(story.getTitle(), content);
+        cacheAdapter.delete("story:" + storyId);
         return findStory;
     }
 
@@ -153,7 +123,7 @@ public class StoryService {
     @Transactional
     public void deleteStory(Long storyId) {
         storyRepository.deleteById(storyId);
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
     }
 
     /**
@@ -163,22 +133,22 @@ public class StoryService {
      * @return
      */
     public StoryResponseDto findByStoryId(Long storyId) {
-//        StoryResponseDto storyResponseDto = (StoryResponseDto) cacheAdapter.get("story:" + storyId);
-//        if (storyResponseDto == null) {
-        Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
-        List<Character> characterList = story.getStoryRelations().stream()
-                .map(StoryRelation::getCharacter)
-                .collect(Collectors.toList());
+        StoryResponseDto storyResponseDto = (StoryResponseDto) cacheAdapter.get("story:" + storyId);
+        if (storyResponseDto == null) {
+            Story story = storyRepository.findWithPlotContentById(storyId).orElseThrow(() -> new NotFoundException());
+            List<Character> characterList = story.getStoryRelations().stream()
+                    .map(StoryRelation::getCharacter)
+                    .collect(Collectors.toList());
 
-        List<ForeShadowing> foreShadowingList = story.getStoryForeShadowings().stream()
-                .map(StoryForeShadowing::getForeShadowing)
-                .collect(Collectors.toList());
+            List<ForeShadowing> foreShadowingList = story.getStoryForeShadowings().stream()
+                    .map(StoryForeShadowing::getForeShadowing)
+                    .collect(Collectors.toList());
 
-//            cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(story, characterList, foreShadowingList));
-        return StoryResponseDto.of(story, characterList, foreShadowingList);
-//        } else {
-//            return storyResponseDto;
-//        }
+            cacheAdapter.put("story:" + story.getId(), StoryResponseDto.of(story, characterList, foreShadowingList));
+            return StoryResponseDto.of(story, characterList, foreShadowingList);
+        } else {
+            return storyResponseDto;
+        }
     }
 
     /**
@@ -208,10 +178,7 @@ public class StoryService {
         log.info("=============스토리 불러옴=============");
         findStory.updatePositionY(positionY);
         log.info("=============스토리 y축 변경함=============");
-
-//        StoryResponseDto storyResponseDto = findByStoryId(storyId);
-//        redisTemplate.opsForValue().set("story:" + storyId, storyResponseDto.updateStoryResponseDto(findStory, storyResponseDto.getCharacters(), storyResponseDto.getForeShadowings()));
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
         return findStory;
     }
 
@@ -241,7 +208,7 @@ public class StoryService {
         story.addStoryForeShadowing(storyForeShadowing);
         fshadow.addStoryFshadow(storyForeShadowing);
 
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -261,7 +228,7 @@ public class StoryService {
             storyForeShadowingRepository.delete(sfs);
         }
 
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
         return fshadow;
     }
 
@@ -271,13 +238,9 @@ public class StoryService {
     @Transactional
     public ForeShadowing updateFshadowClose(Long fshadowId, Long closeStoryId) {
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(() -> new NotFoundException());
-
-//        StoryForeShadowing delStoryForeShadowing = storyForeShadowingRepository.findByForeShadowing(foreShadowing);
-//        storyForeShadowingRepository.delete(delStoryForeShadowing);
-
         foreShadowing.updateFshadowClose(closeStoryId);
 
-//        cacheAdapter.delete("story:" + closeStoryId);
+        cacheAdapter.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -289,7 +252,7 @@ public class StoryService {
         ForeShadowing foreShadowing = foreShadowingRepository.findById(fshadowId).orElseThrow(() -> new NotFoundException());
         foreShadowing.updateFshadowClose(null);
 
-//        cacheAdapter.delete("story:" + closeStoryId);
+        cacheAdapter.delete("story:" + closeStoryId);
         return foreShadowing;
     }
 
@@ -327,9 +290,9 @@ public class StoryService {
                 .character(character)
                 .build();
 
-        StoryRelation storyRelation = storyRelationRepository.save(makestoryRelation);
+        storyRelationRepository.save(makestoryRelation);
 
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
         return character;
     }
 
@@ -345,9 +308,10 @@ public class StoryService {
         Character character = characterRepository.findById(characterId).orElseThrow(() -> new NotFoundException());
 
         StoryRelation storyRelation = storyRelationRepository.findByStoryAndCharacter(story, character).orElseThrow(() -> new NotFoundException());
+
         storyRelationRepository.delete(storyRelation);
 
-//        cacheAdapter.delete("story:" + storyId);
+        cacheAdapter.delete("story:" + storyId);
         return character;
     }
 
