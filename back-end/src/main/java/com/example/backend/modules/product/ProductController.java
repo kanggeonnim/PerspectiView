@@ -97,10 +97,16 @@ public class ProductController {
     }
 
     @GetMapping
-    public ApiResult<List<ProductResponseOnlyDto>> getProductList(@PathVariable("teamId") Long teamId){
-        //teamId로 productList받기
-        List<Product> products = productService.productList(teamId);
-        return ApiResult.OK(products.stream().map(ProductResponseOnlyDto::of).collect(Collectors.toList()));
+    public ApiResult<List<ProductResponseGenreDto>> getProductList(@PathVariable("teamId") Long teamId){
+        //teamId로 productList받기, 장르 미포함
+//        List<Product> products = productService.productList(teamId);
+        List<Product> products = productService.productGenreCategoryList(teamId);
+        List<ProductResponseGenreDto> productResponseDtos = products.stream()
+                .map(product -> ProductResponseGenreDto.of(
+                        product,
+                        productService.findGenreList(product.getProductGenres()).stream()
+                                .map(GenreResponseDto::of).collect(Collectors.toList()))).collect(Collectors.toList());
+        return ApiResult.OK(productResponseDtos);
     }
     
     //todo 팀에 있는 작품 이름으로 검색

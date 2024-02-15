@@ -94,10 +94,17 @@ public class ProductService {
     }
 
     /**
-     * todo 팀에 있는 작품 전체 조회
+     * todo 팀에 있는 작품 전체 조회(장르 미포함)
      */
     public List<Product> productList(Long teamId){
         return productRepository.findByTeamId(teamId);
+    }
+
+    /**
+     * todo 팀에 있는 작품 전체 조회(장르포함)
+     */
+    public List<Product> productGenreCategoryList(Long teamId){
+        return productRepository.findWithGenreCategoryByTeamId(teamId);
     }
 
     /**

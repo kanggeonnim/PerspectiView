@@ -20,6 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @EntityGraph(attributePaths = "category")
     List<Product> findByTeamId(Long teamId);
 
+    @EntityGraph(attributePaths = {"productGenres","category"})
+    List<Product> findWithGenreCategoryByTeamId(Long teamId);
+
     @EntityGraph(attributePaths = {"plots"})
     Product findWithPlotById(Long id);
 
