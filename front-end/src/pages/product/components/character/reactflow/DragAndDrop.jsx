@@ -19,8 +19,6 @@ import { useParams } from "react-router-dom";
 import useRelativeStore from "@/store/relative/useRelativeStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 
-const flowKey = "relation";
-
 const nodeTypes = {
   custom: CustomNode,
   label: LabelNode,
@@ -40,14 +38,10 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnD({ charDatas, idx }) {
+export default function DnD({ charDatas, idx, isSave }) {
   // get 받은 데이터들을 아래
-  const { teamId, productId } = useParams();
-  const { createRelative } = useRelativeQueryModule(teamId, productId);
-  const { relativeList, getRelativeListIsSuccess, relativeListIsLoading } = useRelativeQueryModule(
-    teamId,
-    productId
-  );
+  const { productId } = useParams();
+  const flowKey = `relation${productId}`;
 
   const setTable = JSON.parse(localStorage.getItem(flowKey));
   const reactFlowWrapper = useRef(null);
@@ -56,20 +50,25 @@ export default function DnD({ charDatas, idx }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  useEffect(() => {
-    setNodes(setTable?.nodes || []);
-  }, [setNodes, setTable?.nodes]);
-
-  useEffect(() => {
-    setEdges(setTable?.edges || []);
-  }, [setEdges, setTable?.edges]);
+  if (!isSave) {
+    useEffect(() => {
+      setNodes(setTable?.nodes || []);
+    }, [setNodes, setTable?.nodes]);
+  
+    useEffect(() => {
+      setEdges(setTable?.edges || []);
+    }, [setEdges, setTable?.edges]);
+    
+  }
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
   const { setViewport } = useReactFlow();
-  const { edgedatas, setEdgedatas, nodedatas, setNodedatas, relations, setRelations } =
-    useRelativeStore();
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
+
+  const onConnect = useCallback(
+    (params) => setEdges((eds) => addEdge(params, eds)),
+    [setEdges]
+  );
 
   // const onSave = useCallback(() => {
   //   const datas = JSON.parse(localStorage.getItem(flowKey))
@@ -184,21 +183,23 @@ export default function DnD({ charDatas, idx }) {
           className="download-image"
         >
           <Controls />
-          {/* <DownloadButton /> */}
           <Panel position="top-right">
-            {/* <Button className="mr-2 bg-green-400" onClick={
-              // () => {
-              //     createRelative(relations);
-              //   }
-
-              onSave }>저장</Button> */}
-            {/* FIXME DB 저장 차후 구현 */}
-            <Button className="mr-2" onClick={onTempoSave}>
-              저장
-            </Button>
-            <Button variant="secondary" className="border" onClick={onRestore}>
-              불러오기
-            </Button>
+            {isSave ? (
+              <>
+                <Button className="mr-2" onClick={onTempoSave}>
+                  저장
+                </Button>
+                <Button
+                  variant="secondary"
+                  className="border"
+                  onClick={onRestore}
+                >
+                  불러오기
+                </Button>
+              </>
+            ) : (
+              <></>
+            )}
           </Panel>
           <DownloadButton />
         </ReactFlow>

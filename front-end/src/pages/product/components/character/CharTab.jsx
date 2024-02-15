@@ -13,7 +13,7 @@ export default function CharTab() {
   const { inputs, selectedIdx, setInputs, setSelectedIdx } = useCharStore();
   const { teamId, productId } = useParams();
   const { charData, getCharIsSuccess } = useCharQueryModule(teamId, productId);
-
+  const isSave = true
   // useEffect(() => {
   //   console.log(charData);
   // }, [charData]);
@@ -34,7 +34,7 @@ export default function CharTab() {
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-2/3 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
-            <DnD charDatas={charData} idx={selectedIdx} />
+            <DnD charDatas={charData} idx={selectedIdx} isSave={isSave} />
           </div>
           <div className="flex flex-col w-1/3">
             <div className="flex justify-between">

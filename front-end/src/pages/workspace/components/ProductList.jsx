@@ -17,8 +17,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import { useImageStore } from "@/store/useImageStore";
 import useProductAddStore from "@/store/useProductAddStore";
+
+
+
 
 function CreateProduct() {
   const { inputs, setInputs, products, onCreate } = useProductAddStore();
@@ -55,18 +57,25 @@ function Product({ productImg, productName }) {
 export default function ProductList({ productsdata, teamNo }) {
   const [isEditing, setIsEditing] = useState(false);
   const { teamId } = useParams();
-  const { updateProductData } = useProductQueryModule(teamId);
+  const [prodId, setProdId] = useState(false)
+  const handleEditProduct = (productId) => {
+    setProdId(productId)
+  };
+  console.log(prodId)
+  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
+  console.log(productsdata)
   const navigate = useNavigate();
-
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedCates, setSelectedCates] = useState("");
+  const handleGenreSelect = (genres) => {
+    setSelectedGenres(genres);
+  };
+  
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
-  const { images, setImages } = useImageStore();
   const handleImageChange = (event) => {
-    const [isEdit, setIsEdit] = useState(false);
-    // TODO 수정 해야되는지 아닌지 분기
-    const selectedImage = event.target.files[0];
+      const selectedImage = event.target.files[0];
     setImage(selectedImage);
-    setImages(selectedImage);
     // productid를 따오면...?
     setProductDetail((ProductDetail) => ({
       ...ProductDetail,
@@ -88,9 +97,8 @@ export default function ProductList({ productsdata, teamNo }) {
     if (image) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
-      // console.log(formData);
-      console.log(image);
-      setProductDetail((ProductDetail) => ({
+      console.log(image)
+      setProductDetail(ProductDetail => ({
         ...ProductDetail,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
       }));
@@ -117,11 +125,9 @@ export default function ProductList({ productsdata, teamNo }) {
     uploadImage: "",
   });
 
-  // console.log(productDetail);
 
-  // useEffect(() => {
-  //   console.log("render productList", teamId);
-  // }, [teamId]);
+
+ 
 
   return (
     <div className="flex flex-wrap items-start h-full ">
@@ -153,11 +159,11 @@ export default function ProductList({ productsdata, teamNo }) {
                       onClick={handleUploadClick}
                       style={{ cursor: "pointer" }}
                     >
-                      {image ? (
+                      {product.productImageUrl ? (
                         <div className="w-full h-full">
                           <img
                             className="w-full h-full"
-                            src={URL.createObjectURL(image)}
+                            src={product.productImageUrl}
                             alt="Uploaded"
                             style={{ maxWidth: "300px" }}
                             onChange={(e) => {
@@ -180,8 +186,11 @@ export default function ProductList({ productsdata, teamNo }) {
                           />
                         </>
                       )}
-                      {image && (
-                        <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                      {product.productImageUrl && (
+                        <button
+                          className="w-full bg-red-500 "
+                          onClick={handleUploadImage}
+                        >
                           이미지 삭제
                         </button>
                       )}
@@ -223,13 +232,22 @@ export default function ProductList({ productsdata, teamNo }) {
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <Buttonselect isEditing={isEditing} className="w-full" />
+                      {isEditing ? (
+                        <Buttonselect isEditing={isEditing} 
+                        className="w-full" onSelect={setSelectedGenres}/>
+                        ) : (<Buttonselect isEditing={isEditing} 
+                          className="w-full" onSelect={setSelectedGenres}/>)}
+                      {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <RadioButtonSelect isEditing={isEditing} />
+                      {isEditing ? (
+                      <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                      ) : (<RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />)}
+                      
+                      {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
@@ -262,6 +280,7 @@ export default function ProductList({ productsdata, teamNo }) {
                         className="border"
                         onClick={() => {
                           setIsEditing(true);
+                          handleEditProduct(product.productId)
                           // 추가 동작
                         }}
                       >
@@ -278,6 +297,18 @@ export default function ProductList({ productsdata, teamNo }) {
                         <Button
                           onClick={() => {
                             setIsEditing(false);
+                            // setImage("")
+                            deleteProductData(productDetail);
+                          }}
+                        >
+                          삭제
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setIsEditing(false);
+                            // setImage("")
+                            console.log(productDetail);
+                            // updateProductData(productDetail);
                           }}
                         >
                           완료
