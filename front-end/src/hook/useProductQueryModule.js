@@ -57,6 +57,7 @@ const useProductQueryModule = (teamId, productId) => {
       formData.append("productRequestDto", blob);
       formData.append("uploadImage", newData.uploadImage);
       const response = await formApi.post(`/api/team/${teamId}/product`, formData);
+      console.log(response);
       return response.data.response;
     },
     onSuccess: () => {

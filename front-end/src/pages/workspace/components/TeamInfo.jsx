@@ -23,8 +23,7 @@ import ProductListCard from "./ProductListCard";
 
 function TeamInfo() {
   const { teamId } = useParams();
-  const { oneTeam, addMember, deleteTeam, updateTeamInfo } =
-    useTeamQueryModule(teamId);
+  const { oneTeam, addMember, deleteTeam, updateTeamInfo } = useTeamQueryModule(teamId);
   const [email, setEmail] = useState("");
   const [teamTitle, setTeamTitle] = useState("");
   const [teamInfo, setTeamInfo] = useState("");
@@ -38,36 +37,29 @@ function TeamInfo() {
     console.log(oneTeam);
   }, [oneTeam]);
 
+  
   return (
     <div className="flex w-full max-h-full min-h-full gap-3 m-2 ">
       {!oneTeam?.personal && (
         <div className="flex flex-col w-1/3 h-full gap-3">
           <Card className="w-full border rounded shadow-md h-2/5">
             <CardHeader className="flex flex-row justify-between p-4 my-1">
-              <CardTitle className="text-xl font-bold text-primary">
-                팀
-              </CardTitle>
+              <CardTitle className="text-xl font-bold text-primary">팀</CardTitle>
               <div className="flex flex-row my-1">
-                {!isEditing && (
-                  <Pencil className="mx-2" onClick={() => setIsEditing(true)} />
-                )}
+                {!isEditing && <Pencil className="mx-2" onClick={() => setIsEditing(true)} />}
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <Trash2 />
                   </AlertDialogTrigger>
                   <AlertDialogContent>
                     <AlertDialogHeader>
-                      <AlertDialogTitle>
-                        정말로 삭제하시겠습니까?
-                      </AlertDialogTitle>
+                      <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel className="border shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent">
                         취소
                       </AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>
-                        삭제
-                      </AlertDialogAction>
+                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>삭제</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -110,9 +102,7 @@ function TeamInfo() {
           </Card>
           <Card className="flex flex-col w-full h-full border rounded shadow-md">
             <CardHeader className="p-4">
-              <CardTitle className="text-xl font-bold text-primary">
-                팀원
-              </CardTitle>
+              <CardTitle className="text-xl font-bold text-primary">팀원</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col h-full ">
               <div className="flex flex-row items-center">
@@ -130,7 +120,6 @@ function TeamInfo() {
               <div className="w-full sm:h-24 md:h-64 lg:h-64 ">
                 <ScrollArea className="w-full h-full border rounded-md">
                   <div className="p-4">
-                    {/* <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4> */}
                     {oneTeam?.userResponseDtos.map((member, index) => (
                       <div key={index}>
                         <div className="text-sm">
@@ -142,9 +131,7 @@ function TeamInfo() {
                               </Avatar>
                             </div>
                             <div className="flex flex-col items-start w-full text-sm font-bold">
-                              <div className="mx-1 text-xs ">
-                                {member.nickname}
-                              </div>
+                              <div className="mx-1 text-xs ">{member.nickname}</div>
                               <div className="mx-1 text-xs break-all text-zinc-600">
                                 {member.email}
                               </div>

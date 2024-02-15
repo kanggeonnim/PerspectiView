@@ -31,7 +31,7 @@ const useTeamQueryModule = (teamId) => {
     queryFn: async () => {
       // console.log(team);
       const response = await privateApi.get(`/api/team/${teamId}`);
-      // console.log("단일 팀조회", response);
+      console.log("단일 팀조회", response);
       return response.data.response;
     },
   });
@@ -85,10 +85,7 @@ const useTeamQueryModule = (teamId) => {
   //팀정보 페이지에서 팀원 추가
   const { mutate: addMember } = useMutation({
     mutationFn: async (email) => {
-      const response = await privateApi.post(
-        `/api/team/${teamId}/recruit`,
-        email
-      );
+      const response = await privateApi.post(`/api/team/${teamId}/recruit`, email);
       console.log("멤버 추가", response);
       return response.data.response;
     },

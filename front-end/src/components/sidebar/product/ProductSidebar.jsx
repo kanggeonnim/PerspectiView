@@ -43,7 +43,14 @@ import { removeCookie } from "@/util/cookie";
 function ProductSidebar() {
   const navigate = useNavigate();
   const { user, setUser } = useAuthStore();
-  const { teamId, productId } = useParams();
+  const { teamId, productId, storyId } = useParams();
+
+  useEffect(() => {
+    console.log(storyId);
+    if (storyId) {
+      setIsCollapsed(true);
+    }
+  }, [storyId]);
 
   const { createPlot } = usePlotQueryModule(teamId, productId);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -77,7 +84,7 @@ function ProductSidebar() {
             to={user ? `/workspace/team/${user.personalTeamId}` : "/"}
             state={{ direct: false }}
           >
-            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
+            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 ">
               <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
             </div>
           </Link>

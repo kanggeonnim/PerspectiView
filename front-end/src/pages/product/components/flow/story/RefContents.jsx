@@ -10,7 +10,7 @@ export default function RefContents() {
   return (
     <Tabs
       defaultValue="relation"
-      className="flex flex-col justify-between w-1/2 h-full p-1 m-5 border rounded shadow-sm"
+      className="flex flex-col justify-between w-1/2 h-full p-1 mx-3 my-0 border rounded shadow-sm"
     >
       <TabsList className="flex items-center justify-start w-full ">
         <TabsTrigger value="relation" className="text-bold">
@@ -31,7 +31,7 @@ export default function RefContents() {
       {/* 전체 인물 관계도 */}
       <TabsContent value="relation" className="h-full">
         {/* <Card className="h-full "></Card> */}
-        <DnD/>
+        <DnD />
       </TabsContent>
 
       {/* 복선 목록 */}

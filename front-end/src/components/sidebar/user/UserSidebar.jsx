@@ -56,7 +56,7 @@ function UserSidebar() {
         <div className="mx-2 my-3 ">
           {/* 로고 */}
           <Link to={user ? `/workspace/team/${user.personalTeamId}` : "/"}>
-            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
+            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 ">
               <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
             </div>
           </Link>

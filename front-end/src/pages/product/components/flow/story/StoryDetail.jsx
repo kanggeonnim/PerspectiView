@@ -47,8 +47,6 @@ export default function StoryDetail() {
   const { characterList } = useCharacterListStore();
   // console.log("여기!!", getStoryFshadowListData);
 
-  const memoizedSetCharacterListInStory = useMemo(() => setCharacterListInStory, []);
-
   const handleChange = useMemo(() => {
     console.log("eeee");
     return (event) => {
@@ -72,14 +70,14 @@ export default function StoryDetail() {
     return <div>Loading...</div>;
   }
   return (
-    <Card className="w-1/2 h-full m-5 ">
+    <Card className="w-1/2 h-full mx-3 my-0 bg-transparent ">
       <CardHeader className="min-w-full p-0">
         {/* 스토리 제목 */}
         <CardTitle className="flex w-full p-0 my-2 text-3xl ">
           {isEdit ? (
             <Input
               type="text"
-              className="text-3xl"
+              className="text-3xl "
               value={storyDetail.storyTitle}
               onChange={(e) => {
                 setStoryDetail({ ...storyDetail, storyTitle: e.target.value });
@@ -125,7 +123,7 @@ export default function StoryDetail() {
                   <PopoverTrigger asChild>
                     <PlusCircle size={15} className="mx-1 text-primary" />
                   </PopoverTrigger>
-                  <PopoverContent className="h-60 w-80" side="right">
+                  <PopoverContent className="mt-5 h-96 w-80" side="right">
                     <div className="grid gap-4">
                       <div className="space-y-2">
                         <h4 className="font-medium leading-none">인물 목록</h4>
@@ -137,7 +135,7 @@ export default function StoryDetail() {
                           />
                           <Button>검색</Button>
                         </div>
-                        <ScrollArea className="border rounded h-36">
+                        <ScrollArea className="h-64 border rounded">
                           {characterList?.map((character) => (
                             <div
                               key={character.characterId}
@@ -181,19 +179,19 @@ export default function StoryDetail() {
                   {characterListInStory &&
                     characterListInStory.map((character) => (
                       <div
-                        className="relative flex flex-col items-center "
+                        className="relative flex flex-col items-center mx-2 max-w-16"
                         key={character.characterId}
                       >
                         <Avatar>
                           <AvatarImage src={character.characterImage} alt="@shadcn" />
                           <AvatarFallback>{character.characterName?.slice(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <Badge variant="secondary" radius="sm">
-                          {character.characterName}
+                        <Badge variant="secondary" radius="sm" className="p-0 m-0">
+                          <div className="p-0 m-0 break-word ">{character.characterName}</div>
                         </Badge>
                         <MinusCircle
                           size={13}
-                          className="absolute right-0 mr-1 text-red-500 "
+                          className="absolute right-0 mr-0 text-red-500 "
                           onClick={() => {
                             setCharacterListInStory([
                               ...characterListInStory.filter(
@@ -234,35 +232,35 @@ export default function StoryDetail() {
         </div>
       </CardHeader>
 
-      <CardContent className="flex w-full p-0 my-5 border rounded-md h-fit">
+      <CardContent className="flex w-full p-0 my-2 border rounded-md h-3/5">
         <div className="flex flex-col justify-start w-full h-full ">
-          <ScrollArea className="h-72">
+          <ScrollArea className=" h-100">
             {isEdit ? (
               <Textarea
-                className="w-full text-lg h-72"
+                className="w-full text-lg border-none h-96 "
                 value={storyDetail.storyContent.content ? storyDetail.storyContent.content : ""}
                 onChange={(e) => {
                   setStoryDetail({ ...storyDetail, storyContent: { content: e.target.value } });
                 }}
               />
             ) : (
-              <div className="w-full h-full p-3 ">{storyDetail.storyContent?.content}</div>
+              <div className="w-full h-96 ">{storyDetail.storyContent?.content}</div>
             )}
           </ScrollArea>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-end p-0 mr-2 ">
+      <CardFooter className="flex justify-end p-0 my-0 ">
         {isEdit ? (
           <>
             <Button
-              className="mx-2 shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+              className="ml-2 shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
               variant="outline"
               onClick={() => setIsEdit(false)}
             >
               취소
             </Button>
             <Button
-              className="mx-2 "
+              className="ml-2 "
               variant="default"
               onClick={() => {
                 const addedValues = characterListInStory.filter(
@@ -293,16 +291,18 @@ export default function StoryDetail() {
             </Button>
           </>
         ) : (
-          <Button
-            className="mx-2 "
-            variant="default"
-            onClick={() => {
-              setIsEdit(true);
-              setStoryDetail(storyDetail);
-            }}
-          >
-            수정
-          </Button>
+          <>
+            <Button
+              className="mx-2 "
+              variant="default"
+              onClick={() => {
+                setIsEdit(true);
+                setStoryDetail(storyDetail);
+              }}
+            >
+              수정
+            </Button>
+          </>
         )}
       </CardFooter>
     </Card>

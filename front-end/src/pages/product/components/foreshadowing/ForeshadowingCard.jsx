@@ -48,7 +48,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
   };
 
   return (
-    <Card className="box-border flex flex-col w-full my-2 border border-inherit">
+    <Card className="box-border flex flex-col w-full my-2 border border-inherit ">
       <CardHeader>
         <CardTitle>
           <div className="flex flex-col gap-3 ">
