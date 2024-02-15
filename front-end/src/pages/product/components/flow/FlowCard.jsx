@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
 import { useNavigate, useParams } from "react-router-dom";
+import { usePlotListStore } from "@/store/plot/usePlotListStore";
 
 const selector = (store) => ({
   nodes: store.nodes,
@@ -37,7 +38,10 @@ export default function FlowCard() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const { moveStory } = useStoryQueryModule(teamId, productId);
-  const { nodes, edges, onNodesChange, onEdgesChange, addStory } = useNodeStore(selector);
+  const { plotList } = usePlotListStore();
+  const { addEmptyStory } = useNodeStore();
+
+  const { nodes, edges, onNodesChange, onEdgesChange } = useNodeStore(selector);
   const [movedNode, setMovedNode] = useState(null);
 
   // console.log("nodes", nodes);
@@ -91,31 +95,40 @@ export default function FlowCard() {
         작품 내 스토리의 흐름
       </Panel>
       <Panel position="top-right">
-        {/* <Button
-          onClick={
-            () => console.log("last index")
-            // addStory({
-            //   // id: data.storyId,
-            //   type: "story",
-            //   data: {
-            //     title: data.storyTitle,
-            //     borderColor: borderColor,
-            //     plotId: plotId,
-            //     storyId: data.storyId,
-            //     characters: data.characters,
-            //   },
-            //   position: { x: data.positionX, y: data.positionY },
-            //   positionAbsolute: { x: data.positionX, y: data.positionY },
-            //   width: 128,
-            //   height: 160,
-            //   selected: false,
-            //   dragging: false,
-            // }
-            // )
-          }
-        >
-          <Plus className="w-4 h-4 mr-2" /> 스토리 추가
-        </Button> */}
+        {plotList && plotList.length > 0 && (
+          <Button
+            onClick={
+              () => {
+                console.log(nodes, nodes.length);
+                console.log(nodes.slice(-1), plotList, plotList.length);
+                const lastNode = nodes.slice(-1);
+                // console.log(nodes.length, lastNode[0].data.plotId, lastNode[0].data.borderColor);
+                addEmptyStory(nodes.length, lastNode[0].data.plotId, lastNode[0].data.borderColor);
+              }
+
+              // addStory({
+              //   // id: data.storyId,
+              //   type: "story",
+              //   data: {
+              //     title: data.storyTitle,
+              //     borderColor: borderColor,
+              //     plotId: plotId,
+              //     storyId: data.storyId,
+              //     characters: data.characters,
+              //   },
+              //   position: { x: data.positionX, y: data.positionY },
+              //   positionAbsolute: { x: data.positionX, y: data.positionY },
+              //   width: 128,
+              //   height: 160,
+              //   selected: false,
+              //   dragging: false,
+              // }
+              // )
+            }
+          >
+            <Plus className="w-4 h-4 mr-2" /> 스토리 추가
+          </Button>
+        )}
       </Panel>
       <MiniMap className="bg-primary-accent-light " nodeColor="#402785" nodeStrokeColor="#000000" />
     </ReactFlow>

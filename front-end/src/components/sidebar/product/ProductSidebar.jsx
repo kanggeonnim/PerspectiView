@@ -219,6 +219,8 @@ function ProductSidebar() {
                                 plotName: newPlotName,
                                 plotColor: newPlotColor,
                               });
+                              setNewPlotName("");
+                              setNewPlotColor("#ff75c3");
                             }}
                           >
                             생성

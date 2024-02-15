@@ -24,7 +24,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
         stories: [],
       });
       setPlotList(plotList);
-      addEmptyStory(nodes.length, data.plotId, data.plotColor);
+      addEmptyStory(nodes.length, data.id, data.plotColor);
     },
   });
 

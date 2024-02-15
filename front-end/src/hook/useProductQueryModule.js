@@ -26,12 +26,14 @@ const useProductQueryModule = (teamId, productId) => {
       console.log("get product api call");
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}`);
       const product = response.data.response;
+
       setProduct(product);
       setPlotList(product.plots);
       setNodes([]);
       let idx = 0;
 
       product.plots.map((plot) => {
+        // console.log(plot);
         if (plot.stories.length === 0) {
           addEmptyStory(idx++, plot.plotId, plot.plotColor);
         } else {
