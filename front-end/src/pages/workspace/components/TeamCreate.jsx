@@ -9,6 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+// import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -24,11 +25,17 @@ export default function TeamCreate() {
   const [title, setTitle] = useState("");
   const [info, setInfo] = useState("");
   const [emailList, setEmailList] = useState([]);
+  // const [newEmail, setNewEmail] = useState("");
 
   useEffect(() => {
     console.log("emailList", emailList);
   }, [emailList]);
-
+  // const handleAddEmail = () => {
+  //   if (newEmail && !emailList.value?.includes(newEmail)) {
+  //     setEmailList([...emailList, newEmail]);
+  //     setNewEmail("");
+  //   }
+  // };
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
@@ -69,7 +76,7 @@ export default function TeamCreate() {
               onChange={(e) => setInfo(e.target.value)}
             />
           </div>
-          {/* //TODO 폰트맞추기, 수정기능이상한거고치기 중복일때 */}
+
           <TagsInput.Root
             value={emailList}
             onValueChange={setEmailList}
@@ -99,11 +106,16 @@ export default function TeamCreate() {
                       </TagsInput.Item>
                     ))}
                   </TagsInput.Control>
-                  <div className="border rounded-lg w-80">
+                  <div className="flex flex-row items-center rounded-lg w-80">
                     <TagsInput.Input
                       className="flex w-full px-3 py-1 text-sm transition-colors bg-transparent border rounded-md shadow-sm h-9 border-input file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                       placeholder="ssafy@ssafy.com"
+                      // value={newEmail}
+                      // onChange={(e) => setNewEmail(e.target.value)}
                     />
+                    {/* <Button className="mx-3" onClick={handleAddEmail}>
+                      추가
+                    </Button> */}
                   </div>
                 </div>
               </div>
@@ -112,6 +124,7 @@ export default function TeamCreate() {
         </div>
         <AlertDialogFooter>
           <AlertDialogCancel>취소</AlertDialogCancel>
+          {/* <Link to={`/workspace/team/${}`}> */}
           <AlertDialogAction
             onClick={() => {
               console.log(emailList);
@@ -127,6 +140,7 @@ export default function TeamCreate() {
           >
             팀 생성
           </AlertDialogAction>
+          {/* </Link> */}
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
