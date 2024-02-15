@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
-import useNodeStore from "@/store/useNodeStore";
+import useNodeStore from "@/store/story/useNodeStore";
 
 const usePlotQueryModule = (teamId, productId, plotId) => {
   const queryClient = useQueryClient();

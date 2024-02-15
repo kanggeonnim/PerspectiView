@@ -1,5 +1,5 @@
 import { useFshadow } from "@/store/useFshadow";
-import { useStoryDetailStore } from "@/store/useStoryDetailStore";
+import { useStoryDetailStore } from "@/store/story/useStoryDetailStore";
 import { privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";

@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { useState, useEffect } from "react";
-import { useCategoryStore } from "@/store/useCategoryStore";
+import { useCategoryStore } from "@/store/product/useCategoryStore";
 
 export default function RadioButtonSelect({ isEditing, onSelectRadio }) {
   // 라디오 버튼
@@ -18,7 +18,7 @@ export default function RadioButtonSelect({ isEditing, onSelectRadio }) {
     setSelectedOption(e.target.value);
   };
   useEffect(() => {
-    onSelectRadio(arrs[selectedOption-1]); // 선택된 장르들을 상위 컴포넌트로 전달
+    onSelectRadio(arrs[selectedOption - 1]); // 선택된 장르들을 상위 컴포넌트로 전달
     setSelectedOption(selectedOption); // 선택된 장르들을 상태로 저장
   }, [selectedOption, onSelectRadio, setSelectedOption]);
   return (

@@ -9,20 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
 
-// TODO: 플롯으로 스토리 조회 API 호출 시 charaList에 id, 이름, 이미지 와야 됨
-const characListData = [
-  {
-    characterId: 1,
-    characterName: "whitedragon",
-    img: `https://github.com/shadcn.png`,
-  },
-  ...Array.from({ length: 10 }, (_, index) => ({
-    characterId: index + 2,
-    characterName: "등장인물 이름",
-    img: `https://ui.shadcn.com/avatars/0${index + 1}.png`,
-  })),
-];
-
 const zoomSelector = (s) => s.transform[2] >= 1.5;
 
 const CustomNode = memo(function CustomNode({ id, data, type }) {
@@ -68,7 +54,9 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
             </Button>
           )}
         </div>
-        {showContent && <div className="text-center">{data.title}</div>}
+        {showContent && (
+          <div className="text-center break-words break-all whitespace-pre-wrap">{data.title}</div>
+        )}
 
         {type === "empty" && (
           <Button
@@ -142,12 +130,3 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
 });
 
 export default CustomNode;
-
-// export default CustomNode;
-// .react-flow__node-mindmap {
-//   background: white;
-//   border-radius: 2px;
-//   border: 1px solid transparent;
-//   padding: 2px 5px;
-//   font-weight: 700;
-// }

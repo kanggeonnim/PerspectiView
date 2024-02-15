@@ -1,16 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
-import { useProductStore } from "@/store/useProductStore";
+import { useProductStore } from "@/store/product/useProductStore";
 import useRelativeStore from "@/store/relative/useRelativeStore";
-import useNodeStore from "@/store/useNodeStore";
+import useNodeStore from "@/store/story/useNodeStore";
 
 const useRelativeQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();
   const { setProduct } = useProductStore();
   const { setNodes } = useNodeStore();
 
-  const { data: relativeList, isSuccess: getRelativeListIsSuccess, isLoading: relativeListIsLoading } = useQuery({
-    queryKey: ["relativeList",teamId, productId],
+  const {
+    data: relativeList,
+    isSuccess: getRelativeListIsSuccess,
+    isLoading: relativeListIsLoading,
+  } = useQuery({
+    queryKey: ["relativeList", teamId, productId],
     queryFn: async () => {
       const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/relation`);
       // console.log(response);
@@ -52,9 +56,7 @@ const useRelativeQueryModule = (teamId, productId) => {
   const { mutate: deleteRelative } = useMutation({
     mutationFn: async () => {
       console.log(teamId, productId, plotId);
-      const response = await privateApi.delete(
-        `/api/team/${teamId}/product/${productId}/relation`
-      );
+      const response = await privateApi.delete(`/api/team/${teamId}/product/${productId}/relation`);
       console.log(response);
       return response.data.response;
     },

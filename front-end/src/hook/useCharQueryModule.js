@@ -1,4 +1,4 @@
-import { useCharacterListStore } from "@/store/useCharacterListStore";
+import { useCharacterListStore } from "@/store/character/useCharacterListStore";
 import { formApi, privateApi } from "@/util/api";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 

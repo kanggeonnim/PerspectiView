@@ -1,7 +1,7 @@
 import ReadMore from "@/components/ReadMore";
 import { Badge } from "@/components/ui/badge";
 import useExportModule from "@/hook/useExportModule";
-import { useProductStore } from "@/store/useProductStore";
+import { useProductStore } from "@/store/product/useProductStore";
 import { useParams } from "react-router-dom";
 import { Button } from "../ui/button";
 import { FileDown } from "lucide-react";

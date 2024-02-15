@@ -35,7 +35,7 @@ import { GradientPicker } from "./GradientPicker";
 import { Button } from "../../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { useProductStore } from "@/store/useProductStore";
+import { useProductStore } from "@/store/product/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
 import { ListBulletIcon } from "@radix-ui/react-icons";
 import { removeCookie } from "@/util/cookie";

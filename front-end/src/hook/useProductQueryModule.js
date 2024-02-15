@@ -1,8 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi, formApi } from "@/util/api";
-import { useProductStore } from "@/store/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
-import useNodeStore from "@/store/useNodeStore";
+import useNodeStore from "@/store/story/useNodeStore";
+import { useProductStore } from "@/store/product/useProductStore";
 
 const useProductQueryModule = (teamId, productId) => {
   const queryClient = useQueryClient();

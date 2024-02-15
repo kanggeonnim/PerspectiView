@@ -30,10 +30,8 @@ function PrivateRoute({ element }) {
   const accessToken = searchParams.get("accessToken");
 
   useEffect(() => {
-    console.log("private router", user);
+    // console.log("private router", user);
   }, [user]);
-
-  console.log(user);
 
   // if (user || accessToken) {
   //   // 로그인

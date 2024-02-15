@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import DnD from "./reactflow/DragAndDrop";
 import CharList from "./CharList";
 import CharAdd from "./CharAdd";
-import useCharStore from "@/store/useCharStore";
+import useCharStore from "@/store/character/useCharStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 import { useParams } from "react-router-dom";
 
@@ -13,7 +13,7 @@ export default function CharTab() {
   const { inputs, selectedIdx, setInputs, setSelectedIdx } = useCharStore();
   const { teamId, productId } = useParams();
   const { charData, getCharIsSuccess } = useCharQueryModule(teamId, productId);
-  const isSave = true
+  const isSave = true;
   // useEffect(() => {
   //   console.log(charData);
   // }, [charData]);

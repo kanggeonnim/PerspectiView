@@ -1,8 +1,7 @@
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
-import useNodeStore from "@/store/useNodeStore";
-import { useProductStore } from "@/store/useProductStore";
-import { useStoryDetailStore } from "@/store/useStoryDetailStore";
-import { privateApi } from "@/util/api";
+import { useProductStore } from "@/store/product/useProductStore";
+import useNodeStore from "@/store/story/useNodeStore";
+import { useStoryDetailStore } from "@/store/story/useStoryDetailStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
 

@@ -17,10 +17,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import useProductAddStore from "@/store/useProductAddStore";
-
-
-
+import useProductAddStore from "@/store/product/useProductAddStore";
 
 function CreateProduct() {
   const { inputs, setInputs, products, onCreate } = useProductAddStore();
@@ -57,24 +54,24 @@ function Product({ productImg, productName }) {
 export default function ProductList({ productsdata, teamNo }) {
   const [isEditing, setIsEditing] = useState(false);
   const { teamId } = useParams();
-  const [prodId, setProdId] = useState(false)
+  const [prodId, setProdId] = useState(false);
   const handleEditProduct = (productId) => {
-    setProdId(productId)
+    setProdId(productId);
   };
-  console.log(prodId)
+  console.log(prodId);
   const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
-  console.log(productsdata)
+  console.log(productsdata);
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedCates, setSelectedCates] = useState("");
   const handleGenreSelect = (genres) => {
     setSelectedGenres(genres);
   };
-  
+
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const handleImageChange = (event) => {
-      const selectedImage = event.target.files[0];
+    const selectedImage = event.target.files[0];
     setImage(selectedImage);
     // productid를 따오면...?
     setProductDetail((ProductDetail) => ({
@@ -97,8 +94,8 @@ export default function ProductList({ productsdata, teamNo }) {
     if (image) {
       // const formData = new FormData();
       // formData.append("uploadImage", image);
-      console.log(image)
-      setProductDetail(ProductDetail => ({
+      console.log(image);
+      setProductDetail((ProductDetail) => ({
         ...ProductDetail,
         uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
       }));
@@ -124,10 +121,6 @@ export default function ProductList({ productsdata, teamNo }) {
     },
     uploadImage: "",
   });
-
-
-
- 
 
   return (
     <div className="flex flex-wrap items-start h-full ">
@@ -187,10 +180,7 @@ export default function ProductList({ productsdata, teamNo }) {
                         </>
                       )}
                       {product.productImageUrl && isEditing && (
-                        <button
-                          className="w-full bg-red-500 "
-                          onClick={handleUploadImage}
-                        >
+                        <button className="w-full bg-red-500 " onClick={handleUploadImage}>
                           이미지 삭제
                         </button>
                       )}
@@ -233,10 +223,18 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                        <Buttonselect isEditing={isEditing} 
-                        className="w-full" onSelect={setSelectedGenres}/>
-                        ) : (<Buttonselect isEditing={isEditing} 
-                          className="w-full" onSelect={setSelectedGenres}/>)}
+                        <Buttonselect
+                          isEditing={isEditing}
+                          className="w-full"
+                          onSelect={setSelectedGenres}
+                        />
+                      ) : (
+                        <Buttonselect
+                          isEditing={isEditing}
+                          className="w-full"
+                          onSelect={setSelectedGenres}
+                        />
+                      )}
                       {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
                   </div>
@@ -244,9 +242,11 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                      <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
-                      ) : (<RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />)}
-                      
+                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                      ) : (
+                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                      )}
+
                       {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
                     </div>
                   </div>
@@ -280,7 +280,7 @@ export default function ProductList({ productsdata, teamNo }) {
                         className="border"
                         onClick={() => {
                           setIsEditing(true);
-                          handleEditProduct(product.productId)
+                          handleEditProduct(product.productId);
                           // 추가 동작
                         }}
                       >

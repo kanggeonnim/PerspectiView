@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useParams } from "react-router-dom";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
-import { useProductStore } from "@/store/useProductStore";
 
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {

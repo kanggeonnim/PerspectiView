@@ -5,8 +5,8 @@ import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useParams } from "react-router-dom";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useEffect, useState } from "react";
-import { useProductStore } from "@/store/useProductStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
+import { useProductStore } from "@/store/product/useProductStore";
 
 export default function ProductPage() {
   const { teamId, productId } = useParams();

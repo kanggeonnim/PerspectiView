@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Badge } from "@/components/ui/badge";
-import { useGenreStore } from "@/store/useGenreStore";
+import { useGenreStore } from "@/store/product/useGenreStore";
 
 export default function Buttonselect({ onSelect, isEditing }) {
   const arr = [
