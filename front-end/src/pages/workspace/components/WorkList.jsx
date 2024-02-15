@@ -22,27 +22,33 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    selectedGenres?.sort((a,b) => a.id - b.id)
-    setProductDetail(ProductDetail => ({
+    const uniqueGenres = selectedGenres
+      ? Array.from(new Set(selectedGenres.map((genre) => genre.id))).map((id) =>
+          selectedGenres.find((genre) => genre.id === id)
+        )
+      : [];
+
+    uniqueGenres.sort((a, b) => a.id - b.id);
+
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       productRequestDto: {
         ...ProductDetail.productRequestDto,
-        genres: selectedGenres
-      }
+        genres: uniqueGenres,
+      },
     }));
   }, [selectedGenres]);
 
   useEffect(() => {
-    selectedCates
-    setProductDetail(ProductDetail => ({
+    selectedCates;
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       productRequestDto: {
         ...ProductDetail.productRequestDto,
-        category : selectedCates
-      }
+        category: selectedCates,
+      },
     }));
   }, [selectedCates]);
-
 
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -58,8 +64,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     uploadImage: "",
   });
 
-  
-
   const handleImageChange = (event) => {
     const selectedImage = event.target.files[0];
     setImage(selectedImage);
@@ -69,7 +73,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       uploadImage: selectedImage, // 이미지 URL을 uploadImage 속성에 할당
     }));
   };
-
 
   const handleUploadClick = () => {
     if (image) {
@@ -94,8 +97,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
       setImage(null);
     }
   };
-
-
 
   // FIXME 팀 ID undefined 발생
   const { createProductData } = useProductQueryModule(teamId);
@@ -154,7 +155,10 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>
+                    <button
+                      className="w-full bg-red-500 "
+                      onClick={handleUploadImage}
+                    >
                       이미지 삭제
                     </button>
                   )}
@@ -195,8 +199,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <RadioButtonSelect 
-                  onSelectRadio={setSelectedCates} />
+                  <RadioButtonSelect onSelectRadio={setSelectedCates} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
@@ -221,16 +224,18 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
             <AlertDialogFooter>
               <AlertDialogCancel
                 onClick={() => {
-                // // create product
-                setImage("")
+                  // // create product
+                  setImage("");
                 }}
-              >취소하기</AlertDialogCancel>
+              >
+                취소하기
+              </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
                   console.log(productDetail);
-                  console.log(productDetail.productRequestDto)
+                  console.log(productDetail.productRequestDto);
                   // // create product
-                  setImage("")
+                  setImage("");
                   createProductData(productDetail);
                 }}
               >

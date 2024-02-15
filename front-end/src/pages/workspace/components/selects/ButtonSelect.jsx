@@ -17,19 +17,23 @@ export default function Buttonselect({ onSelect, isEditing }) {
     onSelect(select); // 선택된 장르들을 상위 컴포넌트로 전달
     setGenres(select); // 선택된 장르들을 상태로 저장
   }, [select, onSelect, setGenres]);
-  // console.log(select)
+
+  const handleBadgeClick = (item) => {
+    if (select.some((selectedItem) => selectedItem.id === item.id)) {
+      setSelect((prevSelect) =>
+        prevSelect.filter((button) => button.id !== item.id)
+      );
+    } else {
+      setSelect((prevSelect) => [...prevSelect, item]);
+    }
+  };
+  console.log()
   return arr.map((item) => (
     <div key={item.id}>
       <Badge
         className="cursor-pointer"
-        onClick={() => {
-          !select.includes(item)
-            ? setSelect((prevSelect) => [...prevSelect, item])
-            : setSelect((prevSelect) =>
-                prevSelect.filter((button) => button !== item)
-              );
-        }}
-        variant={select.includes(item) ? "destructive" : "off"}
+        onClick={() => handleBadgeClick(item)}
+        variant={select.some((selectedItem) => selectedItem.id === item.id) ? "destructive" : "off"}
       >
         {item.name}
       </Badge>

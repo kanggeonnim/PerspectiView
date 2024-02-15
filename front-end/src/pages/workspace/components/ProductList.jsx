@@ -76,27 +76,27 @@ export default function ProductList({ productsdata, teamNo }) {
     setSelectedGenres(genres);
   };
   useEffect(() => {
-    selectedGenres?.sort((a,b) => a.id - b.id)
-    setProductDetail(ProductDetail => ({
+    selectedGenres?.sort((a, b) => a.id - b.id);
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       productRequestDto: {
         ...ProductDetail.productRequestDto,
-        genres: selectedGenres
-      }
+        genres: selectedGenres,
+      },
     }));
   }, [selectedGenres]);
 
   useEffect(() => {
-    selectedCates
-    setProductDetail(ProductDetail => ({
+    selectedCates;
+    setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       productRequestDto: {
         ...ProductDetail.productRequestDto,
-        category : selectedCates
-      }
+        category: selectedCates,
+      },
     }));
   }, [selectedCates]);
-  
+
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -262,13 +262,16 @@ export default function ProductList({ productsdata, teamNo }) {
                         />
                       ) : (
                         <>
-
-                        {/* // {products?.genres?.map((genre, key) => (
-                        //   <Badge key={key} variant="destructive" radius="full" className="hover:none">
-                        //     {genre.genreName}
-                        //   </Badge>
-                        // ))} */}
-
+                          {product?.genres?.map((genre, key) => (
+                            <Badge
+                              key={key}
+                              variant="destructive"
+                              radius="full"
+                              className="hover:none h-5"
+                            >
+                              {genre.genreName}
+                            </Badge>
+                          ))}
                         </>
                         // 선택된 장르 띄우기
                       )}
@@ -285,7 +288,11 @@ export default function ProductList({ productsdata, teamNo }) {
                         />
                       ) : (
                         <>
-                          <Badge variant="destructive" radius="full" className="hover:none h-5">
+                          <Badge
+                            variant="destructive"
+                            radius="full"
+                            className="hover:none h-5"
+                          >
                             {product.category.categoryName}
                           </Badge>
                         </>
