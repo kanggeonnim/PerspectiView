@@ -7,6 +7,7 @@ import com.example.backend.modules.product.ProductRepository;
 import com.example.backend.modules.product.ProductService;
 import com.example.backend.modules.team.Team;
 import com.example.backend.modules.team.TeamService;
+import com.example.backend.modules.user.User;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.function.Function;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -93,24 +95,25 @@ public class ProductCheckVoter implements AccessDecisionVoter<FilterInvocation> 
         log.info("targetProductId : {}", targetProductId);
         if(targetProductId == -1L){
             if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())) {
+                log.info("==========product voter out===============");
                 return ACCESS_GRANTED;
             }
         }
         Product product = productRepository.findWithTeamById(targetProductId).orElseThrow(()-> new NotFoundException());
 
-        log.info("=====================");
-        log.info("product voter ");
-        log.info("=====================");
         log.info("teamId : {} , productItd : {}", team.getId(), product.getId());
 
         // 해당 팀의 작품이 아니면 예외
         log.info("해당 팀의 작품이 아니면 예외");
-        if(!product.getTeam().equals(team)) return ACCESS_DENIED;
+        if(!product.getTeam().equals(team)) {
+            log.info("==========product voter out===============");
+            return ACCESS_DENIED;
+        }
 
-        //
-        log.info("GET 요청 시 팀 멤버면 통과");
-        if(request.getMethod().equals(HttpMethod.GET)){
+        if(request.getMethod().equals(HttpMethod.GET.toString())){
+            log.info("GET 요청 시 팀 멤버면 통과");
             if(team.ifManager(principal.getUser()) || team.ifMember(principal.getUser())){
+                log.info("접근자 통과");
                 return ACCESS_GRANTED;
             }
         }
