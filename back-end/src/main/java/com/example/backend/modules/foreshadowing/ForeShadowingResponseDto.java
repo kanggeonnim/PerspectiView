@@ -12,10 +12,10 @@ public class ForeShadowingResponseDto {
     String columnId;
     String fshadowName;
     String fshadowContent;
-    List<FshadowStoryIdDto> storyIdList;
+    List<FshadowStoryDto> storyIdList;
     Long fshadowClose;
 
-    public static ForeShadowingResponseDto of(ForeShadowing foreShadowing, List<FshadowStoryIdDto> storyIdList, String columnId){
+    public static ForeShadowingResponseDto of(ForeShadowing foreShadowing, List<FshadowStoryDto> storyIdList, String columnId){
         return ForeShadowingResponseDto.builder()
                 .fShadowId(foreShadowing.getId())
                 .fshadowName(foreShadowing.getFShadowName())

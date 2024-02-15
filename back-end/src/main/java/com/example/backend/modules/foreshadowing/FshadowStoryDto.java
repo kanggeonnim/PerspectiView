@@ -6,12 +6,14 @@ import lombok.Data;
 
 @Data
 @Builder
-public class FshadowStoryIdDto {
+public class FshadowStoryDto {
     private Long storyId;
+    private String storyTitle;
 
-    public static FshadowStoryIdDto from(Story story){
-        return FshadowStoryIdDto.builder()
+    public static FshadowStoryDto of(Story story){
+        return FshadowStoryDto.builder()
                 .storyId(story.getId())
+                .storyTitle(story.getTitle())
                 .build();
     }
 }

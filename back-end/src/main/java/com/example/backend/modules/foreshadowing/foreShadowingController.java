@@ -23,7 +23,7 @@ public class foreShadowingController {
                                                                    @PathVariable("productId") Long productId) {
         log.info("========== create foreShadowing ============ ");
         ForeShadowing foreShadowing = foreShadowingService.createForeShadowing(foreShadowingRequestDto.from(foreShadowingRequestDto),productId);
-        List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
+        List<FshadowStoryDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
         return ApiResult.OK(ForeShadowingResponseDto.of(foreShadowing, storyids, columnId));
     }
@@ -31,7 +31,7 @@ public class foreShadowingController {
     @PutMapping("/{foreshadowingId}")
     public ApiResult<ForeShadowingResponseDto> updateForeShadowing(@RequestBody @Valid ForeShadowingRequestDto foreShadowingRequestDto) {
         ForeShadowing foreShadowing = foreShadowingService.updateForeShadowing( ForeShadowingRequestDto.from(foreShadowingRequestDto));
-        List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(foreShadowing);
+        List<FshadowStoryDto> storyids = foreShadowingService.findStories(foreShadowing);
         String columnId = "column-1";
         if(storyids.isEmpty()&&foreShadowing.getFShadowClose()==null){
             columnId = "column-1";
@@ -55,7 +55,7 @@ public class foreShadowingController {
         Map<Long, ForeShadowingResponseDto> result = new HashMap<>();
         String columnId = "column-1";
         for (ForeShadowing fs : foreShadowings) {
-            List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(fs);
+            List<FshadowStoryDto> storyids = foreShadowingService.findStories(fs);
             if (storyids.isEmpty() && fs.getFShadowClose() == null) {
                 columnId = "column-1";
             } else if (!storyids.isEmpty() && fs.getFShadowClose() == null) {

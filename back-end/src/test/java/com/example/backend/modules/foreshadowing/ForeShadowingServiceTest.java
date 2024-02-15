@@ -219,9 +219,9 @@ class ForeShadowingServiceTest {
 
         //when
         //복선으로 찾아오기
-        List<FshadowStoryIdDto> fshadowStoryIdDtos  = foreShadowingService.findStories(fs);
+        List<FshadowStoryDto> fshadowStoryDtos = foreShadowingService.findStories(fs);
 
         //then
-        assertEquals(story.getId(),fshadowStoryIdDtos.get(0).getStoryId());
+        assertEquals(story.getId(), fshadowStoryDtos.get(0).getStoryId());
     }
 }

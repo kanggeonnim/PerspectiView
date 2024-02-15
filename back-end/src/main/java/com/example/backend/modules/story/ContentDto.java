@@ -1,7 +1,5 @@
 package com.example.backend.modules.story;
 
-import com.example.backend.modules.foreshadowing.ForeShadowing;
-import com.example.backend.modules.foreshadowing.FshadowStoryIdDto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
@@ -9,7 +7,6 @@ import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.io.Serializable;
-import java.util.List;
 
 @Data
 @Builder

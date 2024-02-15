@@ -3,7 +3,6 @@ package com.example.backend.modules.foreshadowing;
 import com.example.backend.modules.exception.NotFoundException;
 import com.example.backend.modules.story.StoryForeShadowing;
 import com.example.backend.modules.story.StoryForeShadowingRepository;
-import com.example.backend.modules.user.User;
 import com.example.backend.modules.product.Product;
 import com.example.backend.modules.product.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -72,18 +71,20 @@ public class ForeShadowingService {
     /**
      * 복선의 스토리 리스트 출력
      */
-    public List<FshadowStoryIdDto> findStories(ForeShadowing foreShadowing) {
+    public List<FshadowStoryDto> findStories(ForeShadowing foreShadowing) {
         //복선으로 중간 테이블 리스트 받아오기
         List<StoryForeShadowing> sfs = storyForeShadowingRepository.findWithStoryByForeShadowing(foreShadowing);
-        List<FshadowStoryIdDto> storyids = new ArrayList<>();
+        List<FshadowStoryDto> storyIdTitles = new ArrayList<>();
         //중간테이블로 스토리 정보 얻기
         for (StoryForeShadowing sf : sfs) {
             //storyforeshadowing에 Entitygraph로 join 해서 story정보 담겨있음
-            storyids.add(FshadowStoryIdDto.builder()
+            storyIdTitles.add(FshadowStoryDto.builder()
                     .storyId(sf.getStory().getId())
+                    .storyTitle(sf.getStory().getTitle())
                     .build());
         }
-        return storyids;
+        return storyIdTitles;
+
     }
 
 }

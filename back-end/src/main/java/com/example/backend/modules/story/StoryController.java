@@ -6,7 +6,6 @@ import com.example.backend.modules.character.CharacterIdOnlyResponseDto;
 import com.example.backend.modules.character.CharacterRequestDto;
 import com.example.backend.modules.character.CharacterResponseDto;
 import com.example.backend.modules.foreshadowing.*;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +65,7 @@ public class StoryController {
         List<ForeShadowing> foreShadowings = storyService.findFshadowList(storyId);
         List<ForeShadowingResponseDto> responseDtos = new ArrayList<>();
         for (ForeShadowing fs : foreShadowings) {
-            List<FshadowStoryIdDto> storyids = foreShadowingService.findStories(fs);
+            List<FshadowStoryDto> storyids = foreShadowingService.findStories(fs);
             log.info("==============복선으로 스토리 아이디리스트 받기===============");
             responseDtos.add(ForeShadowingResponseDto.builder()
                     .storyIdList(storyids)
@@ -89,7 +88,7 @@ public class StoryController {
         return ApiResult.OK(storyResponseDto);
     }
 
-    private String setColumn(List<FshadowStoryIdDto> storyIds, ForeShadowing foreShadowing) {
+    private String setColumn(List<FshadowStoryDto> storyIds, ForeShadowing foreShadowing) {
         String columnId;
         if (storyIds.isEmpty() && foreShadowing.getFShadowClose() == null) {
             columnId = "column-1";
@@ -125,7 +124,7 @@ public class StoryController {
     public ApiResult<ForeShadowingResponseDto> addForeShadowing(@PathVariable("storyId") Long storyId,
                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
         ForeShadowing result = storyService.createStoryFshadow(foreshadowingId, storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+        List<FshadowStoryDto> storyIds = foreShadowingService.findStories(result);
         String columnId = setColumn(storyIds, result);
 
         return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
@@ -137,7 +136,7 @@ public class StoryController {
                                                                 @PathVariable("foreshadowingId") Long foreshadowingId) {
 
         ForeShadowing result = storyService.deleteStoryFshadow(foreshadowingId, storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+        List<FshadowStoryDto> storyIds = foreShadowingService.findStories(result);
         String columnId = setColumn(storyIds, result);
 
         return ApiResult.OK(ForeShadowingResponseDto.of(result, storyIds, columnId));
@@ -148,7 +147,7 @@ public class StoryController {
                                                                   @PathVariable("foreshadowingId") Long foreshadowingId) {
 
         ForeShadowing result = storyService.updateFshadowClose(foreshadowingId, storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+        List<FshadowStoryDto> storyIds = foreShadowingService.findStories(result);
 
         String columnId = setColumn(storyIds, result);
 
@@ -160,7 +159,7 @@ public class StoryController {
                                                                         @PathVariable("foreshadowingId") Long foreshadowingId) {
 
         ForeShadowing result = storyService.deleteFshadowClose(foreshadowingId, storyId);
-        List<FshadowStoryIdDto> storyIds = foreShadowingService.findStories(result);
+        List<FshadowStoryDto> storyIds = foreShadowingService.findStories(result);
 
         String columnId = setColumn(storyIds, result);
 
