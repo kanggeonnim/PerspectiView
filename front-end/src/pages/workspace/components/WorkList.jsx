@@ -46,25 +46,23 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
         category : selectedCates
       }
     }));
-  }, [selectedGenres]);
+  }, [selectedCates]);
 
 
   const [image, setImage] = useState(null);
   const fileInputRef = useRef(null);
   const { images, setImages } = useImageStore();
-  const { teamList } = useTeamListStore();
   const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
       productTitle: "",
-      productInfo: "",
+      genres: selectedGenres,
       category: selectedCates,
-      genres: selectedGenres
+      productInfo: "",
     },
     uploadImage: "",
   });
 
-  // const [teamNo, setTeamNo] = useState("");
   
 
   const handleImageChange = (event) => {
