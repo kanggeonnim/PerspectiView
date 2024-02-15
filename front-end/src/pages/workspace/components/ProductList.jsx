@@ -289,12 +289,13 @@ export default function ProductList({ productsdata, teamNo }) {
                     ) : (
                       <>
                         <Button
-                          className="right-0 border-none shadow-none bg-red-400 text-secondary-foreground hover:bg-red-700"
+                          className="right-0 border-2  text-secondary-foreground bg-white hover:bg-gray-200"
                           onClick={() => setIsEditing(false)}
                         >
                           취소
                         </Button>
-                        <Button
+                        <Button 
+                          className ="bg-red-400 right-0 border-none shadow-none hover:bg-red-700"
                           onClick={() => {
                             setIsEditing(false);
                             // setImage("")
