@@ -20,7 +20,7 @@ import useGenreQueryModule from "@/hook/useGenreQueryModule";
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
-  const [selectedCates, setSelectedCates] = useState("");
+  const [selectedCates, setSelectedCates] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -49,6 +49,11 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   }, [selectedGenres]);
 
 
+  const [image, setImage] = useState(null);
+  const fileInputRef = useRef(null);
+  const { images, setImages } = useImageStore();
+  const { teamList } = useTeamListStore();
+  const { teamId } = useParams();
   const [productDetail, setProductDetail] = useState({
     productRequestDto: {
       productTitle: "",
@@ -58,11 +63,6 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
     },
     uploadImage: "",
   });
-  const [image, setImage] = useState(null);
-  const fileInputRef = useRef(null);
-  const { images, setImages } = useImageStore();
-  const { teamList } = useTeamListStore();
-  const { teamId } = useParams();
 
   // const [teamNo, setTeamNo] = useState("");
   
