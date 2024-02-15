@@ -210,10 +210,10 @@ function ProductSidebar() {
                             className="ml-2"
                             size="sm"
                             onClick={() => {
-                              console.log({
-                                plotName: newPlotName,
-                                plotColor: newPlotColor,
-                              });
+                              // console.log({
+                              //   plotName: newPlotName,
+                              //   plotColor: newPlotColor,
+                              // });
                               // create plot
                               createPlot({
                                 plotName: newPlotName,

@@ -54,7 +54,7 @@ export default function ForeshadowingTab() {
   });
 
   return (
-    <Card className="w-full h-full">
+    <Card className="w-full h-[90%] ">
       <CardHeader className="flex flex-row items-center justify-end h-4 ">
         <AlertDialog>
           <AlertDialogTrigger asChild>
