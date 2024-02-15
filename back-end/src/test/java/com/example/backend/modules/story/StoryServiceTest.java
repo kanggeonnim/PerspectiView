@@ -313,10 +313,12 @@ class StoryServiceTest {
     @Test
     public void 스토리등장인물추가() throws Exception {
         //given
-        List<Character> characters1 = new ArrayList<>();
-        characters1.add(toCharacter);
-        characters1.add(fromCharacter);
-        storyService.updateStory(story.getId(), story);
+        storyService.addStoryRelation(story.getId(), toCharacter.getId());
+
+        storyService.addStoryRelation(story.getId(),fromCharacter.getId());
+
+        em.flush();
+        em.clear();
 
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
@@ -336,6 +338,9 @@ class StoryServiceTest {
         em.clear();
 
         storyService.deleteStoryRelation(story.getId(),toCharacter.getId());
+
+        em.flush();
+        em.clear();
         //when
         int result = storyService.findByStoryId(story.getId()).getCharacters().size();
 
