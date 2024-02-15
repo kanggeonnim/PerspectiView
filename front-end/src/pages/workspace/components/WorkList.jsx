@@ -9,20 +9,17 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Card, CardTitle } from "@/components/ui/card";
 import useProductQueryModule from "@/hook/useProductQueryModule";
-import { useTeamListStore } from "@/store/team/useTeamListStore";
 import { useImageStore } from "@/store/useImageStore";
 import { BookPlus, PlusCircleIcon } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import useGenreQueryModule from "@/hook/useGenreQueryModule";
 
 function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedCates, setSelectedCates] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
 
   console.log(selectedCates)
 
