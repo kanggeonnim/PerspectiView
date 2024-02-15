@@ -186,7 +186,7 @@ export default function ProductList({ productsdata, teamNo }) {
                           />
                         </>
                       )}
-                      {product.productImageUrl && (
+                      {product.productImageUrl && isEditing && (
                         <button
                           className="w-full bg-red-500 "
                           onClick={handleUploadImage}
