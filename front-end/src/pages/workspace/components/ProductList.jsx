@@ -63,7 +63,7 @@ export default function ProductList({ productsdata, teamNo }) {
   const handleEditProduct = (productId) => {
     setProdId(productId);
   };
-  console.log(prodId);
+  // console.log(prodId);
   const { updateProductData, deleteProductData } = useProductQueryModule(
     teamId,
     prodId
@@ -178,7 +178,16 @@ export default function ProductList({ productsdata, teamNo }) {
                       {product.productImageUrl ? (
                         <>
                           {isEditing ? (
-                            <></>
+                            <>
+                              <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: "none" }}
+                              />
+                              <div>이미지 첨부</div>
+                            </>
                           ) : (
                             <div className="w-full h-full">
                               <img
@@ -189,7 +198,7 @@ export default function ProductList({ productsdata, teamNo }) {
                                 onChange={(e) => {
                                   setProductDetail({
                                     ...productDetail,
-                                    uploadImage: URL.createObjectURL(image),
+                                    uploadImage: product.productImageUrl,
                                   });
                                 }}
                               />

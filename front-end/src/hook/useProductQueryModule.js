@@ -66,7 +66,13 @@ const useProductQueryModule = (teamId, productId) => {
   });
   const { mutate: updateProductData } = useMutation({
     mutationFn: async (newData) => {
-      const response = await privateApi.put(`/api/team/${teamId}/product/${productId}`, newData);
+      const formData = new FormData();
+      const json = JSON.stringify(newData.productRequestDto);
+      const blob = new Blob([json], { type: "application/json" });
+      formData.append("productRequestDto", blob);
+      formData.append("uploadImage", newData.uploadImage);
+      console.log(formData)
+      const response = await privateApi.put(`/api/team/${teamId}/product/${productId}`, formData);
       return response.data.response;
     },
     onSuccess: () => {
