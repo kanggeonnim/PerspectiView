@@ -43,7 +43,7 @@ function FloatingEdge({ id, source, target, markerEnd, connectionLineStyle }) {
             pointerEvents:"all",
             transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
           }}
-          placeholder="관계"
+          placeholder="네"
           
         />
      

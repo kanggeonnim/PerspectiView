@@ -1,5 +1,5 @@
 import { BaseEdge, EdgeLabelRenderer, getStraightPath } from "reactflow";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export default function CustomEdge({
   id,
@@ -24,7 +24,14 @@ export default function CustomEdge({
   });
 
   const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState("Click to edit");
+  const [value, setValue] = useState("클릭하여 관계 입력");
+
+  useEffect(() => {
+    const storedValue = localStorage.getItem(`edgeLabel_${id}`);
+    if (storedValue) {
+      setValue(storedValue);
+    }
+  }, [id]);
 
   const handleDoubleClick = () => {
     setIsEditing(true);
@@ -32,6 +39,7 @@ export default function CustomEdge({
 
   const handleChange = (e) => {
     setValue(e.target.value);
+    localStorage.setItem(`edgeLabel_${id}`, e.target.value);
   };
 
   const handleBlur = () => {
@@ -40,17 +48,6 @@ export default function CustomEdge({
 
   return (
     <>
-      {/* <g>
-      <path style={connectionLineStyle} fill="none" d={edgePath} />
-      <circle
-        cx={toX}
-        cy={toY}
-        fill="black"
-        r={1}
-        stroke="black"
-        strokeWidth={1}
-      />
-    </g> */}
       <path style={connectionLineStyle} fill="none" d={edgePath} />
       <BaseEdge
         id={id}
@@ -59,15 +56,19 @@ export default function CustomEdge({
         markerEnd={markerEnd}
       />
       <EdgeLabelRenderer className="-z-20">
-        {/* <input
-          style={{
-            position: "absolute",
-            pointerEvents: "all",
-            transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
-          }}
-          className="z-30 w-16 text-center bg-transparent text-sm"
-          defaultValue="관계"
-        /> */}
+        {/* <div>
+          <div
+            onClick={handleDoubleClick}
+            style={{
+              position: "absolute",
+              pointerEvents: "all",
+              transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
+            }}
+            className="z-30 w-16 text-center bg-transparent text-sm"
+          >
+            {value}
+          </div>
+        </div> */}
         <div>
           {isEditing ? (
             <input
@@ -75,13 +76,13 @@ export default function CustomEdge({
               value={value}
               onChange={handleChange}
               onBlur={handleBlur}
+              autoFocus
               style={{
                 position: "absolute",
                 pointerEvents: "all",
                 transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
               }}
-              className="z-30 w-16 text-center bg-transparent text-sm"
-              autoFocus
+              className="text-sm"
             />
           ) : (
             <div
@@ -91,7 +92,7 @@ export default function CustomEdge({
                 pointerEvents: "all",
                 transform: `translate(-50%, -50%) translate(${labelX}px,${labelY}px)`,
               }}
-              className="z-30 w-16 text-center bg-transparent text-sm"
+              className="text-sm"
             >
               {value}
             </div>

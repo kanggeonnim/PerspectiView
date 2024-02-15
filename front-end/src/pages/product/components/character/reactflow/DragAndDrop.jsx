@@ -50,16 +50,16 @@ export default function DnD({ charDatas, idx, isSave }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  if (!isSave) {
+  // if (isSave) {
     useEffect(() => {
       setNodes(setTable?.nodes || []);
-    }, [setNodes, setTable?.nodes]);
+    }, []);
   
     useEffect(() => {
       setEdges(setTable?.edges || []);
-    }, [setEdges, setTable?.edges]);
+    }, []);
     
-  }
+  // }
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
@@ -69,23 +69,6 @@ export default function DnD({ charDatas, idx, isSave }) {
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
-
-  // const onSave = useCallback(() => {
-  //   const datas = JSON.parse(localStorage.getItem(flowKey))
-  //   // const nodeInfo = datas.nodes
-  //   // const edgeInfo = edges.nodes
-  //   // if (nodeInfo) {
-  //   //   nodeInfo.map((data) => (
-  //   //     charDatas.map((charData) => (
-  //   //       ( data.id === charData.characterId ) ? console.log('yes') : console.log('NaN')
-  //   //     ))
-  //   //   ))
-  //   // }
-  //   // if (edgeInfo) {
-  //   //   edgeInfo.map((data)=> console.log(data))
-  //   // }
-  // }, [reactFlowInstance]);
-
   // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
 
   const onTempoSave = useCallback(() => {
@@ -157,9 +140,7 @@ export default function DnD({ charDatas, idx, isSave }) {
     [reactFlowInstance, labelInput, idx, charDatas]
   );
 
-  const handleLabelInputChange = (event) => {
-    setLabelInput(event.target.value);
-  };
+
 
   return (
     <div className="dndflow">
@@ -189,13 +170,13 @@ export default function DnD({ charDatas, idx, isSave }) {
                 <Button className="mr-2" onClick={onTempoSave}>
                   저장
                 </Button>
-                <Button
+                {/* <Button
                   variant="secondary"
                   className="border"
                   onClick={onRestore}
                 >
                   불러오기
-                </Button>
+                </Button> */}
               </>
             ) : (
               <></>
