@@ -36,6 +36,7 @@ import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/auth/useAuthStore";
 import { useProductStore } from "@/store/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
+import { ListBulletIcon } from "@radix-ui/react-icons";
 
 function ProductSidebar() {
   const navigate = useNavigate();
@@ -242,6 +243,20 @@ function ProductSidebar() {
 
         <div className="flex flex-col justify-end w-full ">
           {/* collapse */}
+          <Link to={`/workspace/team/${teamId}`}>
+          <div className="mx-5 my-2">
+            <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
+                <ListBulletIcon size={30} />
+              <div
+                className={
+                  isCollapsed ? "hidden" : "mx-3 text-xs font-bold text-left text-slate-700"
+                }
+              >
+                작품 목록
+              </div>
+            </div>
+          </div>
+          </Link>
           <div className="mx-5 my-2">
             <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
               {isCollapsed ? (

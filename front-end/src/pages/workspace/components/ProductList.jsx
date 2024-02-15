@@ -124,7 +124,7 @@ export default function ProductList({ productsdata, teamNo }) {
   // }, [teamId]);
 
   return (
-    <div className="flex flex-wrap h-full ">
+    <div className="flex flex-wrap h-full items-center ">
       <div className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
         <CreateProduct />
       </div>
