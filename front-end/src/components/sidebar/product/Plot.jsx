@@ -31,7 +31,7 @@ export default function Plot({ plotId = undefined, plotName, stories, plotColor,
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <div className="flex items-center justify-around w-full">
+          <div className="relative flex items-center justify-around w-[75%] ">
             <div className="w-1/2 font-bold text-left truncate text-nowrap">{plotName}</div>
             <div className="flex items-center">
               <GradientPicker plotId={plotId} plotColor={plotColor} setPlotColor={setPlotColor} />

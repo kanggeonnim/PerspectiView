@@ -18,7 +18,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Column from "./Column";
 
-
 export default function ForeshadowingTab() {
   const { teamId, productId } = useParams();
   const { createFshadow } = useFshadowQueryModule(teamId, productId);
@@ -55,7 +54,7 @@ export default function ForeshadowingTab() {
   });
 
   return (
-    <div className="flex items-center justify-start w-full h-full p-2 mt-2 overflow-hidden border rounded shadow-md">
+    <div className="flex items-center justify-start w-full h-[100%] p-2 mt-2 overflow-hidden  rounded shadow-md">
       <Card className="flex flex-col justify-start w-full h-full p-0 m-0 overflow-hidden">
         <CardHeader className="flex flex-row items-center justify-end h-4 ">
           <AlertDialog>
@@ -122,13 +121,7 @@ export default function ForeshadowingTab() {
           {["column-1", "column-2", "column-3"].map((columnId) => {
             const column = columns[columnId];
             const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
-            return (
-              <Column
-                key={column.id}
-                column={column}
-                colFshadows={colFshadows}
-              />
-            );
+            return <Column key={column.id} column={column} colFshadows={colFshadows} />;
           })}
         </CardContent>
       </Card>

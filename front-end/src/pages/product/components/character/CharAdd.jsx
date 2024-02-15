@@ -67,8 +67,10 @@ export default function CharAdd() {
     }
   };
 
-  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } =
-    useCharQueryModule(teamId, productId);
+  const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } = useCharQueryModule(
+    teamId,
+    productId
+  );
 
   // console.log(charData);
   return (
@@ -116,10 +118,7 @@ export default function CharAdd() {
                   </>
                 )}
                 {image && (
-                  <button
-                    className="w-full bg-red-500 "
-                    onClick={handleUploadImage}
-                  >
+                  <button className="w-full bg-red-500 " onClick={handleUploadImage}>
                     이미지 삭제
                   </button>
                 )}
@@ -181,10 +180,15 @@ export default function CharAdd() {
           <div>등장 스토리 추가 위치</div> */}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={() => {
-                  // // create product
-                  setImage("");
-                }}>취소하기</AlertDialogCancel>
+          <AlertDialogCancel
+            className="border-none shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+            onClick={() => {
+              // // create product
+              setImage("");
+            }}
+          >
+            취소
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
@@ -193,7 +197,7 @@ export default function CharAdd() {
               createChar(addChar);
             }}
           >
-            생성하기
+            생성
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

@@ -155,10 +155,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                     </>
                   )}
                   {image && (
-                    <button
-                      className="w-full bg-red-500 "
-                      onClick={handleUploadImage}
-                    >
+                    <button className="w-full bg-red-500 " onClick={handleUploadImage}>
                       이미지 삭제
                     </button>
                   )}
@@ -190,10 +187,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
               <div className="flex flex-row w-full m-2">
                 <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                 <div className="box-border flex flex-wrap w-5/6 gap-2">
-                  <Buttonselect
-                    className="w-full"
-                    onSelect={setSelectedGenres}
-                  />
+                  <Buttonselect className="w-full" onSelect={setSelectedGenres} />
                 </div>
               </div>
               <div className="flex flex-row w-full m-2">
@@ -223,12 +217,13 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
             </div>
             <AlertDialogFooter>
               <AlertDialogCancel
+                className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
                 onClick={() => {
                   // // create product
                   setImage("");
                 }}
               >
-                취소하기
+                취소
               </AlertDialogCancel>
               <AlertDialogAction
                 onClick={() => {
@@ -239,7 +234,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                   createProductData(productDetail);
                 }}
               >
-                생성하기
+                생성
               </AlertDialogAction>
               {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
             </AlertDialogFooter>

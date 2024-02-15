@@ -46,10 +46,8 @@ export default function TeamCreate() {
       </AlertDialogTrigger>
       <AlertDialogContent className="sm:max-w-[800px]">
         <AlertDialogHeader className="my-3">
-          <AlertDialogTitle>팀 생성하기</AlertDialogTitle>
-          <AlertDialogDescription>
-            작품을 공유할 수 있는 팀을 생성해보세요.
-          </AlertDialogDescription>
+          <AlertDialogTitle>팀 생성</AlertDialogTitle>
+          <AlertDialogDescription>작품을 공유할 수 있는 팀을 생성해보세요.</AlertDialogDescription>
         </AlertDialogHeader>
         <div className="flex flex-col gap-y-8">
           <div className="flex flex-col gap-y-2">
@@ -97,9 +95,7 @@ export default function TeamCreate() {
                         index={index}
                         value={value}
                       >
-                        <TagsInput.ItemText className="p-1">
-                          {value}
-                        </TagsInput.ItemText>
+                        <TagsInput.ItemText className="p-1">{value}</TagsInput.ItemText>
                         <TagsInput.ItemDeleteTrigger className="p-1">
                           <X size={20} strokeWidth={1} />
                         </TagsInput.ItemDeleteTrigger>
@@ -123,7 +119,9 @@ export default function TeamCreate() {
           </TagsInput.Root>
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogCancel className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent">
+            취소
+          </AlertDialogCancel>
           {/* <Link to={`/workspace/team/${}`}> */}
           <AlertDialogAction
             onClick={() => {

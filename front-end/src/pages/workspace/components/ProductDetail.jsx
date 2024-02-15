@@ -47,7 +47,7 @@ export default function ProductDetail() {
         </div>
         <CardFooter className="box-border flex justify-end w-full my-3 h-1/6">
           <Button className="w-1/6" variant="indigo">
-            편집하기
+            편집
           </Button>
         </CardFooter>
       </CardContent>

@@ -20,8 +20,12 @@ import { useParams } from "react-router-dom";
 
 export default function Comment() {
   const { teamId, productId, plotId, storyId } = useParams();
-  const { commentData, createComment, deleteComment, updateComment } =
-    useCommentQueryModule(teamId, productId, plotId, storyId);
+  const { commentData, createComment, deleteComment, updateComment } = useCommentQueryModule(
+    teamId,
+    productId,
+    plotId,
+    storyId
+  );
   const [comment, setComment] = useState("");
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
@@ -61,9 +65,7 @@ export default function Comment() {
                     <div className="flex flex-col gap-2">
                       <div className="mx-3">{comment.user.userNickname}</div>
                       <div className="mx-3">{comment.user.userEmail}</div>
-                      <div className="mx-3 text-sm text-gray-400">
-                        {comment.modifiedDate}
-                      </div>
+                      <div className="mx-3 text-sm text-gray-400">{comment.modifiedDate}</div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 ">
@@ -81,15 +83,13 @@ export default function Comment() {
                       </AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            댓글을 삭제하시겠습니까?
-                          </AlertDialogTitle>
+                          <AlertDialogTitle>댓글을 삭제하시겠습니까?</AlertDialogTitle>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel>취소</AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={() => deleteComment(comment.commentId)}
-                          >
+                          <AlertDialogCancel className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent">
+                            취소
+                          </AlertDialogCancel>
+                          <AlertDialogAction onClick={() => deleteComment(comment.commentId)}>
                             확인
                           </AlertDialogAction>
                         </AlertDialogFooter>
@@ -108,7 +108,12 @@ export default function Comment() {
                       className="w-full"
                     />
                     <div className="flex gap-3 mt-3">
-                      <Button onClick={handleCancelEdit}>취소</Button>
+                      <Button
+                        onClick={handleCancelEdit}
+                        className="border shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                      >
+                        취소
+                      </Button>
                       <Button
                         onClick={() => {
                           // console.log(editText);

@@ -48,7 +48,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
   };
 
   return (
-    <Card className="box-border flex flex-col w-full my-2 border border-inherit ">
+    <Card className="box-border flex flex-col my-2 border border-inherit ">
       <CardHeader>
         <CardTitle>
           <div className="flex flex-col gap-3 ">
@@ -58,7 +58,7 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   type="text"
                   value={editName}
                   onChange={(e) => setEditName(e.target.value)}
-                  className="w-full"
+                  className="w-full mx-2"
                 />
               ) : (
                 <div>{colFshadow.fshadowName}</div>
@@ -130,8 +130,8 @@ export function ForeshadowingCard({ colFshadow, index }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="flex p-1 space-y-1">
-          <img src={book_icon} className="mr-2" />
+        <div className="flex items-start space-y-1 ">
+          <img src={book_icon} className="my-1 mr-2 " />
           {isEditMode ? (
             <Textarea
               value={editContent}
@@ -139,7 +139,9 @@ export function ForeshadowingCard({ colFshadow, index }) {
               onChange={(e) => setEditContent(e.target.value)}
             />
           ) : (
-            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
+            <p className="text-sm font-medium leading-normal break-all">
+              {colFshadow.fshadowContent}
+            </p>
           )}
         </div>
         <div className="flex flex-col space-y-2">
@@ -147,17 +149,19 @@ export function ForeshadowingCard({ colFshadow, index }) {
             <img src={check_icon} className="mr-2" />
             <p className="text-sm font-medium leading-none">사용한 스토리</p>
           </div>
-          <div className="flex ml-8 ">
+          <div className="flex flex-wrap ml-8 w-fit">
             {colFshadow.storyIdList?.map((storyOb, index) => (
               <Badge
                 key={index}
                 variant="destructive"
-                className="mr-1 cursor-pointer hover:bg-destructive-accent"
+                className="my-1 mr-1 cursor-pointer hover:bg-destructive-accent"
               >
                 <Link
                   to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
                 >
-                  {storyOb.storyId}
+                  {storyOb.storyTitle.length > 6
+                    ? storyOb.storyTitle?.slice(0, 6) + "..."
+                    : storyOb.storyTitle}
                 </Link>
               </Badge>
             ))}
@@ -171,13 +175,25 @@ export function ForeshadowingCard({ colFshadow, index }) {
             </div>
             <Badge
               key={index}
-              variant="destructive"
-              className="ml-8 cursor-pointer hover:bg-destructive-accent"
+              variant="off"
+              className="ml-8 cursor-pointer hover:bg-secondary-accent"
+              onClick={() => console.log(colFshadow)}
             >
               <Link
                 to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
               >
-                {colFshadow.fshadowClose}
+                {colFshadow.storyIdList.map((story) => {
+                  if (story.storyId === colFshadow.fshadowClose) {
+                    return (
+                      <div key={story.storyId}>
+                        {story.storyTitle.length > 6
+                          ? story.storyTitle?.slice(0, 6) + "..."
+                          : story.storyTitle}
+                      </div>
+                    );
+                  }
+                  return null;
+                })}
               </Link>
             </Badge>
           </div>

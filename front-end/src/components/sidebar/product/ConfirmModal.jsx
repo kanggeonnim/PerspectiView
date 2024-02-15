@@ -21,7 +21,7 @@ export function ConfirmModal({ teamId, productId, plotId }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <div onClick={() => setOpen(!open)}>
-        <Button variant="sm" className="p-0">
+        <Button variant="sm" className="absolute top-0 right-0 -mx-2 -my-2 align-top -p-5">
           <XCircle size={15} />
         </Button>
       </div>

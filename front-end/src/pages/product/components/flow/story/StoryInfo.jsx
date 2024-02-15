@@ -18,10 +18,7 @@ export default function StoryInfo() {
   return (
     <div className="flex flex-col items-center justify-between w-full h-full border rounded shadow-md">
       <div className="w-full h-[5%]">
-        <ArrowLeft
-          className="mt-5 ml-5 "
-          onClick={() => navigate(`/team/${params.teamId}/product/${params.productId}/flow`)}
-        />
+        <ArrowLeft className="mt-5 ml-5 " onClick={() => navigate(-1)} />
       </div>
       <div className="flex items-center justify-center w-full h-[90%] p-4 ">
         <StoryDetail />

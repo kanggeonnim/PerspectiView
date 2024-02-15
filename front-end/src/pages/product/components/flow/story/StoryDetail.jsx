@@ -102,9 +102,12 @@ export default function StoryDetail() {
                       className="cursor-pointer hover:bg-destructive-accent"
                     >
                       {fshadow.fshadowName}
+                      {fshadow.fshadowName.length > 4
+                        ? fshadow.fshadowName?.slice(0, 4) + "..."
+                        : fshadow.fshadowName}
                     </Badge>
                   </HoverCardTrigger>
-                  <HoverCardContent>
+                  <HoverCardContent className="w-96">
                     <ForeshadowingCardStoryDetail colFshadow={fshadow} />
                   </HoverCardContent>
                 </HoverCard>
