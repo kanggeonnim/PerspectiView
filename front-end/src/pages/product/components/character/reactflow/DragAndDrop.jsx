@@ -19,7 +19,7 @@ import { useParams } from "react-router-dom";
 import useRelativeStore from "@/store/relative/useRelativeStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 
-const flowKey = "relation";
+
 
 const nodeTypes = {
   custom: CustomNode,
@@ -40,9 +40,10 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnD({ charDatas, idx }) {
+export default function DnD({ charDatas, idx, isSave }) {
   // get 받은 데이터들을 아래
   const { teamId, productId } = useParams();
+  const flowKey = `relation${productId}`;
   const { createRelative } = useRelativeQueryModule(teamId, productId);
   const { relativeList, getRelativeListIsSuccess, relativeListIsLoading } = useRelativeQueryModule(
     teamId,
@@ -193,12 +194,17 @@ export default function DnD({ charDatas, idx }) {
 
               onSave }>저장</Button> */}
             {/* FIXME DB 저장 차후 구현 */}
-            <Button className="mr-2" onClick={onTempoSave}>
+            {isSave ? (
+              <Button className="mr-2" onClick={onTempoSave}>
               저장
-            </Button>
-            <Button variant="secondary" className="border" onClick={onRestore}>
+              </Button>
+            ):(
+              <></>
+            )}
+            
+            {/* <Button variant="secondary" className="border" onClick={onRestore}>
               불러오기
-            </Button>
+            </Button> */}
           </Panel>
           <DownloadButton />
         </ReactFlow>
