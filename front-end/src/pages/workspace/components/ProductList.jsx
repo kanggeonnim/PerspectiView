@@ -62,7 +62,7 @@ export default function ProductList({ productsdata, teamNo }) {
     setProdId(productId)
   };
   console.log(prodId)
-  const { updateProductData } = useProductQueryModule(teamId, prodId);
+  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
   console.log(productsdata)
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
@@ -292,6 +292,15 @@ export default function ProductList({ productsdata, teamNo }) {
                           onClick={() => setIsEditing(false)}
                         >
                           취소
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setIsEditing(false);
+                            // setImage("")
+                            deleteProductData(productDetail);
+                          }}
+                        >
+                          삭제
                         </Button>
                         <Button
                           onClick={() => {

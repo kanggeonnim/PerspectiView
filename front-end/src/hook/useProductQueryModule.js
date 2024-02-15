@@ -72,7 +72,16 @@ const useProductQueryModule = (teamId, productId) => {
       queryClient.invalidateQueries({ queryKey: ["productListData"] });
     },
   });
-
+  const { mutate: deleteProductData } = useMutation({
+    mutationFn: async (newData) => {
+      const response = await privateApi.delete(`/api/team/${teamId}/product/${productId}`, newData);
+      return response.data.response;
+    },
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ["productListData"] });
+    },
+  });
   return {
     productListData,
     getProductListDataIsSuccess,
@@ -80,6 +89,7 @@ const useProductQueryModule = (teamId, productId) => {
     getProductDataIsSuccess,
     createProductData,
     updateProductData,
+    deleteProductData,
   };
 };
 
