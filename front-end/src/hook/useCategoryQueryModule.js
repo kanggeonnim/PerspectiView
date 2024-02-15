@@ -1,6 +1,5 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi, publicApi } from "@/util/api";
-import { useCategoryStore } from "@/store/useCategoryStore";
 
 const useCategoryQueryModule = () => {
   const queryClient = useQueryClient();

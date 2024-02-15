@@ -50,8 +50,10 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       return response.data.response;
     },
     onSuccess: () => {
-      setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
-      setNodes(nodes.filter((node) => node.data.plotId !== plotId));
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
+
+      // setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
+      // setNodes(nodes.filter((node) => node.data.plotId !== plotId));
     },
   });
 
