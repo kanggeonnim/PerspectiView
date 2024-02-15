@@ -50,25 +50,18 @@ export default function DnD({ charDatas, idx, isSave }) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  if (!isSave) {
-    useEffect(() => {
+  useEffect(() => {
+    if (!isSave) {
       setNodes(setTable?.nodes || []);
-    }, [setNodes, setTable?.nodes]);
-  
-    useEffect(() => {
       setEdges(setTable?.edges || []);
-    }, [setEdges, setTable?.edges]);
-    
-  }
+    }
+  }, [isSave, setNodes, setTable?.nodes, setEdges, setTable?.edges]);
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [labelInput, setLabelInput] = useState("");
-  const { setViewport } = useReactFlow();
+  // const { setViewport } = useReactFlow();
 
-  const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [setEdges]
-  );
+  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
 
   // const onSave = useCallback(() => {
   //   const datas = JSON.parse(localStorage.getItem(flowKey))
@@ -94,23 +87,20 @@ export default function DnD({ charDatas, idx, isSave }) {
 
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-  }, [reactFlowInstance]);
+  }, [reactFlowInstance, flowKey]);
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
-
       if (flow) {
         // 받을 값이 있다면
-
         setNodes(flow.nodes || []);
         // 해당 콘솔 참조하고, 해당 파일의 포맷과 같이 바꾸면 될 것
         setEdges(flow.edges || []);
       }
     };
-
     restoreFlow();
-  }, [setNodes, setViewport]);
+  }, [setNodes, flowKey, setEdges]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -154,7 +144,7 @@ export default function DnD({ charDatas, idx, isSave }) {
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, labelInput, idx, charDatas]
+    [reactFlowInstance, idx, charDatas, setNodes]
   );
 
   const handleLabelInputChange = (event) => {
@@ -189,11 +179,7 @@ export default function DnD({ charDatas, idx, isSave }) {
                 <Button className="mr-2" onClick={onTempoSave}>
                   저장
                 </Button>
-                <Button
-                  variant="secondary"
-                  className="border"
-                  onClick={onRestore}
-                >
+                <Button variant="secondary" className="border" onClick={onRestore}>
                   불러오기
                 </Button>
               </>
