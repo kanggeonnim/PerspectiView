@@ -45,11 +45,7 @@ function Product({ productImg, productName }) {
   return (
     <div className="flex flex-col items-center">
       <Card className="w-32 mx-3 my-1 h-36">
-        <img
-          className="w-full h-full rounded-xl"
-          src={productImg}
-          alt="cover of work"
-        />
+        <img className="w-full h-full rounded-xl" src={productImg} alt="cover of work" />
       </Card>
       <div className="m-2">{productName}</div>
     </div>
@@ -64,10 +60,7 @@ export default function ProductList({ productsdata, teamNo }) {
     setProdId(productId);
   };
   // console.log(prodId);
-  const { updateProductData, deleteProductData } = useProductQueryModule(
-    teamId,
-    prodId
-  );
+  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
   const navigate = useNavigate();
   const [selectedGenres, setSelectedGenres] = useState([]);
   const [selectedCates, setSelectedCates] = useState("");
@@ -157,10 +150,7 @@ export default function ProductList({ productsdata, teamNo }) {
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
-                <Product
-                  productImg={product.productImageUrl}
-                  productName={product.productTitle}
-                />
+                <Product productImg={product.productImageUrl} productName={product.productTitle} />
               </AlertDialogTrigger>
             </div>
             <AlertDialogContent className="flex flex-row w-2/3 max-w-2/3 h-2/3">
@@ -271,7 +261,7 @@ export default function ProductList({ productsdata, teamNo }) {
                               key={key}
                               variant="destructive"
                               radius="full"
-                              className="hover:none h-5"
+                              className="h-5 hover:none"
                             >
                               {genre.genreName}
                             </Badge>
@@ -286,16 +276,9 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
                       {isEditing ? (
-                        <RadioButtonSelect
-                          isEditing={isEditing}
-                          onSelectRadio={setSelectedCates}
-                        />
+                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
                       ) : (
-                        <Badge
-                          variant="destructive"
-                          radius="full"
-                          className="hover:none h-5"
-                        >
+                        <Badge variant="badge" radius="full" className="h-5 hover:none">
                           {product.category.categoryName}
                         </Badge>
                       )}
@@ -375,9 +358,7 @@ export default function ProductList({ productsdata, teamNo }) {
                     {!isEditing && (
                       <AlertDialogAction
                         onClick={() => {
-                          navigate(
-                            `/team/${teamNo}/product/${product.productId}`
-                          );
+                          navigate(`/team/${teamNo}/product/${product.productId}`);
                         }}
                       >
                         상세 보기

@@ -26,7 +26,7 @@ export default function RadioButtonSelect({ isEditing, onSelectRadio }) {
       {arrs.map((arr) => (
         <label key={arr.id}>
           <Badge
-            variant={selectedOption === `${arr.id}` ? "destructive" : "off"}
+            variant={selectedOption === `${arr.id}` ? "badge" : "off"}
             className="cursor-pointer"
           >
             <input
