@@ -131,18 +131,18 @@ export default function DnD({ charDatas, idx, isSave }) {
   );
 
   const downloadImage = () => {
-    const node = document.querySelector(".react-flow__viewport"); // 변환할 DOM 요소의 ID
-    console.log(node);
-    html2canvas(node)
-      .then((canvas) => {
-        const link = document.createElement("a");
-        link.download = "image.png";
-        link.href = canvas.toDataURL();
-        link.click();
-      })
-      .catch((error) => {
-        console.error("이미지 저장 중 오류 발생:", error);
-      });
+    const target = document.querySelector(".react-flow__viewport"); // 변환할 DOM 요소의 ID
+    if (!target) {
+      return alert("결과 저장에 실패했습니다.");
+    }
+    html2canvas(target, { allowTaint: true, useCORS: true, logging: true }).then((canvas) => {
+      const link = document.createElement("a");
+      document.body.appendChild(link);
+      link.href = canvas.toDataURL("image/png");
+      link.download = "result.png";
+      link.click();
+      document.body.removeChild(link);
+    });
   };
 
   return (
