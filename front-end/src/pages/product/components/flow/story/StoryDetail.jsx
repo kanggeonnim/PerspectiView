@@ -48,7 +48,6 @@ export default function StoryDetail() {
   // console.log("여기!!", getStoryFshadowListData);
 
   const handleChange = useMemo(() => {
-    console.log("eeee");
     return (event) => {
       setSearchInput(event.target.value);
       console.log("input", event.target.value);

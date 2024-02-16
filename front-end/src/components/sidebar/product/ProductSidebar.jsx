@@ -50,6 +50,9 @@ function ProductSidebar() {
     if (storyId) {
       setIsCollapsed(true);
     }
+    if (window.location.href.endsWith("/flow")) {
+      setIsCollapsed(false);
+    }
   }, [storyId]);
 
   const { createPlot } = usePlotQueryModule(teamId, productId);
