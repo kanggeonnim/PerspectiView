@@ -64,7 +64,7 @@ export default function StoryDetail() {
   useEffect(() => {
     console.log("in story", characterListInStory);
     console.log("fsadow", storyDetail.foreShadowings);
-  }, [characterListInStory, storyFshadowList]);
+  }, [characterListInStory, storyFshadowList, storyDetail.foreShadowings]);
 
   if (!storyDetail) {
     return <div>Loading...</div>;

@@ -45,7 +45,7 @@ const useStoryQueryModule = (teamId, productId, plotId, storyId) => {
 
   //스토리 연관 복선조회
   const { data: getStoryFshadowListData, isSuccess: getStoryFshadowListDataIsSuccess } = useQuery({
-    queryKey: ["fshadowList", storyFshadowList],
+    queryKey: ["fshadowList", storyId],
     queryFn: async () => {
       const response = await privateApi.get(
         `/api/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyId}/fshadowlist`
