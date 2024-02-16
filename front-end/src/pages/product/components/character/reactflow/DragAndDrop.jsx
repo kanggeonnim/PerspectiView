@@ -18,6 +18,7 @@ import useRelativeQueryModule from "@/hook/useRelativeQueryModule";
 import { useParams } from "react-router-dom";
 import useRelativeStore from "@/store/relative/useRelativeStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
+import html2canvas from "html2canvas";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -57,7 +58,6 @@ export default function DnD({ charDatas, idx, isSave }) {
   useEffect(() => {
     setEdges(setTable?.edges || []);
   }, []);
-
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
 
@@ -130,6 +130,21 @@ export default function DnD({ charDatas, idx, isSave }) {
     [reactFlowInstance, idx, charDatas, setNodes]
   );
 
+  const downloadImage = () => {
+    const node = document.querySelector(".react-flow__viewport"); // 변환할 DOM 요소의 ID
+    console.log(node);
+    html2canvas(node)
+      .then((canvas) => {
+        const link = document.createElement("a");
+        link.download = "image.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      })
+      .catch((error) => {
+        console.error("이미지 저장 중 오류 발생:", error);
+      });
+  };
+
   return (
     <div className="dndflow">
       <div className="reactflow-wrapper" ref={reactFlowWrapper}>
@@ -170,7 +185,15 @@ export default function DnD({ charDatas, idx, isSave }) {
               <></>
             )}
           </Panel>
-          <DownloadButton />
+          <Panel position="">
+            <Button
+              className="font-bold download-btn"
+              variant="destructive"
+              onClick={downloadImage}
+            >
+              이미지로 저장
+            </Button>
+          </Panel>
         </ReactFlow>
       </div>
     </div>
