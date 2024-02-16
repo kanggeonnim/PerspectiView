@@ -101,7 +101,6 @@ export default function StoryDetail() {
                       variant="destructive"
                       className="cursor-pointer hover:bg-destructive-accent"
                     >
-                      {fshadow.fshadowName}
                       {fshadow.fshadowName.length > 4
                         ? fshadow.fshadowName?.slice(0, 4) + "..."
                         : fshadow.fshadowName}
