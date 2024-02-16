@@ -151,19 +151,19 @@ export function ForeshadowingCard({ colFshadow, index }) {
           </div>
           <div className="flex flex-wrap ml-8 w-fit">
             {colFshadow.storyIdList?.map((storyOb, index) => (
-              <Badge
+              <Link
                 key={index}
-                variant="destructive"
-                className="my-1 mr-1 cursor-pointer hover:bg-destructive-accent"
+                to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
               >
-                <Link
-                  to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${storyOb.storyId}`}
+                <Badge
+                  variant="destructive"
+                  className="my-1 mr-1 cursor-pointer hover:bg-destructive-accent"
                 >
                   {storyOb.storyTitle.length > 6
                     ? storyOb.storyTitle?.slice(0, 6) + "..."
                     : storyOb.storyTitle}
-                </Link>
-              </Badge>
+                </Badge>
+              </Link>
             ))}
           </div>
         </div>
@@ -173,14 +173,14 @@ export function ForeshadowingCard({ colFshadow, index }) {
               <Goal color="#19ae2a" strokeWidth={2} className="mr-2" />
               <p className="text-sm font-medium leading-none">회수한 스토리</p>
             </div>
-            <Badge
-              key={index}
-              variant="off"
-              className="ml-8 cursor-pointer hover:bg-secondary-accent"
-              onClick={() => console.log(colFshadow)}
+            <Link
+              to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
             >
-              <Link
-                to={`/team/${teamId}/product/${productId}/plot/${plotId}/story/${colFshadow.fshadowClose}`}
+              <Badge
+                key={index}
+                variant="off"
+                className="ml-8 cursor-pointer hover:bg-secondary-accent"
+                onClick={() => console.log(colFshadow)}
               >
                 {colFshadow.storyIdList.map((story) => {
                   if (story.storyId === colFshadow.fshadowClose) {
@@ -194,8 +194,8 @@ export function ForeshadowingCard({ colFshadow, index }) {
                   }
                   return null;
                 })}
-              </Link>
-            </Badge>
+              </Badge>
+            </Link>
           </div>
         )}
       </CardContent>
