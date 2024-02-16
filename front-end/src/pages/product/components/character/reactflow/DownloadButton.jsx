@@ -1,6 +1,6 @@
-import React from "react";
-import { Panel, useReactFlow, getRectOfNodes, getTransformForBounds } from "reactflow";
-import { toPng } from "html-to-image";
+import React, { useRef } from "react";
+import { Panel, useReactFlow, getNodesBounds, getViewportForBounds } from "reactflow";
+import { toJpeg, toPng } from "html-to-image";
 import { Button } from "@/components/ui/button";
 
 function downloadImage(dataUrl) {
@@ -14,13 +14,16 @@ function downloadImage(dataUrl) {
 const imageWidth = 1024;
 const imageHeight = 768;
 
-function DownloadButton() {
+const DownloadButton = () => {
   const { getNodes } = useReactFlow();
-  const onClick = () => {
-    const nodesBounds = getRectOfNodes(getNodes());
-    const transform = getTransformForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2);
 
-    toPng(document.querySelector(".react-flow__viewport"), {
+  const onClick = () => {
+    const nodesBounds = getNodesBounds(getNodes());
+    const transform = getViewportForBounds(nodesBounds, imageWidth, imageHeight, 0.5, 2);
+
+    // console.log(viewportRef.current);
+
+    toJpeg(document.querySelector(".react-flow__viewport"), {
       backgroundColor: "#fff",
       width: imageWidth,
       height: imageHeight,
@@ -39,6 +42,6 @@ function DownloadButton() {
       </Button>
     </Panel>
   );
-}
+};
 
 export default DownloadButton;
