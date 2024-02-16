@@ -36,7 +36,7 @@ export function ForeshadowingCardProduct({ colFshadow, index }) {
   };
 
   return (
-    <Card className="box-border flex flex-col w-full p-2 my-2">
+    <Card className="box-border flex flex-col w-full p-2 my-2 ">
       <CardHeader>
         <CardTitle className="flex justify-between">
           <div className="flex flex-row gap-3">
@@ -58,12 +58,14 @@ export function ForeshadowingCardProduct({ colFshadow, index }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
-        <div className="flex p-1 space-y-1">
-          <img src={book_icon} className="mr-2" />
+        <div className="flex items-start space-y-1">
+          <img src={book_icon} className="my-1 mr-2" />
           {isEditMode ? (
             <textarea value={editContent} onChange={(e) => setEditContent(e.target.value)} />
           ) : (
-            <p className="text-sm font-medium leading-none ">{colFshadow.fshadowContent}</p>
+            <p className="text-sm font-medium leading-normal break-all">
+              {colFshadow.fshadowContent}
+            </p>
           )}
         </div>
         <div className="flex items-center p-1 space-y-1">

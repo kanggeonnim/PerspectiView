@@ -7,7 +7,7 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,7 +21,7 @@ import Column from "./Column";
 export default function ForeshadowingTab() {
   const { teamId, productId } = useParams();
   const { createFshadow } = useFshadowQueryModule(teamId, productId);
-
+  const { fshadowList, getFshadowIsSuccess } = useFshadowQueryModule(teamId, productId);
   const { fshadows } = useFshadow((state) => ({
     fshadows: state.fshadows,
   }));
@@ -54,75 +54,77 @@ export default function ForeshadowingTab() {
   });
 
   return (
-    <Card className="box-border max-h-full p-0 ">
-      <CardHeader className="flex flex-row items-center justify-end h-10 ">
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <PlusCircle className="cursor-pointer" size={24} />
-          </AlertDialogTrigger>
-          <AlertDialogContent className="">
-            <AlertDialogHeader>
-              <div className="font-bold">복선 생성</div>
-            </AlertDialogHeader>
-            <div className="flex flex-col items-center w-full gap-5">
-              <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="title">복선 제목</Label>
-                <Input
-                  id="title"
-                  value={title}
-                  placeholder="복선의 제목을 입력하세요"
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+    <div className="flex items-center justify-start w-full h-[100%] p-2 mt-2 overflow-hidden  rounded shadow-md">
+      <Card className="flex flex-col justify-start w-full h-full p-0 m-0 overflow-hidden">
+        <CardHeader className="flex flex-row items-center justify-end h-4 ">
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <PlusCircle className="cursor-pointer" size={24} />
+            </AlertDialogTrigger>
+            <AlertDialogContent className="">
+              <AlertDialogHeader>
+                <div className="font-bold">복선 생성</div>
+              </AlertDialogHeader>
+              <div className="flex flex-col items-center w-full gap-5">
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="title">복선 제목</Label>
+                  <Input
+                    id="title"
+                    value={title}
+                    placeholder="복선의 제목을 입력하세요"
+                    onChange={(e) => setTitle(e.target.value)}
+                  />
+                </div>
+                <div className="flex flex-col w-full space-y-1.5">
+                  <Label htmlFor="content">복선 내용</Label>
+                  <Textarea
+                    id="content"
+                    value={content}
+                    placeholder="복선에 대해 간략히 입력하세요"
+                    onChange={(e) => setContent(e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="flex flex-col w-full space-y-1.5">
-                <Label htmlFor="content">복선 내용</Label>
-                <Textarea
-                  id="content"
-                  value={content}
-                  placeholder="복선에 대해 간략히 입력하세요"
-                  onChange={(e) => setContent(e.target.value)}
-                />
-              </div>
-            </div>
-            <AlertDialogFooter>
-              <AlertDialogCancel
-                className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                onClick={() => {
-                  setTitle("");
-                  setContent("");
-                }}
-              >
-                취소
-              </AlertDialogCancel>
-              <AlertDialogAction
-                // type="submit"
-                onClick={() => {
-                  console.log({
-                    fshadowName: title,
-                    fshadowContent: content,
-                  });
-                  // create
-                  createFshadow({
-                    fshadowName: title,
-                    fshadowContent: content,
-                  });
-                  setTitle("");
-                  setContent("");
-                }}
-              >
-                생성
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
-      </CardHeader>
-      <CardContent className="box-border flex flex-row items-center justify-between p-0 ">
-        {["column-1", "column-2", "column-3"].map((columnId) => {
-          const column = columns[columnId];
-          const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
-          return <Column key={column.id} column={column} colFshadows={colFshadows} />;
-        })}
-      </CardContent>
-    </Card>
+              <AlertDialogFooter>
+                <AlertDialogCancel
+                  className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                  onClick={() => {
+                    setTitle("");
+                    setContent("");
+                  }}
+                >
+                  취소
+                </AlertDialogCancel>
+                <AlertDialogAction
+                  // type="submit"
+                  onClick={() => {
+                    console.log({
+                      fshadowName: title,
+                      fshadowContent: content,
+                    });
+                    // create
+                    createFshadow({
+                      fshadowName: title,
+                      fshadowContent: content,
+                    });
+                    setTitle("");
+                    setContent("");
+                  }}
+                >
+                  생성
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </CardHeader>
+        <CardContent className="box-border flex flex-row items-start justify-start w-full h-[90%] p-0 overflow-hidden">
+          {["column-1", "column-2", "column-3"].map((columnId) => {
+            const column = columns[columnId];
+            const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
+            return <Column key={column.id} column={column} colFshadows={colFshadows} />;
+          })}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

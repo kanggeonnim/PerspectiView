@@ -43,7 +43,7 @@ export default function CustomEdge({
       <BaseEdge id={id} path={edgePath} />
       <EdgeLabelRenderer>
         {/* left button */}
-        <Button
+        {/* <Button
           style={{
             position: "absolute",
             transform: `translate(-50%, -50%) translate(${sourceX + 5}px,${sourceY - 10}px)`,
@@ -55,9 +55,9 @@ export default function CustomEdge({
           onClick={onEdgeClick}
         >
           <Plus size={10} />
-        </Button>
+        </Button> */}
         {/* right button */}
-        <Button
+        {/* <Button
           style={{
             position: "absolute",
             transform: `translate(-50%, -50%) translate(${targetX - 5}px,${targetY - 10}px)`,
@@ -69,7 +69,7 @@ export default function CustomEdge({
           onClick={onEdgeClick}
         >
           <Plus size={10} />
-        </Button>
+        </Button> */}
       </EdgeLabelRenderer>
     </>
   );

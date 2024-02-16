@@ -14,14 +14,15 @@ const useTeamQueryModule = (teamId) => {
   const { data: teamListData, isSuccess: getTeamListsIsSuccess } = useQuery({
     queryKey: ["teamListData"],
     queryFn: async () => {
-      // console.log(teamList);
-      if (!teamList) {
-        const response = await privateApi.get(`/api/team`);
-        setTeamList(response.data.response);
-        return response.data.response;
-      }
-      return null;
+      console.log(teamList);
+      // if (!teamList) {
+      const response = await privateApi.get(`/api/team`);
+      setTeamList(response.data.response);
+      console.log(response);
+      return response.data.response;
     },
+    // return null;
+    // },
   });
 
   //단일 팀 조회
@@ -30,7 +31,7 @@ const useTeamQueryModule = (teamId) => {
     queryFn: async () => {
       // console.log(team);
       const response = await privateApi.get(`/api/team/${teamId}`);
-      // console.log("단일 팀조회", response);
+      console.log("단일 팀조회", response);
       return response.data.response;
     },
   });
@@ -45,7 +46,7 @@ const useTeamQueryModule = (teamId) => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["teamData"],
+        queryKey: ["teamListData"],
       });
     },
   });
@@ -61,7 +62,7 @@ const useTeamQueryModule = (teamId) => {
     onSuccess: () => {
       // Invalidate and refetch
       queryClient.invalidateQueries({
-        queryKey: ["teamData"],
+        queryKey: ["teamListData"],
       });
     },
   });
@@ -70,7 +71,7 @@ const useTeamQueryModule = (teamId) => {
   const { mutate: updateTeamInfo } = useMutation({
     mutationFn: async (updatedData) => {
       const response = await privateApi.put(`/api/team/${teamId}`, updatedData);
-      console.log("팀정보수정", response);
+      // console.log("팀정보수정", response);
       return response.data.response;
     },
     onSuccess: () => {

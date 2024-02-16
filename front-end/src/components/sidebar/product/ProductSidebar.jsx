@@ -3,6 +3,7 @@ import {
   ArrowLeftToLine,
   ArrowRightToLine,
   Contact2,
+  LogOut,
   Plus,
   PlusCircle,
   SendToBack,
@@ -34,13 +35,25 @@ import { GradientPicker } from "./GradientPicker";
 import { Button } from "../../ui/button";
 import usePlotQueryModule from "@/hook/usePlotQueryModule";
 import { useAuthStore } from "@/store/auth/useAuthStore";
-import { useProductStore } from "@/store/useProductStore";
+import { useProductStore } from "@/store/product/useProductStore";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
+import { ListBulletIcon } from "@radix-ui/react-icons";
+import { removeCookie } from "@/util/cookie";
 
 function ProductSidebar() {
   const navigate = useNavigate();
-  const { user } = useAuthStore();
-  const { teamId, productId } = useParams();
+  const { user, setUser } = useAuthStore();
+  const { teamId, productId, storyId } = useParams();
+
+  useEffect(() => {
+    console.log(storyId);
+    if (storyId) {
+      setIsCollapsed(true);
+    }
+    if (window.location.href.endsWith("/flow")) {
+      setIsCollapsed(false);
+    }
+  }, [storyId]);
 
   const { createPlot } = usePlotQueryModule(teamId, productId);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -67,11 +80,14 @@ function ProductSidebar() {
   return (
     <div className="flex flex-col items-center justify-between min-h-full ">
       {/* 사용자 제외 섹션(사용자섹션을 밑으로 보내기 위함) */}
-      <div className="flex flex-col justify-between h-full my-2 ml-2 mr-8 border rounded shadow-md w-max">
+      <div className="flex flex-col justify-between h-full my-2 ml-2 mr-8 bg-white border rounded shadow-md w-max">
         <div className="mx-2 my-2">
           {/* 로고 */}
-          <Link to={`/`} state={{ direct: false }}>
-            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 hover:bg-primary-foreground">
+          <Link
+            to={user ? `/workspace/team/${user.personalTeamId}` : "/"}
+            state={{ direct: false }}
+          >
+            <div className="flex justify-start px-1 mx-2 my-5 lg:flex-1 ">
               <img className="h-8 " src={isCollapsed ? logo_icon : logo} alt="logo" />
             </div>
           </Link>
@@ -187,7 +203,7 @@ function ProductSidebar() {
                           <div className="relative flex items-center">
                             <Input
                               placeholder="플롯 이름"
-                              className="w-24 rounded-sm "
+                              className="w-32 rounded-sm "
                               value={newPlotName}
                               onChange={(e) => setNewPlotName(e.target.value)}
                             />
@@ -204,15 +220,17 @@ function ProductSidebar() {
                             className="ml-2"
                             size="sm"
                             onClick={() => {
-                              console.log({
-                                plotName: newPlotName,
-                                plotColor: newPlotColor,
-                              });
+                              // console.log({
+                              //   plotName: newPlotName,
+                              //   plotColor: newPlotColor,
+                              // });
                               // create plot
                               createPlot({
                                 plotName: newPlotName,
                                 plotColor: newPlotColor,
                               });
+                              setNewPlotName("");
+                              setNewPlotColor("#ff75c3");
                             }}
                           >
                             생성
@@ -242,6 +260,7 @@ function ProductSidebar() {
 
         <div className="flex flex-col justify-end w-full ">
           {/* collapse */}
+
           <div className="mx-5 my-2">
             <div className="flex items-center justify-start w-full px-1 " onClick={toggleSidebar}>
               {isCollapsed ? (
@@ -261,27 +280,38 @@ function ProductSidebar() {
           </div>
 
           {/* user profile */}
-          <Link to="/settings/profile">
-            <div className="mx-2 my-2">
-              <div className="flex items-center justify-between">
-                <div className="px-1 mx-1">
+          <div className="mx-2 my-2">
+            <div className="flex items-center justify-between ">
+              <Link to="/settings/profile">
+                <div className="flex items-center px-1 mx-1 ">
                   <Avatar>
                     <AvatarImage src={user.userImageUrl} alt="user_image" />
-                    <AvatarFallback>{user.email.slice(0, 2)}</AvatarFallback>
+                    <AvatarFallback>{user.email?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
-                </div>
 
-                <div
-                  className={
-                    isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
-                  }
-                >
-                  <div className="mx-1 text-xs break-words">{user.nickname}</div>
-                  <div className="mx-1 text-xs break-all text-zinc-600">{user.email}</div>
+                  <div
+                    className={
+                      isCollapsed ? "hidden" : "flex flex-col items-start w-full text-sm font-bold"
+                    }
+                  >
+                    <div className="mx-2 text-xs break-words">{user.nickname}</div>
+                    <div className="mx-2 text-xs break-all text-zinc-600">{user.email}</div>
+                  </div>
                 </div>
-              </div>
+              </Link>
+              <Link
+                onClick={() => {
+                  navigate("/logout");
+                  removeCookie("accessToken");
+                  setUser(null);
+                }}
+              >
+                {!isCollapsed && (
+                  <LogOut size={15} className="font-extrabold text-destructive-accent" />
+                )}
+              </Link>
             </div>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

@@ -22,19 +22,12 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
   const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
-    const uniqueGenres = selectedGenres
-      ? Array.from(new Set(selectedGenres.map((genre) => genre.id))).map((id) =>
-          selectedGenres.find((genre) => genre.id === id)
-        )
-      : [];
-
-    uniqueGenres.sort((a, b) => a.id - b.id);
-
+    selectedGenres?.sort((a, b) => a.id - b.id);
     setProductDetail((ProductDetail) => ({
       ...ProductDetail,
       productRequestDto: {
         ...ProductDetail.productRequestDto,
-        genres: uniqueGenres,
+        genres: selectedGenres,
       },
     }));
   }, [selectedGenres]);
@@ -234,7 +227,7 @@ function WorkList({ title, info, productsId, onChange, onCreate }) {
                   createProductData(productDetail);
                 }}
               >
-                생성
+                생성하기
               </AlertDialogAction>
               {/* FIXME 해당 생성하기는 추후 작품 생성 기능 구현 */}
             </AlertDialogFooter>

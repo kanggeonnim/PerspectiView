@@ -4,12 +4,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { MessageCircleMore } from "lucide-react";
 import ForeshadowingTab from "../../foreshadowing/ForeshadowingTab";
 import Comment from "./Comment";
+import DnD from "../../character/reactflow/DragAndDrop";
 
 export default function RefContents() {
   return (
     <Tabs
       defaultValue="relation"
-      className="flex flex-col justify-between w-1/2 h-full p-1 m-5 border rounded shadow-sm"
+      className="flex flex-col justify-between w-1/2 h-full p-1 mx-3 my-0 border rounded shadow-sm"
     >
       <TabsList className="flex items-center justify-start w-full ">
         <TabsTrigger value="relation" className="text-bold">
@@ -29,11 +30,12 @@ export default function RefContents() {
       </TabsList>
       {/* 전체 인물 관계도 */}
       <TabsContent value="relation" className="h-full">
-        <Card className="h-full "></Card>
+        {/* <Card className="h-full "></Card> */}
+        <DnD />
       </TabsContent>
 
       {/* 복선 목록 */}
-      <TabsContent value="foreshadowing" className="h-full ">
+      <TabsContent value="foreshadowing" className="h-full overflow-hidden ">
         {/* <TestPage /> */}
         <ForeshadowingTab />
         {/* <ForeshadowingTab /> */}

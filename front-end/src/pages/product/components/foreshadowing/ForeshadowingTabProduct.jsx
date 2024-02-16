@@ -66,7 +66,7 @@ export default function ForeshadowingProduct() {
             </AlertDialogTrigger>
             <AlertDialogContent className="">
               <AlertDialogHeader>
-                <div>복선생성하기</div>
+                <div>복선 생성</div>
               </AlertDialogHeader>
               <div className="flex flex-col items-center w-full gap-5">
                 <div className="flex flex-col w-full space-y-1.5">
@@ -90,12 +90,13 @@ export default function ForeshadowingProduct() {
               </div>
               <AlertDialogFooter>
                 <AlertDialogCancel
+                  className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
                   onClick={() => {
                     setTitle("");
                     setContent("");
                   }}
                 >
-                  취소하기
+                  취소
                 </AlertDialogCancel>
                 <AlertDialogAction
                   // type="submit"
@@ -113,7 +114,7 @@ export default function ForeshadowingProduct() {
                     setContent("");
                   }}
                 >
-                  생성하기
+                  생성
                 </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
@@ -122,16 +123,8 @@ export default function ForeshadowingProduct() {
         <CardContent className="box-border flex flex-row justify-around gap-4 px-12 py-6 h-5/6">
           {["column-1", "column-2", "column-3"].map((columnId) => {
             const column = columns[columnId];
-            const colFshadows = column.fshadowsIds.map(
-              (fshadowsId) => fshadows[fshadowsId]
-            );
-            return (
-              <ColumnProduct
-                key={column.id}
-                column={column}
-                colFshadows={colFshadows}
-              />
-            );
+            const colFshadows = column.fshadowsIds.map((fshadowsId) => fshadows[fshadowsId]);
+            return <ColumnProduct key={column.id} column={column} colFshadows={colFshadows} />;
           })}
         </CardContent>
       </Card>

@@ -5,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import DnD from "./reactflow/DragAndDrop";
 import CharList from "./CharList";
 import CharAdd from "./CharAdd";
-import useCharStore from "@/store/useCharStore";
+import useCharStore from "@/store/character/useCharStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
 import { useParams } from "react-router-dom";
 
@@ -13,11 +13,12 @@ export default function CharTab() {
   const { inputs, selectedIdx, setInputs, setSelectedIdx } = useCharStore();
   const { teamId, productId } = useParams();
   const { charData, getCharIsSuccess } = useCharQueryModule(teamId, productId);
-
+  const isSave = true;
   // useEffect(() => {
   //   console.log(charData);
   // }, [charData]);
 
+  // console.log(charData)
   if (!getCharIsSuccess) {
     return <div>Loading...</div>;
   }
@@ -33,7 +34,7 @@ export default function CharTab() {
         <div className="box-border flex flex-row h-full p-3">
           <div className="box-border w-2/3 m-2 text-2xl font-semibold border-r h-11/12">
             인물 관계도
-            <DnD charDatas={charData} idx={selectedIdx} />
+            <DnD charDatas={charData} idx={selectedIdx} isSave={isSave} />
           </div>
           <div className="flex flex-col w-1/3">
             <div className="flex justify-between">

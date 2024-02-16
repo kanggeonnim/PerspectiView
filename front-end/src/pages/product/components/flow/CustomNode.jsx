@@ -9,20 +9,6 @@ import { Button } from "@/components/ui/button";
 import { useNavigate, useParams } from "react-router-dom";
 import useStoryQueryModule from "@/hook/useStoryQueryModule";
 
-// TODO: 플롯으로 스토리 조회 API 호출 시 charaList에 id, 이름, 이미지 와야 됨
-const characListData = [
-  {
-    characterId: 1,
-    characterName: "whitedragon",
-    img: `https://github.com/shadcn.png`,
-  },
-  ...Array.from({ length: 10 }, (_, index) => ({
-    characterId: index + 2,
-    characterName: "등장인물 이름",
-    img: `https://ui.shadcn.com/avatars/0${index + 1}.png`,
-  })),
-];
-
 const zoomSelector = (s) => s.transform[2] >= 1.5;
 
 const CustomNode = memo(function CustomNode({ id, data, type }) {
@@ -30,7 +16,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
   const { teamId, productId } = useParams();
   const showContent = useStore(zoomSelector);
 
-  const { createStory } = useStoryQueryModule(teamId, productId, data.plotId);
+  const { createStory, deleteStory } = useStoryQueryModule(teamId, productId, data.plotId);
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -55,26 +41,30 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
         }}
       >
         <div className={`absolute m-1 top-0 right-0  ${isHovered ? "visible" : "hidden"}`}>
-          <Button
-            size="sm"
-            className="h-full p-1 rounded-full bg-secondary-accent"
-            onClick={() => {}}
-          >
-            <MinusCircle size={15} className="mx-auto text-foreground" />
-          </Button>
+          {type === "story" && (
+            <Button
+              size="sm"
+              className="h-full p-1 bg-transparent rounded-full shadow-none hover:bg-transparent hover:shadow-sm"
+              onClick={(e) => {
+                e.stopPropagation();
+                deleteStory(data.storyId);
+              }}
+            >
+              <MinusCircle size={15} className="mx-auto text-destructive" />
+            </Button>
+          )}
         </div>
-        {showContent && <div className="text-center">{data.title}</div>}
+        {showContent && (
+          <div className="text-center break-words break-all whitespace-pre-wrap">{data.title}</div>
+        )}
 
         {type === "empty" && (
           <Button
-            className="bg-transparent border-none shadow-none hover:bg-transparent"
-            onClick={(e) => {
-              e.stopPropagation();
+            className="w-full h-full p-0 m-0 bg-transparent shadow-none hover:bg-transparent"
+            onClick={() => {
               createStory({
                 storyTitle: "스토리 제목을 입력하세요.",
-                content: {
-                  content: "",
-                },
+                storyContent: { content: "" },
                 characters: [],
                 foreShadowings: [],
                 positionX: 1,
@@ -97,7 +87,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
               <div className="flex items-center">
                 {data.characters?.slice(0, 3).map((charac) => (
                   <Avatar key={charac.characterId} className="-ml-3">
-                    <AvatarImage src={charac.characImage} alt="@shadcn" />
+                    <AvatarImage src={charac.characterImage} alt="@shadcn" />
                     <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                   </Avatar>
                 ))}
@@ -117,7 +107,7 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
                         <div className="flex items-center justify-between" key={charac.characterId}>
                           <div className="">
                             <Avatar>
-                              <AvatarImage src={charac.characImage} alt="@shadcn" />
+                              <AvatarImage src={charac.characterImage} alt="@shadcn" />
                               <AvatarFallback>{charac.characterName?.slice(0, 2)}</AvatarFallback>
                             </Avatar>
                           </div>
@@ -140,12 +130,3 @@ const CustomNode = memo(function CustomNode({ id, data, type }) {
 });
 
 export default CustomNode;
-
-// export default CustomNode;
-// .react-flow__node-mindmap {
-//   background: white;
-//   border-radius: 2px;
-//   border: 1px solid transparent;
-//   padding: 2px 5px;
-//   font-weight: 700;
-// }

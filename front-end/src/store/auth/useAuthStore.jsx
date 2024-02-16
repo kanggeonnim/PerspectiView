@@ -12,14 +12,6 @@ export const useAuthStore = create(
         name: "userInfo",
         storage: createJSONStorage(() => sessionStorage),
 
-        partialize: (state) => ({
-          user: {
-            nickname: state.user.nickname,
-            image: state.user.image,
-            email: state.user.email,
-            personalTeamId: state.user.personalTeamId,
-          },
-        }),
         onRehydrateStorage: (state) => {
           console.log("login starts", state);
 

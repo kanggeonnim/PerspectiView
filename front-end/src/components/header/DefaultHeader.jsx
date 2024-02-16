@@ -11,8 +11,11 @@ import {
 } from "@/components/ui/drawer";
 import logo from "@/assets/main_logo.svg";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/store/auth/useAuthStore";
 
 function DefaultHeader(props) {
+  const { user } = useAuthStore();
+
   return (
     <Drawer direction="top">
       <header className="w-full bg-transparent">
@@ -21,7 +24,7 @@ function DefaultHeader(props) {
           aria-label="Global"
         >
           {/* 로고 */}
-          <Link to={`/`}>
+          <Link to={user ? `/workspace/team/${user.personalTeamId}` : "/"}>
             <div className="flex items-center justify-start lg:flex-1">
               <img className="w-auto h-8" src={logo} alt="logo" />
             </div>

@@ -5,8 +5,8 @@ import { PageLayout } from "@/layouts/PageLayout";
 import { Outlet, useParams } from "react-router-dom";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useEffect, useState } from "react";
-import { useProductStore } from "@/store/useProductStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
+import { useProductStore } from "@/store/product/useProductStore";
 
 export default function ProductPage() {
   const { teamId, productId } = useParams();
@@ -30,7 +30,7 @@ export default function ProductPage() {
       <ProductSidebar />
       <PageLayout>
         {isHeaderVisible && <ProductHeader />}
-        <div className="flex flex-col items-center justify-center w-full h-full max-h-full ">
+        <div className="flex flex-col items-center justify-start w-full h-full ">
           <Outlet context={{ setIsHeaderVisible }} />
         </div>
       </PageLayout>

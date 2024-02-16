@@ -16,19 +16,9 @@ import "./style.css";
 import { Button } from "@/components/ui/button";
 import useRelativeQueryModule from "@/hook/useRelativeQueryModule";
 import { useParams } from "react-router-dom";
-import useNodeStore from "@/store/useNodeStore";
-import useCharStore from "@/store/useCharStore";
 import useRelativeStore from "@/store/relative/useRelativeStore";
 import useCharQueryModule from "@/hook/useCharQueryModule";
-
-const flowKey = "relation";
-
-const selector = (store) => ({
-  nodes: store.nodes,
-  edges: store.edges,
-  onNodesChange: store.onNodesChange,
-  onEdgesChange: store.onEdgesChange,
-});
+import html2canvas from "html2canvas";
 
 const nodeTypes = {
   custom: CustomNode,
@@ -49,113 +39,51 @@ const defaultEdgeOptions = {
   },
 };
 
-export default function DnD({ charDatas, idx }) {
+export default function DnD({ charDatas, idx, isSave }) {
   // get 받은 데이터들을 아래
-  const { teamId, productId } = useParams();
-  const { relativeList, getRelativeListIsSuccess } = useRelativeQueryModule(teamId, productId);
+  const { productId } = useParams();
+  const flowKey = `relation${productId}`;
 
-  // let id = 1;
-  // const getId = () => `${id++}`;
-
-  // console.log(relativeList);
-  // TODO 관계 조회 작성중
-  // relativeList?.map((relat) =>
-  // relat.
-  // )
-
-  const initialNodes = [
-    // {
-    //   id: charDatas[1].characterId.toString(),
-    //   data: { name: charDatas[1].characterName, image: charDatas[1].characterImage },
-    //   position: { x: charDatas[1].characterPositionX, y: charDatas[1].characterPositionY },
-    //   type: "custom",
-    // },
-    // {
-    //   id: charDatas[2].characterId.toString(),
-    //   data: { name: charDatas[2].characterName, image: charDatas[2].characterImage },
-    //   position: { x: 400, y: 100 },
-    //   type: "custom",
-    // },
-    // {
-    //   id: charDatas[7].characterId.toString(),
-    //   data: { name: charDatas[7].characterName, image: charDatas[7].characterImage },
-    //   position: { x: 100, y: 400 },
-    //   type: "custom",
-    // },
-    // {
-    //   id: charDatas[4].characterId.toString(),
-    //   data: { name: charDatas[4].characterName, image: charDatas[4].characterImage },
-    //   position: { x: 400, y: 400 },
-    //   type: "custom",
-    // },
-  ];
-
-  const initialEdges = [
-    // {
-    //   id: "e1-2",
-    //   data: {
-    //     label: "원수",
-    //   },
-    //   source: charDatas[2].characterId.toString(),
-    //   sourceHandle: "b",
-    //   target: charDatas[4].characterId.toString(),
-    //   targetHandle: "h",
-    // },
-    // {
-    //   id: `${charDatas[2].characterId}-${charDatas[4].characterId}`,
-    //   data: {
-    //     label: "불륜",
-    //   },
-    //   source: charDatas[2].characterId.toString(),
-    //   sourceHandle: "b",
-    //   target: charDatas[7].characterId.toString(),
-    //   targetHandle: "h",
-    // },
-  ];
-
+  const setTable = JSON.parse(localStorage.getItem(flowKey));
   const reactFlowWrapper = useRef(null);
-
+  const initialNodes = [];
+  const initialEdges = [];
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  useEffect(() => {
+    setNodes(setTable?.nodes || []);
+  }, []);
+
+  useEffect(() => {
+    setEdges(setTable?.edges || []);
+  }, []);
+
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
-  const [labelInput, setLabelInput] = useState("");
-  const { setViewport } = useReactFlow();
-  const { edgedata, setEdgedata, nodedata, setNodedata } = useRelativeStore();
+
   const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), [setEdges]);
-
-  const onSave = useCallback(() => {
-    if (reactFlowInstance) {
-      const flow = reactFlowInstance.toObject();
-      localStorage.setItem(flowKey, JSON.stringify(flow));
-    }
-  }, [reactFlowInstance]);
-
   // 저장 버튼 누를때 캐릭터 리스트와 화살표를 한번에 post
+
   const onTempoSave = useCallback(() => {
     if (reactFlowInstance) {
       const flow = reactFlowInstance.toObject();
-      setEdgedata(flow.edges);
-      setNodedata(flow.nodes);
+
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-  }, [reactFlowInstance, setEdgedata]);
+  }, [reactFlowInstance, flowKey]);
 
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
-      // console.log(flow);
       if (flow) {
-        // const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-
+        // 받을 값이 있다면
         setNodes(flow.nodes || []);
+        // 해당 콘솔 참조하고, 해당 파일의 포맷과 같이 바꾸면 될 것
         setEdges(flow.edges || []);
-        // setViewport({ x, y, zoom });
       }
-      // 마우스를 뗄 떼마다 POST
     };
-
     restoreFlow();
-  }, [setNodes, setViewport]);
+  }, [setNodes, flowKey, setEdges]);
 
   const onDragOver = useCallback((event) => {
     event.preventDefault();
@@ -178,7 +106,6 @@ export default function DnD({ charDatas, idx }) {
 
       let findex = chardex.findIndex((v) => v === index);
       // 인덱스 추출
-      console.log(findex);
 
       const position = reactFlowInstance.screenToFlowPosition({
         x: event.clientX,
@@ -186,37 +113,36 @@ export default function DnD({ charDatas, idx }) {
         //
       });
 
-      const newNode = {
-        id: charDatas[findex].characterId.toString(),
-        type,
-        position,
-        data: {
-          name: charDatas[findex].characterName,
-          charId: charDatas[findex].characterId,
-          image: charDatas[findex].characterImage,
-          label: (
-            <>
-              <input
-                type="text"
-                placeholder="label"
-                onChange={handleLabelInputChange}
-                // id={`${getId()}`}
-                defaultValue="인물관계"
-              />
-            </>
-          ),
-        },
-      };
-
-      console.log(newNode.position.x);
+      const newNode =
+        // 드랍으로 생성되는 인물의 정보
+        {
+          id: charDatas[findex].characterId.toString(),
+          type,
+          position,
+          data: {
+            name: charDatas[findex].characterName,
+            image: charDatas[findex].characterImage,
+          },
+        };
 
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance, labelInput, idx, charDatas]
+    [reactFlowInstance, idx, charDatas, setNodes]
   );
 
-  const handleLabelInputChange = (event) => {
-    setLabelInput(event.target.value);
+  const downloadImage = () => {
+    const target = document.querySelector(".react-flow__viewport"); // 변환할 DOM 요소의 ID
+    if (!target) {
+      return alert("결과 저장에 실패했습니다.");
+    }
+    html2canvas(target, { allowTaint: true, useCORS: true, logging: true }).then((canvas) => {
+      const link = document.createElement("a");
+      document.body.appendChild(link);
+      link.href = canvas.toDataURL("image/png");
+      link.download = "result.png";
+      link.click();
+      document.body.removeChild(link);
+    });
   };
 
   return (
@@ -241,18 +167,33 @@ export default function DnD({ charDatas, idx }) {
           className="download-image"
         >
           <Controls />
-          {/* <DownloadButton /> */}
           <Panel position="top-right">
-            {/* <Button className="mr-2 bg-green-400">저장</Button> */}
-            {/* FIXME DB 저장 차후 구현 */}
-            <Button className="mr-2" onClick={onTempoSave}>
-              임시저장
-            </Button>
-            <Button variant="outline" onClick={onRestore}>
-              불러오기
+            {isSave ? (
+              <>
+                <Button className="mr-2" onClick={onTempoSave}>
+                  저장
+                </Button>
+                {/* <Button
+                  variant="secondary"
+                  className="border"
+                  onClick={onRestore}
+                >
+                  불러오기
+                </Button> */}
+              </>
+            ) : (
+              <></>
+            )}
+          </Panel>
+          <Panel position="">
+            <Button
+              className="font-bold download-btn"
+              variant="destructive"
+              onClick={downloadImage}
+            >
+              이미지로 저장
             </Button>
           </Panel>
-          <DownloadButton />
         </ReactFlow>
       </div>
     </div>

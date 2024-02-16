@@ -227,9 +227,7 @@ export default useNodeStore;
     "storyTitle": "",
     "characters": [],
     "foreShadowings": [],
-    "content": {
-    "content":""
-    },
+    "storyContent": {"content":""},
     "positionX": 1,
     "positionY": 0
 }

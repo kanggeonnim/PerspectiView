@@ -15,11 +15,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import useTeamQueryModule from "@/hook/useTeamQueryModule";
 import { Pencil, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ProductListCard from "./ProductListCard";
-import useTeamQueryModule from "@/hook/useTeamQueryModule";
 
 function TeamInfo() {
   const { teamId } = useParams();
@@ -37,15 +37,16 @@ function TeamInfo() {
     console.log(oneTeam);
   }, [oneTeam]);
 
+  
   return (
     <div className="flex w-full max-h-full min-h-full gap-3 m-2 ">
       {!oneTeam?.personal && (
         <div className="flex flex-col w-1/3 h-full gap-3">
           <Card className="w-full border rounded shadow-md h-2/5">
-            <CardHeader className="flex flex-row justify-between p-4">
-              <CardTitle className="text-xl font-bold">팀 정보</CardTitle>
-              <div className="flex flex-row">
-                {!isEditing && <Pencil onClick={() => setIsEditing(true)} />}
+            <CardHeader className="flex flex-row justify-between p-4 my-1">
+              <CardTitle className="text-xl font-bold text-primary">팀</CardTitle>
+              <div className="flex flex-row my-1">
+                {!isEditing && <Pencil className="mx-2" onClick={() => setIsEditing(true)} />}
                 <AlertDialog>
                   <AlertDialogTrigger>
                     <Trash2 />
@@ -55,20 +56,25 @@ function TeamInfo() {
                       <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>취소</AlertDialogCancel>
-                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>
-                        삭제하기
-                      </AlertDialogAction>
+                      <AlertDialogCancel className="border shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent">
+                        취소
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={() => deleteTeam(teamId)}>삭제</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
               </div>
             </CardHeader>
-            <CardContent className="flex flex-col gap-3">
-              <div>팀명: {teamTitle}</div>
+            <CardContent className="flex flex-col justify-center gap-3 ">
+              <div className="flex flex-row">
+                <div className="mr-3 font-extrabold">팀 이름</div>
+                <div>{teamTitle}</div>
+              </div>
               {isEditing ? (
-                <>
-                  <label htmlFor="teamInfo">팀 소개:</label>
+                <div>
+                  <label htmlFor="teamInfo" className="mr-3">
+                    팀 소개
+                  </label>
                   <Textarea
                     id="teamInfo"
                     type="text"
@@ -85,15 +91,18 @@ function TeamInfo() {
                   >
                     수정 완료
                   </Button>
-                </>
+                </div>
               ) : (
-                <div>팀 소개: {teamInfo}</div>
+                <div className="flex flex-row">
+                  <div className="mr-3 font-extrabold text-nowrap">팀 소개</div>
+                  <div>{teamInfo}</div>
+                </div>
               )}
             </CardContent>
           </Card>
           <Card className="flex flex-col w-full h-full border rounded shadow-md">
             <CardHeader className="p-4">
-              <CardTitle className="text-xl font-bold ">팀원 정보</CardTitle>
+              <CardTitle className="text-xl font-bold text-primary">팀원</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col h-full ">
               <div className="flex flex-row items-center">
@@ -104,14 +113,13 @@ function TeamInfo() {
                   }}
                   type="email"
                   placeholder="팀원 이메일을 입력하세요"
-                  className="my-4"
+                  className="my-4 mr-2"
                 />
                 <Button onClick={() => addMember(email)}>추가</Button>
               </div>
               <div className="w-full sm:h-24 md:h-64 lg:h-64 ">
                 <ScrollArea className="w-full h-full border rounded-md">
                   <div className="p-4">
-                    {/* <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4> */}
                     {oneTeam?.userResponseDtos.map((member, index) => (
                       <div key={index}>
                         <div className="text-sm">

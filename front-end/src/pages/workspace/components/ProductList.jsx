@@ -7,18 +7,21 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import { ArrowUpRight, PlusCircleIcon, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Card, CardTitle } from "@/components/ui/card";
-import useProductAddStore from "@/store/useProductAddStore";
-import { useEffect, useState } from "react";
+import { Input } from "@/components/ui/input";
+import useProductQueryModule from "@/hook/useProductQueryModule";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import WorkList from "./WorkList";
 import Buttonselect from "./selects/ButtonSelect";
 import RadioButtonSelect from "./selects/RadioButtonSelect";
-import useProductQueryModule from "@/hook/useProductQueryModule";
-import ProductImageUploader from "@/pages/product/components/ImageUploader/ProductImageUploader";
-function CreateProduct() {
-  const { inputs, setInputs, products, setProducts, onCreate } = useProductAddStore();
+import { Badge } from "@/components/ui/badge";
+import useProductAddStore from "@/store/product/useProductAddStore";
 
+function CreateProduct() {
+  const { inputs, setInputs, products, onCreate } = useProductAddStore();
   const onChange = (e) => {
     const { name, value } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -50,25 +53,90 @@ function Product({ productImg, productName }) {
 }
 
 export default function ProductList({ productsdata, teamNo }) {
+  const [isEditing, setIsEditing] = useState(false);
   const { teamId } = useParams();
-  const { updateProduct } = useProductQueryModule(teamId);
+  const [prodId, setProdId] = useState(false);
+  const handleEditProduct = (productId) => {
+    setProdId(productId);
+  };
+  // console.log(prodId);
+  const { updateProductData, deleteProductData } = useProductQueryModule(teamId, prodId);
   const navigate = useNavigate();
-  // const [isEdit, setIsEdit] = useState(false);
-  const [productDetail, setProductDetail] = useState({
-    productTitle: "",
-    productInfo: "",
-    category: null,
-    genres: [],
-    // uploadImage: "",
-  });
-  // console.log(productDetail);
+  const [selectedGenres, setSelectedGenres] = useState([]);
+  const [selectedCates, setSelectedCates] = useState("");
+  const handleGenreSelect = (genres) => {
+    setSelectedGenres(genres);
+  };
+  useEffect(() => {
+    selectedGenres?.sort((a, b) => a.id - b.id);
+    setProductDetail((ProductDetail) => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        genres: selectedGenres,
+      },
+    }));
+  }, [selectedGenres]);
 
-  // useEffect(() => {
-  //   console.log("render productList", teamId);
-  // }, [teamId]);
+  useEffect(() => {
+    selectedCates;
+    setProductDetail((ProductDetail) => ({
+      ...ProductDetail,
+      productRequestDto: {
+        ...ProductDetail.productRequestDto,
+        category: selectedCates,
+      },
+    }));
+  }, [selectedCates]);
+
+  const [image, setImage] = useState("");
+  const fileInputRef = useRef(null);
+
+  const handleImageChange = (event) => {
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    setProductDetail((ProductDetail) => ({
+      ...ProductDetail,
+      uploadImage: selectedImage,
+    }));
+  };
+
+  const handleUploadClick = () => {
+    if (image) {
+      // 이미지가 있는 경우 초기화
+      setImage(null);
+    } else {
+      // 이미지가 없는 경우 파일 업로드 창 열기
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleUploadImage = async () => {
+    if (image) {
+      // const formData = new FormData();
+      // formData.append("uploadImage", image);
+      console.log(image);
+      setProductDetail((ProductDetail) => ({
+        ...ProductDetail,
+        uploadImage: image, // 이미지 URL을 uploadImage 속성에 할당
+      }));
+      // 이미지 업로드 후 이미지 지우기
+      setImage(null);
+    }
+  };
+
+  const [productDetail, setProductDetail] = useState({
+    productRequestDto: {
+      productTitle: "",
+      productInfo: "",
+      genres: selectedGenres,
+      category: selectedCates,
+    },
+    uploadImage: "",
+  });
 
   return (
-    <div className="flex flex-wrap h-full ">
+    <div className="flex flex-wrap items-start h-full ">
       <div className="flex justify-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
         <CreateProduct />
       </div>
@@ -79,7 +147,6 @@ export default function ProductList({ productsdata, teamNo }) {
           key={product.productId}
         >
           {/* 여기서 수정 모달,  */}
-
           <AlertDialog className="w-full h-full">
             <div>
               <AlertDialogTrigger>
@@ -93,84 +160,211 @@ export default function ProductList({ productsdata, teamNo }) {
                     <div>작품 정보</div>
                   </CardTitle>
                   <div className="flex items-center justify-center w-full my-3 bg-gray-300 border h-2/3">
-                    <ProductImageUploader baseImg={product.productImageUrl} />
+                    <div
+                      className="flex flex-col items-center justify-center w-full h-full my-3 bg-gray-300 border h-2/3"
+                      onClick={handleUploadClick}
+                      style={{ cursor: "pointer" }}
+                    >
+                      {product.productImageUrl ? (
+                        <>
+                          {isEditing ? (
+                            <>
+                              <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                style={{ display: "none" }}
+                              />
+                              <div>이미지 첨부</div>
+                            </>
+                          ) : (
+                            <div className="w-full h-full">
+                              <img
+                                className="w-full h-full"
+                                src={product.productImageUrl}
+                                alt="Uploaded"
+                                style={{ maxWidth: "300px" }}
+                                onChange={(e) => {
+                                  setProductDetail({
+                                    ...productDetail,
+                                    uploadImage: product.productImageUrl,
+                                  });
+                                }}
+                              />
+                            </div>
+                          )}
+                        </>
+                      ) : (
+                        <>
+                          <PlusCircleIcon />
+                          <input
+                            ref={fileInputRef}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: "none" }}
+                          />
+                        </>
+                      )}
+                    </div>
                   </div>
                 </AlertDialogHeader>
               </div>
-              <div className="box-border flex flex-col w-2/3 h-full p-3">
+              <div className="box-border flex flex-col w-2/3 h-full p-3 ">
+                <div className="flex justify-end ">
+                  <AlertDialogCancel
+                    className="right-0 border-none shadow-none bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+                    onClick={() => setIsEditing(false)}
+                  >
+                    <X />
+                  </AlertDialogCancel>
+                </div>
                 <div className="flex flex-col justify-around w-full h-5/6">
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">작품명</div>
                     <div className="box-border w-5/6">
-                      <input
-                        type="text"
-                        name="title"
-                        className="border"
-                        onChange={(e) => {
-                          setProductDetail({
-                            ...productDetail,
-                            productTitle: e.target.value,
-                          });
-                        }}
-                        defaultValue={product.productTitle}
-                      />
+                      {isEditing ? (
+                        <Input
+                          type="text"
+                          name="title"
+                          className="w-4/5 border"
+                          onChange={(e) => {
+                            setProductDetail({
+                              ...productDetail,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productTitle: e.target.value,
+                              },
+                            });
+                          }}
+                          defaultValue={product.productTitle}
+                        />
+                      ) : (
+                        <div>{product.productTitle}</div>
+                      )}
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">장르</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <Buttonselect className="w-full" />
+                      {isEditing ? (
+                        <Buttonselect
+                          isEditing={isEditing}
+                          className="w-full"
+                          onSelect={setSelectedGenres}
+                        />
+                      ) : (
+                        <>
+                          {product?.genres?.map((genre, key) => (
+                            <Badge
+                              key={key}
+                              variant="destructive"
+                              radius="full"
+                              className="h-5 hover:none"
+                            >
+                              {genre.genreName}
+                            </Badge>
+                          ))}
+                        </>
+                        // 선택된 장르 띄우기
+                      )}
+                      {/* <Buttonselect isEditing={isEditing} className="w-full" onSelect={setSelectedGenres}/> */}
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">분류</div>
                     <div className="box-border flex flex-wrap w-5/6 gap-2">
-                      <RadioButtonSelect />
+                      {isEditing ? (
+                        <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} />
+                      ) : (
+                        <Badge variant="badge" radius="full" className="h-5 hover:none">
+                          {product.category.categoryName}
+                        </Badge>
+                      )}
+
+                      {/* <RadioButtonSelect isEditing={isEditing} onSelectRadio={setSelectedCates} /> */}
                     </div>
                   </div>
                   <div className="flex flex-row w-full m-2 h-1/6">
                     <div className="box-border w-1/6 mr-3 text-xl">설명</div>
                     <div className="box-border w-5/6">
-                      <input
-                        type="text"
-                        name="info"
-                        onChange={(e) => {
-                          setProductDetail({
-                            ...productDetail,
-                            productInfo: e.target.value,
-                          });
-                        }}
-                        className="w-4/5 border"
-                        defaultValue={product.productInfo}
-                      />
+                      {isEditing ? (
+                        <Input
+                          type="text"
+                          name="info"
+                          onChange={(e) => {
+                            setProductDetail({
+                              ...productDetail,
+                              productRequestDto: {
+                                ...productDetail.productRequestDto,
+                                productInfo: e.target.value,
+                              },
+                            });
+                          }}
+                          className="w-4/5 border"
+                          defaultValue={product.productInfo}
+                        />
+                      ) : (
+                        <div>{product.productInfo}</div>
+                      )}
                     </div>
                   </div>
                 </div>
                 <AlertDialogFooter>
                   <>
-                    <AlertDialogCancel
-                      className="shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
-                      // onClick={() => setIsEdit(false)}
-                    >
-                      취소
-                    </AlertDialogCancel>
-                    <AlertDialogAction
-                      className="bg-green-600"
-                      onClick={() => {
-                        console.log(productDetail);
-                        // // create product
-                        updateProductData(productDetail);
-                      }}
-                    >
-                      편집
-                    </AlertDialogAction>
-                    <AlertDialogAction
-                      onClick={() => {
-                        navigate(`/team/${teamNo}/product/${product.productId}`);
-                      }}
-                    >
-                      상세 보기
-                    </AlertDialogAction>
+                    {!isEditing ? (
+                      <Button
+                        variant="secondary"
+                        className="border"
+                        onClick={() => {
+                          setIsEditing(true);
+                          handleEditProduct(product.productId);
+                          // 추가 동작
+                        }}
+                      >
+                        편집
+                      </Button>
+                    ) : (
+                      <>
+                        <Button
+                          className="right-0 bg-white border-2 text-secondary-foreground hover:bg-gray-200"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          취소
+                        </Button>
+                        <Button
+                          className="right-0 bg-red-400 border-none shadow-none hover:bg-red-700"
+                          onClick={() => {
+                            setIsEditing(false);
+                            // setImage("")
+                            deleteProductData(productDetail);
+                          }}
+                        >
+                          삭제
+                        </Button>
+                        <Button
+                          onClick={() => {
+                            setIsEditing(false);
+                            // setImage("")
+                            console.log(productDetail);
+                            updateProductData(productDetail);
+                          }}
+                        >
+                          완료
+                        </Button>
+                      </>
+                    )}
+                    {!isEditing && (
+                      <AlertDialogAction
+                        onClick={() => {
+                          navigate(`/team/${teamNo}/product/${product.productId}`);
+                        }}
+                      >
+                        상세 보기
+                        <ArrowUpRight className="ml-1" size={15} />
+                      </AlertDialogAction>
+                    )}
                   </>
                 </AlertDialogFooter>
               </div>

@@ -1,7 +1,8 @@
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { useState, useEffect } from "react";
+import { useCategoryStore } from "@/store/product/useCategoryStore";
 
-export default function RadioButtonSelect() {
+export default function RadioButtonSelect({ isEditing, onSelectRadio }) {
   // 라디오 버튼
   // 카테고리
   const arrs = [
@@ -16,13 +17,16 @@ export default function RadioButtonSelect() {
   const handleOptionChange = (e) => {
     setSelectedOption(e.target.value);
   };
-
+  useEffect(() => {
+    onSelectRadio(arrs[selectedOption - 1]); // 선택된 장르들을 상위 컴포넌트로 전달
+    setSelectedOption(selectedOption); // 선택된 장르들을 상태로 저장
+  }, [selectedOption, onSelectRadio, setSelectedOption]);
   return (
     <div className="box-border flex flex-wrap w-5/6 gap-2">
       {arrs.map((arr) => (
         <label key={arr.id}>
           <Badge
-            variant={selectedOption === `${arr.id}` ? "destructive" : "off"}
+            variant={selectedOption === `${arr.id}` ? "badge" : "off"}
             className="cursor-pointer"
           >
             <input
@@ -30,6 +34,8 @@ export default function RadioButtonSelect() {
               value={`${arr.id}`}
               checked={selectedOption === `${arr.id}`}
               onChange={handleOptionChange}
+              // disabled={!isEditing}
+              // disabled는 별도 분기를 두고 작동하도록
               className="hidden"
             />
             {arr.name}

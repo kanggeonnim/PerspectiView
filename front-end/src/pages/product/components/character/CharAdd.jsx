@@ -15,7 +15,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useState, useRef } from "react";
 import { useImageStore } from "@/store/useImageStore";
 
-export default function CharAdd({ name, description, url, onChange }) {
+export default function CharAdd() {
   const navigate = useNavigate();
   const { teamId, productId } = useParams();
   const [addChar, setAddChar] = useState({
@@ -67,8 +67,6 @@ export default function CharAdd({ name, description, url, onChange }) {
     }
   };
 
-  const [newCharName, setNewCharName] = useState("");
-  const [newCharDescript, setNewCharDescript] = useState("");
   const { charData, getCharIsSuccess, createChar, updateChar, deleteChar } = useCharQueryModule(
     teamId,
     productId
@@ -182,15 +180,24 @@ export default function CharAdd({ name, description, url, onChange }) {
           <div>등장 스토리 추가 위치</div> */}
         </div>
         <AlertDialogFooter>
-          <AlertDialogCancel>취소하기</AlertDialogCancel>
+          <AlertDialogCancel
+            className="border-none shadow-sm bg-secondary text-secondary-foreground hover:bg-secondary-accent"
+            onClick={() => {
+              // // create product
+              setImage("");
+            }}
+          >
+            취소
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               // 캐릭터 POST
               // console.log("여기", addChar);
+              setImage("");
               createChar(addChar);
             }}
           >
-            생성하기
+            생성
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

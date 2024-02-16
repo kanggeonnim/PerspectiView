@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { privateApi } from "@/util/api";
 import { usePlotListStore } from "@/store/plot/usePlotListStore";
-import useNodeStore from "@/store/useNodeStore";
+import useNodeStore from "@/store/story/useNodeStore";
 
 const usePlotQueryModule = (teamId, productId, plotId) => {
   const queryClient = useQueryClient();
@@ -24,7 +24,7 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
         stories: [],
       });
       setPlotList(plotList);
-      addEmptyStory(nodes.length, data.plotId, data.plotColor);
+      addEmptyStory(nodes.length, data.id, data.plotColor);
     },
   });
 
@@ -50,8 +50,10 @@ const usePlotQueryModule = (teamId, productId, plotId) => {
       return response.data.response;
     },
     onSuccess: () => {
-      setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
-      setNodes(nodes.filter((node) => node.data.plotId !== plotId));
+      queryClient.invalidateQueries({ queryKey: ["productData"] });
+
+      // setPlotList(plotList.filter((plot) => plot.plotId !== plotId));
+      // setNodes(nodes.filter((node) => node.data.plotId !== plotId));
     },
   });
 

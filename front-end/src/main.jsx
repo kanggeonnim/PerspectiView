@@ -16,34 +16,43 @@ import FlowTab from "./pages/product/components/flow/FlowTab.jsx";
 import StoryInfo from "./pages/product/components/flow/story/StoryInfo.jsx";
 import ForeshadowingTab from "./pages/product/components/foreshadowing/ForeshadowingTab.jsx";
 
+import ForeshadowingMain from "./pages/product/components/foreshadowing/ForeshadowingMain.jsx";
 import WorkspacePage from "./pages/workspace/WorkspacePage.jsx";
 import TeamInfo from "./pages/workspace/components/TeamInfo.jsx";
 import { useAuthStore } from "./store/auth/useAuthStore.jsx";
+import { useEffect } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 function PrivateRoute({ element }) {
   const location = useLocation();
   const { user } = useAuthStore();
-  console.log(user);
-  // if (!user) {
-  //   // 비로그인
-  //   if (location.pathname === "/login" || location.pathname === "/") {
-  //     return element;
-  //   } else {
-  //     return <Navigate to="/login" replace />;
-  //   }
-  // } else {
+  const searchParams = new URLSearchParams(location.search);
+  const accessToken = searchParams.get("accessToken");
+
+  useEffect(() => {
+    // console.log("private router", user);
+  }, [user]);
+
+  // if (user || accessToken) {
   //   // 로그인
   //   if (
   //     location.pathname === "/login" ||
   //     location.pathname === "/" ||
   //     location.pathname === "/workspace"
   //   ) {
-  //     return <Navigate to={`/workspace/team/${user.personalTeamId}`} />;
+  //     return <Navigate to={`/workspace/team/${user.personalTeamId}`} replace />;
   //   } else {
   //     return element;
   //   }
+  // } else {
+  //   // 비로그인
+  //   if (location.pathname === "/login" || location.pathname === "/") {
+  //     return element;
+  //   } else {
+  //     return <Navigate to="/login" replace />;
+  //   }
   // }
+
   return element;
 }
 

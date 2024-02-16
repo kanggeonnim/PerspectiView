@@ -4,15 +4,12 @@ import { useQuery } from "@tanstack/react-query";
 const useExportModule = (teamId, productId) => {
   // const queryClient = useQueryClient();
   const { data: exportWordData, error } = useQuery({
-    queryKey: ["exportWord"],
+    queryKey: ["exportWord", productId],
     queryFn: async () => {
       try {
-        const response = await privateApi.get(
-          `/api/team/${teamId}/product/${productId}/word`,
-          {
-            responseType: "blob",
-          }
-        );
+        const response = await privateApi.get(`/api/team/${teamId}/product/${productId}/word`, {
+          responseType: "blob",
+        });
         // API 호출이 성공적으로 완료되면, 응답 데이터 반환
         console.log("내보내기", response);
         return response.data;

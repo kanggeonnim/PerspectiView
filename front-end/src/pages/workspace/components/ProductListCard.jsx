@@ -14,7 +14,6 @@ import { useEffect, useState } from "react";
 import useProductQueryModule from "@/hook/useProductQueryModule";
 import { useParams } from "react-router-dom";
 import { useTeamListStore } from "@/store/team/useTeamListStore";
-import { useProductStore } from "@/store/useProductStore";
 
 // TODO : itemsPerPage 개수 screenWidth에 따라 동적으로 변경되도록 수정
 function ProductListCard() {
@@ -103,14 +102,14 @@ function ProductListCard() {
             <div className="text-2xl font-bold">{}</div>
             {/* // SearchBar */}
             <div className="relative rounded-md shadow-sm">
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              {/* <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <Search color="gray" />
               </div>
               <Input
                 type="search"
                 placeholder="작품을 검색해보세요"
                 className="block w-full rounded-md border-0 py-1.5 pl-11 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-              />
+              /> */}
             </div>
           </div>
         </CardHeader>
