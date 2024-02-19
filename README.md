@@ -37,6 +37,7 @@
     - [내보내기](#내보내기) 
    
 ## 로그인
+### 구글, 카카오, 네이버를 통한 소셜 로그인
 Spring Security, Oauth2, JWT를 통한 간편하고 안전한 로그인
 
 ![ezgif com-video-to-gif-converter](https://github.com/kanggeonnim/PerspectiView/assets/104503792/02bf8a2f-b652-4d2f-a098-489aefc9ddfa)  
@@ -44,26 +45,54 @@ Spring Security, Oauth2, JWT를 통한 간편하고 안전한 로그인
 <br>   
 
 ## 팀
+### 팀 생성하기
+팀명, 팀 소개, 팀원 추가를 통해 팀을 생성
+![팀생성](https://github.com/kanggeonnim/PerspectiView/assets/104503792/cc9b126c-9aae-4b16-9fde-2fd75044558f)
 
 <br>   
    
 ## 작품
-     
+### 작품 생성하기
+작품의 표지, 카테고리, 장르를 설정해 작품을 생성
+![작품생성](https://github.com/kanggeonnim/PerspectiView/assets/104503792/7497c2fb-9cb6-4e09-839d-72581a20fa7f)
+
 <br>   
    
 ## 인물 및 인물관계
-   
+### 인물 추가하기
+작품에 등장할 인물의 정보를 추가하고 인물간의 관계를 설정
+![인물추가](https://github.com/kanggeonnim/PerspectiView/assets/104503792/e7238631-402f-45ab-a199-ee49d8a8567a)
+
 <br>   
    
 ## 복선
+### 복선 생성 후 언급된 스토리로 이동하기
+작품에 등장할 복선을 생성 후 복선이 언급된 스토리를 클릭시 해당 스토리로 이동
+![복선생성 후 언급된 스토리 이동](https://github.com/kanggeonnim/PerspectiView/assets/104503792/6c5dfc09-cf2d-4d2d-a890-68cac58e3654)
 
 <br>   
    
 ## 플롯 및 스토리
+### 플롯 생성하기
+작품의 큰 흐름인 플롯을 생성
+![플롯 생성](https://github.com/kanggeonnim/PerspectiView/assets/104503792/b82b163e-3b84-4342-a337-3b8824f0d6a6)
+### 스토리 생성 후 스토리 작성하기
+스토리 내용작성 및 해당 스토리에 등장하는 인물, 복선 설정
+![스토리 생성 후 스토리 작성](https://github.com/kanggeonnim/PerspectiView/assets/104503792/26d3d554-1e1f-4fcd-98b6-2e154e06bf54)
+### 스토리 세부내용 조회하기
+작성한 스토리의 내용 및 등장인물, 관계도, 복선등을 조회 
+![스토리 세부](https://github.com/kanggeonnim/PerspectiView/assets/104503792/6fa69176-f478-4bfd-bdc5-f04d68fb3e7d)
+### 작품 흐름도 살펴보기
+전체적인 작품의 흐름을 조회, 줌 아웃시 플롯단위로 조회하고 줌인시 스토리에 대한 간략한 정보(스토리제목, 등장인물)조회
+![작품 흐름도](https://github.com/kanggeonnim/PerspectiView/assets/104503792/5de36177-7761-4c85-8608-184b4b65b1e4)
 
 <br>   
    
 ## 내보내기
+### 인물관계도를 이미지형식으로 내보내기
+![인물관계도이미지](https://github.com/kanggeonnim/PerspectiView/assets/104503792/3d0eb1a7-2d58-43f3-a0a0-2de629649294)
+### 스토리 내용을 워드파일로 내보내기
+![스토리 내보내기](https://github.com/kanggeonnim/PerspectiView/assets/104503792/6ffff77c-507a-401e-be9e-79911824c4f8)
 
 <br>   
 
