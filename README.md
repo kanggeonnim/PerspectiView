@@ -40,7 +40,7 @@
 ### 구글, 카카오, 네이버를 통한 소셜 로그인
 Spring Security, Oauth2, JWT를 통한 간편하고 안전한 로그인
 
-![ezgif com-video-to-gif-converter](https://github.com/kanggeonnim/PerspectiView/assets/104503792/02bf8a2f-b652-4d2f-a098-489aefc9ddfa)  
+![소셜로그인](https://github.com/kanggeonnim/PerspectiView/assets/104503792/05a348b8-8e90-4d51-852f-ca78a911fe00)
 
 <br>   
 
